@@ -6,8 +6,8 @@ class MultiotpSms
  * @brief     SMS message using any SMS Provider.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.9.8.0
- * @date      2024-08-26
+ * @version   5.9.9.3
+ * @date      2025-02-18
  * @since     2018-10-09
  *
  * Predefined providers:
@@ -73,6 +73,7 @@ class MultiotpSms
  *
  * Change Log
  *
+ *   2025-02-18 5.9.9.3 SysCo/al Remove notice if default_values is empty
  *   2024-08-26 5.9.8.0 SysCo/al default_values added (for example: "ip=xxxx;port=yyy")
  *   2023-11-21 5.9.7.0 SysCo/al Cleaned code
  *   2023-03-21 5.9.5.8 SysCo/al smsgateway provider added
@@ -200,6 +201,7 @@ class MultiotpSms
     $this->basic_auth = FALSE;
     $this->content_encoding = "";
     $this->header = "";
+    $this->default_values = "";
 
     $this->encode_ampersand = FALSE;
   }
@@ -786,10 +788,14 @@ class MultiotpSms
       $payload_msg = str_replace('&', '%26', $payload_msg);
     }
     
-    foreach (explode(";",$this->default_values) as $one_default_value_array) {
-      list($key, $value) = explode('=', $one_default_value_array);
-      if ("" == trim($this->getProperty($key))) {
-        $this->setProperty($key, $value);
+    $default_values = trim($this->default_values);
+    if (!empty($default_values)) {
+      foreach (explode(";",trim($this->default_values)) as $one_default_value_array) {
+        list($key, $value) = explode('=', $one_default_value_array);
+        $property_key = trim($this->getProperty($key));
+        if (empty($property_key)) {
+          $this->setProperty($key, $value);
+        }
       }
     }
 

@@ -16,8 +16,8 @@
 # Please check https://www.multiotp.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.9.9.1
-# @date      2025-01-20
+# @version   5.10.0.1
+# @date      2025-10-28
 # @since     2013-11-29
 # @copyright (c) 2013-2021 by SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
@@ -129,7 +129,11 @@ else
     FAMILY="VAP"
     TYPE="VA"
     DMIDECODE=$(dmidecode -s system-product-name)
-    if [[ "${DMIDECODE}" == *VMware* ]]; then
+
+
+    if systemd-detect-virt -q && dmidecode -s system-manufacturer 2>/dev/null | grep -qi "QEMU"; then
+        TYPE="PX"
+    elif [[ "${DMIDECODE}" == *VMware* ]]; then
         VMTOOLS=$(which vmtoolsd)
         if [[ "${VMTOOLS}" == *vmtoolsd* ]]; then
             TYPE="VM"

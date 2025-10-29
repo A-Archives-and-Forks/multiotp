@@ -69,11 +69,11 @@
  *
  * The Readme file contains additional information.
  *
- * PHP 5.4.0 or higher is supported.
+ * PHP 7.4 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.9.9.1
- * @date      2025-01-20
+ * @version   5.10.0.1
+ * @date      2025-10-28
  * @since     2010-06-08
  * @copyright (c) 2010-2025 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -271,14 +271,121 @@
  *   Please check the readme file for the whole change log since 2010
  *********************************************************************/
 
+define("_MULTIOTP_DEFAULT_PUSH_TIMEOUT_", 20);
+define("_MULTIOTP_DEFAULT_TOTP_INTERVAL_", 30);
+define("_MULTIOTP_PUSH_TIMEOUT_CODE_", "PUSH_TIMEOUT");
+define("_MULTIOTP_PUSH_DENIED_CODE_", "PUSH_DENIED");
+define("_MULTIOTP_CREDENTIAL_PROVIDER_", "Credential Provider");
+
+define("_MULTIOTP_AUTH_OK_", 0);
+define("_MULTIOTP_INFO__1_", 1);
+define("_MULTIOTP_INFO__2_", 2);
+define("_MULTIOTP_INFO__3_", 3);
+define("_MULTIOTP_INFO__4_", 4);
+define("_MULTIOTP_INFO__5_", 5);
+define("_MULTIOTP_USER_WITH_PUSH_", 6);
+define("_MULTIOTP_USER_WITH_TOKEN_", 7);
+define("_MULTIOTP_USER_WITHOUT2FA_", 8);
+define("_MULTIOTP_USER_CHALLENGE_", 9);
+define("_MULTIOTP_USER_CHALLENGE_RADIUS_", 10);
+define("_MULTIOTP_USER_UPDATED_", 11);
+define("_MULTIOTP_USER_DELETED_", 12);
+define("_MULTIOTP_USER_PIN_UPDATED_", 13);
+define("_MULTIOTP_TOKEN_RESYNCED_", 14);
+define("_MULTIOTP_TOKEN_IMPORTED_", 15);
+define("_MULTIOTP_USER_QRCODE_CREATED_", 16);
+define("_MULTIOTP_USER_URLINK_CREATED_", 17);
+define("_MULTIOTP_USER_STATIC_CODE_REQUESTED_", 18);
+define("_MULTIOTP_OPERATION_DONE_", 19);
+define("_MULTIOTP_USER_BLACKLISTED_", 20);
+define("_MULTIOTP_USER_MISSING_", 21);
+define("_MULTIOTP_USER_EXISTS_", 22);
+define("_MULTIOTP_BAD_ALGORITHM_", 23);
+define("_MULTIOTP_USER_LOCKED_", 24);
+define("_MULTIOTP_USER_DELAYED_", 25);
+define("_MULTIOTP_TOKEN_REUSED_", 26);
+define("_MULTIOTP_TOKEN_RESYNC_FAILED_", 27);
+define("_MULTIOTP_DATA_UPDATE_ERROR_", 28);
+define("_MULTIOTP_TOKEN_MISSING_", 29);
+define("_MULTIOTP_PARAM_MISSING_", 30);
+define("_MULTIOTP_TOKEN_MISSING_FILE_", 31);
+define("_MULTIOTP_TOKEN_IMPORT_ERROR_", 32);
+define("_MULTIOTP_ENCRYPTION_ERROR_", 33);
+define("_MULTIOTP_USER_LINKED_MISSING_", 34);
+define("_MULTIOTP_USER_CREATION_ERROR_", 35);
+define("_MULTIOTP_TOKEN_EXISTS_", 36);
+define("_MULTIOTP_TOKEN_ALREADY_ATTRIBUTED_", 37);
+define("_MULTIOTP_USER_DISABLED_", 38);
+define("_MULTIOTP_OPERATION_CANCELLED_", 39);
+define("_MULTIOTP_SYSTEM_SQL_QUERY_ERROR_", 40);
+define("_MULTIOTP_SYSTEM_SQL_ERROR_", 41);
+define("_MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_", 42);
+define("_MULTIOTP_SYSTEM_SQL_UPDATE_ERROR_", 43);
+define("_MULTIOTP_ERROR__44_", 44);
+define("_MULTIOTP_ERROR__45_", 45);
+define("_MULTIOTP_ERROR__46_", 46);
+define("_MULTIOTP_ERROR__47_", 47);
+define("_MULTIOTP_ERROR__48_", 48);
+define("_MULTIOTP_GROUP_MISSING_", 49);
+define("_MULTIOTP_USER_QRCODE_CREATION_ERROR_", 50);
+define("_MULTIOTP_USER_URLINK_CREATION_ERROR_", 51);
+define("_MULTIOTP_USER_HTML_CREATION_ERROR_", 52);
+define("_MULTIOTP_ERROR__53_", 53);
+define("_MULTIOTP_ERROR__54_", 54);
+define("_MULTIOTP_ERROR__55_", 55);
+define("_MULTIOTP_ERROR__56_", 56);
+define("_MULTIOTP_ERROR__57_", 57);
+define("_MULTIOTP_MISSING_FILE_", 58);
+define("_MULTIOTP_BAD_RESTORE_PASSWORD_", 59);
+define("_MULTIOTP_SMS_NO_DESTINATION_ERROR_", 60);
+define("_MULTIOTP_SMS_CODE_TRANSMISSION_ERROR_", 61);
+define("_MULTIOTP_SMS_PROVIDER_ERROR_", 62);
+define("_MULTIOTP_SMS_CODE_EXPIRED_", 63);
+define("_MULTIOTP_SMS_RESENT_DELAYED_", 64);
+define("_MULTIOTP_SMS_REQUEST_UNAUTHORIZED_", 65);
+define("_MULTIOTP_EMAIL_REQUEST_UNAUTHORIZED_", 66);
+define("_MULTIOTP_EMAIL_NO_DESTINATION_ERROR_", 67);
+define("_MULTIOTP_EMAIL_CODE_TRANSMISSION_ERROR_", 68);
+define("_MULTIOTP_EMAIL_SEND_ERROR_", 69);
+define("_MULTIOTP_SERVER_AUTH_FAILED_", 70);
+define("_MULTIOTP_SERVER_REQUEST_FORMAT_ERROR_", 71);
+define("_MULTIOTP_SERVER_ANSWER_FORMAT_ERROR_", 72);
+define("_MULTIOTP_SMTP_UNDEFINED_", 73);
+define("_MULTIOTP_PUSH_ERROR_", 74);
+define("_MULTIOTP_ERROR__75_", 75);
+define("_MULTIOTP_ERROR__76_", 76);
+define("_MULTIOTP_ERROR__77_", 77);
+define("_MULTIOTP_ERROR__78_", 78);
+define("_MULTIOTP_LDAP_CONNECTION_ERROR_", 79);
+define("_MULTIOTP_CACHE_SERVER_ERROR_", 80);
+define("_MULTIOTP_CACHE_TOO_OLD_ERROR_", 81);
+define("_MULTIOTP_USER_UNAUTHORIZED_", 82);
+define("_MULTIOTP_ERROR__83_", 83);
+define("_MULTIOTP_ERROR__84_", 84);
+define("_MULTIOTP_ERROR__85_", 85);
+define("_MULTIOTP_ERROR__86_", 86);
+define("_MULTIOTP_DEVICE_MISSING_", 87);
+define("_MULTIOTP_DEVICE_IS_NOT_HA_SLAVE_", 88);
+define("_MULTIOTP_DEVICE_IS_NOT_HA_MASTER_", 89);
+define("_MULTIOTP_LDAP_AUTH_ERROR_", 90);
+define("_MULTIOTP_WITHOUT2FA_TOKEN_UNAUTHORIZED_", 91);
+define("_MULTIOTP_AUTH_PASSWORD_FAILED_", 92);
+define("_MULTIOTP_AUTH_TOTP_OUTOFSYNC_ERROR_", 93);
+define("_MULTIOTP_API_REQUEST_ERROR_", 94);
+define("_MULTIOTP_API_AUTH_ERROR_", 95);
+define("_MULTIOTP_PUSH_TIMEOUT_ERROR_", 96);
+define("_MULTIOTP_PUSH_DENIED_ERROR_", 97);
+define("_MULTIOTP_AUTH_TOKEN_LENGTH_ERROR_", 98);
+define("_MULTIOTP_ERROR_", 99);
+
 class Multiotp
 /**
  * @class     Multiotp
  * @brief     Main class definition of the multiOTP project.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.9.9.1
- * @date      2025-01-20
+ * @version   5.10.0.1
+ * @date      2025-10-28
  * @since     2010-07-18
  */
 {
@@ -305,6 +412,7 @@ class Multiotp
   var $_ms_chap2_response;        // MS-CHAP2 response
   var $_ms_nt_key;                // NTLM NT key
   var $_errors_text;              // An array containing errors text description
+  var $_translation_array;        // An array containing translated texts
   var $_config_data;              // An array with all the general config related info
   var $_config_data_read;         // An array with the last config related info read
   var $_stat_data;                // An array with all the general stat related info
@@ -397,8 +505,8 @@ class Multiotp
    * @retval  void
    *
    * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-   * @version   5.9.9.1
-   * @date      2025-01-20
+   * @version   5.10.0.1
+   * @date      2025-10-28
    * @since     2010-07-18
    */
   function __construct(
@@ -422,11 +530,11 @@ class Multiotp
 
       if (!isset($this->_class)) { $this->_class = base64_decode('bXVsdGlPVFA='); }
       if (!isset($this->_version)) {
-        $temp_version = '@version   5.9.9.1'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
+        $temp_version = '@version   5.10.0.1'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
         $this->_version = nullable_trim(mb_substr($temp_version, 8));
       }
       if (!isset($this->_date)) {
-        $temp_date = '@date      2025-01-20'; // You should update the date with the date of your changes
+        $temp_date = '@date      2025-10-28'; // You should update the date with the date of your changes
         $this->_date = nullable_trim(mb_substr($temp_date, 8));
       }
       if (!isset($this->_copyright)) { $this->_copyright = base64_decode('KGMpIDIwMTAtMjAyNSBTeXNDbyBzeXN0ZW1lcyBkZSBjb21tdW5pY2F0aW9uIHNh'); }
@@ -449,7 +557,7 @@ class Multiotp
 
       clearstatcache();
 
-      $this->_touch_folder = '';
+      $this->_touch_folder = "";
       $this->_touch_suffix_array = array();
 
       $this->SetLockTime(300);
@@ -531,6 +639,7 @@ class Multiotp
           'actual_version'              => "TEXT DEFAULT ''",
           'admin_password_hash'         => "TEXT DEFAULT ''",
           'anonymous_stat'              => "int(1) DEFAULT 1",
+          'anonymous_stat_timeout'      => "int(10) DEFAULT 5",
           'anonymous_stat_last_update'  => "int(10) DEFAULT 0",
           'anonymous_stat_random_id'    => "TEXT DEFAULT ''",
           'attributes_to_encrypt'       => "TEXT DEFAULT ''",
@@ -556,6 +665,7 @@ class Multiotp
           'default_algorithm'           => "TEXT DEFAULT 'totp'",
           'default_dialin_ip_mask'      => "TEXT DEFAULT ''",
           'default_pin_digits'          => "int(10) DEFAULT 4",
+          'default_push_enabled'        => "int(1) DEFAULT 0",
           'default_user_group'          => "TEXT DEFAULT ''",
           'default_request_ldap_pwd'    => "int(1) DEFAULT 1",
           'default_request_prefix_pin'  => "int(1) DEFAULT 1",
@@ -633,7 +743,12 @@ class Multiotp
           'multiple_groups'             => "int(1) DEFAULT 0",
           'ntp_server'                  => "TEXT DEFAULT 'pool.ntp.org'",
           // Overwrite request_ldap_pwd value for synced users
+          'overwrite_push_enabled'      => "int(1) DEFAULT 0",
           'overwrite_request_ldap_pwd'  => "int(1) DEFAULT 1",
+          'push_activated'              => "int(1) DEFAULT 0",
+          'push_gateway'                => "TEXT DEFAULT ''",
+          'push_subscription_timeout'   => "int(10) DEFAULT 5",
+          'push_timeout'                => "int(10) DEFAULT " . _MULTIOTP_DEFAULT_PUSH_TIMEOUT_,
           'radius_error_reply_message'  => "int(1) DEFAULT 1",
           'radius_reply_attributor'     => "TEXT DEFAULT ' += '",
           'radius_reply_separator_hex'  => "TEXT DEFAULT '".nullable_bin2hex(',')."'",
@@ -704,6 +819,7 @@ class Multiotp
           'syslog_level'                => "int(10) DEFAULT 5",
           'syslog_port'                 => "int(10) DEFAULT 514",
           'syslog_server'               => "TEXT DEFAULT ''",
+          'syslog_timeout'              => "int(10) DEFAULT 3",
           'tel_default_country_code'    => "TEXT DEFAULT ''",
           'timezone'                    => "TEXT DEFAULT 'Europe/Zurich'",
           'token_serial_number_length'  => "TEXT DEFAULT '12'",
@@ -893,12 +1009,17 @@ class Multiotp
           'ldap_hash_validity'      => "int(10) DEFAULT 0",
           // Token locked
           'locked'                  => "int(1) DEFAULT 0",
+          'mosid'                   => "TEXT DEFAULT ''",
+          'mouid'                   => "TEXT DEFAULT ''",
           // User is a special multi-account user (the real user is in the token, like this: "user[space]token"
           'multi_account'           => "int(1) DEFAULT 0",
           // Number of digits returned by the token
           'number_of_digits'        => "int(10) DEFAULT 6",
           'private_id'              => "TEXT DEFAULT ''",
           // Request the LDAP password as a prefix of the returned token value
+          'push_enable_date'        => "int(10) DEFAULT 0",
+          'push_enabled'            => "int(1) DEFAULT 0",
+          'push_gateway'            => "TEXT DEFAULT ''",
           'request_ldap_pwd'        => "int(1) DEFAULT 0",
           'request_prefix_pin'      => "int(1) DEFAULT 0",
           'scratch_passwords'       => "TEXT DEFAULT ''",
@@ -1007,9 +1128,7 @@ class Multiotp
 
       $this->_bad_syslog_server = false;
       
-      $this->_state = '';
-      
-      $this->_default_time_interval = 30; // Default time_interval set to 30 seconds
+      $this->_state = "";
 
       $this->ReadConfigData(true); // Read the configuration data, for the encryption information only
       if (("" == $encryption_key) || ('MuLtIoTpEnCrYpTiOn' == $encryption_key) || ('DefaultCliEncryptionKey' == $encryption_key)) {
@@ -1054,6 +1173,9 @@ class Multiotp
       
       // Reset/initialize the errors text array, should be the first reset method to call
       $this->ResetErrorsArray();
+
+      // Reset/initialize the translation text array
+      $this->ResetTranslationArray();
 
       // Reset/initialize the config array, should be the second reset method to call
       $this->ResetConfigArray();
@@ -1102,10 +1224,326 @@ class Multiotp
   }
 
 
+  // Reset the errors array
+  function ResetErrorsArray()
+  {
+    $this->_errors_text[0] = "OK: Token accepted";
+
+    $this->_errors_text[7] = "INFO: User requires a token";
+    $this->_errors_text[8] = "INFO: User can be authenticated without a token (WITHOUT2FA)";
+    $this->_errors_text[9] = "INFO: Access Challenge returned back to the client";
+    $this->_errors_text[10] = "INFO: Access Challenge returned back to the client";
+
+    $this->_errors_text[11] = "INFO: User successfully created or updated";
+    $this->_errors_text[12] = "INFO: User successfully deleted";
+    $this->_errors_text[13] = "INFO: User PIN code successfully changed";
+    $this->_errors_text[14] = "INFO: Token has been resynchronized successfully";
+    $this->_errors_text[15] = "INFO: Tokens definition file successfully imported";
+    $this->_errors_text[16] = "INFO: QRcode successfully created";
+    $this->_errors_text[17] = "INFO: UrlLink successfully created";
+    $this->_errors_text[18] = "INFO: Static code request received";
+    $this->_errors_text[19] = "INFO: Requested operation successfully done";
+
+    $this->_errors_text[20] = "ERROR: User blacklisted";
+    $this->_errors_text[21] = "ERROR: User doesn't exist";
+    $this->_errors_text[22] = "ERROR: User already exists";
+    $this->_errors_text[23] = "ERROR: Invalid algorithm";
+    $this->_errors_text[24] = "ERROR: User locked (too many tries)";
+    $this->_errors_text[25] = "ERROR: User delayed (too many tries, but still a hope in a few minutes)";
+    $this->_errors_text[26] = "ERROR: This token has already been used";
+    $this->_errors_text[27] = "ERROR: Resynchronization of the token has failed";
+    $this->_errors_text[28] = "ERROR: Unable to write the changes in the file";
+    $this->_errors_text[29] = "ERROR: Token doesn't exist";
+
+    $this->_errors_text[30] = "ERROR: At least one parameter is missing";
+    $this->_errors_text[31] = "ERROR: Tokens definition file doesn't exist";
+    $this->_errors_text[32] = "ERROR: Tokens definition file not successfully imported";
+    $this->_errors_text[33] = "ERROR: Encryption hash error, encryption key is not matching";
+    $this->_errors_text[34] = "ERROR: Linked user doesn't exist";
+    $this->_errors_text[35] = "ERROR: User not created";
+    $this->_errors_text[36] = "ERROR: Token doesn't exist";
+    $this->_errors_text[37] = "ERROR: Token already attributed";
+    $this->_errors_text[38] = "ERROR: User is desactivated";
+    $this->_errors_text[39] = "ERROR: Requested operation aborted";
+   
+    $this->_errors_text[40] = "ERROR: SQL query error";
+    $this->_errors_text[41] = "ERROR: SQL error";
+    $this->_errors_text[42] = "ERROR: They key is not in the table schema";
+    $this->_errors_text[43] = "ERROR: SQL entry cannot be updated";
+
+    $this->_errors_text[50] = "ERROR: QRcode not created";
+    $this->_errors_text[51] = "ERROR: UrlLink not created (no provisionable client for this protocol)";
+    $this->_errors_text[52] = "ERROR: HTML info not created";
+    $this->_errors_text[58] = "ERROR: File is missing";
+    $this->_errors_text[59] = "ERROR: Bad restore configuration password";
+
+    $this->_errors_text[60] = "ERROR: No information on where to send SMS code";
+    $this->_errors_text[61] = "ERROR: SMS code request received, but an error occurred during transmission";
+    $this->_errors_text[62] = "ERROR: SMS provider not supported";
+    $this->_errors_text[63] = "ERROR: This SMS code has expired";
+    $this->_errors_text[64] = "ERROR: Cannot resent an SMS code right now";
+    $this->_errors_text[65] = "ERROR: SMS code request not allowed";
+    $this->_errors_text[66] = "ERROR: Email code request not allowed";
+    $this->_errors_text[67] = "ERROR: No information on where to send Email code";
+    $this->_errors_text[68] = "ERROR: Email code request received, but an error occurred during transmission";
+    $this->_errors_text[69] = "ERROR: Failed to send email";
+    
+    $this->_errors_text[70] = "ERROR: Server authentication error";
+    $this->_errors_text[71] = "ERROR: Server request is not correctly formatted";
+    $this->_errors_text[72] = "ERROR: Server answer is not correctly formatted";
+    $this->_errors_text[73] = "ERROR: Email SMTP server not defined";
+    $this->_errors_text[79] = "ERROR: AD/LDAP connection error";
+    
+    $this->_errors_text[80] = "ERROR: Server cache error";
+    $this->_errors_text[81] = "ERROR: Cache too old for this user, account autolocked";
+    $this->_errors_text[82] = "ERROR: User not allowed for this device";
+    $this->_errors_text[88] = "ERROR: Device is not defined as a HA slave";
+    $this->_errors_text[89] = "ERROR: Device is not defined as a HA master";
+    $this->_errors_text[90] = "ERROR: AD/LDAP authentication failed";
+
+    $this->_errors_text[91] = "ERROR: Authentication failed (without2fa token not authorized here)";
+    $this->_errors_text[92] = "ERROR: Authentication failed (bad password)";
+    $this->_errors_text[93] = "ERROR: Authentication failed (time based token probably out of sync)";
+    $this->_errors_text[94] = "ERROR: API request error";
+    $this->_errors_text[95] = "ERROR: API authentication failed";
+    $this->_errors_text[96] = "ERROR: Push authentication timeout";
+    $this->_errors_text[97] = "ERROR: Push authentication denied";
+    $this->_errors_text[98] = "ERROR: Authentication failed (wrong token length)";
+    $this->_errors_text[99] = "ERROR: Authentication failed (and other possible unknown errors)";
+  }
+
+
+  function ResetTranslationArray()
+  {
+    $this->_translation_array["push_title"] = array(
+      "en" => "Approve Sign-in ?",
+      "fr" => "Valider la connexion ?",
+      "de" => "Anmeldung genehmigen ?",
+      "it" => "Approvare l'accesso ?"
+    );
+  }
+
+
+  function Translate(
+    $label,
+    $lang = ""
+  ) {
+    if (isset($this->_translation_array[$label])) {
+      $result_array = $this->_translation_array[$label];
+      if (isset($result_array[strtolower($lang)])) {
+        $result = $result_array[strtolower($lang)];
+      } else {
+        $result = $result_array[strtolower($lang)];
+      }
+    } else {
+      $result = $label;
+    }
+    return $result;
+  }
+
+
+  function SetPushActivated(
+      $value
+  ) {
+      $this->_config_data['push_activated'] = ((intval($value) > 0)?1:0);
+  }
+
+
+  function GetPushActivated()
+  {
+      return intval($this->_config_data['push_activated']);
+  }
+
+
+  function IsPushActivated() {
+    return (1 == intval($this->_config_data['push_activated']));
+  }
+
+
+  function GetPushId() {
+    $push_id = "";
+    if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') { // Windows
+      $output = array();
+      exec("wmic csproduct get UUID", $output);
+      if ("UUID" == $output[0]) {
+        $push_id = trim($output[1]);
+      }
+    } else {
+      $push_id = trim(file_get_contents('/etc/machine-id'));
+    }
+
+    $push_id = str_replace('-','',$push_id);
+    $push_id = str_replace(':','',$push_id);
+    
+    return trim($push_id);
+  }
+
+
+  function GetPushGateway(
+    $force_url = false
+  ) {
+    return trim(isset($this->_config_data['push_gateway']) ? $this->_config_data['push_gateway'] : '');
+  }
+
+
+  function SetPushSubscriptionTimeout(
+      $value
+  ) {
+      $this->_config_data['push_subscription_timeout'] = intval($value);
+  }
+
+
+  function GetPushSubscriptionTimeout() {
+    $value = intval(isset($this->_config_data['push_subscription_timeout']) ? $this->_config_data['push_subscription_timeout'] : 5);
+    if (0 == $value) {
+      $value = 5;
+    }
+    return $value;
+  }
+
+
+  function SetPushTimeout(
+      $value
+  ) {
+      $this->_config_data['push_timeout'] = intval($value);
+  }
+
+
+  function GetPushTimeout() {
+    $value = intval(isset($this->_config_data['push_timeout']) ? $this->_config_data['push_timeout'] : _MULTIOTP_DEFAULT_PUSH_TIMEOUT_);
+    if ($value <= 0) {
+      $value = _MULTIOTP_DEFAULT_PUSH_TIMEOUT_;
+    } elseif ($value >= 120) {
+      // Previous default value of 120 seconds was really too long
+      $value = _MULTIOTP_DEFAULT_PUSH_TIMEOUT_;
+    }
+    return $value;
+  }
+
+
+  function GetPushApiDeviceRegister() {
+    $push_api_device_register = "";
+    return $push_api_device_register;
+  }
+
+
+  function GetPushUniqueId(
+    $hash_array = array()
+  ) {
+    return uniqid();
+  }
+
+
+  function GetPushWsFqdn() {
+    $push_gateway = $this->GetUserPushGateway();
+    return ( (!empty($push_gateway)) ? ("wss://" . $push_gateway . "/wss/") : "" );
+  }
+
+
+  function PushRequest(
+    $push_request_array = array()
+  ) {
+    $user = isset($push_request_array['user']) ? $push_request_array['user'] : "";
+    $title = isset($push_request_array['title']) ? $push_request_array['title'] : "";
+    $subtitle = isset($push_request_array['subtitle']) ? $push_request_array['subtitle'] : "";
+    $mouid = $this->GetUserMouid($user);
+    $mosid = $this->GetUserMosid();
+    $hash = $this->GetPushUniqueId();
+    $answer = "";
+    
+    $actual_user = $this->GetUser();
+    if (!empty($mouid)) {
+      $request = "EHLO§" . $hash . "§" . $mouid . "§" . $mosid . "§" . $title . "§" . $subtitle;
+
+      $talk = new multiotpwebsocket($this->GetPushWsFqdn(), $this->GetPushTimeout());
+      $talk->writeSocket($request);
+      $answer = $talk->readSocket();
+
+      if ($this->GetVerboseFlag()) {
+          $this->WriteLog("Debug: push request, FQDN: " . $this->GetPushWsFqdn() . ", request: " . $request .", answer: " . $answer, FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Debug', '');
+      }
+    } else {
+      $this->WriteLog("Error: Push request failed, push token not initialized for $actual_user", FALSE, FALSE, _MULTIOTP_PUSH_ERROR_, 'User', $actual_user);
+    }
+    
+    $array_answer = explode(";", $answer);
+    $answer = trim(end($array_answer));
+    $status = strtolower(trim(reset($array_answer)));
+    if ("ko" == $status) {
+      $status_detail = strtolower($answer);
+      $status_info = $this->Translate('push_status_' . $status_detail, $this->GetUserLanguage());
+      $this->WriteLog("Error: Push request failed for $actual_user, $status_info", FALSE, FALSE, _MULTIOTP_PUSH_ERROR_, 'User', $actual_user);
+    } elseif (empty($status) && empty($answer)) {
+      $answer = _MULTIOTP_PUSH_TIMEOUT_CODE_;
+      $this->WriteLog("Error: Push authentication timeout for " . $actual_user, FALSE, FALSE, _MULTIOTP_PUSH_ERROR_, 'User', $actual_user);
+    } elseif (("ok" == $status) && ("0" == $answer)) {
+      $answer = _MULTIOTP_PUSH_DENIED_CODE_;
+      $this->WriteLog("Error: Push authentication denied for " . $actual_user, FALSE, FALSE, _MULTIOTP_PUSH_ERROR_, 'User', $actual_user);
+    }
+    return $answer;
+  }
+
+
+  function GetMouidPrefix() {
+    return "";
+  }
+
+
+  function GetUserMosid(
+    $user_mosid_array = array()
+  ) {
+    $user = trim(isset($user_mosid_array['user']) ? $user_mosid_array['user'] : "");
+    $stored = trim(isset($user_mosid_array['stored']) ? $user_mosid_array['stored'] : false);
+    if (!empty($user)) {
+      if ($this->CheckUserExists($user)) {
+        $this->SetUser($user);
+      }
+    }
+    $user_mosid = trim(isset($this->_user_data['mosid']) ? $this->_user_data['mosid'] : "");
+    if ((!$stored) && empty($user_mosid)) {
+      $user_mosid = $this->GetPushId();
+    }
+    return $user_mosid;
+  }
+
+
+  function GetUserMouid(
+    $user = ""
+  ) {
+    if (!empty($user)) {
+      if ($this->CheckUserExists($user)) {
+        $this->SetUser($user);
+      }
+    }
+    if ($this->GetUserPushEnableDate() > 0) {
+    $mouid = trim(isset($this->_user_data['mouid']) ? $this->_user_data['mouid'] : "");
+    } else {
+      $mouid = "";
+    }
+    return $mouid;
+  }
+
+
+  function UserPushSubscription(
+    $user_push_subscription = array()
+  ) {
+    $user = isset($user_push_subscription['user']) ? $user_push_subscription['user'] : '';
+    $mouid = isset($user_push_subscription['mouid']) ? $user_push_subscription['mouid'] : '';
+    $mosid = isset($user_push_subscription['mosid']) ? $user_push_subscription['mosid'] : '';
+    $push_gateway = isset($user_push_subscription['push_gateway']) ? $user_push_subscription['push_gateway'] : '';
+    $subscription_result = $this->PostHttpDataXmlRequest("mouid=" . $mouid . "&mosid=" . $mosid, "https://" . $push_gateway . "/api/device/user", $this->GetPushSubscriptionTimeout());
+    $status = $this->GetLastHttpStatus();
+    if ($this->GetVerboseFlag()) {
+      $this->WriteLog("Info: Push subscription sent for " . $user . ": " . $status . " " . $subscription_result, FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'User', $user);
+    }
+    return $status;
+  }
+
+
   function SetCurrentUserSid($value) {
     $this->_current_user_sid = nullable_trim($value);
     if ($this->GetVerboseFlag()) {
-      $this->WriteLog("Info: *Current User SID set to '" . $this->GetCurrentUserSid() . "'", FALSE, FALSE, 8888, 'System', '');
+      $this->WriteLog("Info: *Current User SID set to '" . $this->GetCurrentUserSid() . "'", FALSE, FALSE, 8888, 'System', "");
     }
     return nullable_trim($value);
   }
@@ -1136,7 +1574,7 @@ class Multiotp
 
   function GetLastFailedWhiteDelay()
   {
-    return $this->_config_data['last_failed_white_delay'];
+    return intval(isset($this->_config_data['smtp_username']) ? $this->_config_data['smtp_username'] : 60);
   }
 
 
@@ -1190,11 +1628,11 @@ class Multiotp
 
               if (@mkdir(
                       $folder.".ldap_cache/",
-                      ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                      ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                       true //recursive
               )) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Debug: *LDAP cache folder created (".$folder.".ldap_cache/".")", FALSE, FALSE, 8888, 'System', '');
+                      $this->WriteLog("Debug: *LDAP cache folder created (".$folder.".ldap_cache/".")", FALSE, FALSE, 8888, 'System', "");
                   }
               }
           }
@@ -1206,7 +1644,7 @@ class Multiotp
           $folder = "";
       }
       if ($this->GetVerboseFlag()) {
-        $this->WriteLog("Debug: *LDAP cache folder value: $folder", FALSE, FALSE, 8888, 'System', '');
+        $this->WriteLog("Debug: *LDAP cache folder value: $folder", FALSE, FALSE, 8888, 'System', "");
       }
       return $folder;
   }
@@ -1232,7 +1670,7 @@ class Multiotp
 
   function GetBackendEncoding()
   {
-    return $this->_config_data['backend_encoding'];
+    return (isset($this->_config_data['backend_encoding']) ? $this->_config_data['backend_encoding'] : 'UTF-8');
   }
 
 
@@ -1306,9 +1744,9 @@ class Multiotp
 
 
   function GetUserDialinIpAddress(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if("" != $user) {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['dialin_ip_address']) ? $this->_user_data['dialin_ip_address'] : "");
@@ -1334,9 +1772,9 @@ class Multiotp
 
 
   function GetUserDialinIpMask(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if("" != $user) {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['dialin_ip_mask']) ? $this->_user_data['dialin_ip_mask'] : "");
@@ -1362,9 +1800,9 @@ class Multiotp
 
 
   function GetUserChallenge(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if("" != $user) {
           $this->SetUser($user);
       }
       return $this->_user_data['challenge'];
@@ -1390,9 +1828,9 @@ class Multiotp
 
 
   function GetUserChallengeValidity(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if("" != $user) {
           $this->SetUser($user);
       }
       return intval($this->_user_data['challenge_validity']);
@@ -1408,7 +1846,7 @@ class Multiotp
 
   function GetDefaultDialinIpMask()
   {
-      return $this->_config_data['default_dialin_ip_mask'];
+    return (isset($this->_user_data['default_dialin_ip_mask']) ? $this->_user_data['default_dialin_ip_mask'] : "");
   }
 
 
@@ -1593,17 +2031,17 @@ class Multiotp
     $touch_info = ""
   ) {
     $touch_suffix_array = $this->GetTouchSuffixArray();
-    if (('' != $this->GetTouchFolder()) && (0 < count($touch_suffix_array)) && (!(('data' == mb_strtolower($type_fn,'UTF-8')) && ('stat' == mb_strtolower($item_fn,'UTF-8'))))) {
+    if (("" != $this->GetTouchFolder()) && (0 < count($touch_suffix_array)) && (!(('data' == mb_strtolower($type_fn,'UTF-8')) && ('stat' == mb_strtolower($item_fn,'UTF-8'))))) {
       if (('slavelog' == mb_strtolower($type_fn,'UTF-8')) && ('unique_id' == mb_strtolower($item_fn,'UTF-8'))) {
           $touch_suffix_array = array($id_fn);
       }
       if ($this->GetVerboseFlag()) {
-        $this->WriteLog("Debug: *Touch element $type_fn $item_fn $id_fn", FALSE, FALSE, 8888, 'System', '');
+        $this->WriteLog("Debug: *Touch element $type_fn $item_fn $id_fn", FALSE, FALSE, 8888, 'System', "");
       }
       foreach ($touch_suffix_array as $one_touch_suffix) {
         $filename_path = $this->GetTouchFolder().nullable_bin2hex($type_fn."\t".$item_fn."\t".$id_fn.(("" != $one_touch_suffix) ? ("\t".$one_touch_suffix) : "")).".sync";
         $result = touch($filename_path);
-        if ($result && ('' != $this->GetLinuxFileMode())) {
+        if ($result && ("" != $this->GetLinuxFileMode())) {
           @chmod($filename_path, octdec($this->GetLinuxFileMode()));
         }
       }
@@ -1637,7 +2075,7 @@ class Multiotp
 
   function GetUserLanguage($ignore_main_language = FALSE) {
     $language = nullable_trim(isset($this->_user_data['language']) ? $this->_user_data['language'] : "");
-    if (('' == $language) && (TRUE != $ignore_main_language)) {
+    if (("" == $language) && (TRUE != $ignore_main_language)) {
       $language = $this->GetLanguage();
     }
     return mb_strtolower($language,'UTF-8');
@@ -1695,94 +2133,6 @@ class Multiotp
   }
 
 
-  // Reset the errors array
-  function ResetErrorsArray()
-  {
-    $this->_errors_text[0] = "OK: Token accepted";
-
-    $this->_errors_text[7] = "INFO: User requires a token";
-    $this->_errors_text[8] = "INFO: User can be authenticated without a token (WITHOUT2FA)";
-    $this->_errors_text[9] = "INFO: Access Challenge returned back to the client";
-    $this->_errors_text[10] = "INFO: Access Challenge returned back to the client";
-
-    $this->_errors_text[11] = "INFO: User successfully created or updated";
-    $this->_errors_text[12] = "INFO: User successfully deleted";
-    $this->_errors_text[13] = "INFO: User PIN code successfully changed";
-    $this->_errors_text[14] = "INFO: Token has been resynchronized successfully";
-    $this->_errors_text[15] = "INFO: Tokens definition file successfully imported";
-    $this->_errors_text[16] = "INFO: QRcode successfully created";
-    $this->_errors_text[17] = "INFO: UrlLink successfully created";
-    $this->_errors_text[18] = "INFO: Static code request received";
-    $this->_errors_text[19] = "INFO: Requested operation successfully done";
-
-    $this->_errors_text[20] = "ERROR: User blacklisted";
-    $this->_errors_text[21] = "ERROR: User doesn't exist";
-    $this->_errors_text[22] = "ERROR: User already exists";
-    $this->_errors_text[23] = "ERROR: Invalid algorithm";
-    $this->_errors_text[24] = "ERROR: User locked (too many tries)";
-    $this->_errors_text[25] = "ERROR: User delayed (too many tries, but still a hope in a few minutes)";
-    $this->_errors_text[26] = "ERROR: This token has already been used";
-    $this->_errors_text[27] = "ERROR: Resynchronization of the token has failed";
-    $this->_errors_text[28] = "ERROR: Unable to write the changes in the file";
-    $this->_errors_text[29] = "ERROR: Token doesn't exist";
-
-    $this->_errors_text[30] = "ERROR: At least one parameter is missing";
-    $this->_errors_text[31] = "ERROR: Tokens definition file doesn't exist";
-    $this->_errors_text[32] = "ERROR: Tokens definition file not successfully imported";
-    $this->_errors_text[33] = "ERROR: Encryption hash error, encryption key is not matching";
-    $this->_errors_text[34] = "ERROR: Linked user doesn't exist";
-    $this->_errors_text[35] = "ERROR: User not created";
-    $this->_errors_text[36] = "ERROR: Token doesn't exist";
-    $this->_errors_text[37] = "ERROR: Token already attributed";
-    $this->_errors_text[38] = "ERROR: User is desactivated";
-    $this->_errors_text[39] = "ERROR: Requested operation aborted";
-   
-    $this->_errors_text[40] = "ERROR: SQL query error";
-    $this->_errors_text[41] = "ERROR: SQL error";
-    $this->_errors_text[42] = "ERROR: They key is not in the table schema";
-    $this->_errors_text[43] = "ERROR: SQL entry cannot be updated";
-
-    $this->_errors_text[50] = "ERROR: QRcode not created";
-    $this->_errors_text[51] = "ERROR: UrlLink not created (no provisionable client for this protocol)";
-    $this->_errors_text[52] = "ERROR: HTML info not created";
-    $this->_errors_text[58] = "ERROR: File is missing";
-    $this->_errors_text[59] = "ERROR: Bad restore configuration password";
-
-    $this->_errors_text[60] = "ERROR: No information on where to send SMS code";
-    $this->_errors_text[61] = "ERROR: SMS code request received, but an error occurred during transmission";
-    $this->_errors_text[62] = "ERROR: SMS provider not supported";
-    $this->_errors_text[63] = "ERROR: This SMS code has expired";
-    $this->_errors_text[64] = "ERROR: Cannot resent an SMS code right now";
-    $this->_errors_text[65] = "ERROR: SMS code request not allowed";
-    $this->_errors_text[66] = "ERROR: Email code request not allowed";
-    $this->_errors_text[67] = "ERROR: No information on where to send Email code";
-    $this->_errors_text[68] = "ERROR: Email code request received, but an error occurred during transmission";
-    $this->_errors_text[69] = "ERROR: Failed to send email";
-    
-    $this->_errors_text[70] = "ERROR: Server authentication error";
-    $this->_errors_text[71] = "ERROR: Server request is not correctly formatted";
-    $this->_errors_text[72] = "ERROR: Server answer is not correctly formatted";
-    $this->_errors_text[73] = "ERROR: Email SMTP server not defined";
-    $this->_errors_text[79] = "ERROR: AD/LDAP connection error";
-    
-    $this->_errors_text[80] = "ERROR: Server cache error";
-    $this->_errors_text[81] = "ERROR: Cache too old for this user, account autolocked";
-    $this->_errors_text[82] = "ERROR: User not allowed for this device";
-    $this->_errors_text[88] = "ERROR: Device is not defined as a HA slave";
-    $this->_errors_text[89] = "ERROR: Device is not defined as a HA master";
-
-    $this->_errors_text[91] = "ERROR: Authentication failed (without2fa token not authorized here)";
-    $this->_errors_text[92] = "ERROR: Authentication failed (bad password)";
-    $this->_errors_text[93] = "ERROR: Authentication failed (time based token probably out of sync)";
-    $this->_errors_text[94] = "ERROR: API request error";
-    $this->_errors_text[95] = "ERROR: API authentication failed";
-    $this->_errors_text[96] = "ERROR: Authentication failed (CRC error)";
-    $this->_errors_text[97] = "ERROR: Authentication failed (wrong private id)";
-    $this->_errors_text[98] = "ERROR: Authentication failed (wrong token length)";
-    $this->_errors_text[99] = "ERROR: Authentication failed (and other possible unknown errors)";
-  }
-
-
   function GetErrorText(
     $error_number = 99
   ) {
@@ -1793,6 +2143,12 @@ class Multiotp
       $text = $this->_errors_text[99];
     }
     return $text;
+  }
+
+
+  function GetStatusCodesArray()
+  {
+    return $this->_errors_text;
   }
 
 
@@ -1859,44 +2215,44 @@ class Multiotp
    * @since   2014-12-30
    */
   function WriteData(
-      $write_data_array         = '',
-      $table_param              = '',
-      $folder_param             = '',
+      $write_data_array         = "",
+      $table_param              = "",
+      $folder_param             = "",
       $data_array_param         = array(),
       $force_file_param         = false,
-      $id_field_param           = '',
-      $id_value_param           = '',
+      $id_field_param           = "",
+      $id_value_param           = "",
       $id_case_sensitive_param  = false,
       $automatically_param      = false,
       $update_last_change_param = true,
       $no_encryption_hash_param = false
   ) {
       if (is_array($write_data_array)) {
-        $item               = isset($write_data_array['item'])?$write_data_array['item']:'';
-        $table              = isset($write_data_array['table'])?$write_data_array['table']:'';
-        $folder             = isset($write_data_array['folder'])?$write_data_array['folder']:'';
+        $item               = isset($write_data_array['item'])?$write_data_array['item']:"";
+        $table              = isset($write_data_array['table'])?$write_data_array['table']:"";
+        $folder             = isset($write_data_array['folder'])?$write_data_array['folder']:"";
         $data_array         = isset($write_data_array['data_array'])?$write_data_array['data_array']:array();
         $force_file         = isset($write_data_array['force_file'])?$write_data_array['force_file']:false;
-        $id_field           = isset($write_data_array['id_field'])?$write_data_array['id_field']:'';
-        $id_value           = isset($write_data_array['id_value'])?$write_data_array['id_value']:'';
+        $id_field           = isset($write_data_array['id_field'])?$write_data_array['id_field']:"";
+        $id_value           = isset($write_data_array['id_value'])?$write_data_array['id_value']:"";
         $id_case_sensitive  = isset($write_data_array['id_case_sensitive'])?$write_data_array['id_case_sensitive']:false;
         $automatically      = isset($write_data_array['automatically'])?$write_data_array['automatically']:false;
-        $automatic_host     = isset($write_data_array['automatic_host'])?$write_data_array['automatic_host']:'';
+        $automatic_host     = isset($write_data_array['automatic_host'])?$write_data_array['automatic_host']:"";
         $sync_process       = isset($write_data_array['sync_process'])?$write_data_array['sync_process']:false;
         $update_last_change = isset($write_data_array['update_last_change'])?$write_data_array['update_last_change']:true;
         $no_encryption_hash = isset($write_data_array['no_encryption_hash'])?$write_data_array['no_encryption_hash']:false;
 
         $encrypt_all        = isset($write_data_array['encrypt_all'])?$write_data_array['encrypt_all']:false;
-        $encryption_key     = isset($write_data_array['encryption_key'])?$write_data_array['encryption_key']:'';
-        $backup_file        = isset($write_data_array['backup_file'])?$write_data_array['backup_file']:'';
-        $raw_folder         = isset($write_data_array['raw_folder'])?$write_data_array['raw_folder']:'';
-        $raw_file           = isset($write_data_array['raw_file'])?$write_data_array['raw_file']:'';
+        $encryption_key     = isset($write_data_array['encryption_key'])?$write_data_array['encryption_key']:"";
+        $backup_file        = isset($write_data_array['backup_file'])?$write_data_array['backup_file']:"";
+        $raw_folder         = isset($write_data_array['raw_folder'])?$write_data_array['raw_folder']:"";
+        $raw_file           = isset($write_data_array['raw_file'])?$write_data_array['raw_file']:"";
         $return_content     = isset($write_data_array['return_content'])?$write_data_array['return_content']:false;
         $flush_attributes   = isset($write_data_array['flush_attributes'])?$write_data_array['flush_attributes']:array();
         $encode_file_id     = isset($write_data_array['encode_file_id'])?$write_data_array['encode_file_id']:false;
 
         $file_only          = isset($write_data_array['file_only'])?$write_data_array['file_only']:false;
-        $copy_file          = isset($write_data_array['copy_file'])?$write_data_array['copy_file']:'';
+        $copy_file          = isset($write_data_array['copy_file'])?$write_data_array['copy_file']:"";
       } else {
         // Backward compatibility
         $item               = $write_data_array;
@@ -1911,34 +2267,35 @@ class Multiotp
         $update_last_change = $update_last_change_param;
         $no_encryption_hash = $no_encryption_hash_param;
         $encrypt_all        = false;
-        $encryption_key     = '';
-        $backup_file        = '';
-        $raw_folder         = '';
-        $raw_file           = '';
+        $encryption_key     = "";
+        $backup_file        = "";
+        $raw_folder         = "";
+        $raw_file           = "";
         $return_content     = false;
         $flush_attributes   = array();
         $sync_process       = false;
         $automatic_host     = "";
         $file_only          = false;
-        $copy_file          = '';
+        $copy_file          = "";
       }
-      $backup_format = ('' != $backup_file);
+      
+      $backup_format = ("" != $backup_file);
       if ($backup_format) {
         $force_file = true;
         // if ((false !== mb_strpos($backup_file,"/")) || (false !== mb_strpos($backup_file,"\\"))) {
-          $folder = '';
+          $folder = "";
         // }
       }
 
       foreach ($flush_attributes as $one_flush_attribute) {
         if (isset($data_array[$one_flush_attribute])) {
-          $data_array[$one_flush_attribute] = '';
+          $data_array[$one_flush_attribute] = "";
         }
       }
 
-      if ('' != $raw_file) {
+      if ("" != $raw_file) {
         if (!file_exists($raw_folder.$raw_file)) {
-          if ('' == $raw_folder) {
+          if ("" == $raw_folder) {
             $raw_folder = $folder;
           }
         }
@@ -1949,8 +2306,8 @@ class Multiotp
       $clean_raw_folder = str_replace($this->GetConfigFolder(), "--config-@-folder--", $raw_folder);
 
       if (('*CLEAR*' == $encryption_key) || ('*UNENC*' == $encryption_key)) {
-          $encryption_key = '';
-      } elseif ('' == $encryption_key) {
+          $encryption_key = "";
+      } elseif ("" == $encryption_key) {
           $encryption_key = $this->GetEncryptionKey();
       }
 
@@ -1989,7 +2346,7 @@ class Multiotp
           $data_array['create_time'] = $now_epoch;
       }
 
-      if ('' == (isset($data_array['create_host']) ? $data_array['create_host'] : '')) {
+      if ("" == (isset($data_array['create_host']) ? $data_array['create_host'] : "")) {
           $data_array['create_host'] = $this->GetCreateHost();
       }
       
@@ -2014,7 +2371,7 @@ class Multiotp
       }
 
       if ((($this->GetBackendTypeValidated()) &&
-           ((isset($this->_config_data['sql_'.$table.'_table'])) && ('' != $this->_config_data['sql_'.$table.'_table']))
+           ((isset($this->_config_data['sql_'.$table.'_table'])) && ("" != $this->_config_data['sql_'.$table.'_table']))
           ) || 
           ('files' == $this->GetBackendType()) ||
           $force_file ||
@@ -2064,7 +2421,7 @@ class Multiotp
               $line = "";
 
               if (FALSE === $file_handler) {
-                  $this->WriteLog("Error: database file for ".$item_info." cannot be written", FALSE, FALSE, 28, 'System', '', 3);
+                  $this->WriteLog("Error: database file for ".$item_info." cannot be written", FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
               } else {
                 if ($backup_format) {
                   if ($file_created) {
@@ -2076,7 +2433,7 @@ class Multiotp
                   }
                   $line.= "; #!#element-start#!#\n";
                   $line.= "; #!#element-timestamp=".time()."\n";
-                  if (($backup_format) && ('' != $raw_file)) {
+                  if (($backup_format) && ("" != $raw_file)) {
                     $line.= "; #!#type=file\n";
                     $line.= "; #!#item=$clean_raw_folder\n";
                     $line.= "; #!#id_value=$raw_file\n";
@@ -2095,7 +2452,7 @@ class Multiotp
                     $line.= "\n";
                   }
                 }
-                if (($backup_format) && ('' != $raw_file)) {
+                if (($backup_format) && ("" != $raw_file)) {
                   $key = "raw_data";
                   if ($raw_fn = @fopen($raw_folder.$raw_file, "rb")) {
                     flock($raw_fn, LOCK_SH);
@@ -2120,7 +2477,7 @@ class Multiotp
                     $value = str_replace(chr(13).chr(10),"<<CRLF>>",$value);
                     $value = str_replace(chr(10),"<<CRLF>>",$value);
                     $value = str_replace(chr(13),"<<CRLF>>",$value);
-                    if ('' != nullable_trim($key)) {
+                    if ("" != nullable_trim($key)) {
                       $line.= mb_strtolower($key,'UTF-8');
                       if ($encrypt_all ||
                           ((!$no_encryption_hash) &&
@@ -2144,7 +2501,7 @@ class Multiotp
                   // }
                   fwrite($file_handler, $line);
                   fclose($file_handler);
-                  if ('' != $copy_file) {
+                  if ("" != $copy_file) {
                       if (@copy($folder.$filename, $copy_file)) {
                           @chmod($copy_file, octdec($this->GetLinuxFileMode()));
                       }
@@ -2154,7 +2511,7 @@ class Multiotp
                 if ((!$update_last_change) && (!$file_created) && (!$backup_format)) {
                   touch($folder.$filename, $file_time);
                 }
-                if ($file_created && ('' != $this->GetLinuxFileMode())) {
+                if ($file_created && ("" != $this->GetLinuxFileMode())) {
                   @chmod($folder.$filename, octdec($this->GetLinuxFileMode()));
                 }
                 
@@ -2177,7 +2534,7 @@ class Multiotp
                   $this->WriteLog(array('text'       => "Info: *File created: ".$folder.$filename,
                                         'error_code' => 8888,
                                         'category'   => 'System',
-                                        'user'       => '',
+                                        'user'       => "",
                                         'local_only' => 1)
                                  );
                 }
@@ -2187,9 +2544,9 @@ class Multiotp
               $esc_id_value = escape_mysql_string($id_value);
               if ($this->OpenMysqlDatabase()) {
                   $result = TRUE;
-                  $sQi_Columns = '';
-                  $sQi_Values  = '';
-                  $sQu_Data    = '';
+                  $sQi_Columns = "";
+                  $sQi_Values  = "";
+                  $sQu_Data    = "";
                   foreach ($data_array as $key => $value) {
                       $value = str_replace(chr(13).chr(10),"<<CRLF>>",$value);
                       $value = str_replace(chr(10),"<<CRLF>>",$value);
@@ -2222,7 +2579,7 @@ class Multiotp
                       }
 
                       if (($in_the_schema) && ($key != $id_field)) {
-                          if (('' == nullable_trim($value)) && ("int" == $row_type)) {
+                          if (("" == nullable_trim($value)) && ("int" == $row_type)) {
                               $value = 0;
                           }
                           if (($encrypt_all ||
@@ -2230,7 +2587,7 @@ class Multiotp
                                 ((FALSE !== mb_strpos(mb_strtolower($this->GetAttributesToEncrypt(),'UTF-8'), mb_strtolower('*'.$key.'*','UTF-8'))) || ("*all*" == mb_strtolower($this->GetAttributesToEncrypt(),'UTF-8')))
                                )
                               ) &&
-                              ('' != $value)
+                              ("" != $value)
                              ) {
                             $value = 'ENC:'.$this->Encrypt($key,$value,$encryption_key).':ENC';
                           }
@@ -2242,14 +2599,14 @@ class Multiotp
                           $this->WriteLog(array('text'       => "Warning: *The key ".$key." is not in the $table table schema",
                                                 'error_code' => 8888,
                                                 'category'   => 'System',
-                                                'user'       => '',
+                                                'user'       => "",
                                                 'local_only' => 1)
                                          );
                       }
                   }
                   $num_rows = 0;
                   $sQuery = "SELECT * FROM `".$this->_config_data['sql_'.$table.'_table']."`";
-                  if ('' != $id_field) {
+                  if ("" != $id_field) {
                       $sQuery.= " WHERE `$id_field`='".$esc_id_value."'";
                   }
                   
@@ -2257,9 +2614,9 @@ class Multiotp
                       if (!($result = @$this->_mysqli->query($sQuery))) {
                           $this->WriteLog(array('text'       => "Error: SQL query error ".nullable_trim($this->_mysqli->error)." ".$sQuery,
                                                 'file_only'  => TRUE,
-                                                'error_code' => 40,
+                                                'error_code' => _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_,
                                                 'category'   => 'System',
-                                                'user'       => '',
+                                                'user'       => "",
                                                 'overwrite_severity' => 3)
                                          );
                       } else {
@@ -2268,9 +2625,9 @@ class Multiotp
                   } elseif ((NULL != $this->_mysql_database_link) && (!($result = @mysql_query($sQuery, $this->_mysql_database_link)))) {
                       $this->WriteLog(array('text'       => "Error: SQL query error ($sQuery) : ".mysql_error(),
                                             'file_only'  => TRUE,
-                                            'error_code' => 40,
+                                            'error_code' => _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_,
                                             'category'   => 'System',
-                                            'user'       => '',
+                                            'user'       => "",
                                             'overwrite_severity' => 3)
                                      );
                   } else {
@@ -2279,7 +2636,7 @@ class Multiotp
 
                   if ($num_rows > 0) {
                       $sQuery = "UPDATE `".$this->_config_data['sql_'.$table.'_table']."` SET ".mb_substr($sQu_Data,0,-1);
-                      if ('' != $id_field) {
+                      if ("" != $id_field) {
                           $sQuery.= " WHERE `$id_field`='".$esc_id_value."'";
                       }
                       if (is_object($this->_mysqli)) {
@@ -2289,9 +2646,9 @@ class Multiotp
                           if (!$rResult) {
                             $this->WriteLog(array('text'       => "Error: SQL query error ".nullable_trim($this->_mysqli->error)." ".$sQuery,
                                                   'file_only'  => TRUE,
-                                                  'error_code' => 40,
+                                                  'error_code' => _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_,
                                                   'category'   => 'System',
-                                                  'user'       => '',
+                                                  'user'       => "",
                                                   'overwrite_severity' => 3)
                                            );
                             $result = FALSE;
@@ -2300,9 +2657,9 @@ class Multiotp
                         catch(Exception $e) {
                           $this->WriteLog(array('text'       => "Error: SQL query error ".nullable_trim($this->_mysqli->error)." ".$sQuery,
                                                 'file_only'  => TRUE,
-                                                'error_code' => 40,
+                                                'error_code' => _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_,
                                                 'category'   => 'System',
-                                                'user'       => '',
+                                                'user'       => "",
                                                 'overwrite_severity' => 3)
                                          );
                           $result = FALSE;
@@ -2314,9 +2671,9 @@ class Multiotp
                           if (!$rResult) {
                             $this->WriteLog(array('text'       => "Error: SQL query error ($sQuery) : ".mysql_error(),
                                                   'file_only'  => TRUE,
-                                                  'error_code' => 40,
+                                                  'error_code' => _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_,
                                                   'category'   => 'System',
-                                                  'user'       => '',
+                                                  'user'       => "",
                                                   'overwrite_severity' => 3)
                                            );
                             $result = FALSE;
@@ -2325,34 +2682,34 @@ class Multiotp
                         catch(Exception $e) {
                           $this->WriteLog(array('text'       => "Error: SQL query error ($sQuery) : ".mysql_error(),
                                                 'file_only'  => TRUE,
-                                                'error_code' => 40,
+                                                'error_code' => _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_,
                                                 'category'   => 'System',
-                                                'user'       => '',
+                                                'user'       => "",
                                                 'overwrite_severity' => 3)
                                          );
                           $result = FALSE;
                         }
                       }
                   } else {
-                      if ('' != $id_field) {
+                      if ("" != $id_field) {
                           $sQuery = "INSERT INTO `".$this->_config_data['sql_'.$table.'_table']."` (`$id_field`,".mb_substr($sQi_Columns,0,-1).") VALUES ('".$esc_id_value."',".mb_substr($sQi_Values,0,-1).")";
                       } else {
                           $sQuery = "INSERT INTO `".$this->_config_data['sql_'.$table.'_table']."` (".mb_substr($sQi_Columns,0,-1).") VALUES (".mb_substr($sQi_Values,0,-1).")";
                       }
                       if (is_object($this->_mysqli)) {
                           if (!($rResult = @$this->_mysqli->query($sQuery))) {
-                              $this->WriteLog("Error: SQL query error ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, 40, 'System', '', 3);
+                              $this->WriteLog("Error: SQL query error ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                           } elseif (0 == $this->_mysqli->affected_rows) {
-                              $this->WriteLog("Error: SQL entry for ".$item_info." cannot be created or changed", FALSE, FALSE, 43, 'System', '', 3);
+                              $this->WriteLog("Error: SQL entry for ".$item_info." cannot be created or changed", FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_UPDATE_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $item_created = TRUE;
                           }
                       } elseif (!($rResult = @mysql_query($sQuery, $this->_mysql_database_link))) {
-                          $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
+                          $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                           $result = FALSE;
                       } elseif (0 == mysql_affected_rows($this->_mysql_database_link)) {
-                          $this->WriteLog("Error: SQL entry for ".$item_info." cannot be created or changed", FALSE, FALSE, 43, 'System', '', 3);
+                          $this->WriteLog("Error: SQL entry for ".$item_info." cannot be created or changed", FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_UPDATE_ERROR_, 'System', "", 3);
                           $result = FALSE;
                       } else {
                           $item_created = TRUE;
@@ -2363,9 +2720,9 @@ class Multiotp
               if ($this->OpenPGSQLDatabase()) {
                   $esc_id_value = pg_escape_string($this->_pgsql_database_link, $id_value);
                   $result = TRUE;
-                  $sQi_Columns = '';
-                  $sQi_Values  = '';
-                  $sQu_Data    = '';
+                  $sQi_Columns = "";
+                  $sQi_Values  = "";
+                  $sQu_Data    = "";
                   foreach ($data_array as $key => $value) {
                       $value = str_replace(chr(13).chr(10),"<<CRLF>>",$value);
                       $value = str_replace(chr(10),"<<CRLF>>",$value);
@@ -2398,7 +2755,7 @@ class Multiotp
                       }
 
                       if (($in_the_schema) && ($key != $id_field)) {
-                          if (('' == nullable_trim($value)) && ("int" == $row_type)) {
+                          if (("" == nullable_trim($value)) && ("int" == $row_type)) {
                               $value = 0;
                           }
                           if (($encrypt_all ||
@@ -2406,7 +2763,7 @@ class Multiotp
                                 ((FALSE !== mb_strpos(mb_strtolower($this->GetAttributesToEncrypt(),'UTF-8'), mb_strtolower('*'.$key.'*','UTF-8'))) || ("*all*" == mb_strtolower($this->GetAttributesToEncrypt(),'UTF-8')))
                                )
                               ) &&
-                              ('' != $value)
+                              ("" != $value)
                              ) {
                             $value = 'ENC:'.$this->Encrypt($key,$value,$encryption_key).':ENC';
                           }
@@ -2415,41 +2772,41 @@ class Multiotp
                           $sQi_Columns .= "\"{$key}\","; // Columns for INSERT query
                           $sQi_Values  .= "'{$value}',"; // Values for INSERT query
                       } elseif ((!$in_the_schema) && (!$not_in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                          $this->WriteLog("Warning: *The key ".$key." is not in the $table table schema", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Warning: *The key ".$key." is not in the $table table schema", FALSE, FALSE, 8888, 'System', "");
                       }
                   }
                   $num_rows = 0;
                   $sQuery = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_'.$table.'_table']."\"";
-                  if ('' != $id_field) {
+                  if ("" != $id_field) {
                       $sQuery.= " WHERE \"".$id_field."\" = '".$esc_id_value."'";
                   }
                   
                   if (!($result = @pg_query($this->_pgsql_database_link, $sQuery))) {
-                      $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                      $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                   } else {
                       $num_rows = pg_num_rows($result);
                   }
 
                   if ($num_rows > 0) {
                       $sQuery = "UPDATE \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_'.$table.'_table']."\" SET ".mb_substr($sQu_Data,0,-1);
-                      if ('' != $id_field) {
+                      if ("" != $id_field) {
                           $sQuery.= " WHERE \"".$id_field."\" = '".$esc_id_value."'";
                       }
                       if (!($rResult = @pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                          $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                           $result = FALSE;
                       }
                   } else {
-                      if ('' != $id_field) {
+                      if ("" != $id_field) {
                           $sQuery = "INSERT INTO \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_'.$table.'_table']."\" (\"".$id_field."\",".mb_substr($sQi_Columns,0,-1).") VALUES ('".$esc_id_value."',".mb_substr($sQi_Values,0,-1).")";
                       } else {
                           $sQuery = "INSERT INTO \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_'.$table.'_table']."\" (".mb_substr($sQi_Columns,0,-1).") VALUES (".mb_substr($sQi_Values,0,-1).")";
                       }
                       if (!($rResult = @pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                          $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                           $result = FALSE;
                       } elseif (0 == pg_affected_rows($rResult)) {
-                          $this->WriteLog("Error: SQL entry for ".$item_info." cannot be created or changed", FALSE, FALSE, 43, 'System', '', 3);
+                          $this->WriteLog("Error: SQL entry for ".$item_info." cannot be created or changed", FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_UPDATE_ERROR_, 'System', "", 3);
                           $result = FALSE;
                       } else {
                           $item_created = TRUE;
@@ -2462,17 +2819,17 @@ class Multiotp
           if ($item_created && $result) {
               if ($automatically) {
                   $this->WriteLog(array('text'       => "Info: ".$item_info." automatically created",
-                                        'error_code' => 19,
+                                        'error_code' => _MULTIOTP_OPERATION_DONE_,
                                         'category'   => 'System',
-                                        'user'       => '',
+                                        'user'       => "",
                                         'local_only' => 1)
                                  );
               }
               else {
                   $this->WriteLog(array('text'       => "Info: ".$item_info." manually created",
-                                        'error_code' => 19,
+                                        'error_code' => _MULTIOTP_OPERATION_DONE_,
                                         'category'   => 'System',
-                                        'user'       => '',
+                                        'user'       => "",
                                         'local_only' => 1)
                                  );
               }
@@ -2480,9 +2837,9 @@ class Multiotp
       }
 
       if ((!$backup_format) && ($update_last_change) && ('cache' != mb_strtolower($item,'UTF-8'))) {
-        $this->TouchFolder(('' != $raw_file) ? 'file' : 'data',
-                           ('' != $raw_file) ? $clean_raw_folder : $item,
-                           ('' != $raw_file) ? $raw_file : $id_value,
+        $this->TouchFolder(("" != $raw_file) ? 'file' : 'data',
+                           ("" != $raw_file) ? $clean_raw_folder : $item,
+                           ("" != $raw_file) ? $raw_file : $id_value,
                            TRUE,
                            "WriteData");
       }
@@ -2546,14 +2903,14 @@ class Multiotp
 
                           if (is_object($this->_mysqli)) {
                               if (!($result = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = $result->fetch_assoc();
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: ".mysql_error()." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: ".mysql_error()." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = mysql_fetch_assoc($rResult);
@@ -2576,7 +2933,7 @@ class Multiotp
                                   if ($in_the_schema) {
                                       $this->_cache_data[$key] = $value;
                                   } elseif (('unique_id' != $key) && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *the key ".$key." is not in the cache database schema", FALSE, FALSE, 8888, 'System', '');
+                                      $this->WriteLog("Warning: *the key ".$key." is not in the cache database schema", FALSE, FALSE, 8888, 'System', "");
                                   }
                               }
                           }
@@ -2591,7 +2948,7 @@ class Multiotp
                           $aRow = NULL;
 
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $aRow = pg_fetch_assoc($rResult);
@@ -2613,7 +2970,7 @@ class Multiotp
                                   if ($in_the_schema) {
                                       $this->_cache_data[$key] = $value;
                                   } elseif (('unique_id' != $key) && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *the key ".$key." is not in the cache database schema", FALSE, FALSE, 8888, 'System', '');
+                                      $this->WriteLog("Warning: *the key ".$key." is not in the cache database schema", FALSE, FALSE, 8888, 'System', "");
                                   }
                               }
                           }
@@ -2648,7 +3005,7 @@ class Multiotp
 
 
   // Reset the config array
-  function ResetConfigArray($array_to_reset = '')
+  function ResetConfigArray($array_to_reset = "")
   {
       if (!is_array($array_to_reset)) {
         $array_to_reset = $this->_sql_tables_schema['config'];
@@ -2669,7 +3026,7 @@ class Multiotp
 
 
   // Reset the stat array
-  function ResetStatArray($array_to_reset = '')
+  function ResetStatArray($array_to_reset = "")
   {
       if (!is_array($array_to_reset)) {
         $array_to_reset = $this->_sql_tables_schema['stat'];
@@ -2748,7 +3105,7 @@ class Multiotp
   function GetAnonymousStatRandomId()
   {
       $result = nullable_trim($this->_config_data['anonymous_stat_random_id']);
-      if ('' == $result) {
+      if ("" == $result) {
           $result = mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(sha1(mt_rand(100000,999999).date("YmdHis")),0,20);
           $this->_config_data['anonymous_stat_random_id'] = $result;
       }
@@ -2775,18 +3132,34 @@ class Multiotp
   }
 
 
+  function SetAnonymousStatTimeout(
+      $value
+  ) {
+      $this->_config_data['anonymous_stat_timeout'] = intval($value);
+  }
+
+
+  function GetAnonymousStatTimeout() {
+    $timeout = intval(isset($this->_config_data['anonymous_stat_timeout']) ? $this->_config_data['anonymous_stat_timeout'] : 5);
+    if (0 == $timeout) {
+      $timeout = 5;
+    }
+    return $timeout;
+  }
+
+
   function SendWeeklyAnonymousStat()
   {
     if ($this->IsAnonymousStatTime()) {
       $this->UpdateAnonymousStatLastUpdate();
-      $this->WriteLog("Info: Send anonymous weekly stats (stats can be disabled)", FALSE, FALSE, 19, 'System', '');
+      $this->WriteLog("Info: Send anonymous weekly stats (stats can be disabled)", FALSE, FALSE, 19, 'System', "");
       $result_stats = FALSE;
       $stats_array = array();
       $stats_array['id'] = sha1($this->GetAnonymousStatRandomId().$this->GetClassName());
       $stats_array['backend_type'] = $this->GetBackendType();
       $stats_array['class_name'] = $this->GetClassName();
       $stats_array['ldap_cn_identifier'] = $this->GetLdapCnIdentifier();
-      $stats_array['ldap_enabled'] = ('' != $this->GetLdapDomainControllers());
+      $stats_array['ldap_enabled'] = ("" != $this->GetLdapDomainControllers());
       $stats_array['ldap_sync_user_attribute'] = $this->GetLdapSyncedUserAttribute();
       $stats_array['os'] = php_uname();
       if ($this->GetCliProxyMode()) {
@@ -2806,7 +3179,7 @@ class Multiotp
       $rsa->loadKey($stats_public_key);
       $rsa->setEncryptionMode(CRYPT_RSA_ENCRYPTION_OAEP);
       $encoded_stats_value = urlencode(base64_encode($rsa->encrypt(json_encode($stats_array))));
-      $result_stats = $this->PostHttpDataXmlRequest($encoded_stats_value, "http://stats.multiotp.net/", 5);
+      $result_stats = $this->PostHttpDataXmlRequest($encoded_stats_value, "http://stats.multiotp.net/", $this->GetAnonymousStatTimeout());
       // if (FALSE !== mb_strpos($result_stats, "OK")) {
       // We have to upgrade the anonymous last update even if the answer is not correct, because we could be offline
 
@@ -2821,7 +3194,7 @@ class Multiotp
                   ftruncate($infoweb_handler, 0);
                   fwrite($infoweb_handler, $infoweb);
                   fclose($infoweb_handler);
-                  if ('' != $this->GetLinuxFileMode()) {
+                  if ("" != $this->GetLinuxFileMode()) {
                       @chmod($multiotp->GetConfigFolder().$infoweb_filename, octdec($this->GetLinuxFileMode()));
                   }
               }
@@ -2834,7 +3207,7 @@ class Multiotp
         foreach ($stats_array as $stats_key => $stats_value) {
           $stats_info.= (("" != $stats_info) ? "; " : "") . "$stats_key=$stats_value";
         }
-        $this->WriteLog("Debug: *Stats info: $stats_info", FALSE, FALSE, 8888, 'System', '');
+        $this->WriteLog("Debug: *Stats info: $stats_info", FALSE, FALSE, 8888, 'System', "");
       }
       */
 
@@ -2868,7 +3241,7 @@ class Multiotp
     @set_time_limit(0); // It can take a lot of time...
     clearstatcache();
     $bc_array['backup_file']       = isset($bc_array['backup_file'])       ? $bc_array['backup_file']:"@";
-    $bc_array['encryption_key']    = isset($bc_array['encryption_key'])    ? $bc_array['encryption_key']:'';
+    $bc_array['encryption_key']    = isset($bc_array['encryption_key'])    ? $bc_array['encryption_key']:"";
     $bc_array['return_content']    = isset($bc_array['return_content'])    ? $bc_array['return_content']:FALSE;
     $bc_array['encrypt_all']       = isset($bc_array['encrypt_all'])       ? $bc_array['encrypt_all']:TRUE;
     // $bc_array['ignore_attributes'] = isset($bc_array['ignore_attributes']) ? $bc_array['ignore_attributes']:array();
@@ -2879,7 +3252,7 @@ class Multiotp
 
     // Do not update the last change date in the items of the backup
     $bc_array['update_last_change'] = FALSE;
-    if (('' == $bc_array['backup_file']) || ('@' == $bc_array['backup_file'])) {
+    if (("" == $bc_array['backup_file']) || ('@' == $bc_array['backup_file'])) {
       $bc_array['backup_file'] = "@";
       $bc_array['return_content'] = TRUE;
     } else {
@@ -2889,7 +3262,7 @@ class Multiotp
     }
 
     $backup_time = time();
-    $backup_content = '';
+    $backup_content = "";
     $result = TRUE;
 
     // Configuration
@@ -2902,7 +3275,7 @@ class Multiotp
     if (!$bc_array['config_only']) {
       // Ddns
       foreach (explode("\t", $this->GetDdnsList()) as $one_ddns) {
-        if ('' != nullable_trim($one_ddns)) {
+        if ("" != nullable_trim($one_ddns)) {
           $ddns_array = $this->ReadDdnsData($one_ddns);
           if ($ddns_array["exists"]) {
             $content = $this->WriteDdnsData($ddns_array, $one_ddns, $bc_array);
@@ -2913,7 +3286,7 @@ class Multiotp
       }
       // Devices
       foreach (explode("\t", $this->GetDevicesList()) as $one_device) {
-        if ('' != nullable_trim($one_device)) {
+        if ("" != nullable_trim($one_device)) {
           if ($this->ReadDeviceData($one_device)) {
             $content = $this->WriteDeviceData(array_merge($bc_array,
                                                           array("with_radius_update" => FALSE)));
@@ -2924,7 +3297,7 @@ class Multiotp
       }
       // Groups
       foreach (explode("\t", $this->GetGroupsList()) as $one_group) {
-        if ('' != nullable_trim($one_group)) {
+        if ("" != nullable_trim($one_group)) {
           if ($this->ReadGroupData($one_group)) {
             $content = $this->WriteGroupData($bc_array);
             $result = $result && ($content !== FALSE);
@@ -2934,7 +3307,7 @@ class Multiotp
       }
       // Tokens
       foreach (explode("\t", $this->GetTokensList()) as $one_token) {
-        if ('' != nullable_trim($one_token)) {
+        if ("" != nullable_trim($one_token)) {
           if ($this->ReadTokenData($one_token)) {
             $content = $this->WriteTokenData($bc_array);
             $result = $result && ($content !== FALSE);
@@ -2967,7 +3340,7 @@ class Multiotp
    *                          string  'restore_key'        encryption key
    *                          array   'ignore_attributes'  array of string of ignored attributes (can be a part of the start or the end of the name)
    *                          array   'ignore_files'       array of string of ignored files
-   *                          array   'rename_files'       array of a renaming array(original => '', renamed => '')
+   *                          array   'rename_files'       array of a renaming array(original => "", renamed => "")
    *                          boolean 'update_config'      Update the config file instead of replacing it
    * @retval  string Content of the file to backup
    *
@@ -2979,8 +3352,8 @@ class Multiotp
   function RestoreConfiguration(
     $rc_array = array()
   ) {
-    $backup_file       = isset($rc_array['backup_file'])       ? $rc_array['backup_file']              : '';
-    $restore_key       = isset($rc_array['restore_key'])       ? $rc_array['restore_key']              : '';
+    $backup_file       = isset($rc_array['backup_file'])       ? $rc_array['backup_file']              : "";
+    $restore_key       = isset($rc_array['restore_key'])       ? $rc_array['restore_key']              : "";
     $ignore_attributes = isset($rc_array['ignore_attributes']) ? $rc_array['ignore_attributes']        : array();
     $ignore_files      = isset($rc_array['ignore_files'])      ? $rc_array['ignore_files']             : array();
     $rename_files      = isset($rc_array['rename_files'])      ? $rc_array['rename_files']             : array();
@@ -3003,14 +3376,14 @@ class Multiotp
     }
 
     if (('*CLEAR*' == $restore_key) || ('*UNENC*' == $restore_key)) {
-      $restore_key = '';
-    } elseif ('' == $restore_key) {
+      $restore_key = "";
+    } elseif ("" == $restore_key) {
       $restore_key = $this->GetEncryptionKey();
     }
 
-    $type = '';
-    $item = '';
-    $id_value = '';
+    $type = "";
+    $item = "";
+    $id_value = "";
     $deleted = FALSE;
     $file_handler = FALSE;
     $data_array = array();
@@ -3029,7 +3402,7 @@ class Multiotp
           $validity_array = explode("/", $line."///");
           $check_validity = mb_substr(md5($validity_array[1].$restore_key.$validity_array[1]),0,14);
           if ($validity_array[2] != $check_validity) {
-            $this->WriteLog("Error: Bad restore configuration password", FALSE, FALSE, 59, 'System', '', 3);
+            $this->WriteLog("Error: Bad restore configuration password", FALSE, FALSE, _MULTIOTP_BAD_RESTORE_PASSWORD_, 'System', "", 3);
             $result = FALSE;
           }
         }
@@ -3044,12 +3417,12 @@ class Multiotp
             // Headers and meta data
             $config_line = mb_substr($line, 5);
             $config_line_array = explode("=",$config_line,2);
-            $config_command = isset($config_line_array[0]) ? $config_line_array[0] : '';
-            $config_parameter = isset($config_line_array[1]) ? $config_line_array[1] : '';
+            $config_command = isset($config_line_array[0]) ? $config_line_array[0] : "";
+            $config_parameter = isset($config_line_array[1]) ? $config_line_array[1] : "";
             if (0 === mb_strpos($config_command, 'element-start')) {
-              $type = '';
-              $item = '';
-              $id_value = '';
+              $type = "";
+              $item = "";
+              $id_value = "";
               $deleted = FALSE;
               $file_handler = FALSE;
               $data_array = array();
@@ -3066,17 +3439,17 @@ class Multiotp
                     case 'Configuration':
                       if ($ignore_config) {
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *System configuration data ignored", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *System configuration data ignored", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         if ($update_config) {
                           if ($this->GetVerboseFlag()) {
-                            $this->WriteLog("Info: *Configuration update_config", FALSE, FALSE, 8888, 'System', '');
+                            $this->WriteLog("Info: *Configuration update_config", FALSE, FALSE, 8888, 'System', "");
                           }
                           $this->ReadConfigData();
                         } else {
                           if ($this->GetVerboseFlag()) {
-                            $this->WriteLog("Info: *Reset (update) the configuration array", FALSE, FALSE, 8888, 'System', '');
+                            $this->WriteLog("Info: *Reset (update) the configuration array", FALSE, FALSE, 8888, 'System', "");
                           }
                           $this->ReadConfigData(); // No reset, please, always update
                           // $this->ResetConfigArray();
@@ -3115,13 +3488,13 @@ class Multiotp
                       break;
                     }
                   }
-                  if ((!$ignore) && ($id_value != '')) {
+                  if ((!$ignore) && ("" != $id_value)) {
                     if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *File $id_value to restore", FALSE, FALSE, 8888, 'System', '');
+                      $this->WriteLog("Info: *File $id_value to restore", FALSE, FALSE, 8888, 'System', "");
                     }
                     foreach ($rename_files as $one_file) {
-                      if ($id_value == isset($one_file['original'])?$one_file['original']:'') {
-                        if ('' != (isset($one_file['original'])?$one_file['original']:'')) {
+                      if ($id_value == isset($one_file['original'])?$one_file['original']:"") {
+                        if ("" != (isset($one_file['original'])?$one_file['original']:"")) {
                           $id_value = $one_file['renamed'];
                           break;
                         }
@@ -3133,14 +3506,14 @@ class Multiotp
                         ftruncate($file_handler, 0);
                       } else {
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *File ".$id_value." cannot be created", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *File ".$id_value." cannot be created", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                     } elseif ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *File ".$id_value." not created, $item doesn't exist", FALSE, FALSE, 8888, 'System', '');
+                      $this->WriteLog("Info: *File ".$id_value." not created, $item doesn't exist", FALSE, FALSE, 8888, 'System', "");
                     }
                   } elseif ($this->GetVerboseFlag()) {
-                    $this->WriteLog("Info: *File ".$id_value." ignored", FALSE, FALSE, 8888, 'System', '');
+                    $this->WriteLog("Info: *File ".$id_value." ignored", FALSE, FALSE, 8888, 'System', "");
                   }
                   break;
               }
@@ -3153,12 +3526,12 @@ class Multiotp
                     case 'Configuration':
                       if ($ignore_config) {
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *System configuration data ignored and not updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *System configuration data ignored and not updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         $this->WriteConfigData();
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Configuration updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Configuration updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                       break;
@@ -3167,12 +3540,12 @@ class Multiotp
                         
                         $this->WriteDdnsData($this->_ddns_data, $this->_ddns_data['id_value'], array("automatically" => $automatically, "sync_process" => $sync_process));
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *DDns ".$id_value." updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *DDns ".$id_value." updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         $this->DeleteDdns($id_value, TRUE);
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *DDns ".$id_value." not deleted (not implemented)", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *DDns ".$id_value." not deleted (not implemented)", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                       break;
@@ -3180,12 +3553,12 @@ class Multiotp
                       if (!$deleted) {
                         $this->WriteDeviceData(array("automatically" => $automatically, "sync_process" => $sync_process));
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Device ".$id_value." updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Device ".$id_value." updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         $this->DeleteDevice($id_value, TRUE);
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Device ".$id_value." deleted", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Device ".$id_value." deleted", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                       break;
@@ -3193,12 +3566,12 @@ class Multiotp
                       if (!$deleted) {
                         $this->WriteGroupData(array("automatically" => $automatically, "sync_process" => $sync_process));
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Group ".$id_value." updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Group ".$id_value." updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         $this->DeleteGroup($id_value, TRUE);
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Group ".$id_value." deleted", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Group ".$id_value." deleted", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                       break;
@@ -3206,12 +3579,12 @@ class Multiotp
                       if (!$deleted) {
                         $this->WriteTokenData(array("automatically" => $automatically, "sync_process" => $sync_process));
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Token ".$id_value." updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Token ".$id_value." updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         $this->DeleteToken($id_value, TRUE);
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *Token ".$id_value." deleted", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *Token ".$id_value." deleted", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                       break;
@@ -3220,12 +3593,12 @@ class Multiotp
                         $this->UserRestoreBeforeWrite();
                         $this->WriteUserData(array("automatically" => $automatically, "sync_process" => $sync_process));
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *User ".$id_value." updated", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *User ".$id_value." updated", FALSE, FALSE, 8888, 'System', "");
                         }
                       } else {
                         $this->DeleteUser($id_value, TRUE);
                         if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Info: *User ".$id_value." deleted", FALSE, FALSE, 8888, 'System', '');
+                          $this->WriteLog("Info: *User ".$id_value." deleted", FALSE, FALSE, 8888, 'System', "");
                         }
                       }
                       break;
@@ -3235,26 +3608,26 @@ class Multiotp
                 case 'file':
                   if (FALSE !== $file_handler) {
                     fclose($file_handler);
-                    if ('' != $this->GetLinuxFileMode()) {
+                    if ("" != $this->GetLinuxFileMode()) {
                       @chmod($item.$id_value, octdec($this->GetLinuxFileMode()));
                     }
                     if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *File ".$id_value." closed", FALSE, FALSE, 8888, 'System', '');
+                      $this->WriteLog("Info: *File ".$id_value." closed", FALSE, FALSE, 8888, 'System', "");
                     }                      
                   }
                   if ($deleted) {
                     unlink($item.$id_value);
                     if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *File ".$id_value." deleted", FALSE, FALSE, 8888, 'System', '');
+                      $this->WriteLog("Info: *File ".$id_value." deleted", FALSE, FALSE, 8888, 'System', "");
                     }
                   } elseif ($this->GetVerboseFlag()) {
-                    $this->WriteLog("Info: *File ".$id_value." updated", FALSE, FALSE, 8888, 'System', '');
+                    $this->WriteLog("Info: *File ".$id_value." updated", FALSE, FALSE, 8888, 'System', "");
                   }
                   break;
               }
-              $type = '';
-              $item = '';
-              $id_value = '';
+              $type = "";
+              $item = "";
+              $id_value = "";
               $deleted = FALSE;
               $file_handler = FALSE;
               $data_array = array();
@@ -3262,8 +3635,8 @@ class Multiotp
           } else {
             // Content to restore
             $line_array = explode("=",$line,2);
-            $key = isset($line_array[0]) ? $line_array[0] : '';
-            $value = isset($line_array[1]) ? $line_array[1] : '';
+            $key = isset($line_array[0]) ? $line_array[0] : "";
+            $value = isset($line_array[1]) ? $line_array[1] : "";
             if (('#' != mb_substr($line, 0, 1)) && (';' != mb_substr($line, 0, 1)) && ("" != nullable_trim($line)) && (isset($line_array[1]))) {
               if (":" == mb_substr($key, -1)) {
                 $key = mb_substr($key, 0, mb_strlen($key) -1);
@@ -3320,7 +3693,7 @@ class Multiotp
     } else { // if file_exists
       $result = false; // File doesn't exist
       if ($this->GetVerboseFlag()) {
-        $this->WriteLog("Info: *backup File $backup_file doesn't exist", FALSE, FALSE, 8888, 'System', '');
+        $this->WriteLog("Info: *backup File $backup_file doesn't exist", FALSE, FALSE, 8888, 'System', "");
       }
     }
     return $result;
@@ -3393,10 +3766,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing config folder ".$new_folder, true, false, 28, 'System', '', 3);
+              $this->WriteLog("Error: Unable to create the missing config folder ".$new_folder, true, false, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
           }
       }
   }
@@ -3440,17 +3813,18 @@ class Multiotp
    *     7 Debug: debug-level messages
    */
   function WriteLog(
-      $text_array = array('text' => ''),
+      $text_array = array('text' => ""),
       $file_only_param = FALSE,
       $hide_on_display_param = FALSE,
       $error_code_param = 9999,
       $category_param = '*DEFAULT*',
       $user_param = '*DEFAULT*',
       $overwrite_severity_param = -1,
-      $no_syslog_param = FALSE
+      $no_syslog_param = FALSE,
+      $mail_alert_param = FALSE
   ) {
       if (is_array($text_array)) {
-        $text = isset($text_array['text'])?$text_array['text']:'';
+        $text = isset($text_array['text'])?$text_array['text']:"";
         $file_only = isset($text_array['file_only'])?(TRUE === $text_array['file_only']):FALSE;
         $hide_on_display = isset($text_array['hide_on_display'])?(TRUE === $text_array['hide_on_display']):FALSE;
         $error_code = isset($text_array['error_code'])?intval($text_array['error_code']):9999;
@@ -3458,7 +3832,9 @@ class Multiotp
         $user = isset($text_array['user'])?$text_array['user']:'*DEFAULT*';
         $overwrite_severity = isset($text_array['overwrite_severity'])?$text_array['overwrite_severity']:-1;
         $no_syslog = isset($text_array['no_syslog'])?(TRUE === $text_array['no_syslog']):FALSE;
+        $mail_alert = isset($text_array['mail_alert'])?(TRUE === $text_array['mail_alert']):FALSE;
         $local_only = isset($text_array['local_only'])?intval($text_array['local_only']):0;
+        $details = isset($text_array['details'])?$text_array['details']:NULL;
       } else { // backward compatibility
         $text = $text_array;
         $file_only = $file_only_param;
@@ -3468,8 +3844,10 @@ class Multiotp
         $user = $user_param;
         $overwrite_severity = $overwrite_severity_param;
         $no_syslog = $no_syslog_param;
-        // New parameters, only available in the array
+        $mail_alert = $mail_alert_param;
+        // Only available in the array
         $local_only = 0;
+        $details = array();
       }
 
       $log_id = substr(bigdec2hex((time()-mktime(1,1,1,1,1,2000)).mt_rand(10000,99999)).'@'.$this->GetCreateHost(), 0, 100);
@@ -3496,19 +3874,19 @@ class Multiotp
       // 0400-0499 emergency (0)
       if (0 == intval($error_code)) {
           $severity = 5;
-      } elseif (8888 <= intval($error_code)) {
+      } elseif (intval($error_code) >= 8888) {
           $severity = 7;
-      } elseif (20 > intval($error_code)) {
+      } elseif (intval($error_code) < 20) {
           $severity = 6;
-      } elseif (100 > intval($error_code)) {
+      } elseif (intval($error_code) < 100) {
           $severity = 4;
-      } elseif (200 > intval($error_code)) {
+      } elseif (intval($error_code) < 200) {
           $severity = 3;
-      } elseif (300 > intval($error_code)) {
+      } elseif (intval($error_code) < 300) {
           $severity = 2;
-      } elseif (400 > intval($error_code)) {
+      } elseif (intval($error_code) < 400) {
           $severity = 1;
-      } elseif (500 > intval($error_code)) {
+      } elseif (intval($error_code) < 500) {
           $severity = 0;
       } else {
           $severity = 3;
@@ -3546,6 +3924,12 @@ class Multiotp
           default:
               $severity_txt = 'error';
       }
+
+      /* TODO : enhanced log_text here
+      if (is_array($details)) {
+      } else {
+      }
+      */
 
       $post_text = "";
       $pre_text = "";
@@ -3606,7 +3990,7 @@ class Multiotp
                   $syslog_timestamp = $syslog_month." ".$syslog_day." ".$syslog_hhmmss;
 
                   $syslog_port = $this->GetSysLogPort();
-                  $syslog_timeout = 3; // 3 seconds timeout for udp connection
+                  $syslog_timeout = $this->GetSysLogTimeout();
                   $syslog_severity_facility = $severity + 8 * $this->GetSyslogFacility();
                   $syslog_hostname = $this->GetSystemName();
                   $syslog_process = 'multiOTP';
@@ -3641,15 +4025,15 @@ class Multiotp
                       if ('ERROR' == mb_substr($syslog_result, 0, 5)) {
                           $this->EnableBadSysLogServer();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Warning: *Error with the Syslog server ".$this->GetSysLogServer().": $syslog_result", FALSE, FALSE, 99, 'System', '', -1, TRUE);
+                              $this->WriteLog("Warning: *Error with the Syslog server ".$this->GetSysLogServer().": $syslog_result", FALSE, FALSE, _MULTIOTP_ERROR_, 'System', "", -1, TRUE);
                           } else {
-                              $this->WriteLog("Warning: Error with the Syslog server ".$this->GetSysLogServer(), FALSE, FALSE, 99, 'System', '', -1, TRUE);
+                              $this->WriteLog("Warning: Error with the Syslog server ".$this->GetSysLogServer(), FALSE, FALSE, _MULTIOTP_ERROR_, 'System', "", -1, TRUE);
                           }
                       }
                   }
               } else {
                   $this->EnableBadSysLogServer();
-                  $this->WriteLog("Warning: resolution name error for the Syslog server ".$this->GetSysLogServer(), FALSE, FALSE, 99, 'System', '', -1, TRUE);
+                  $this->WriteLog("Warning: resolution name error for the Syslog server ".$this->GetSysLogServer(), FALSE, FALSE, _MULTIOTP_ERROR_, 'System', "", -1, TRUE);
               }
           }
       }
@@ -3678,10 +4062,10 @@ class Multiotp
                       
                       if (is_object($this->_mysqli)) {
                           if (!($rResult = $this->_mysqli->query($sQuery))) {
-                              $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error), TRUE, FALSE, 40, 'System', '', 3);
+                              $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                           }
                       } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                          $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
+                          $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                       }
                   }
                   //mysql_close($log_link);
@@ -3701,7 +4085,7 @@ class Multiotp
                       $sQuery  = "INSERT INTO \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_log_table']."\" (\"datetime\",\"severity\",\"user\",\"category\",\"logentry\",\"local_only\",\"create_host\", \"create_time\") VALUES ('".$log_datetime."','".$log_severity_escaped."','".$log_user_escaped."','".$log_category_escaped."','".$log_text_escaped."',".intval($local_only).",'".$log_create_host."', ".$log_time.")";
                       
                       if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                          $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                       }
                   }
                   //pg_close($log_link);
@@ -3710,7 +4094,7 @@ class Multiotp
             if (!file_exists($this->GetLogFolder())) {
               @mkdir(
                 $this->GetLogFolder(),
-                ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                 true //recursive
               );
             }
@@ -3752,7 +4136,7 @@ class Multiotp
               
               if (is_object($this->_mysqli)) {
                   if (!($rResult = $this->_mysqli->query($sQuery))) {
-                      $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                      $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       $result = FALSE;
                   } else {
                       while ($aRow = $rResult->fetch_assoc()) {
@@ -3760,7 +4144,7 @@ class Multiotp
                       }                         
                   }
               } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                   $result = FALSE;
               } else {
                   while ($aRow = mysql_fetch_assoc($rResult)) {
@@ -3774,7 +4158,7 @@ class Multiotp
               $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_log_table']."\"";
               
               if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                  $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                  $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                   $result = FALSE;
               } else {
                   while ($aRow = pg_fetch_assoc($rResult)) {
@@ -3818,11 +4202,11 @@ class Multiotp
               
               if (is_object($this->_mysqli)) {
                   if (!($rResult = $this->_mysqli->query($sQuery))) {
-                      $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                      $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       $result = FALSE;
                   }
               } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                   $result = FALSE;
               }
           } else {
@@ -3837,7 +4221,7 @@ class Multiotp
               }
               
               if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                  $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                  $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                   $result = FALSE;
               }
           } else {
@@ -3852,12 +4236,12 @@ class Multiotp
       }
       foreach (glob($this->GetLogFolder().$this->GetLogFileName().".*") as $filename) {
         if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Debug: *ClearLog: check modification date for log file $filename : ".filemtime($filename), FALSE, FALSE, 8888, 'System', '');
+          $this->WriteLog("Debug: *ClearLog: check modification date for log file $filename : ".filemtime($filename), FALSE, FALSE, 8888, 'System', "");
         }
         if ((filemtime($filename) + ($days * 86400)) < time()) {
           unlink($filename);
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Debug: *ClearLog: log file $filename deleted".filemtime($filename), FALSE, FALSE, 8888, 'System', '');
+            $this->WriteLog("Debug: *ClearLog: log file $filename deleted".filemtime($filename), FALSE, FALSE, 8888, 'System', "");
           }
         }
       }
@@ -4114,10 +4498,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing config folder ".$new_folder, true, false, 28, 'System', '', 3);
+              $this->WriteLog("Error: Unable to create the missing config folder ".$new_folder, true, false, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
           }
       }
       if ($read_config) {
@@ -4148,10 +4532,10 @@ class Multiotp
           if ($create_if_not_exist) {
               if (!@mkdir(
                       $config_folder,
-                      ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                      ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                       true //recursive
               )) {
-                  $this->WriteLog("Error: Unable to create the missing config folder ".$config_folder, FALSE, FALSE, 28, 'System', '', 3);
+                  $this->WriteLog("Error: Unable to create the missing config folder ".$config_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
               }
           }
       }
@@ -4189,10 +4573,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing cache folder ".$new_folder, TRUE, FALSE, 28, 'System', '', 3);
+              $this->WriteLog("Error: Unable to create the missing cache folder ".$new_folder, TRUE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
           }
       }
       if ($read_cache) {
@@ -4222,10 +4606,10 @@ class Multiotp
           if ($create_if_not_exist) {
               if (!@mkdir(
                       $cache_folder,
-                      ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                      ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                       true //recursive
               )) {
-                  $this->WriteLog("Error: Unable to create the missing cache folder ".$cache_folder, FALSE, FALSE, 28, 'System', '', 3);
+                  $this->WriteLog("Error: Unable to create the missing cache folder ".$cache_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
               }
           }
       }
@@ -4255,8 +4639,8 @@ class Multiotp
       } else { // Linux
           $output = array();
           // inet -> works for old (inet addr) and new (inet)
-          exec("ifconfig eth0 | grep \"inet \" | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-          $ip = (isset($output[0])?$output[0]:'');
+          exec("hostname -I | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
+          $ip = (isset($output[0])?$output[0]:"");
       }
       return $ip;
   }
@@ -4380,47 +4764,47 @@ class Multiotp
           // eth -> works for old (eth0) and new (ether)
           $output = array();
           exec("grep -e \"^iface\seth0.*inet\s.*dhcp\" /etc/network/interfaces", $output);
-          $mode = (false !== mb_strpos(mb_strtolower(isset($output[0])?$output[0]:'','UTF-8'), "dhcp"))?"dhcp":"static";
+          $mode = (false !== mb_strpos(mb_strtolower(isset($output[0])?$output[0]:"",'UTF-8'), "dhcp"))?"dhcp":"static";
           
           $output = array();
           exec("ifconfig eth0 | grep \"eth\" | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'", $output);
-          $mac = mb_strtoupper(isset($output[0])?$output[0]:'','UTF-8');
+          $mac = mb_strtoupper(isset($output[0])?$output[0]:"",'UTF-8');
           
           $output = array();
           exec("ifconfig eth0 | grep \"inet addr\" | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-          $ip = (isset($output[0])?$output[0]:'');
-          $mask = (isset($output[2])?$output[2]:'');
-          if ('' == $ip) {
+          $ip = (isset($output[0])?$output[0]:"");
+          $mask = (isset($output[2])?$output[2]:"");
+          if ("" == $ip) {
               exec("ifconfig eth0 | grep \"inet \" | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-              $ip = (isset($output[0])?$output[0]:'');
-              $mask = (isset($output[1])?$output[1]:'');
+              $ip = (isset($output[0])?$output[0]:"");
+              $mask = (isset($output[1])?$output[1]:"");
           }
 
           $output = array();
           exec("ip route show default | awk '/default/ {print $3}'", $output);
-          $gateway = mb_strtoupper(isset($output[0])?$output[0]:'','UTF-8');
+          $gateway = mb_strtoupper(isset($output[0])?$output[0]:"",'UTF-8');
 
           $output = array();
           exec("cat /etc/resolv.conf | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-          $dns[0] = (isset($output[0])?$output[0]:'');
-          $dns[1] = (isset($output[1])?$output[1]:'');
+          $dns[0] = (isset($output[0])?$output[0]:"");
+          $dns[1] = (isset($output[1])?$output[1]:"");
       }
       $network_info = $mode."\t".$ip."\t".$mask."\t".$gateway."\t".$dns[0]."\t".$dns[1]."\t";
       $network_array = explode("\t",$network_info);
       
       for ($i=count($network_array); $i <= 5; $i++) {
-          $network_array[$i] = '';
+          $network_array[$i] = "";
       }
       return $network_array;
   }
 
 
   function SetNetworkInfo(
-      $ip = '',
-      $mask = '',
-      $gateway = '',
-      $dns1 = '',
-      $dns2 = '',
+      $ip = "",
+      $mask = "",
+      $gateway = "",
+      $dns1 = "",
+      $dns2 = "",
       $write_config = true,
       $if_down_up = true
   ) {
@@ -4436,25 +4820,25 @@ class Multiotp
       }
 
       $result = false;
-      if ('' != $ip) {
+      if ("" != $ip) {
         $resolv_file = "/etc/resolv.conf";
         $resolv_tmp  = sys_get_temp_dir()."/multiotp_resolv_tmp";
         if ($write = @fopen($resolv_tmp, "ct")) { // was wt, need ftruncate after flock now
           flock($write, LOCK_EX);
           ftruncate($write, 0);
           $domain_name = $this->GetDomainName();
-          if ('' != $domain_name) {
+          if ("" != $domain_name) {
               fwrite($write, "domain ".$domain_name."\n");
               fwrite($write, "search ".$domain_name."\n");
           }
-          if ('' != $dns1) {
+          if ("" != $dns1) {
               fwrite($write, "nameserver ".$dns1."\n");
           }
-          if ('' != $dns2) {
+          if ("" != $dns2) {
               fwrite($write, "nameserver ".$dns2."\n");
           }
           fclose($write);
-          if ('' != $this->GetLinuxFileMode()) {
+          if ("" != $this->GetLinuxFileMode()) {
               @chmod($resolv_tmp, octdec($this->GetLinuxFileMode()));
           }
 
@@ -4466,7 +4850,7 @@ class Multiotp
           }
         } else {
           if ($this->GetVerboseFlag()) {
-              $this->WriteLog("Error: *Temporary DNS information cannot be created", FALSE, FALSE, 8888, 'System', '');
+              $this->WriteLog("Error: *Temporary DNS information cannot be created", FALSE, FALSE, 8888, 'System', "");
           }
         }
       }
@@ -4487,7 +4871,7 @@ class Multiotp
               if (preg_match("/^iface\seth0(.*)/", $one_line)) {
                 $direct_write = false;
                 $inet_eth0    = true;
-                if ('' != $ip) {
+                if ("" != $ip) {
                   fwrite($write, "iface eth0 inet static\n");
                   fwrite($write, "\taddress ".$ip."\n");
                   fwrite($write, "\tnetmask ".$mask."\n");
@@ -4509,7 +4893,7 @@ class Multiotp
               }
             }
             fclose($write);
-            if ('' != $this->GetLinuxFileMode()) {
+            if ("" != $this->GetLinuxFileMode()) {
                 @chmod($interfaces_tmp, octdec($this->GetLinuxFileMode()));
             }
 
@@ -4521,22 +4905,23 @@ class Multiotp
                     exec("sudo /sbin/ifdown eth0 > /dev/null 2>&1", $output);
                     sleep(1);
                     exec("sudo /sbin/ifup eth0 > /dev/null 2>&1", $output);
+                    exec("sudo /bin/systemctl restart networking > /dev/null 2>&1", $output);
                 }
             }
           } else {
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Error: *Temporary interface configuration cannot be created", FALSE, FALSE, 8888, 'System', '');
+                  $this->WriteLog("Error: *Temporary interface configuration cannot be created", FALSE, FALSE, 8888, 'System', "");
               }
           }
           fclose($read);
         } else {
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Error: *Interface configuration cannot be accessed", FALSE, FALSE, 8888, 'System', '');
+            $this->WriteLog("Error: *Interface configuration cannot be accessed", FALSE, FALSE, 8888, 'System', "");
           }
         }
       } else {
         if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Error: *Interface configuration file cannot be found", FALSE, FALSE, 8888, 'System', '');
+          $this->WriteLog("Error: *Interface configuration file cannot be found", FALSE, FALSE, 8888, 'System', "");
         }
       }
       return $result;
@@ -4567,7 +4952,7 @@ class Multiotp
 
   function GetDomainName()
   {
-      return $this->_config_data['domain_name'];
+    return (isset($this->_config_data['domain_name']) ? $this->_config_data['domain_name'] : "");
   }
 
 
@@ -4580,7 +4965,7 @@ class Multiotp
 
   function GetEmailAdminAddress()
   {
-      return $this->_config_data['email_admin_address'];
+    return (isset($this->_config_data['email_admin_address']) ? $this->_config_data['email_admin_address'] : "");
   }
 
 
@@ -4762,7 +5147,7 @@ class Multiotp
 
 
   function GetLogForcedInFile() {
-      return intval($this->_config_data['log_forced_in_file']);
+    return intval(isset($this->_config_data['log_forced_in_file']) ? $this->_config_data['log_forced_in_file'] : 0);
   }
 
 
@@ -4782,7 +5167,7 @@ class Multiotp
 
 
   function GetDebugOption() {
-      return $this->_config_data['debug'];
+    return intval(isset($this->_config_data['debug']) ? $this->_config_data['debug'] : 0);
   }
 
 
@@ -4809,7 +5194,7 @@ class Multiotp
 
 
   function GetDeveloperMode() {
-    return $this->_config_data['developer_mode'];
+    return intval(isset($this->_config_data['developer_mode']) ? $this->_config_data['developer_mode'] : 0);
   }
 
 
@@ -4851,7 +5236,7 @@ class Multiotp
 
   function GetBackendType()
   {
-      return (isset($this->_config_data['backend_type']) ? $this->_config_data['backend_type'] : '');
+      return (isset($this->_config_data['backend_type']) ? $this->_config_data['backend_type'] : "");
   }
 
 
@@ -4879,7 +5264,7 @@ class Multiotp
 
   function GetScratchPasswordsDigits()
   {
-      return $this->_config_data['scratch_passwords_digits'];
+    return intval(isset($this->_config_data['scratch_passwords_digits']) ? $this->_config_data['scratch_passwords_digits'] : 6);
   }
 
 
@@ -4892,7 +5277,7 @@ class Multiotp
 
   function GetDefaultUserGroup()
   {
-      return $this->_config_data['default_user_group'];
+    return (isset($this->_config_data['default_user_group']) ? $this->_config_data['default_user_group'] : "");
   }
 
 
@@ -4905,7 +5290,7 @@ class Multiotp
 
   function GetGroupAttribute()
   {
-      return $this->_config_data['group_attribute'];
+    return (isset($this->_config_data['group_attribute']) ? $this->_config_data['group_attribute'] : "");
   }
 
 
@@ -4918,11 +5303,7 @@ class Multiotp
 
   function GetIssuer()
   {
-      if (isset($this->_config_data['issuer'])) {
-          return $this->_config_data['issuer'];
-      } else {
-          return "";
-      }
+    return (isset($this->_config_data['issuer']) ? $this->_config_data['issuer'] : "");
   }
 
 
@@ -4935,7 +5316,7 @@ class Multiotp
 
   function GetClearOtpAttribute()
   {
-      return $this->_config_data['clear_otp_attribute'];
+    return (isset($this->_config_data['clear_otp_attribute']) ? $this->_config_data['clear_otp_attribute'] : "");
   }
 
 
@@ -5013,7 +5394,7 @@ class Multiotp
               $sql_query.= " , ADD INDEX `$column` ( `".$column."`$index_special_suffix )";
             }
             if (!$this->_mysqli->query($sql_query)) {
-              $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+              $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
               $result = FALSE;
             }
           } else {
@@ -5028,7 +5409,7 @@ class Multiotp
               $sql_query.= " , ADD INDEX `$column` ( `".$column."`$index_special_suffix )";
             }
             if (!$this->_mysqli->query($sql_query)) {
-              $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+              $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
               $result = FALSE;
             }
           }
@@ -5042,7 +5423,7 @@ class Multiotp
             $sql_query.= " , ADD INDEX `$column` ( `".$column."`$index_special_suffix )";
           }
           if (!$this->_mysqli->query($sql_query)) {
-            $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+            $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
             $result = FALSE;
           }
         }
@@ -5060,7 +5441,7 @@ class Multiotp
               $sql_query.= " , ADD INDEX `$column` ( `".$column."`$index_special_suffix )";
             }
             if (!mysql_query($sql_query, $this->_mysql_database_link)) {
-              $this->WriteLog("Error: ".mysql_error()." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+              $this->WriteLog("Error: ".mysql_error()." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
               $result = FALSE;
             }
           } else {
@@ -5076,7 +5457,7 @@ class Multiotp
               $sql_query.= " , ADD INDEX `$column` ( `".$column."`$index_special_suffix )";
             }
             if (!mysql_query($sql_query, $this->_mysql_database_link)) {
-              $this->WriteLog("Error: ".mysql_error()." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+              $this->WriteLog("Error: ".mysql_error()." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
               $result = FALSE;
             }
           }
@@ -5090,12 +5471,12 @@ class Multiotp
             $sql_query.= " , ADD INDEX `$column` ( `".$column."`$index_special_suffix )";
           }
           if (!mysql_query($sql_query, $this->_mysql_database_link)) {
-            $this->WriteLog("Error: ".mysql_error()." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+            $this->WriteLog("Error: ".mysql_error()." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
             $result = FALSE;
           }
         }
       } elseif ($this->GetVerboseFlag()) {
-          $this->WriteLog("Error: *The database link is down!", TRUE, FALSE, 41, 'System', '', 3);
+          $this->WriteLog("Error: *The database link is down!", TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
       }
       return $result;
   }
@@ -5128,7 +5509,7 @@ class Multiotp
                                                  $this->_config_data['sql_database'],
                                                  $sql_port);
                     if (0 != $this->_mysqli->connect_errno) {
-                        $this->WriteLog("Error: Bad SQL authentication parameters, ".$this->_mysqli->connect_errno.', '.nullable_trim($this->_mysqli->connect_error), TRUE, FALSE, 41, 'System', '', 3);
+                        $this->WriteLog("Error: Bad SQL authentication parameters, ".$this->_mysqli->connect_errno.', '.nullable_trim($this->_mysqli->connect_error), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                         unset($this->_mysqli);
                         $this->_mysqli = NULL;
                     } else {
@@ -5136,17 +5517,17 @@ class Multiotp
                     }
                   }
                   catch(Exception $e) {
-                    $this->WriteLog("Error: SQL connection error", TRUE, FALSE, 41, 'System', '', 3);
+                    $this->WriteLog("Error: SQL connection error", TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                     unset($this->_mysqli);
                     $this->_mysqli = NULL;
                   }
               } elseif (!($this->_mysql_database_link = mysql_connect($this->_config_data['sql_server'],
                                                                       $this->_config_data['sql_username'],
                                                                       $this->_config_data['sql_password']))) {
-                  $this->WriteLog("Error: Bad SQL authentication parameters, ".mysql_error(), TRUE, FALSE, 41, 'System', '', 3);
+                  $this->WriteLog("Error: Bad SQL authentication parameters, ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
               } else {
                   if (!mysql_select_db($this->_config_data['sql_database'])) {
-                      $this->WriteLog("Error: Bad SQL database", TRUE, FALSE, 41, 'System', '', 3);
+                      $this->WriteLog("Error: Bad SQL database", TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       mysql_close($this->_mysql_database_link);
                       $this->_mysql_database_link = NULL;
                   } else {
@@ -5173,7 +5554,7 @@ class Multiotp
               $result = TRUE;
               $sql_query = "ALTER TABLE \"".$this->_config_data['sql_schema']."\".\"".$table."\" ALTER COLUMN \"".$column."\" TYPE ".$column_type;
               if (!@pg_query($this->_pgsql_database_link, $sql_query)) {
-                  $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+                  $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                   $result = FALSE;
               } else {
                   if ($column_default != NULL) {
@@ -5182,26 +5563,26 @@ class Multiotp
                       $sql_query = "ALTER TABLE \"".$this->_config_data['sql_schema']."\".\"".$table."\" ALTER COLUMN \"".$column."\" DROP DEFAULT";
                   }
                   if (!@pg_query($this->_pgsql_database_link, $sql_query)) {
-                      $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+                      $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                       $result = FALSE;
                   }
               }
           } elseif (!$select_row) {
               $sql_query = "ALTER TABLE \"".$this->_config_data['sql_schema']."\".\"".$table."\" ADD COLUMN \"".$column."\" ".$column_type.($column_default != NULL ? " DEFAULT ".$column_default : "");
               if (!@pg_query($this->_pgsql_database_link, $sql_query)) {
-                  $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+                  $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                   $result = FALSE;
               }
               if ($is_an_index) {
                   $sql_query = "CREATE INDEX \"".$table."_".$column."_idx\" ON \"".$this->_config_data['sql_schema']."\".\"".$table."\" ( \"".$column."\" )";
                   if(!@pg_query($this->_pgsql_database_link, $sql_query)) {
-                      $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, 40, 'System', '', 3);
+                      $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sql_query, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                       $result = FALSE;
                   }
               }
           }
       } elseif ($this->GetVerboseFlag()) {
-          $this->WriteLog("Error: *The database link is down!", TRUE, FALSE, 41, 'System', '', 3);
+          $this->WriteLog("Error: *The database link is down!", TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
       }
 
       return $result;
@@ -5235,7 +5616,7 @@ class Multiotp
               try {
                 if (!($this->_pgsql_database_link = @pg_connect($pgsql_connect_string))) {
                     $this->_pgsql_database_link = NULL;
-                    $this->WriteLog("Error: Bad SQL authentication", TRUE, FALSE, 41, 'System', '', 3);
+                    $this->WriteLog("Error: Bad SQL authentication", TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                 } else {
                     $result = TRUE;
                 }
@@ -5243,7 +5624,7 @@ class Multiotp
               catch(Exception $e)
               {
                 $this->_pgsql_database_link = NULL;
-                $this->WriteLog("Error: Bad SQL authentication", TRUE, FALSE, 41, 'System', '', 3);
+                $this->WriteLog("Error: Bad SQL authentication", TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
               }
           }
       }
@@ -5262,12 +5643,12 @@ class Multiotp
                       $sql_query = "CREATE TABLE IF NOT EXISTS `".$this->_config_data['sql_'.$sql_table.'_table']."` (unique_id bigint(20) NOT NULL AUTO_INCREMENT, PRIMARY KEY (unique_id));";
                       if (is_object($this->_mysqli)) {
                           if (!($result = $this->_mysqli->query($sql_query))) {
-                              $this->WriteLog("Error: Bad SQL request ($sql_query), ".nullable_trim($this->_mysqli->error), TRUE, FALSE, 40, 'System', '', 3);
-                              return 41;
+                              $this->WriteLog("Error: Bad SQL request ($sql_query), ".nullable_trim($this->_mysqli->error), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
+                              return _MULTIOTP_SYSTEM_SQL_ERROR_;
                           }
                       } elseif ((NULL != $this->_mysql_database_link) && (!mysql_query($sql_query, $this->_mysql_database_link))) {
-                          $this->WriteLog("Error: Bad SQL request (CREATE TABLE ".$this->_config_data['sql_'.$sql_table.'_table']."), ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
-                          return 41;
+                          $this->WriteLog("Error: Bad SQL request (CREATE TABLE ".$this->_config_data['sql_'.$sql_table.'_table']."), ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
+                          return _MULTIOTP_SYSTEM_SQL_ERROR_;
                       }
                       foreach ($this->_sql_tables_schema[$sql_table] as $valid_key => $valid_format) {
                           $row_format = $valid_format;
@@ -5294,8 +5675,8 @@ class Multiotp
                   if ("" != $this->_config_data['sql_'.$sql_table.'_table']) {
                       $sql_query = "CREATE TABLE IF NOT EXISTS \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_'.$sql_table.'_table']."\" (\"unique_id\" BIGSERIAL PRIMARY KEY);";
                       if (!pg_query($this->_pgsql_database_link, $sql_query)) {
-                          $this->WriteLog("Error: Bad SQL request (CREATE TABLE ".$_config_data['sql_schema'].".".$this->_config_data['sql_'.$sql_table.'_table']."), ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
-                          return 41;
+                          $this->WriteLog("Error: Bad SQL request (CREATE TABLE ".$_config_data['sql_schema'].".".$this->_config_data['sql_'.$sql_table.'_table']."), ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
+                          return _MULTIOTP_SYSTEM_SQL_ERROR_;
                       }
                       foreach ($this->_sql_tables_schema[$sql_table] as $valid_key => $valid_format) {
                           $row_format = $valid_format;
@@ -5321,7 +5702,7 @@ class Multiotp
       if ($write_config_data) {
           $this->WriteConfigData(array(), true);
       }
-      return 19;
+      return _MULTIOTP_OPERATION_DONE_;
   }
 
 
@@ -5344,13 +5725,13 @@ class Multiotp
 
   function ReadConfigData(
       $encryption_only = false,
-      $encryption_key_param = ''
+      $encryption_key_param = ""
   ) {
       $result = FALSE;
       
       $encryption_key = $encryption_key_param ;
 
-      if ('' == $encryption_key) {
+      if ("" == $encryption_key) {
           $encryption_key = $this->GetEncryptionKey();
       }
 
@@ -5380,7 +5761,7 @@ class Multiotp
                 $line_array[1] = $this->Decrypt($line_array[0],$line_array[1],$encryption_key);
                 $local_encryption_check = $this->_encryption_check;
               }
-              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
+              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
               if ("" != $line_array[0])
               {
                 $this->_config_data[mb_strtolower($line_array[0],'UTF-8')] = $line_array[1];
@@ -5393,7 +5774,7 @@ class Multiotp
             if ($this->_config_data['encryption_hash'] != $this->CalculateControlHash($encryption_key))
             {
               $this->_config_data['encryption_hash'] = "ERROR";
-              $this->WriteLog("Error: the configuration encryption key is not matching", FALSE, FALSE, 33, 'System', '', 3);
+              $this->WriteLog("Error: the configuration encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "", 3);
               $result = FALSE;
             }
           }
@@ -5419,14 +5800,14 @@ class Multiotp
 
                               if (is_object($this->_mysqli)) {
                                   if (!($result = @$this->_mysqli->query($sQuery))) {
-                                      $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                      $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                       $result = FALSE;
                                   } else {
                                       $aRow = $result->fetch_assoc();
                                   }
                               } else {
                                   if (!($rResult = @mysql_query($sQuery, $this->_mysql_database_link))) {
-                                      $this->WriteLog("Error: ".mysql_error()." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                      $this->WriteLog("Error: ".mysql_error()." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                       $result = FALSE;
                                   } else {
                                       $aRow = mysql_fetch_assoc($rResult);
@@ -5459,7 +5840,7 @@ class Multiotp
                                               $this->_config_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_config_data[$key]);
                                           }
                                       } elseif (('unique_id' != $key) && $this->GetVerboseFlag()) {
-                                          $this->WriteLog("Warning: *the key ".$key." is not in the config database schema", FALSE, FALSE, 8888, 'System', '', 3);
+                                          $this->WriteLog("Warning: *the key ".$key." is not in the config database schema", FALSE, FALSE, 8888, 'System', "", 3);
                                       }
                                   }
                               }
@@ -5467,7 +5848,7 @@ class Multiotp
                           if (("" != $this->_config_data['encryption_hash']) && ($local_encryption_check)) {
                               if ($this->_config_data['encryption_hash'] != $this->CalculateControlHash($encryption_key)) {
                                   $this->_config_data['encryption_hash'] = "ERROR";
-                                  $this->WriteLog("Error: the configuration mysql encryption key is not matching", FALSE, FALSE, 33, 'System', '', 3);
+                                  $this->WriteLog("Error: the configuration mysql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               }
                           }
@@ -5481,7 +5862,7 @@ class Multiotp
                               $aRow = NULL;
 
                               if (!($rResult = @pg_query($this->_pgsql_database_link, $sQuery))) {
-                                  $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = pg_fetch_assoc($rResult);
@@ -5513,7 +5894,7 @@ class Multiotp
                                               $this->_config_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_config_data[$key]);
                                           }
                                       } elseif (('unique_id' != $key) && $this->GetVerboseFlag()) {
-                                          $this->WriteLog("Warning: *the key ".$key." is not in the config database schema", FALSE, FALSE, 8888, 'System', '', 3);
+                                          $this->WriteLog("Warning: *the key ".$key." is not in the config database schema", FALSE, FALSE, 8888, 'System', "", 3);
                                       }
                                   }
                               }
@@ -5521,7 +5902,7 @@ class Multiotp
                           if (("" != $this->_config_data['encryption_hash']) && ($local_encryption_check)) {
                               if ($this->_config_data['encryption_hash'] != $this->CalculateControlHash($encryption_key)) {
                                   $this->_config_data['encryption_hash'] = "ERROR";
-                                  $this->WriteLog("Error: the configuration pgsql encryption key is not matching", FALSE, FALSE, 33, 'System', '', 3);
+                                  $this->WriteLog("Error: the configuration pgsql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               }
                           }
@@ -5550,7 +5931,7 @@ class Multiotp
           $timezone = $this->GetTimezone(); // Read the timezone (and set it in PHP automatically)
           
           //We do the rest also only if we are not in encryption_only mode
-          if ((!isset($this->_config_data['server_secret'])) || ('' == $this->_config_data['server_secret'])) {
+          if ((!isset($this->_config_data['server_secret'])) || ("" == $this->_config_data['server_secret'])) {
               $this->_config_data['server_secret'] = 'ClientServerSecret';
           }
           
@@ -5571,8 +5952,8 @@ class Multiotp
             }
             if (isset($this->_stat_data[$stat_key]) && ($this->_stat_data[$stat_key] != $default_value)) {
               $this->_config_data[$stat_key] = $this->_stat_data[$stat_key];
-              if ($this->GetVerboseFlag()) {
-                $this->WriteLog("Debug: **ReadConfigData, stat value for $stat_key was " . $this->_stat_data[$stat_key], FALSE, FALSE, 8888, 'System', '');
+              if ($this->IsDeveloperMode()) {
+                $this->WriteLog("Developer: **ReadConfigData, stat value for $stat_key was " . $this->_stat_data[$stat_key], FALSE, FALSE, 8888, 'System', "");
               }
             }
           }
@@ -5584,7 +5965,7 @@ class Multiotp
   function ReadStatData()
   {
       /*
-      $stat_table_info = '';
+      $stat_table_info = "";
       foreach ($this->_sql_tables_schema['stat'] as $key => $value) {
           $stat_table_info.= $key.' ';
       }
@@ -5628,14 +6009,14 @@ class Multiotp
 
                           if (is_object($this->_mysqli)) {
                               if (!($result = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: ".nullable_trim($this->_mysqli->error)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = $result->fetch_assoc();
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: ".mysql_error()." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: ".mysql_error()." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = mysql_fetch_assoc($rResult);
@@ -5658,7 +6039,7 @@ class Multiotp
                                   if ($in_the_schema) {
                                       $this->_stat_data[$key] = $value;
                                   } elseif (('unique_id' != $key) && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *the key ".$key." is not in the stat database schema", FALSE, FALSE, 8888, 'System', '');
+                                      $this->WriteLog("Warning: *the key ".$key." is not in the stat database schema", FALSE, FALSE, 8888, 'System', "");
                                   }
                               }
                           }
@@ -5673,7 +6054,7 @@ class Multiotp
                           $aRow = NULL;
 
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sQuery, TRUE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: ".pg_last_error($this->_pgsql_database_link)." ".$sQuery, TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $aRow = pg_fetch_assoc($rResult);
@@ -5695,7 +6076,7 @@ class Multiotp
                                   if ($in_the_schema) {
                                       $this->_stat_data[$key] = $value;
                                   } elseif (('unique_id' != $key) && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *the key ".$key." is not in the stat database schema", FALSE, FALSE, 8888, 'System', '');
+                                      $this->WriteLog("Warning: *the key ".$key." is not in the stat database schema", FALSE, FALSE, 8888, 'System', "");
                                   }
                               }
                           }
@@ -5725,7 +6106,7 @@ class Multiotp
           $line = isset($one_backtrace['line'])?$one_backtrace['line']:"";
           $class = isset($one_backtrace['class'])?$one_backtrace['class']."::":"";
           $function = isset($one_backtrace['function'])?$one_backtrace['function']:"";
-          $this->WriteLog("Developer: *WriteConfigData $file:$line $class$function()", FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Developer: *WriteConfigData $file:$line $class$function()", FALSE, FALSE, 8888, 'Debug', "");
         }
       }
       
@@ -5745,22 +6126,22 @@ class Multiotp
             $write_needed = true;
           } else {
               if ($this->GetVerboseFlag()) {
-                $this->WriteLog("Debug: **New configuration value to write in stat for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', '');
+                $this->WriteLog("Debug: **New configuration value to write in stat for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', "");
               }
           }
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Debug: **New configuration value for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', '');
+            $this->WriteLog("Debug: **New configuration value for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', "");
           }
         }
       }
       
       // We need to write the content in any case if we do a backup file or if with request the return of the content
-      if (("@" == (isset($write_config_data_array['backup_file']) ? $write_config_data_array['backup_file'] : '')) ||
+      if (("@" == (isset($write_config_data_array['backup_file']) ? $write_config_data_array['backup_file'] : "")) ||
           (true === (isset($write_config_data_array['return_content']) ? $write_config_data_array['return_content'] : false))
          ) {
         $write_needed = true;
         if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Debug: **New configuration value to backup for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Debug: **New configuration value to backup for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', "");
         }
       }
       
@@ -5770,7 +6151,7 @@ class Multiotp
       
       if ($write_needed) {
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Debug: **Writing configuration data needed", FALSE, FALSE, 8888, 'Debug', '');
+            $this->WriteLog("Debug: **Writing configuration data needed", FALSE, FALSE, 8888, 'Debug', "");
           }
           $result = $this->WriteData(array_merge(array('item'       => 'Configuration',
                                                        'table'      => 'config',
@@ -5780,7 +6161,7 @@ class Multiotp
                                                       ), $write_config_data_array));
       } else {
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Debug: **Writing configuration data not needed (no change)", FALSE, FALSE, 8888, 'Debug', '');
+            $this->WriteLog("Debug: **Writing configuration data not needed (no change)", FALSE, FALSE, 8888, 'Debug', "");
           }
           $result = true;
       }
@@ -5806,14 +6187,14 @@ class Multiotp
             
             if ($this->GetVerboseFlag()) {
               if ('available_firmware_version' == $key) {
-                $this->WriteLog("Debug: **WriteStatData, stat value for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', '');
+                $this->WriteLog("Debug: **WriteStatData, stat value for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', "");
               }
             }
 
             if ($value != $old_value) {
               $write_needed = true;
               if ($this->GetVerboseFlag()) {
-                $this->WriteLog("Debug: **New stat value for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', '');
+                $this->WriteLog("Debug: **New stat value for $key: '$value' (was '$old_value' before)", FALSE, FALSE, 8888, 'Debug', "");
               }
             }
             break;
@@ -5828,13 +6209,13 @@ class Multiotp
           $line = isset($one_backtrace['line'])?$one_backtrace['line']:"";
           $class = isset($one_backtrace['class'])?$one_backtrace['class']."::":"";
           $function = isset($one_backtrace['function'])?$one_backtrace['function']:"";
-          $this->WriteLog("Developer: *WriteStatData $file:$line $class$function()", FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Developer: *WriteStatData $file:$line $class$function()", FALSE, FALSE, 8888, 'Debug', "");
         }
       }
       
       if ($write_needed) {
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Debug: **Writing stat data needed", FALSE, FALSE, 8888, 'Debug', '');
+            $this->WriteLog("Debug: **Writing stat data needed", FALSE, FALSE, 8888, 'Debug', "");
           }
           $result = $this->WriteData(array_merge(array('item'       => 'Stat',
                                                        'table'      => 'stat',
@@ -5843,7 +6224,7 @@ class Multiotp
                                                       ), $write_stat_data_array));
       } else {
           if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Debug: **Writing stat data not needed (no change)", FALSE, FALSE, 8888, 'Debug', '');
+            $this->WriteLog("Debug: **Writing stat data not needed (no change)", FALSE, FALSE, 8888, 'Debug', "");
           }
           $result = true;
       }
@@ -5884,6 +6265,7 @@ class Multiotp
 
       // The user data array is not read actually
       $this->SetUserDataReadFlag(false);
+      return $this->_user_data;
   }
 
 
@@ -6002,7 +6384,7 @@ class Multiotp
   function GetUptime(
       $text_output = true
   ) {
-    $uptime = '';
+    $uptime = "";
     if (file_exists('/proc/uptime')) {
       if ($file = @fopen('/proc/uptime', 'r')) {
         $data = @fread($file, 128);
@@ -6013,7 +6395,7 @@ class Multiotp
           $minutes = $upsecs/60%60;
           $seconds = $upsecs%60;
           // $uptime = Array ( 'days' => $days, 'hours' => $hours, 'minutes' => $minutes, 'seconds' => $seconds );
-          $uptime = $days." day".(($days>1)?'s':'').", ".mb_substr('00'.$hours, -2).':'.mb_substr('00'.$minutes, -2).':'.mb_substr('00'.$seconds, -2);
+          $uptime = $days." day".(($days>1)?'s':"").", ".mb_substr('00'.$hours, -2).':'.mb_substr('00'.$minutes, -2).':'.mb_substr('00'.$seconds, -2);
         }
         fclose($file);
       }
@@ -6022,10 +6404,10 @@ class Multiotp
         if (!is_file($pagefile)) {
             $pagefile = 'D:\pagefile.sys';
             if (!is_file($pagefile)) {
-                $pagefile = '';
+                $pagefile = "";
             }
         }
-        if ('' != $pagefile) {
+        if ("" != $pagefile) {
             $gettime = (time() - filemtime($pagefile));
             $upsecs = $gettime;
             $days = floor($gettime / (24 * 3600));
@@ -6035,7 +6417,7 @@ class Multiotp
             $minutes = floor($gettime / (60));
             $gettime = $gettime - ($minutes * 60);
             $seconds = $gettime; - ($seconds * 1);
-            $uptime = $days." day".(($days>1)?'s':'').", ".mb_substr('00'.$hours, -2).':'.mb_substr('00'.$minutes, -2).':'.mb_substr('00'.$seconds, -2);
+            $uptime = $days." day".(($days>1)?'s':"").", ".mb_substr('00'.$hours, -2).':'.mb_substr('00'.$minutes, -2).':'.mb_substr('00'.$seconds, -2);
         }
     }
     return ($text_output ? $uptime : $upsecs);
@@ -6202,7 +6584,7 @@ class Multiotp
 
   function GetMsChapResponse()
   {
-      return mb_strtolower((is_null($this->_ms_chap_response) ? '' : $this->_ms_chap_response),'UTF-8');
+      return mb_strtolower((is_null($this->_ms_chap_response) ? "" : $this->_ms_chap_response),'UTF-8');
   }
 
 
@@ -6221,7 +6603,7 @@ class Multiotp
 
   function GetMsChap2Response()
   {
-      return mb_strtolower((is_null($this->_ms_chap2_response) ? '' : $this->_ms_chap2_response),'UTF-8');
+      return mb_strtolower((is_null($this->_ms_chap2_response) ? "" : $this->_ms_chap2_response),'UTF-8');
   }
 
 
@@ -6256,7 +6638,7 @@ class Multiotp
           $temp = substr($temp, $pos+1);
       }
       if (32 != strlen($temp)) {
-          $temp = '';
+          $temp = "";
       }
       $this->_ms_nt_key = strtoupper($temp); // ! THIS NON-MB strtoupper must stay as is !
   }
@@ -6268,7 +6650,7 @@ class Multiotp
       if (16 == strlen($temp)) {
           $temp = nullable_bin2hex($temp);
       } elseif (32 != strlen($temp)) {
-          $temp = '';
+          $temp = "";
       }
       return strtoupper($temp); // ! THIS NON-MB strtoupper must stay as is !
   }
@@ -6318,12 +6700,12 @@ class Multiotp
 
   function GetSmsProvidersList()
   {
-      $providers_list = '';
+      $providers_list = "";
       foreach ($this->GetSmsProvidersArray() as $one_provider) {
-          $providers_list.= (('' != $providers_list)?"\t":'');
+          $providers_list.= (("" != $providers_list)?"\t":"");
           $providers_list.= $one_provider[1];
-          $providers_list.= ('' != $one_provider[0])?' ('.$one_provider[0].')':'';
-          $providers_list.= ('' != $one_provider[2])?', '.$one_provider[2]:'';
+          $providers_list.= ("" != $one_provider[0])?' ('.$one_provider[0].')':"";
+          $providers_list.= ("" != $one_provider[2])?', '.$one_provider[2]:"";
       }
       return $providers_list;
   }
@@ -6338,7 +6720,7 @@ class Multiotp
 
   function GetSmsProvider()
   {
-      return $this->_config_data['sms_provider'];
+    return (isset($this->_config_data['sms_provider']) ? $this->_config_data['sms_provider'] : "");
   }
 
 
@@ -6351,7 +6733,7 @@ class Multiotp
 
   function GetSmsOriginator()
   {
-      return $this->_config_data['sms_originator'];
+    return (isset($this->_config_data['sms_originator']) ? $this->_config_data['sms_originator'] : "");
   }
 
 
@@ -6364,7 +6746,7 @@ class Multiotp
 
   function GetTelDefaultCountryCode()
   {
-      return $this->_config_data['tel_default_country_code'];
+    return (isset($this->_config_data['tel_default_country_code']) ? $this->_config_data['tel_default_country_code'] : "");
   }
 
 
@@ -6378,19 +6760,19 @@ class Multiotp
   function SetSmsUsername(
       $value
   ) {
-      $this->_config_data['sms_userkey'] = $value;
+    $this->SetSmsUserkey($value);
   }
 
 
   function GetSmsUserkey()
   {
-      return $this->_config_data['sms_userkey'];
+    return (isset($this->_config_data['sms_userkey']) ? $this->_config_data['sms_userkey'] : "");
   }
 
 
   function GetSmsUsername()
   {
-      return $this->_config_data['sms_userkey'];
+      return $this->GetSmsUserkey();
   }
 
 
@@ -6403,7 +6785,7 @@ class Multiotp
 
   function GetSmsPassword()
   {
-      return $this->_config_data['sms_password'];
+    return (isset($this->_config_data['sms_password']) ? $this->_config_data['sms_password'] : "");
   }
 
 
@@ -6416,7 +6798,7 @@ class Multiotp
 
   function GetSmsApiId()
   {
-      return $this->_config_data['sms_api_id'];
+    return (isset($this->_config_data['sms_api_id']) ? $this->_config_data['sms_api_id'] : "");
   }
 
 
@@ -6429,7 +6811,7 @@ class Multiotp
 
   function GetSmsUrl()
   {
-      return $this->_config_data['sms_url'];
+    return (isset($this->_config_data['sms_url']) ? $this->_config_data['sms_url'] : "");
   }
 
 
@@ -6442,7 +6824,7 @@ class Multiotp
 
   function GetSmsIp()
   {
-      return $this->_config_data['sms_ip'];
+    return (isset($this->_config_data['sms_ip']) ? $this->_config_data['sms_ip'] : "");
   }
 
 
@@ -6455,7 +6837,7 @@ class Multiotp
 
   function GetSmsPort()
   {
-      return $this->_config_data['sms_port'];
+    return (isset($this->_config_data['sms_port']) ? $this->_config_data['sms_port'] : "");
   }
 
 
@@ -6468,7 +6850,7 @@ class Multiotp
 
   function GetSmsSendTemplate()
   {
-      return $this->_config_data['sms_send_template'];
+    return (isset($this->_config_data['sms_send_template']) ? $this->_config_data['sms_send_template'] : "");
   }
 
 
@@ -6481,7 +6863,7 @@ class Multiotp
 
   function GetSmsMethod()
   {
-      return $this->_config_data['sms_method'];
+    return (isset($this->_config_data['sms_method']) ? $this->_config_data['sms_method'] : "");
   }
 
 
@@ -6494,7 +6876,7 @@ class Multiotp
 
   function GetSmsHeader()
   {
-      return $this->_config_data['sms_header'];
+    return (isset($this->_config_data['sms_header']) ? $this->_config_data['sms_header'] : "");
   }
 
 
@@ -6507,7 +6889,7 @@ class Multiotp
 
   function GetSmsEncoding()
   {
-      return $this->_config_data['sms_encoding'];
+    return (isset($this->_config_data['sms_encoding']) ? $this->_config_data['sms_encoding'] : "");
   }
 
 
@@ -6520,7 +6902,7 @@ class Multiotp
 
   function GetSmsStatusSuccess()
   {
-      return $this->_config_data['sms_status_success'];
+    return (isset($this->_config_data['sms_status_success']) ? $this->_config_data['sms_status_success'] : "");
   }
 
 
@@ -6533,7 +6915,7 @@ class Multiotp
 
   function GetSmsContentSuccess()
   {
-      return $this->_config_data['sms_content_success'];
+    return (isset($this->_config_data['sms_content_success']) ? $this->_config_data['sms_content_success'] : "");
   }
 
 
@@ -6585,7 +6967,7 @@ class Multiotp
 
   function GetSmsContentEncoding()
   {
-      return $this->_config_data['sms_content_encoding'];
+    return (isset($this->_config_data['sms_content_encoding']) ? $this->_config_data['sms_content_encoding'] : "");
   }
 
 
@@ -6649,7 +7031,7 @@ class Multiotp
 
   function GetDefaultRequestLdapPwd()
   {
-      return $this->_config_data['default_request_ldap_pwd'];
+    return (isset($this->_config_data['default_request_ldap_pwd']) ? $this->_config_data['default_request_ldap_pwd'] : "");
   }
 
 
@@ -6668,13 +7050,51 @@ class Multiotp
 
   function GetOverwriteRequestLdapPwd()
   {
-      return $this->_config_data['overwrite_request_ldap_pwd'];
+    return intval(isset($this->_config_data['overwrite_request_ldap_pwd']) ? $this->_config_data['overwrite_request_ldap_pwd'] : 0);
   }
 
 
   function IsOverwriteRequestLdapPwd()
   {
       return (1 == ($this->_config_data['overwrite_request_ldap_pwd']));
+  }
+
+
+  function SetDefaultPushEnabled(
+      $value
+  ) {
+      $this->_config_data['default_push_enabled'] = ((intval($value) > 0)?1:0);
+  }
+
+
+  function GetDefaultPushEnabled()
+  {
+    return (isset($this->_config_data['default_push_enabled']) ? $this->_config_data['default_push_enabled'] : "");
+  }
+
+
+  function IsDefaultPushEnabled()
+  {
+      return (1 == ($this->_config_data['default_push_enabled']));
+  }
+
+
+  function SetOverwritePushEnabled(
+      $value
+  ) {
+      $this->_config_data['overwrite_push_enabled'] = ((intval($value) > 0)?1:0);
+  }
+
+
+  function GetOverwritePushEnabled()
+  {
+    return intval(isset($this->_config_data['overwrite_push_enabled']) ? $this->_config_data['overwrite_push_enabled'] : 0);
+  }
+
+
+  function IsOverwritePushEnabled()
+  {
+      return (1 == ($this->_config_data['overwrite_push_enabled']));
   }
 
 
@@ -6687,7 +7107,7 @@ class Multiotp
 
   function GetDefaultRequestPrefixPin()
   {
-      return $this->_config_data['default_request_prefix_pin'];
+    return intval(isset($this->_config_data['default_request_prefix_pin']) ? $this->_config_data['default_request_prefix_pin'] : 0);
   }
 
 
@@ -6771,7 +7191,7 @@ class Multiotp
   function SetLdapLanguageAttribute(
       $value
   ) {
-      if ('' != nullable_trim($value)) {
+      if ("" != nullable_trim($value)) {
           $this->_config_data['ldap_language_attribute'] = nullable_trim($value);
       }
   }
@@ -6779,7 +7199,7 @@ class Multiotp
 
   function GetLdapLanguageAttribute()
   {
-      return ($this->_config_data['ldap_language_attribute']);
+    return (isset($this->_config_data['ldap_language_attribute']) ? $this->_config_data['ldap_language_attribute'] : "");
   }
 
 
@@ -6792,14 +7212,14 @@ class Multiotp
 
   function GetLdapAccountSuffix()
   {
-      return $this->_config_data['ldap_account_suffix'];
+    return (isset($this->_config_data['ldap_account_suffix']) ? $this->_config_data['ldap_account_suffix'] : "");
   }
 
 
   function SetLdapCnIdentifier(
       $value
   ) {
-    if ('' != nullable_trim($value)) {
+    if ("" != nullable_trim($value)) {
         $this->_config_data['ldap_cn_identifier'] = nullable_trim($value);
     }
   }
@@ -6850,7 +7270,7 @@ class Multiotp
   function SetLdapGroupCnIdentifier(
       $value
   ) {
-      if ('' != nullable_trim($value)) {
+      if ("" != nullable_trim($value)) {
           $this->_config_data['ldap_group_cn_identifier'] = nullable_trim($value);
       }
   }
@@ -6936,7 +7356,7 @@ class Multiotp
   function GetLdapBaseDn(
       $return_alternate_if_needed = FALSE
   )  {
-      if ($return_alternate_if_needed && ('' == nullable_trim($this->_config_data['ldap_base_dn']))) {
+      if ($return_alternate_if_needed && ("" == nullable_trim($this->_config_data['ldap_base_dn']))) {
         return $this->_config_data['ldap_users_dn'];
       } else {
         return $this->_config_data['ldap_base_dn'];
@@ -6954,7 +7374,7 @@ class Multiotp
   function GetLdapUsersDn(
       $return_alternate_if_needed = FALSE
   )  {
-      if ($return_alternate_if_needed && ('' == nullable_trim($this->_config_data['ldap_users_dn']))) {
+      if ($return_alternate_if_needed && ("" == nullable_trim($this->_config_data['ldap_users_dn']))) {
         return $this->_config_data['ldap_base_dn'];
       } else {
         return $this->_config_data['ldap_users_dn'];
@@ -6984,7 +7404,7 @@ class Multiotp
 
   function GetLdapDomainControllers()
   {
-      return $this->_config_data['ldap_domain_controllers'];
+    return (isset($this->_config_data['ldap_domain_controllers']) ? $this->_config_data['ldap_domain_controllers'] : "");
   }
 
 
@@ -6992,7 +7412,7 @@ class Multiotp
   {
       $domain_controllers = str_replace(","," ",str_replace(";"," ",$this->GetLdapDomainControllers()));
       $controllers_array = explode(" ",$this->GetLdapDomainControllers());
-      return nullable_trim(isset($controllers_array[0])?$controllers_array[0]:'');
+      return nullable_trim(isset($controllers_array[0])?$controllers_array[0]:"");
   }
 
 
@@ -7000,7 +7420,7 @@ class Multiotp
   {
       $domain_controllers = str_replace(","," ",str_replace(";"," ",$this->GetLdapDomainControllers()));
       $controllers_array = explode(" ",$this->GetLdapDomainControllers());
-      return nullable_trim(isset($controllers_array[1])?$controllers_array[1]:'');
+      return nullable_trim(isset($controllers_array[1])?$controllers_array[1]:"");
   }
 
 
@@ -7015,7 +7435,7 @@ class Multiotp
       $list = explode("\t", $this->GetGroupsList());
       $n = count($list);
       for($i = 0; $i < $n; $i++) {
-          if($list[$i] != '') {
+          if($list[$i] != "") {
               $this->SetGroup($list[$i]);
               $groups_array[] = $this->GetGroupName();
           }
@@ -7023,8 +7443,8 @@ class Multiotp
 
       foreach ($ldap_in_group_array as $one_group) {
           if (!in_array(nullable_trim($one_group), $groups_array)) {
-              if ('' != nullable_trim($one_group)) {
-                  $this->CreateGroup('', nullable_trim($one_group), nullable_trim($one_group));
+              if ("" != nullable_trim($one_group)) {
+                  $this->CreateGroup("", nullable_trim($one_group), nullable_trim($one_group));
               }
           }
       }
@@ -7034,7 +7454,7 @@ class Multiotp
   function GetLdapInGroup($included_without2fa = false)
   {
     $groups = nullable_trim($this->_config_data['ldap_in_group']);
-    if ((true === $included_without2fa) && ('' != $groups) && ('' != $this->GetLdapWithout2faInGroup())) {
+    if ((true === $included_without2fa) && ("" != $groups) && ("" != $this->GetLdapWithout2faInGroup())) {
       $groups = $this->GetLdapWithout2faInGroup() . "," . $groups;
     }
     return $groups;
@@ -7052,7 +7472,7 @@ class Multiotp
       $list = explode("\t", $this->GetGroupsList());
       $n = count($list);
       for($i = 0; $i < $n; $i++) {
-          if($list[$i] != '') {
+          if($list[$i] != "") {
               $this->SetGroup($list[$i]);
               $groups_array[] = $this->GetGroupName();
           }
@@ -7060,8 +7480,8 @@ class Multiotp
 
       foreach ($ldap_without2fa_in_group_array as $one_group) {
           if (!in_array(nullable_trim($one_group), $groups_array)) {
-              if ('' != nullable_trim($one_group)) {
-                  $this->CreateGroup('', nullable_trim($one_group), nullable_trim($one_group));
+              if ("" != nullable_trim($one_group)) {
+                  $this->CreateGroup("", nullable_trim($one_group), nullable_trim($one_group));
               }
           }
       }
@@ -7070,14 +7490,14 @@ class Multiotp
 
   function GetLdapWithout2faInGroup()
   {
-      return $this->_config_data['ldap_without2fa_in_group'];
+    return (isset($this->_config_data['ldap_without2fa_in_group']) ? $this->_config_data['ldap_without2fa_in_group'] : "");
   }
 
 
   function SetLdapGroupAttribute(
       $value
   ) {
-      if ('' != nullable_trim($value)) {
+      if ("" != nullable_trim($value)) {
           $this->_config_data['ldap_group_attribute'] = nullable_trim($value);
       }
   }
@@ -7115,7 +7535,7 @@ class Multiotp
 
   function GetLdapPort()
   {
-      return $this->_config_data['ldap_port'];
+    return intval(isset($this->_config_data['ldap_port']) ? $this->_config_data['ldap_port'] : 389);
   }
 
 
@@ -7139,9 +7559,9 @@ class Multiotp
           $this->SetLdapGroupAttribute("groupMembership");
           $this->SetLdapGroupCnIdentifier('cn');
       } elseif (5 == $value) { // Microsoft Entra ID /* TODO : implement Microsoft Entra ID */
-          $this->SetLdapCnIdentifier('');
+          $this->SetLdapCnIdentifier("");
           $this->SetLdapGroupAttribute("");
-          $this->SetLdapGroupCnIdentifier('');
+          $this->SetLdapGroupCnIdentifier("");
       } else { // Generic LDAP or eDirectory
           $this->SetLdapCnIdentifier('uid');
           $this->SetLdapGroupAttribute("memberOf");
@@ -7167,12 +7587,12 @@ class Multiotp
 
   function GetLdapServerType()
   {
-      return $this->_config_data['ldap_server_type'];
+    return intval(isset($this->_config_data['ldap_server_type']) ? $this->_config_data['ldap_server_type'] : 1);
   }
 
 
   function SetLdapFilter(
-      $value = ''
+      $value = ""
   ) {
       $this->_config_data['ldap_filter'] = nullable_trim($value);
   }
@@ -7180,7 +7600,7 @@ class Multiotp
 
   function GetLdapFilter()
   {
-      return $this->_config_data['ldap_filter'];
+    return (isset($this->_config_data['ldap_filter']) ? $this->_config_data['ldap_filter'] : "");
   }
 
 
@@ -7193,7 +7613,7 @@ class Multiotp
 
   function GetLdapTimeLimit()
   {
-      return $this->_config_data['ldap_time_limit'];
+    return intval(isset($this->_config_data['ldap_time_limit']) ? $this->_config_data['ldap_time_limit'] : 30);
   }
 
 
@@ -7232,7 +7652,7 @@ class Multiotp
 
   function GetLdapHashCacheTime()
   {
-      return $this->_config_data['ldap_hash_cache_time'];
+    return intval(isset($this->_config_data['ldap_hash_cache_time']) ? $this->_config_data['ldap_hash_cache_time'] : 604800);
   }
 
 
@@ -7277,7 +7697,7 @@ class Multiotp
               // Ignore the LDAP certificate validity (for Windows only)
               putenv('LDAPTLS_REQCERT=never');
           }
-      } elseif ('' != $ldaptls_reqcert) {
+      } elseif ("" != $ldaptls_reqcert) {
           putenv('LDAPTLS_REQCERT='.$ldaptls_reqcert);
       }
 
@@ -7289,7 +7709,7 @@ class Multiotp
               // GnuTLS Cipher information: http://gnutls.org/manual/html_node/Priority-Strings.html
               putenv('LDAPTLS_CIPHER_SUITE=NORMAL:!VERS-TLS1.2');
           }
-      } elseif ('' != $ldaptls_cipher_suite) {
+      } elseif ("" != $ldaptls_cipher_suite) {
           putenv('LDAPTLS_CIPHER_SUITE='.$ldaptls_cipher_suite);
       }
   }
@@ -7346,7 +7766,7 @@ class Multiotp
 
   function GetSmsTimeout()
   {
-      return $this->_config_data['sms_timeout'];
+    return intval(isset($this->_config_data['sms_timeout']) ? $this->_config_data['sms_timeout'] : 180);
   }
 
 
@@ -7359,7 +7779,7 @@ class Multiotp
 
   function GetEmailDigits()
   {
-      return $this->_config_data['email_digits'];
+    return intval(isset($this->_config_data['email_digits']) ? $this->_config_data['email_digits'] : 6);
   }
 
 
@@ -7372,7 +7792,7 @@ class Multiotp
 
   function GetEmailCodeTimeout()
   {
-      return $this->_config_data['email_code_timeout'];
+    return intval(isset($this->_config_data['email_code_timeout']) ? $this->_config_data['email_code_timeout'] : 600);
   }
 
 
@@ -7439,8 +7859,8 @@ class Multiotp
     }
     do {
       $regenerate = false;
-      $result = '';
-      $last_digit = '';
+      $result = "";
+      $last_digit = "";
       $same_counter = 0;
       $increment_counter = 0;
       $decrement_counter = 0;
@@ -7491,7 +7911,7 @@ class Multiotp
   function GetConfigAttribute(
       $attribute
   ) {
-      return isset($this->_config_data[$attribute])?$this->_config_data[$attribute]:'';
+      return isset($this->_config_data[$attribute])?$this->_config_data[$attribute]:"";
   }
 
 
@@ -7861,9 +8281,9 @@ class Multiotp
           }
       } else {
           if ($case_sensitive) {
-              return str_replace('/','',$id);
+              return str_replace('/',"",$id);
           } else {
-              return mb_strtolower(str_replace('/','',$id),'UTF-8');
+              return mb_strtolower(str_replace('/',"",$id),'UTF-8');
           }
       }
   }
@@ -7968,8 +8388,8 @@ class Multiotp
 
   function GetTimezone()
   {
-      $timezone = nullable_trim(isset($this->_config_data['timezone'])?$this->_config_data['timezone']:'');
-      if (('' != $timezone) && (function_exists('date_default_timezone_set')))
+      $timezone = nullable_trim(isset($this->_config_data['timezone'])?$this->_config_data['timezone']:"");
+      if (("" != $timezone) && (function_exists('date_default_timezone_set')))
       {
           date_default_timezone_set($timezone);
       }
@@ -8085,7 +8505,7 @@ class Multiotp
 
   function GetSmtpUsername()
   {
-      return $this->_config_data['smtp_username'];
+    return (isset($this->_config_data['smtp_username']) ? $this->_config_data['smtp_username'] : "");
   }
 
 
@@ -8098,7 +8518,7 @@ class Multiotp
 
   function GetSyslogFacility()
   {
-      return $this->_config_data['syslog_facility'];
+    return intval(isset($this->_config_data['syslog_facility']) ? $this->_config_data['syslog_facility'] : 7);
   }
 
 
@@ -8111,7 +8531,7 @@ class Multiotp
 
   function GetSyslogLevel()
   {
-      return intval($this->_config_data['syslog_level']);
+    return intval(isset($this->_config_data['syslog_level']) ? $this->_config_data['syslog_level'] : 5);
   }
 
 
@@ -8137,7 +8557,7 @@ class Multiotp
 
   function GetSysLogServer()
   {
-      return $this->_config_data['syslog_server'];
+    return (isset($this->_config_data['syslog_server']) ? $this->_config_data['syslog_server'] : "");
   }
 
 
@@ -8151,6 +8571,24 @@ class Multiotp
   {
     $this->_bad_syslog_server = TRUE;
   }
+
+
+  function SetSysLogTimeout(
+      $value
+  ) {
+      $this->_config_data['syslog_timeout'] = intval($value);
+  }
+
+
+  function GetSysLogTimeout() {
+    $value = intval(isset($this->_config_data['syslog_timeout']) ? $this->_config_data['syslog_timeout'] : 3);
+    if (0 == $value) {
+      $value = 3;
+    }
+    return $value;
+  }
+
+
 
 
   /**
@@ -8356,11 +8794,11 @@ class Multiotp
 
   function CalculateChapPassword(
       $secret,
-      $hex_chap_id = '',
-      $hex_chap_challenge = ''
+      $hex_chap_id = "",
+      $hex_chap_challenge = ""
   ) {
       
-      if ($hex_chap_id != '')
+      if ($hex_chap_id != "")
       {
           $id = hex2bin($hex_chap_id);
       }
@@ -8373,7 +8811,7 @@ class Multiotp
           $id = hex2bin($this->GetChapId());
       }
       
-      if ($hex_chap_challenge != '')
+      if ($hex_chap_challenge != "")
       {
           $challenge = hex2bin($hex_chap_challenge);
       }
@@ -8389,7 +8827,7 @@ class Multiotp
   function Convert2Unicode(
       $value
   ) {
-      $unicode = '';
+      $unicode = "";
       $string = (string) $value;
       for ($i = 0; $i < mb_strlen($string); $i++)
       {
@@ -8420,14 +8858,14 @@ class Multiotp
                                  224,224,227,227,229,229,230,230,233,233,234,234,236,236,239,239,
                                  241,241,242,242,244,244,247,247,248,248,251,251,253,253,254,254);
 
-      $raw = '';
+      $raw = "";
       for ($i = 0; $i < strlen($value); $i++)
       {
           $raw .= sprintf('%08s', decbin(ord($value[$i])));
       }
 
       $str1 = explode('-', substr(chunk_split($raw, 7, '-'), 0, -1));
-      $x = '';
+      $x = "";
       foreach ($str1 as $char)
       {
           $x .= sprintf('%02s', dechex($odd_parity[bindec($char. '0')]));
@@ -8470,17 +8908,17 @@ class Multiotp
 
   function CalculateMsChapResponse(
       $secret,
-      $hex_mschap_challenge = '',
-      $hex_mschap_response = ''
+      $hex_mschap_challenge = "",
+      $hex_mschap_response = ""
   ) {
-      $temp_challenge = ('' != $hex_mschap_challenge)?$hex_mschap_challenge:$this->GetMsChapChallenge();
+      $temp_challenge = ("" != $hex_mschap_challenge)?$hex_mschap_challenge:$this->GetMsChapChallenge();
       $pos = strpos(strtolower($temp_challenge), 'x');
       if (FALSE !== $pos)
       {
           $temp_challenge = substr($temp_challenge, $pos+1);
       }
 
-      $temp_response  = ('' != $hex_mschap_response)?$hex_mschap_response:$this->GetMsChapResponse();
+      $temp_response  = ("" != $hex_mschap_response)?$hex_mschap_response:$this->GetMsChapResponse();
       $this->SetMsChapResponse($temp_response);
       $pos = strpos(strtolower($temp_response), 'x');
       if (FALSE !== $pos)
@@ -8547,8 +8985,8 @@ class Multiotp
 
   function CheckMsChapResponse(
       $secret,
-      $hex_mschap_challenge = '',
-      $hex_mschap_response = ''
+      $hex_mschap_challenge = "",
+      $hex_mschap_response = ""
   ) {
       $result = $this->CalculateMsChapResponse($secret, $hex_mschap_challenge, $hex_mschap_response);
       
@@ -8560,17 +8998,17 @@ class Multiotp
       $account,
       $secret,
       $domain = "",
-      $hex_mschap_challenge = '',
-      $hex_mschap2_response = ''
+      $hex_mschap_challenge = "",
+      $hex_mschap2_response = ""
   ) {
-      $temp_challenge = ('' != $hex_mschap_challenge)?$hex_mschap_challenge:$this->GetMsChapChallenge();
+      $temp_challenge = ("" != $hex_mschap_challenge)?$hex_mschap_challenge:$this->GetMsChapChallenge();
       $pos = strpos(strtolower($temp_challenge), 'x');
       if (FALSE !== $pos)
       {
           $temp_challenge = substr($temp_challenge, $pos+1);
       }
 
-      $temp_response  = ('' != $hex_mschap2_response)?$hex_mschap2_response:$this->GetMsChap2Response();
+      $temp_response  = ("" != $hex_mschap2_response)?$hex_mschap2_response:$this->GetMsChap2Response();
       $this->SetMsChap2Response($temp_response);
       $pos = strpos(strtolower($temp_response), 'x');
       if (FALSE !== $pos)
@@ -8653,9 +9091,9 @@ class Multiotp
   function CheckMsChap2Response(
       $account,
       $secret,
-      $domain = '',
-      $hex_mschap_challenge = '',
-      $hex_mschap2_response = ''
+      $domain = "",
+      $hex_mschap_challenge = "",
+      $hex_mschap2_response = ""
   ) {
       $result = $this->CalculateMsChap2Response($account, $secret, $domain, $hex_mschap_challenge, $hex_mschap2_response);
       
@@ -8693,7 +9131,7 @@ class Multiotp
       $value,
       $encryption_key
   ) {
-      $result = '';
+      $result = "";
       if (strlen($encryption_key) > 0)
       {
           if (0 < strlen($value))
@@ -8733,7 +9171,7 @@ class Multiotp
       $value,
       $encryption_key
   ) {
-      $result = '';
+      $result = "";
       if (strlen($encryption_key) > 0)
       {
           if (0 < strlen($value))
@@ -8822,26 +9260,28 @@ class Multiotp
    * @param   int     $ldap_pwd_needed [0|1]
    * @param   boolean $automatically
    * @param   boolean $sync_process
+   * @param   int     $push_enabled_needed [0|1]
    * @return  boolean
    *
    *********************************************************************/
   function CreateUser($user_raw,
                       $prefix_pin_needed = -1,
                       $algorithm = 'totp',
-                      $seed = '',
-                      $pin = '',
+                      $seed = "",
+                      $pin = "",
                       $forced_number_of_digits = -1,
                       $time_interval_or_next_event = -1,
-                      $email = '',
-                      $sms = '',
-                      $description = '',
-                      $group = '',
-                      $token_algo_suite = '',
+                      $email = "",
+                      $sms = "",
+                      $description = "",
+                      $group = "",
+                      $token_algo_suite = "",
                       $activated = 1,
                       $synchronized = 0,
                       $ldap_pwd_needed = -1,
                       $automatically = FALSE,
-                      $sync_process = FALSE
+                      $sync_process = FALSE,
+                      $push_enabled_needed = -1
   ) {
       if (intval($forced_number_of_digits) > 0) {
         $number_of_digits = $forced_number_of_digits;
@@ -8857,47 +9297,53 @@ class Multiotp
       }
       
       $result = FALSE;
-      if ('' != nullable_trim($user)) {
+      if ("" != nullable_trim($user)) {
           if ((intval($ldap_pwd_needed) < 0) && (1 == $synchronized)) {
               $request_ldap_pwd = $this->GetDefaultRequestLdapPwd();
           } else {
               $request_ldap_pwd = intval($ldap_pwd_needed);
+          }
+          if ((intval($push_enabled_needed) < 0) && (1 == $synchronized)) {
+              $push_enabled = $this->GetDefaultPushEnabled();
+          } else {
+              $push_enabled = intval($push_enabled_needed);
           }
           if (intval($prefix_pin_needed) < 0) {
               $request_prefix_pin = $this->GetDefaultRequestPrefixPin();
           } else {
               $request_prefix_pin = intval($prefix_pin_needed);
           }
-          if ($this->ReadUserData($user, TRUE, TRUE) || ('' == $user)) {
+          if ($this->ReadUserData($user, TRUE, TRUE) || ("" == $user)) {
               $result = FALSE; // ERROR: User already exists, or user is not set
-              if ('' == $user) {
-                  $this->WriteLog("Error: User is not set", FALSE, FALSE, 21, 'User', '');
+              if ("" == $user) {
+                  $this->WriteLog("Error: User is not set", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User', "");
               } else {
-                  $this->WriteLog("Error: User ".$user." already exists", FALSE, FALSE, 22, 'User', $user);
+                  $this->WriteLog("Error: User ".$user." already exists", FALSE, FALSE, _MULTIOTP_USER_EXISTS_, 'User', $user);
               }
           } else {
               $this->SetUser($user);
               $this->SetUserPrefixPin($request_prefix_pin);
               $this->SetUserRequestLdapPassword($request_ldap_pwd);
+              $this->SetUserPushEnabled($push_enabled);
               $this->SetUserAlgorithm($algorithm);
               $this->SetUserTokenAlgoSuite($token_algo_suite);
 
               $the_pin = $pin;
-              if ('' == $the_pin) {
+              if ("" == $the_pin) {
                 $the_pin = $this->GeneratePin();
               }
               $this->SetUserTokenNumberOfDigits($number_of_digits);
 
-              $the_seed = (('' == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(md5(mt_rand(100000,999999).date("YmdHis")),0,20):$seed);
+              $the_seed = (("" == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(md5(mt_rand(100000,999999).date("YmdHis")),0,20):$seed);
               
               if (('hotp' == mb_strtolower($algorithm,'UTF-8')) || ('yubicootp' == mb_strtolower($algorithm,'UTF-8'))) {
                 $next_event = ((-1 == $time_interval_or_next_event)?0:$time_interval_or_next_event);
                 $time_interval = 0;
               } elseif (('totp' == mb_strtolower($algorithm,'UTF-8')) || ('motp' == mb_strtolower($algorithm,'UTF-8'))) {
                 $next_event = 0;
-                $time_interval = ((-1 == $time_interval_or_next_event)?$this->_default_time_interval:$time_interval_or_next_event);
+                $time_interval = ((-1 == $time_interval_or_next_event)?_MULTIOTP_DEFAULT_TOTP_INTERVAL_:$time_interval_or_next_event);
                 if ('motp' == mb_strtolower($algorithm,'UTF-8')) {
-                  // $the_seed = (('' == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,16):$seed);
+                  // $the_seed = (("" == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,16):$seed);
                   $time_interval = 10;
                   if ((mb_strlen($the_pin) < 4) || (0 == intval($the_pin))) {
                     $the_pin = $this->GeneratePin(4); // PIN of 4 digits is mandatory for motp
@@ -8906,7 +9352,7 @@ class Multiotp
                 }
               } else { // without2FA or unknown
                   $next_event = 0;
-                  $time_interval = ((-1 == $time_interval_or_next_event)?$this->_default_time_interval:$time_interval_or_next_event);
+                  $time_interval = ((-1 == $time_interval_or_next_event)?_MULTIOTP_DEFAULT_TOTP_INTERVAL_:$time_interval_or_next_event);
               }
 
               $this->SetUserPin($the_pin);
@@ -8915,7 +9361,7 @@ class Multiotp
               $this->SetUserTokenTimeInterval($time_interval);
               
               $this_email = nullable_trim($email);
-              if (('' == $this_email) && (FALSE !== mb_strpos($user, '@'))) {
+              if (("" == $this_email) && (FALSE !== mb_strpos($user, '@'))) {
                   $this_email = $user;
               }
 
@@ -8956,51 +9402,37 @@ class Multiotp
    *********************************************************************/
   function CreateUserFromToken($user_raw,
                                $token,
-                               $email = '',
-                               $sms = '',
-                               $pin = '',
+                               $email = "",
+                               $sms = "",
+                               $pin = "",
                                $prefix_pin_needed = -1,
-                               $description = '',
-                               $group = ''
+                               $description = "",
+                               $group = ""
   ) {
       // A user cannot be created with one (or more) leading backslash
       $user = str_replace("\\", "", $user_raw);
 
-      if (intval($prefix_pin_needed) < 0)
-      {
+      if (intval($prefix_pin_needed) < 0) {
           $request_prefix_pin = $this->GetDefaultRequestPrefixPin();
-      }
-      else
-      {
+      } else {
           $request_prefix_pin = intval($prefix_pin_needed);
       }
-      if ($this->ReadUserData($user, TRUE, TRUE) || ('' == $user))
-      {
+      if ($this->ReadUserData($user, TRUE, TRUE) || ("" == $user)) {
           $result = FALSE;
-          if ('' == $user)
-          {
-              $this->WriteLog("Error: User is not set", FALSE, FALSE, 21, 'User', '');
+          if ("" == $user) {
+              $this->WriteLog("Error: User is not set", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User', "");
+          } else {
+              $this->WriteLog("Error: User ".$user." already exists", FALSE, FALSE, _MULTIOTP_USER_EXISTS_, 'User', $user);
           }
-          else
-          {
-              $this->WriteLog("Error: User ".$user." already exists", FALSE, FALSE, 22, 'User', $user);
-          }
-      }
-      elseif (!$this->ReadTokenData($token))
-      {
+      } elseif (!$this->ReadTokenData($token)) {
           $result = FALSE;
-          $this->WriteLog("Error: information about token ".$token." for user $user cannot be accessed", FALSE, FALSE, 29, 'Token', $token);
-      }
-      else
-      {
+          $this->WriteLog("Error: information about token ".$token." for user $user cannot be accessed", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token', $token);
+      } else {
           $this->AddTokenAttributedUsers($user);
-          if (!$this->WriteTokenData())
-          {
-              $result = 28; // ERROR: Unable to write the changes in the file
+          if (!$this->WriteTokenData()) {
+              $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
               $this->WriteLog("Error: Unable to write the changes in the file for the token ".$this->GetToken(), FALSE, FALSE, $result, 'Token', $user);
-          }
-          else
-          {
+          } else {
               $this->SetUser($user);
               $this->SetUserPrefixPin($request_prefix_pin);
               $this->SetUserKeyId($token);
@@ -9014,12 +9446,12 @@ class Multiotp
               $this->SetUserTokenLastEvent($this->GetTokenLastEvent());
 
               $the_pin = $pin;
-              if ('' == $the_pin) {
+              if ("" == $the_pin) {
                 $the_pin = $this->GeneratePin();
               }
               
               $this_email = nullable_trim($email);
-              if (('' == $this_email) && (FALSE !== mb_strpos($user, '@')))
+              if (("" == $this_email) && (FALSE !== mb_strpos($user, '@')))
               {
                   $this_email = $user;
               }
@@ -9051,14 +9483,14 @@ class Multiotp
    * @since   2013-02-17
    */
   function GetUserTokenQrCode(
-      $user = '',
-      $display_name = '',
+      $user = "",
+      $display_name = "",
       $file_name = 'binary',
-      $qrcode_format = ''
+      $qrcode_format = ""
   ) {
       $result = FALSE;
       if (!function_exists('ImageCreate')) {
-          $this->WriteLog("Error: PHP GD library is not installed", FALSE, FALSE, 39, 'System', '', 3);
+          $this->WriteLog("Error: PHP GD library is not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
           return $result;
       } else {
           $data = $this->GetUserTokenUrlLink($user, $display_name, $qrcode_format);
@@ -9084,15 +9516,15 @@ class Multiotp
    * @since   2013-02-18
    */
   function GetTokenQrCode(
-      $token = '',
-      $display_name = '',
+      $token = "",
+      $display_name = "",
       $file_name = 'binary',
-      $qrcode_format = ''
+      $qrcode_format = ""
   ) {
       $result = FALSE;
       if (!function_exists('ImageCreate'))
       {
-          $this->WriteLog("Error: PHP GD library is not installed", FALSE, FALSE, 39, 'System', '', 3);
+          $this->WriteLog("Error: PHP GD library is not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
           return $result;
       }
       else
@@ -9108,14 +9540,14 @@ class Multiotp
 
 
   function GenerateHtmlQrCode(
-      $select_user = '',
-      $alternate_html_template = '',
+      $select_user = "",
+      $alternate_html_template = "",
       $keep_qrcode_tags = FALSE
   ) {
       $code_width=200;
       $code_height=200;
 
-      if ('' != $select_user) {
+      if ("" != $select_user) {
           $user = $this->SetUser($select_user);
       } else {
         $user = $this->GetUser();
@@ -9127,7 +9559,7 @@ class Multiotp
       $descr = encode_utf8_if_needed(empty($descr) ? $user : $descr);
       $display_name = encode_utf8_if_needed($this->GetUserDisplayName());
 
-      if ('' != nullable_trim($alternate_html_template)) {
+      if ("" != nullable_trim($alternate_html_template)) {
           $html = $alternate_html_template;
       } else {
         //Get template file
@@ -9136,24 +9568,24 @@ class Multiotp
         if(file_exists($file_to_show)) {
           $html = (file_get_contents($file_to_show));
         } else {
-          $html = '';
+          $html = "";
         }
       }
 
       $html = encode_utf8_if_needed($html);
       
-      $qrcode_format = '';
+      $qrcode_format = "";
       $regex_size='/motp-qrcode-format=(.*?)\s-/';
       if(preg_match($regex_size, $html, $values)) {
-          $qrcode_format = ('xml' == $values[1]) ? 'xml' : '';
+          $qrcode_format = ('xml' == $values[1]) ? 'xml' : "";
       }
 
       // Keep or clean LDAP information if not used
       // if ($this->IsUserSynchronized() && ('LDAP' == $this->GetUserSynchronizedChannel()) && $this->IsUserRequestLdapPasswordEnabled())
       if ($this->IsUserRequestLdapPasswordEnabled()) {
           $request_ldap_pwd = TRUE;
-          $html = preg_replace('/<!--\s*\{\/IfMultiotpUserLdapPwd\}\s*-->/i', '', $html);
-          $html = preg_replace('/<!--\s*\{IfMultiotpUserLdapPwd\}\s*-->/i', '', $html);
+          $html = preg_replace('/<!--\s*\{\/IfMultiotpUserLdapPwd\}\s*-->/i', "", $html);
+          $html = preg_replace('/<!--\s*\{IfMultiotpUserLdapPwd\}\s*-->/i', "", $html);
       } else {
           $request_ldap_pwd = FALSE;
           $html = preg_replace('/<!--\s*\{\/IfMultiotpUserLdapPwd\}\s*-->/i', ' -- {/IfMultiotpUserLdapPwd} -->', $html);
@@ -9162,20 +9594,20 @@ class Multiotp
 
       // Keep or clean pin information if not used
       if ($this->IsUserPrefixPin() && (!$request_ldap_pwd)) {
-          $html = preg_replace('/<!--\s*\{\/IfMultiotpUserPin\}\s*-->/i', '', $html);
-          $html = preg_replace('/<!--\s*\{IfMultiotpUserPin\}\s*-->/i', '', $html);
+          $html = preg_replace('/<!--\s*\{\/IfMultiotpUserPin\}\s*-->/i', "", $html);
+          $html = preg_replace('/<!--\s*\{IfMultiotpUserPin\}\s*-->/i', "", $html);
       } else {
           $html = preg_replace('/<!--\s*\{\/IfMultiotpUserPin\}\s*-->/i', ' -- {/IfMultiotpUserPin} -->', $html);
           $html = preg_replace('/<!--\s*\{IfMultiotpUserPin\}\s*-->/i', '<!-- {/IfMultiotpUserPin} -- ', $html);
       }
       
       $token_serial = nullable_trim($this->GetUserTokenSerialNumber());
-      if (('' == $token_serial) || (1 > mb_strlen($token_serial))) {
+      if (("" == $token_serial) || (1 > mb_strlen($token_serial))) {
           $html = preg_replace('/<!--\s*\{\/IfMultiotpUserTokenSerial\}\s*-->/i', ' -- {/IfMultiotpUserTokenSerial} -->', $html);
           $html = preg_replace('/<!--\s*\{IfMultiotpUserTokenSerial\}\s*-->/i', '<!-- {/IfMultiotpUserTokenSerial} -- ', $html);
       } else {
-          $html = preg_replace('/<!--\s*\{\/IfMultiotpUserTokenSerial\}\s*-->/i', '', $html);
-          $html = preg_replace('/<!--\s*\{IfMultiotpUserTokenSerial\}\s*-->/i', '', $html);
+          $html = preg_replace('/<!--\s*\{\/IfMultiotpUserTokenSerial\}\s*-->/i', "", $html);
+          $html = preg_replace('/<!--\s*\{IfMultiotpUserTokenSerial\}\s*-->/i', "", $html);
       }
 
       // Simplify current algorithm info
@@ -9198,8 +9630,8 @@ class Multiotp
         }
       }
       // Clean other languages info
-      $html = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', '', $html);
-      $html = preg_replace('/<!--\s*\{IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', '', $html);
+      $html = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', "", $html);
+      $html = preg_replace('/<!--\s*\{IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', "", $html);
       $html = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="[a-z]*"\}\s*-->/i', ' -- {/IfMultiotpLanguage="other"} {ML} -->', $html);
       $html = preg_replace('/<!--\s*\{IfMultiotpLanguage="[a-z]*"\}\s*-->/i', '<!-- {ML} {IfMultiotpLanguage="other"} -- ', $html);
 
@@ -9267,21 +9699,21 @@ class Multiotp
           $regex_tag='/\{MultiotpQrCodeUrl\s(.*?)\}/';
           if(preg_match_all($regex_tag, $html, $matches)) {
               foreach ($matches[0] as $item) {
-                  $url = '';
+                  $url = "";
                   $w = $code_width;
                   $h = $code_height;
                   if(!empty($item)) {
                       if(preg_match($regex_url, $item, $values)) {
-                          $url= str_replace('"', '', explode('=', $values[0],2));
+                          $url= str_replace('"', "", explode('=', $values[0],2));
                           $url = $url[1];
                       }
                       if(preg_match($regex_w, $item, $values)) {
-                          $w = str_replace('"', '', explode('=', $values[0],2));
-                          $w = nullable_trim(str_replace('}', '', $w[1]));
+                          $w = str_replace('"', "", explode('=', $values[0],2));
+                          $w = nullable_trim(str_replace('}', "", $w[1]));
                       }
                       if(preg_match($regex_h, $item, $values)) {
-                          $h = str_replace('"', '', explode('=', $values[0],2));
-                          $h = nullable_trim(str_replace('}', '', $h[1]));
+                          $h = str_replace('"', "", explode('=', $values[0],2));
+                          $h = nullable_trim(str_replace('}', "", $h[1]));
                       }
                       $html = str_replace($item, "<a id=\"QrCodeUrl\" href=\"".$url."\" target=\"blank\"><img border=\"0\" width=\"".$w."\" height=\"".$h."\" src=\"data:image/png;base64,".base64_encode($this->qrcode($url, 'binary'))."\" /></a>", $html);
                   }
@@ -9297,16 +9729,16 @@ class Multiotp
                   $h = $code_height;
                   if(!empty($item)) {
                       if(preg_match($regex_w, $item, $values)) {
-                          $w = str_replace('"', '', explode('=', $values[0],2));
-                          $w = nullable_trim(str_replace('}', '', $w[1]));
+                          $w = str_replace('"', "", explode('=', $values[0],2));
+                          $w = nullable_trim(str_replace('}', "", $w[1]));
                       }
                       if(preg_match($regex_h, $item, $values)) {
-                          $h = str_replace('"', '', explode('=', $values[0],2));
-                          $h = nullable_trim(str_replace('}', '', $h[1]));
+                          $h = str_replace('"', "", explode('=', $values[0],2));
+                          $h = nullable_trim(str_replace('}', "", $h[1]));
                       }
                       if(preg_match($regex_name, $item, $values)) {
-                          $name_tag = str_replace('"', '', explode('=', $values[0],2));
-                          $name_tag = strtoupper(nullable_trim(str_replace('}', '', $name_tag[1])));
+                          $name_tag = str_replace('"', "", explode('=', $values[0],2));
+                          $name_tag = strtoupper(nullable_trim(str_replace('}', "", $name_tag[1])));
                           if (strtoupper("MultiotpUserDisplayName") == $name_tag) {
                             $url_display_name = $display_name;
                           } elseif (strtoupper("MultiotpUserAccount") == $name_tag) {
@@ -9337,11 +9769,11 @@ class Multiotp
 
 
   function GenerateHtmlScratchlist(
-      $select_user = '',
-      $alternate_html_template = ''
+      $select_user = "",
+      $alternate_html_template = ""
   ) {
 
-    if ('' != $select_user) {
+    if ("" != $select_user) {
         $user = $this->SetUser($select_user);
     } else {
       $user = $this->GetUser();
@@ -9351,7 +9783,7 @@ class Multiotp
 
 
     //Get template file
-    if ('' != nullable_trim($alternate_html_template)) {
+    if ("" != nullable_trim($alternate_html_template)) {
       $html = $alternate_html_template;
     } else {
       //Get template file
@@ -9360,7 +9792,7 @@ class Multiotp
       if(file_exists($file_to_show)) {
         $html = (file_get_contents($file_to_show));
       } else {
-        $html = '';
+        $html = "";
       }
     }
 
@@ -9387,8 +9819,8 @@ class Multiotp
       }
     }
     // Clean other languages info
-    $html = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', '', $html);
-    $html = preg_replace('/<!--\s*\{IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', '', $html);
+    $html = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', "", $html);
+    $html = preg_replace('/<!--\s*\{IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', "", $html);
     $html = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="[a-z]*"\}\s*-->/i', ' -- {/IfMultiotpLanguage="other"} {ML} -->', $html);
     $html = preg_replace('/<!--\s*\{IfMultiotpLanguage="[a-z]*"\}\s*-->/i', '<!-- {ML} {IfMultiotpLanguage="other"} -- ', $html);
 
@@ -9404,8 +9836,8 @@ class Multiotp
     $html_cleaned .= end($html_slice);
     $html = $html_cleaned."\n";
 
-    $html = preg_replace('/<body.*>/i', '', $html);
-    $html = preg_replace('/<\/body>/i', '', $html);
+    $html = preg_replace('/<body.*>/i', "", $html);
+    $html = preg_replace('/<\/body>/i', "", $html);
 
     // Clean comments
     $html_cleaned = "";
@@ -9422,10 +9854,10 @@ class Multiotp
     $regex_format='/\sformat=\"?([^\"\}]*)\"?.*\}/';
 
     $passwords = explode("\t", $this->GetUserScratchPasswordsList($user));
-    $values = '';
+    $values = "";
     foreach ($passwords as $password)
     {
-      if('' == $values)
+      if("" == $values)
         $values.= $password;
       else
         $values.= ", ".$password;
@@ -9479,58 +9911,73 @@ class Multiotp
    *
    *********************************************************************/
   function GetUserTokenUrlLink(
-      $user = '',
-      $display_name = '',
-      $qrcode_format = ''
+      $user = "",
+      $display_name = "",
+      $qrcode_format = ""
   ) {
       $result = false;
       
-      $user_array = $this->ReadUserDataArray(('' != $user)?$user:$this->GetUser());
+      $user_array = $this->ReadUserDataArray(("" != $user)?$user:$this->GetUser());
       if (false !== $user_array) {
-          $the_user       = $user;
-          $description    = $user_array['description'];
-          $q_algorithm    = $user_array['algorithm'];
-          $q_algo_suite   = $user_array['token_algo_suite'];
-          $q_period       = $user_array['time_interval'];
-          $q_digits       = $user_array['number_of_digits'];
-          $q_seed         = $user_array['token_seed'];
-          $q_counter      = $user_array['last_event'] + 1;
-          $q_display_name = (('' != $display_name)?$display_name:(('' != $description)?$description:$the_user));
-          $q_issuer       = $this->GetIssuer();
-          $encoded_issuer_and_separator = ('' != $q_issuer) ? rawurlencode($q_issuer).":" : "";
-          // Starting with 5.8.0.0, '&issuer='.rawurlencode($q_issuer) removed at the end, replaced by issuer: at the beginning
-          
-          switch (mb_strtolower($q_algorithm,'UTF-8')) {
-              case 'totp':
-                  $result = 'otpauth://'.$q_algorithm.'/'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.base32_encode(hex2bin($q_seed)).'&digits='.$q_digits.'&period='.$q_period;
-                  break;
-              case 'hotp':
-                  $result = 'otpauth://'.$q_algorithm.'/'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.base32_encode(hex2bin($q_seed)).'&digits='.$q_digits.'&counter='.$q_counter;
-                  break;
-              case 'motp':
-                  if ('xml' == $qrcode_format) {
-                    $result = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><SSLOTPAuthenticator><mOTPProfile><ProfileName>!ProfileName!</ProfileName><PINType>!PINType!</PINType><PINSecurity>!PINSecurity!</PINSecurity><Secret>!Secret!</Secret><AlgorithmMode>!AlgorithmMode!</AlgorithmMode></mOTPProfile></SSLOTPAuthenticator>";
-                    $result = str_replace(chr(13).chr(10),chr(10),$result);
-                    $result = str_replace("!ProfileName!",$q_display_name,$result);
-                    $result = str_replace("!PINType!","0",$result); // 0=numeric 4 digits, 1=alphanumeric
-                    $result = str_replace("!PINSecurity!","0",$result); // 0=keep generating, 1=generate only one OTP
-                    $result = str_replace("!Secret!",$q_seed,$result); // Hexadecimal secret
-                    $result = str_replace("!AlgorithmMode!","0",$result); // 0=epochTime + secret + pin
-                  } else {
-                    $result = 'motp://'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.$q_seed;
-                    // $result = 'otpauth://'.$q_algorithm.'/'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.base32_encode(hex2bin($q_seed)).'&digits='.$q_digits.'&period='.$q_period;
+        $the_user       = $user;
+        $description    = $user_array['description'];
+        $q_algorithm    = $user_array['algorithm'];
+        $q_algo_suite   = $user_array['token_algo_suite'];
+        $q_period       = $user_array['time_interval'];
+        $q_digits       = $user_array['number_of_digits'];
+        $q_seed         = $user_array['token_seed'];
+        $q_counter      = $user_array['last_event'] + 1;
+        $q_display_name = (("" != $display_name)?$display_name:(("" != $description)?$description:$the_user));
+        $q_issuer       = $this->GetIssuer();
+        $q_mogw         = $this->GetPushGateway();
+        $q_mouid        = $user_array['mouid'];
+        $q_mosid        = $this->GetPushId();
+        $encoded_issuer_and_separator = ("" != $q_issuer) ? rawurlencode($q_issuer).":" : "";
+        // Starting with 5.8.0.0, '&issuer='.rawurlencode($q_issuer) removed at the end, replaced by issuer: at the beginning
+        
+        switch (mb_strtolower($q_algorithm,'UTF-8')) {
+            case 'totp':
+                $result = 'otpauth://'.$q_algorithm.'/'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.base32_encode(hex2bin($q_seed)).'&digits='.$q_digits.'&period='.$q_period;
+                
+                if ($this->IsPushActivated()) {
+                  if ($this->IsUserPushEnabled()) {
+                    if (!empty($q_mouid)) {
+                      if (!empty($q_mogw)) {
+                        if ($q_mogw != "*default*") {
+                          $result.= '&mogw='.$q_mogw;
+                        }
+                        $result.= '&mouid='.$q_mouid . '&mosid='.$q_mosid;
+                      }
+                    }
                   }
-                  break;
-              case 'token2':
-                    $result = 'motp://'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.$q_seed;
-                  break;
-              default:
-                  // $result = FALSE;
-                  $result = 'http://no.qrcode.available/no_qrcode_compatible_client_for_this_algorithm';
-                  $this->WriteLog("Error: No known URL compatible client for this algorithm", FALSE, FALSE, 23, 'System', '');
-          }
-      } else {
-          // $result = '';
+                }
+
+                break;
+            case 'hotp':
+                $result = 'otpauth://'.$q_algorithm.'/'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.base32_encode(hex2bin($q_seed)).'&digits='.$q_digits.'&counter='.$q_counter;
+                break;
+            case 'motp':
+                if ('xml' == $qrcode_format) {
+                  $result = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><SSLOTPAuthenticator><mOTPProfile><ProfileName>!ProfileName!</ProfileName><PINType>!PINType!</PINType><PINSecurity>!PINSecurity!</PINSecurity><Secret>!Secret!</Secret><AlgorithmMode>!AlgorithmMode!</AlgorithmMode></mOTPProfile></SSLOTPAuthenticator>";
+                  $result = str_replace(chr(13).chr(10),chr(10),$result);
+                  $result = str_replace("!ProfileName!",$q_display_name,$result);
+                  $result = str_replace("!PINType!","0",$result); // 0=numeric 4 digits, 1=alphanumeric
+                  $result = str_replace("!PINSecurity!","0",$result); // 0=keep generating, 1=generate only one OTP
+                  $result = str_replace("!Secret!",$q_seed,$result); // Hexadecimal secret
+                  $result = str_replace("!AlgorithmMode!","0",$result); // 0=epochTime + secret + pin
+                } else {
+                  $result = 'motp://'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.$q_seed;
+                  // $result = 'otpauth://'.$q_algorithm.'/'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.base32_encode(hex2bin($q_seed)).'&digits='.$q_digits.'&period='.$q_period;
+                }
+                break;
+            case 'token2':
+                  $result = 'motp://'.$encoded_issuer_and_separator.rawurlencode($q_display_name).'?secret='.$q_seed;
+                break;
+            default:
+                // $result = FALSE;
+                $result = 'http://no.qrcode.available/no_qrcode_compatible_client_for_this_algorithm';
+                $this->WriteLog("Error: No known URL compatible client for this algorithm", FALSE, FALSE, _MULTIOTP_BAD_ALGORITHM_, 'System', "");
+        }
       }
       return $result;
   }
@@ -9549,14 +9996,14 @@ class Multiotp
    * @since   2014-01-19
    */
   function GetTokenUrlLink(
-      $token = '',
-      $display_name = '',
-      $qrcode_format = ''
+      $token = "",
+      $display_name = "",
+      $qrcode_format = ""
   ) {
       $the_token = mb_strtolower($token,'UTF-8');
       $result = FALSE;
 
-      if ('' != $the_token) {
+      if ("" != $the_token) {
           $this->SetToken($the_token);
       }
 
@@ -9568,9 +10015,9 @@ class Multiotp
           $q_digits       = $this->GetTokenNumberOfDigits();
           $q_seed         = $this->GetTokenSeed();
           $q_counter      = $this->GetTokenLastEvent() + 1;
-          $q_display_name = (('' != $display_name)?$display_name:$the_token);
+          $q_display_name = (("" != $display_name)?$display_name:$the_token);
           $q_issuer       = $this->GetTokenIssuer();
-          $encoded_issuer_and_separator = ('' != $q_issuer) ? rawurlencode($q_issuer).":" : "";
+          $encoded_issuer_and_separator = ("" != $q_issuer) ? rawurlencode($q_issuer).":" : "";
           // Starting with 5.8.0.0, '&issuer='.rawurlencode($q_issuer) removed at the end, replaced by issuer: at the beginning
 
           switch (mb_strtolower($q_algorithm,'UTF-8'))
@@ -9601,12 +10048,12 @@ class Multiotp
               default:
                   // $result = FALSE;
                   $result = 'http://no.qrcode.available/no_qrcode_compatible_client_for_this_algorithm';
-                  $this->WriteLog("Error: No known URL compatible client for this algorithm", FALSE, FALSE, 23, 'System', '');
+                  $this->WriteLog("Error: No known URL compatible client for this algorithm", FALSE, FALSE, _MULTIOTP_BAD_ALGORITHM_, 'System', "");
           }
       }
       else
       {
-          // $result = '';
+          // $result = "";
       }
       return $result;
   }
@@ -9641,27 +10088,29 @@ class Multiotp
    * @param   string  $preferred_language
    * @param   string  $dialin_ip_address
    * @param   boolean $sync_process          Process is initiated by sync
+   * @param   string  $push_enabled_needed
    * @return  boolean
    *
    *********************************************************************/
   function FastCreateUser($user_raw,
-                          $email = '',
-                          $sms = '',
+                          $email = "",
+                          $sms = "",
                           $prefix_pin_needed = -1,
                           $algorithm = 'totp',
                           $activated=1,
                           $description = "",
                           $group = "*DEFAULT*",
                           $synchronized = 0,
-                          $pin = '',
+                          $pin = "",
                           $automatically = false,
-                          $synchronized_channel = '',
-                          $synchronized_server = '',
-                          $synchronized_dn = '',
+                          $synchronized_channel = "",
+                          $synchronized_server = "",
+                          $synchronized_dn = "",
                           $ldap_pwd_needed = -1,
-                          $language = '',
-                          $dialin_ip_address = '',
-                          $sync_process = false
+                          $language = "",
+                          $dialin_ip_address = "",
+                          $sync_process = false,
+                          $push_enabled_needed = -1
   ) {
     // A user cannot be created with one (or more) leading backslash
     $user = str_replace("\\", "", $user_raw);
@@ -9671,14 +10120,20 @@ class Multiotp
     }
 
     $result = FALSE;
-    if ('' != nullable_trim($user)) {
-      if ($this->ReadUserData($user, TRUE, TRUE) || ('' == $user)) {
-        $this->WriteLog("Error: Unable to create the user ".$user." because it already exists", FALSE, FALSE, 22, 'User', $user);
+    if ("" != nullable_trim($user)) {
+      if ($this->ReadUserData($user, TRUE, TRUE) || ("" == $user)) {
+        $this->WriteLog("Error: Unable to create the user ".$user." because it already exists", FALSE, FALSE, _MULTIOTP_USER_EXISTS_, 'User', $user);
       } else {
         if ((intval($ldap_pwd_needed) < 0) && (1 == $synchronized)) {
           $request_ldap_pwd = $this->GetDefaultRequestLdapPwd();
         } else {
           $request_ldap_pwd = intval($ldap_pwd_needed);
+        }
+
+        if ((intval($push_enabled_needed) < 0) && (1 == $synchronized)) {
+          $push_enabled = $this->GetDefaultPushEnabled();
+        } else {
+          $push_enabled = intval($push_enabled_needed);
         }
                            
         if (intval($prefix_pin_needed) < 0) {
@@ -9696,9 +10151,9 @@ class Multiotp
         $this->SetUserSms($sms);
         $this->SetUserAlgorithm($algorithm);
         
-        $this->SetUserTokenAlgoSuite(''); // Default algorithm suite (HMAC-SHA1)
+        $this->SetUserTokenAlgoSuite(""); // Default algorithm suite (HMAC-SHA1)
         $the_pin = $pin;
-        if ('' == $the_pin) {
+        if ("" == $the_pin) {
           $the_pin = $this->GeneratePin();
         }
         $this->SetUserPrefixPin($prefix_required);
@@ -9708,7 +10163,7 @@ class Multiotp
         $seed = mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(md5(mt_rand(100000,999999).date("YmdHis")),0,20);
 
         if ('totp' == mb_strtolower($algorithm,'UTF-8')) {
-          $time_interval = $this->_default_time_interval;
+          $time_interval = _MULTIOTP_DEFAULT_TOTP_INTERVAL_;
         } elseif ('motp' == mb_strtolower($algorithm,'UTF-8')) {
           $seed = mb_substr($seed,0,16);
           $time_interval = 10;
@@ -9737,6 +10192,7 @@ class Multiotp
         }
 
         $this->SetUserRequestLdapPassword($request_ldap_pwd);
+        $this->SetUserPushEnabled($push_enabled);
 
         $this->SetUserDialinIpAddress($dialin_ip_address);
 
@@ -9755,20 +10211,18 @@ class Multiotp
   ) {
     $result = TRUE;
     $user_encoded = str_replace("\\", "", $user);
-    if ('' != $user_encoded) {
+    $this->ResetUserArray();
+    if ("" != $user_encoded) {
       if ($user_encoded != $this->GetUser()) {
-        $this->ResetUserArray();
         $this->_user = $user_encoded;
         $this->_rawUser = $user_encoded;
         if (!$this->IsCaseSensitiveUsers()) {
           $this->_user = mb_strtolower($this->_user,'UTF-8');
         }
-        if ($auto_read_data) {
-          $result = $this->ReadUserData('', false); // First parameter empty, otherwise it will loop with SetUser !
-        }
       }
-    } else {
-      $this->ResetUserArray();
+      if ($auto_read_data) {
+        $result = $this->ReadUserData("", false); // First parameter empty, otherwise it will loop with SetUser !
+      }
     }
     return ($result ? $user_encoded : FALSE);
   }
@@ -9787,13 +10241,13 @@ class Multiotp
       $result = FALSE;
       if ($this->CheckUserExists($the_new_user)) // Check if the new user already exists
       {
-          $this->WriteLog("Error: Unable to rename the current user ".$this->GetUser()." to $the_new_user because $the_new_user already exists", FALSE, FALSE, 22, 'User');
+          $this->WriteLog("Error: Unable to rename the current user ".$this->GetUser()." to $the_new_user because $the_new_user already exists", FALSE, FALSE, _MULTIOTP_USER_EXISTS_, 'User');
       }
       else
       {
           if ($this->CheckUserExists()) // Check if the current user already exists
           {
-              if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType()))
+              if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType()))
               {
                   switch ($this->GetBackendType())
                   {
@@ -9802,7 +10256,7 @@ class Multiotp
                           $esc_new    = escape_mysql_string($the_new_user);
                           if ($this->OpenMysqlDatabase())
                           {
-                              if ('' != $this->_config_data['sql_users_table'])
+                              if ("" != $this->_config_data['sql_users_table'])
                               {
                                   $sQuery = "UPDATE `".$this->_config_data['sql_users_table']."` SET user='".mb_strtolower($esc_new,'UTF-8')."' WHERE `user`='".$esc_actual."'";
                                   
@@ -9812,7 +10266,7 @@ class Multiotp
                                       {
                                           if (!$no_error_info)
                                           {
-                                              $this->WriteLog("Error: Could not rename the user ".$this->GetUser().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'User');
+                                              $this->WriteLog("Error: Could not rename the user ".$this->GetUser().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                                           }
                                       }
                                       else
@@ -9824,7 +10278,7 @@ class Multiotp
                                   {
                                       if (!$no_error_info)
                                       {
-                                          $this->WriteLog("Error: Could not rename the user ".$this->GetUser().": ".mysql_error(), FALSE, FALSE, 28, 'User');
+                                          $this->WriteLog("Error: Could not rename the user ".$this->GetUser().": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                                       }
                                   }
                                   else
@@ -9834,11 +10288,11 @@ class Multiotp
                                   
                                   if (0 == $num_rows)
                                   {
-                                      $this->WriteLog("Error: Could not rename the user ".$this->GetUser().". User does not exist", FALSE, FALSE, 21, 'User');
+                                      $this->WriteLog("Error: Could not rename the user ".$this->GetUser().". User does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User');
                                   }
                                   else
                                   {
-                                      $this->WriteLog("Info: User ".$this->GetUser()." successfully renamed to $the_new_user", FALSE, FALSE, 11, 'User');
+                                      $this->WriteLog("Info: User ".$this->GetUser()." successfully renamed to $the_new_user", FALSE, FALSE, _MULTIOTP_USER_UPDATED_, 'User');
                                       $result = TRUE;
                                   }
                               }
@@ -9848,7 +10302,7 @@ class Multiotp
                           if ($this->OpenPGSQLDatabase()) {
                             $esc_actual = pg_escape_string($this->_pgsql_database_link, $this->GetUser());
                             $esc_new    = pg_escape_string($this->_pgsql_database_link, $the_new_user);
-                              if ('' != $this->_config_data['sql_users_table'])
+                              if ("" != $this->_config_data['sql_users_table'])
                               {
                                   $sQuery = "UPDATE \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_users_table']."\" SET \"user\" = '".mb_strtolower($esc_new,'UTF-8')."' WHERE \"user\" = '".$esc_actual."'";
                                   
@@ -9856,7 +10310,7 @@ class Multiotp
                                   {
                                       if (!$no_error_info)
                                       {
-                                          $this->WriteLog("Error: Could not rename the user ".$this->GetUser().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'User');
+                                          $this->WriteLog("Error: Could not rename the user ".$this->GetUser().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                                       }
                                   }
                                   else
@@ -9866,11 +10320,11 @@ class Multiotp
                                   
                                   if (0 == $num_rows)
                                   {
-                                      $this->WriteLog("Error: Could not rename the user ".$this->GetUser().". User does not exist", FALSE, FALSE, 21, 'User');
+                                      $this->WriteLog("Error: Could not rename the user ".$this->GetUser().". User does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User');
                                   }
                                   else
                                   {
-                                      $this->WriteLog("Info: User ".$this->GetUser()." successfully renamed to $the_new_user", FALSE, FALSE, 11, 'User');
+                                      $this->WriteLog("Info: User ".$this->GetUser()." successfully renamed to $the_new_user", FALSE, FALSE, _MULTIOTP_USER_UPDATED_, 'User');
                                       $result = TRUE;
                                   }
                               }
@@ -9928,7 +10382,7 @@ class Multiotp
           $at_remove_length+= 1 + mb_strlen($at_user_dots[$dot_loop]);
           $cleaned_user = mb_substr($user, 0, mb_strlen($user) - $at_remove_length);
           if (($this->IsDeveloperMode())) {
-            $this->WriteLog('Developer: Trying username '.$cleaned_user, false, false, 8888, 'Debug', '');
+            $this->WriteLog('Developer: Trying username '.$cleaned_user, false, false, 8888, 'Debug', "");
           }
           if ($this->CheckUserExists($cleaned_user, FALSE, TRUE, TRUE)) {
             $real_user = $cleaned_user;
@@ -9954,23 +10408,23 @@ class Multiotp
 
   // Check if user exists (locally only)
   function CheckUserExists(
-      $user = '',
+      $user = "",
       $no_server_check = FALSE,
       $no_error = FALSE,
       $no_local_check_if_not_on_server = FALSE // Used by FindRealUserName to continue to search the next available user online
   ) {
-      $check_user = str_replace("\\", "", ('' != $user)?$user:$this->GetUser());
+      $check_user = str_replace("\\", "", ("" != $user)?$user:$this->GetUser());
       $result = FALSE;
 
-      if ('' != nullable_trim($check_user)) {
+      if ("" != nullable_trim($check_user)) {
           $server_result = -1;
-          if ((!$no_server_check) && ('' != $this->GetServerUrl())) {
+          if ((!$no_server_check) && ("" != $this->GetServerUrl())) {
               $server_result = $this->CheckUserExistsOnServer($check_user);
-              if (22 == $server_result) {
+              if (_MULTIOTP_USER_EXISTS_ == $server_result) {
                   // We return only if the user exists, so we check also the local one
                   $result = TRUE;
                   return $result;
-              } else if ($no_local_check_if_not_on_server && (21 == $server_result)) {
+              } else if ($no_local_check_if_not_on_server && (_MULTIOTP_USER_MISSING_ == $server_result)) {
                   // Delete the user if it exists locally and not on the server
                   $this->DeleteUser($check_user, TRUE);
                   $result = FALSE;
@@ -9978,7 +10432,7 @@ class Multiotp
               }
           }
 
-          if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
+          if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
               switch ($this->GetBackendType()) {
                   case 'mysql':
                       $check_user_escaped = escape_mysql_string($check_user);
@@ -9987,25 +10441,25 @@ class Multiotp
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               } else {
                                   $num_rows = $rResult->num_rows;
                               }
                           }
                           elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               $num_rows = mysql_num_rows($this->_mysql_database_link);
                           }
                           
                           if (0 == $num_rows) {
                               if ((!$no_error) || $this->GetVerboseFlag()) {
-                                $this->WriteLog("Error: User ".$check_user." does not exist", FALSE, FALSE, 21, 'System', '');
+                                $this->WriteLog("Error: User ".$check_user." does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'System', "");
                               }
                               $result = FALSE;
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                $this->WriteLog("Info: User ".$check_user." exists", FALSE, FALSE, 22, 'System', '');
+                                $this->WriteLog("Info: User ".$check_user." exists", FALSE, FALSE, _MULTIOTP_USER_EXISTS_, 'System', "");
                               }
                               $result = TRUE;
                           }
@@ -10017,14 +10471,14 @@ class Multiotp
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_users_table']."\" WHERE \"user\" = '{$check_user_escaped}';";
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               $num_rows = pg_num_rows($rResult);
                           }
                           
                           if (0 == $num_rows) {
                               if (!$no_error) {
-                                  $this->WriteLog("Error: User ".$check_user." does not exist", FALSE, FALSE, 21, 'System', '');
+                                  $this->WriteLog("Error: User ".$check_user." does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'System', "");
                               }
                               $result = FALSE;
                           } else {
@@ -10048,17 +10502,17 @@ class Multiotp
 
 
   function LockUser(
-      $user = ''
+      $user = ""
   ) {
       $result = FALSE;
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user, false);
       }
-      if ($this->ReadUserData('', FALSE, TRUE)) {
+      if ($this->ReadUserData("", FALSE, TRUE)) {
           // LOCALLY ONLY, not on the server if any
           $this->SetUserLocked(1);
           if ($this->GetVerboseFlag()) {
-              $this->WriteLog("Info: *User ".$this->GetUser()." successfully locked", FALSE, FALSE, 19, 'User');
+              $this->WriteLog("Info: *User ".$this->GetUser()." successfully locked", FALSE, FALSE, _MULTIOTP_USER_UPDATED_, 'User');
           }
           $this->WriteUserData();
           $result = TRUE;
@@ -10068,18 +10522,18 @@ class Multiotp
 
 
   function UnlockUser(
-      $user = ''
+      $user = ""
   ) {
       $result = FALSE;
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user, false);
       }
-      if ($this->ReadUserData('', FALSE, TRUE)) {
+      if ($this->ReadUserData("", FALSE, TRUE)) {
           // LOCALLY ONLY, not on the server if any
           $this->SetUserErrorCounter(0);
           $this->SetUserLocked(0);
           if ($this->GetVerboseFlag()) {
-              $this->WriteLog("Info: *User ".$this->GetUser()." successfully unlocked", FALSE, FALSE, 19, 'User');
+              $this->WriteLog("Info: *User ".$this->GetUser()." successfully unlocked", FALSE, FALSE, _MULTIOTP_USER_UPDATED_, 'User');
           }
           $this->WriteUserData();
           $result = TRUE;
@@ -10089,10 +10543,10 @@ class Multiotp
 
 
   function DeleteUser(
-      $user = '',
+      $user = "",
       $no_error_info = FALSE
   ) {
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user, false);
       }
       
@@ -10108,18 +10562,18 @@ class Multiotp
           if (!file_exists($this->GetUsersFolder().$user_filename)) {
               if (!$no_error_info) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Error: *Unable to delete user ".$this->GetUser().", the users database file ".$this->GetUsersFolder().$user_filename." does not exist", FALSE, FALSE, 21, 'User');
+                      $this->WriteLog("Error: *Unable to delete user ".$this->GetUser().", the users database file ".$this->GetUsersFolder().$user_filename." does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User');
                   } else {
-                      $this->WriteLog("Error: Unable to delete user ".$this->GetUser(), FALSE, FALSE, 29, 'User');
+                      $this->WriteLog("Error: Unable to delete user ".$this->GetUser(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                   }
               }
           } else {
               $result = unlink($this->GetUsersFolder().$user_filename);
               if ($result) {
-                  $this->WriteLog("Info: User ".$this->GetUser()." successfully deleted", FALSE, FALSE, 12, 'User');
+                  $this->WriteLog("Info: User ".$this->GetUser()." successfully deleted", FALSE, FALSE, _MULTIOTP_USER_DELETED_, 'User');
               } elseif (!$this->GetMigrationFromFile()) {
                   if (!$no_error_info) {
-                      $this->WriteLog("Error: Unable to delete user ".$this->GetUser(), FALSE, FALSE, 28, 'User');
+                      $this->WriteLog("Error: Unable to delete user ".$this->GetUser(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                   }
               }
           }
@@ -10130,20 +10584,20 @@ class Multiotp
               case 'mysql':
                   $user_escaped = escape_mysql_string($this->GetUser());
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_users_table']) {
+                      if ("" != $this->_config_data['sql_users_table']) {
                           $sQuery  = "DELETE FROM `".$this->_config_data['sql_users_table']."` WHERE `user` = '".$user_escaped."'";
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
                                   if (!$no_error_info) {
-                                      $this->WriteLog("Error: Could not delete user ".$this->GetUser().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'User');
+                                      $this->WriteLog("Error: Could not delete user ".$this->GetUser().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                                   }
                               } else {
                                   $num_rows = $this->_mysqli->affected_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().": ".mysql_error(), FALSE, FALSE, 28, 'User');
+                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                               }
                           } else {
                               $num_rows = mysql_affected_rows($this->_mysql_database_link);
@@ -10151,10 +10605,10 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().". User does not exist", FALSE, FALSE, 21, 'User');
+                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().". User does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User');
                               }
                           } else {
-                              $this->WriteLog("Info: User ".$this->GetUser()." successfully deleted", FALSE, FALSE, 12, 'User');
+                              $this->WriteLog("Info: User ".$this->GetUser()." successfully deleted", FALSE, FALSE, _MULTIOTP_USER_DELETED_, 'User');
                               $result = TRUE;
                           }
                       }
@@ -10163,12 +10617,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $user_escaped = pg_escape_string($this->_pgsql_database_link, $this->GetUser());
-                      if ('' != $this->_config_data['sql_users_table']) {
+                      if ("" != $this->_config_data['sql_users_table']) {
                           $sQuery  = "DELETE FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_users_table']."\" WHERE \"user\" = '".$user_escaped."'";
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'User');
+                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'User');
                               }
                           } else {
                               $num_rows = pg_affected_rows($rResult);
@@ -10176,10 +10630,10 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().". User does not exist", FALSE, FALSE, 21, 'User');
+                                  $this->WriteLog("Error: Could not delete user ".$this->GetUser().". User does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'User');
                               }
                           } else {
-                              $this->WriteLog("Info: User ".$this->GetUser()." successfully deleted", FALSE, FALSE, 12, 'User');
+                              $this->WriteLog("Info: User ".$this->GetUser()." successfully deleted", FALSE, FALSE, _MULTIOTP_USER_DELETED_, 'User');
                               $result = TRUE;
                           }
                       }
@@ -10221,7 +10675,7 @@ class Multiotp
                       $sQuery  = "SELECT COUNT(user) AS counter FROM `".$this->_config_data['sql_users_table']."` ";
                       if (is_object($this->_mysqli)) {
                           if (!($result = $this->_mysqli->query($sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               if ($aRow = $result->fetch_assoc()) {
@@ -10230,7 +10684,7 @@ class Multiotp
                           }
                       } else {
                           if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               if ($aRow = mysql_fetch_assoc($rResult)) {
                                   $users_count = $aRow['counter'];
@@ -10244,7 +10698,7 @@ class Multiotp
                   {
                       $sQuery  = "SELECT COUNT(\"user\") AS \"counter\" FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_users_table']."\" ";
                       if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       } else {
                           if ($aRow = pg_fetch_assoc($rResult)) {
                               $users_count = $aRow['counter'];
@@ -10273,11 +10727,11 @@ class Multiotp
 
 
   function ReadUserDataArray(
-      $user = '',
+      $user = "",
       $create = false,
       $no_server_check = false
   ) {
-      $array_user = ('' != $user)?$user:$this->GetUser();
+      $array_user = ("" != $user)?$user:$this->GetUser();
       $result = false;
 
       // We initialize the local encryption check variable
@@ -10314,7 +10768,7 @@ class Multiotp
 
           if (!is_readable($file_folder.$user_filename)) {
               if (!$create) {
-                  $this->WriteLog("Error: database file ".$file_folder.$user_filename." for user ".$array_user." does not exist or is not readable", FALSE, FALSE, 21, 'System', '');
+                  $this->WriteLog("Error: database file ".$file_folder.$user_filename." for user ".$array_user." does not exist or is not readable", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'System', "");
               }
           } else {
               $temp_user_array['multi_account'] = 0;
@@ -10325,7 +10779,7 @@ class Multiotp
               $trial_step_ms = 100; 
               while ((!$result) && ($trial_count < $trial_limit)) {
                 if ($trial_count > 0) {
-                  $this->WriteLog("Error: database file ".$file_folder.$user_filename." for user ".$array_user." cannot be read (concurrent access)", FALSE, FALSE, 39, 'System', '');
+                  $this->WriteLog("Error: database file ".$file_folder.$user_filename." for user ".$array_user." cannot be read (concurrent access)", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "");
                 }
                 usleep ($trial_step_ms * $trial_count * 1000);
                 $trial_count++;
@@ -10361,8 +10815,8 @@ class Multiotp
                                     $local_encryption_check = $this->_encryption_check;
                                 }
                             }
-                            $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
-                            if ('' != nullable_trim($line_array[0])) {
+                            $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
+                            if ("" != nullable_trim($line_array[0])) {
                                 $temp_user_array[mb_strtolower($line_array[0],'UTF-8')] = $line_array[1];
                             }
                         }
@@ -10370,13 +10824,13 @@ class Multiotp
                     fclose($file_handler);
                     $result = true;
                 } else {
-                  $this->WriteLog("Error: database file ".$file_folder.$user_filename." for user ".$array_user." cannot be read", FALSE, FALSE, 39, 'System', '');
+                  $this->WriteLog("Error: database file ".$file_folder.$user_filename." for user ".$array_user." cannot be read", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "");
                 }
               } // while
-              if (('' != $temp_user_array['encryption_hash']) && ($local_encryption_check)) {
+              if (("" != $temp_user_array['encryption_hash']) && ($local_encryption_check)) {
                   if ($temp_user_array['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                       $temp_user_array['encryption_hash'] = "ERROR";
-                      $this->WriteLog("Error: the user information encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                      $this->WriteLog("Error: the user information encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                       $result = false;
                   }
               }
@@ -10389,20 +10843,20 @@ class Multiotp
               case 'mysql':
                   $array_user_escaped = escape_mysql_string($array_user);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_users_table']) {
+                      if ("" != $this->_config_data['sql_users_table']) {
                           $sQuery  = "SELECT * FROM `".$this->_config_data['sql_users_table']."` WHERE `user` = '".$array_user_escaped."'";
                           $aRow = NULL;
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = false;
                               } else {
                                   $aRow = $rResult->fetch_assoc();
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = false;
                               } else {
                                   $aRow = mysql_fetch_assoc($rResult);
@@ -10433,19 +10887,19 @@ class Multiotp
                                       }
                                       $temp_user_array[$key] = str_replace("<<CRLF>>",chr(10),$temp_user_array[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the users table schema", FALSE, FALSE, 42, 'System', '', 3);
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the users table schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "", 3);
                                   }
                                   $result = true;
                               }
                               if(0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for user ".$array_user." does not exist", FALSE, FALSE, 21, 'System', '');
+                                  $this->WriteLog("Error: SQL database entry for user ".$array_user." does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'System', "");
                               }
                           }
                       }
-                      if (('' != $temp_user_array['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $temp_user_array['encryption_hash']) && ($local_encryption_check)) {
                           if ($temp_user_array['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $temp_user_array['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the users mysql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the users mysql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = false;
                           }
                       }
@@ -10454,12 +10908,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $array_user_escaped = pg_escape_string($this->_pgsql_database_link, $array_user);
-                      if ('' != $this->_config_data['sql_users_table']) {
+                      if ("" != $this->_config_data['sql_users_table']) {
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_users_table']."\" WHERE \"user\" = '".$array_user_escaped ."'";
                           $aRow = NULL;
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                               $result = false;
                           }
                           else {
@@ -10496,19 +10950,19 @@ class Multiotp
                                       }
                                       $temp_user_array[$key] = str_replace("<<CRLF>>",chr(10),$temp_user_array[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the users table schema", FALSE, FALSE, 42, 'System', '', 3);
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the users table schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "", 3);
                                   }
                                   $result = true;
                               }
                               if(0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for user ".$array_user." does not exist", FALSE, FALSE, 21, 'System', '');
+                                  $this->WriteLog("Error: SQL database entry for user ".$array_user." does not exist", FALSE, FALSE, _MULTIOTP_USER_MISSING_, 'System', "");
                               }
                           }
                       }
-                      if (('' != $temp_user_array['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $temp_user_array['encryption_hash']) && ($local_encryption_check)) {
                           if ($temp_user_array['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $temp_user_array['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the users pgsql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the users pgsql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = false;
                           }
                       }
@@ -10522,14 +10976,14 @@ class Multiotp
 
       // And now, we do the ReadUserData online on the server
       $server_result = -1;
-      if ((!$no_server_check) && ('' != $this->GetServerUrl()))
+      if ((!$no_server_check) && ("" != $this->GetServerUrl()))
       {
           $server_result = $this->ReadUserDataOnServer($array_user);
           if (20 < mb_strlen($server_result))
           {
               $temp_user_array['encryption_hash'] = $this->CalculateControlHash($this->GetEncryptionKey());
               $server_array = explode("\n",$server_result);
-              $server_result = 19;
+              $server_result = _MULTIOTP_OPERATION_DONE_;
 
               foreach ($server_array as $one_line)
               {
@@ -10541,8 +10995,8 @@ class Multiotp
                       $line_array[1] = $this->Decrypt($line_array[0], $line_array[1], $this->GetServerSecret());
                       $local_encryption_check = $this->_encryption_check;
                   }
-                  $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
-                  if ('' != nullable_trim($line_array[0]))
+                  $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
+                  if ("" != nullable_trim($line_array[0]))
                   {
                       if ('encryption_hash' != mb_strtolower($line_array[0],'UTF-8'))
                       {
@@ -10551,10 +11005,10 @@ class Multiotp
                   }
               }
               $result = true;
-          } elseif (21 == $server_result) {
+          } elseif (_MULTIOTP_USER_MISSING_ == $server_result) {
             // If user doesn't exist anymore on the server,
             //   reply false and delete local cached file if any
-            $this->DeleteUser('', true);
+            $this->DeleteUser("", true);
             $result = false;
           }
       }
@@ -10580,12 +11034,12 @@ class Multiotp
 
 
   function ReadUserData(
-      $user = '',
+      $user = "",
       $create = FALSE,
       $no_server_check = FALSE,
       $return_array_only = FALSE
   ) {
-      if (('' != $user) && (!$return_array_only)) {
+      if (("" != $user) && (!$return_array_only)) {
           $this->SetUser($user, false);
       }
       $result = false;
@@ -10632,31 +11086,50 @@ class Multiotp
         $write_user_data_array = $temp_array;
       }
 
-      if ('' == nullable_trim($this->GetUser())) {
-          $result = false;
+      if ("" == nullable_trim($this->GetUser())) {
+        $result = false;
       } else {
-          $result = $this->WriteData(array_merge(array('item'               => 'User',
-                                                       'table'              => 'users',
-                                                       'folder'             => $this->GetUsersFolder(),
-                                                       'data_array'         => $this->_user_data,
-                                                       'force_file'         => false,
-                                                       'id_field'           => 'user',
-                                                       'id_value'           => $this->GetUser(),
-                                                       'encode_file_id'     => $this->IsEncodeFileId(),
-                                                       'id_case_sensitive'  => $this->IsCaseSensitiveUsers()
-                                                      ), $write_user_data_array));
+        if ((1 == $this->_user_data['push_enabled']) && ($this->_user_data['push_enable_date'] <= 0) && ($this->IsPushActivated())) {
+          $temp_mouid = trim(isset($this->_user_data['mouid']) ? $this->_user_data['mouid'] : "");
+          if (empty($temp_mouid)) {
+           $temp_mouid = $this->GetMouidPrefix().base32_encode(hex2bin(substr(md5($this->GetPushId().$this->GetUser().sha1(mt_rand(100000,999999).date("YmdHis"))), 0, 30)));
+          }
 
+          $subscription_result = $this->UserPushSubscription(array(
+            "user"         => $this->GetUser(),
+            "mouid"        => $temp_mouid,
+            "mosid"        => $this->GetPushId(),
+            "push_gateway" => $this->GetPushGateway(true)
+          ));
+          
+          if (200 == $subscription_result) {
+            $this->_user_data['mouid'] = $temp_mouid;
+            $this->_user_data['mosid'] = $this->GetPushId();
+            $this->_user_data['push_gateway'] = $this->GetPushGateway(true);
+            $this->_user_data['push_enable_date'] = time();
+          }
+        }
+
+        $result = $this->WriteData(array_merge(array('item'               => 'User',
+                                                     'table'              => 'users',
+                                                     'folder'             => $this->GetUsersFolder(),
+                                                     'data_array'         => $this->_user_data,
+                                                     'force_file'         => false,
+                                                     'id_field'           => 'user',
+                                                     'id_value'           => $this->GetUser(),
+                                                     'encode_file_id'     => $this->IsEncodeFileId(),
+                                                     'id_case_sensitive'  => $this->IsCaseSensitiveUsers()
+                                                    ), $write_user_data_array));
       }
       return $result;
   }
 
 
-  function GetUsersList()
-  {
-      return $this->GetList('user', 'sql_users_table', $this->GetUsersFolder());
+  function GetUsersList() {
+    return $this->GetList('user', 'sql_users_table', $this->GetUsersFolder());
   }
-  
-  
+
+
   function GetEnhancedUsersList() {
     $array_result = array();
     $user_list = nullable_trim($this->GetUsersList());
@@ -10698,9 +11171,9 @@ class Multiotp
       // We initialize the local encryption check variable
       $local_encryption_check = false;
 
-      $delayed_users_list = '';
+      $delayed_users_list = "";
       $delayed_users_count = 0;
-      if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
+      if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
           switch ($this->GetBackendType()) {
               case 'mysql':
                   if ($this->OpenMysqlDatabase()) {
@@ -10710,16 +11183,16 @@ class Multiotp
                       }
                       if (is_object($this->_mysqli)) {
                           if (!($result = $this->_mysqli->query($sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               while ($aRow = $result->fetch_assoc()) {
-                                  if ('' != $aRow['user']) {
+                                  if ("" != $aRow['user']) {
                                       $now_epoch = time();
                                       if (($aRow['error_counter'] >= $this->GetMaxDelayedFailures()) && ($now_epoch < ((isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime()))) {
                                           $delayed_time = ((isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime()) - $now_epoch;
                                           $delayed_finished = (isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime();
-                                          $delayed_users_list.= (('' != $delayed_users_list)?"\t":'').$aRow['user'].'|'.$delayed_finished;
+                                          $delayed_users_list.= (("" != $delayed_users_list)?"\t":"").$aRow['user'].'|'.$delayed_finished;
                                           $delayed_users_count++;
                                       }
                                   }
@@ -10727,15 +11200,15 @@ class Multiotp
                           }
                       } else {
                           if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               while ($aRow = mysql_fetch_assoc($rResult)) {
-                                  if ('' != $aRow['user']) {
+                                  if ("" != $aRow['user']) {
                                       $now_epoch = time();
                                       if (($aRow['error_counter'] >= $this->GetMaxDelayedFailures()) && ($now_epoch < ((isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime()))) {
                                           $delayed_time = ((isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime()) - $now_epoch;
                                           $delayed_finished = (isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime();
-                                          $delayed_users_list.= (('' != $delayed_users_list)?"\t":'').$aRow['user'].'|'.$delayed_finished;
+                                          $delayed_users_list.= (("" != $delayed_users_list)?"\t":"").$aRow['user'].'|'.$delayed_finished;
                                           $delayed_users_count++;
                                       }
                                   }
@@ -10751,15 +11224,15 @@ class Multiotp
                           $sQuery.= " LIMIT 0,".$limit;
                       }
                       if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       } else {
                           while ($aRow = pg_fetch_assoc($rResult)) {
-                              if ('' != $aRow['user']) {
+                              if ("" != $aRow['user']) {
                                   $now_epoch = time();
                                   if (($aRow['error_counter'] >= $this->GetMaxDelayedFailures()) && ($now_epoch < ((isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime()))) {
                                       $delayed_time = ((isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime()) - $now_epoch;
                                       $delayed_finished = (isset($aRow['last_error']) ? $aRow['last_error'] : 0) + $this->GetMaxDelayedTime();
-                                      $delayed_users_list.= (('' != $delayed_users_list)?"\t":'').$aRow['user'].'|'.$delayed_finished;
+                                      $delayed_users_list.= (("" != $delayed_users_list)?"\t":"").$aRow['user'].'|'.$delayed_finished;
                                       $delayed_users_count++;
                                   }
                               }
@@ -10806,7 +11279,7 @@ class Multiotp
                                   $local_encryption_check = $this->_encryption_check;
                                 }
                               }
-                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
+                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
                               if ('error_counter' == nullable_trim($line_array[0]))
                               {
                                 $error_counter = intval($line_array[1]);
@@ -10840,7 +11313,7 @@ class Multiotp
                             $delayed_finished = $last_error + $this->GetMaxDelayedTime();
                             if (!$locked)
                             {
-                                $delayed_users_list.= (('' != $delayed_users_list)?"\t":'').$current_user.'|'.$delayed_finished;
+                                $delayed_users_list.= (("" != $delayed_users_list)?"\t":"").$current_user.'|'.$delayed_finished;
                                 $delayed_users_count++;
                             }
                           }
@@ -10870,8 +11343,8 @@ class Multiotp
       if (($this->IsCacheData()) && (($this->ReadCacheValue('locked_users_list')) != '-1')) {
           $locked_users_list = ($this->ReadCacheValue('locked_users_list'));
       } else {
-          $locked_users_list = '';
-          if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
+          $locked_users_list = "";
+          if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
               switch ($this->GetBackendType()) {
                   case 'mysql':
                       if ($this->OpenMysqlDatabase()) {
@@ -10881,22 +11354,22 @@ class Multiotp
                           }
                           if (is_object($this->_mysqli)) {
                               if (!($result = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   while ($aRow = $result->fetch_assoc()) {
-                                      if ('' != $aRow['user']) {
-                                          $locked_users_list.= (('' != $locked_users_list)?"\t":'').$aRow['user'];
+                                      if ("" != $aRow['user']) {
+                                          $locked_users_list.= (("" != $locked_users_list)?"\t":"").$aRow['user'];
                                       }
                                   }
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               } else {
                                   while ($aRow = mysql_fetch_assoc($rResult)) {
-                                      if ('' != $aRow['user']) {
-                                          $locked_users_list.= (('' != $locked_users_list)?"\t":'').$aRow['user'];
+                                      if ("" != $aRow['user']) {
+                                          $locked_users_list.= (("" != $locked_users_list)?"\t":"").$aRow['user'];
                                       }
                                   }                         
                               }
@@ -10910,11 +11383,11 @@ class Multiotp
                               $sQuery.= " LIMIT 0,".$limit;
                           }
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               while ($aRow = pg_fetch_assoc($rResult)) {
-                                  if ('' != $aRow['user']) {
-                                      $locked_users_list.= (('' != $locked_users_list)?"\t":'').$aRow['user'];
+                                  if ("" != $aRow['user']) {
+                                      $locked_users_list.= (("" != $locked_users_list)?"\t":"").$aRow['user'];
                                   }
                               }                         
                           }
@@ -10963,7 +11436,7 @@ class Multiotp
                                                       $local_encryption_check = $this->_encryption_check;
                                                   }
                                               }
-                                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
+                                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
                                               if ('locked' == nullable_trim($line_array[0])) {
                                                   if (1 == (isset($line_array[1])?$line_array[1]:0))
                                                   {
@@ -10989,7 +11462,7 @@ class Multiotp
                                       }
                                       
                                       if ($locked) {
-                                          $locked_users_list.= (('' != $locked_users_list)?"\t":'').$current_user;
+                                          $locked_users_list.= (("" != $locked_users_list)?"\t":"").$current_user;
                                           $locked_users_count++;
                                       }
                                       if (!$desactivated)
@@ -11041,7 +11514,7 @@ class Multiotp
       {
           $locked_users_count = 0;
           $active_users_count = -1;
-          if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType()))
+          if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType()))
           {
               switch ($this->GetBackendType())
               {
@@ -11051,7 +11524,7 @@ class Multiotp
                           $sQuery  = "SELECT COUNT(user) AS counter FROM `".$this->_config_data['sql_users_table']."` WHERE ((`locked` = 1) OR ((`error_counter` >= ".$this->GetMaxDelayedFailures().") AND (".$now_epoch." < (`last_error` + ".$this->GetMaxDelayedTime()."))))";
                           if (is_object($this->_mysqli)) {
                               if (!($result = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   if ($aRow = $result->fetch_assoc()) {
@@ -11060,7 +11533,7 @@ class Multiotp
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               } else {
                                   if ($aRow = mysql_fetch_assoc($rResult)) {
                                       $locked_users_count = $aRow['counter'];
@@ -11074,7 +11547,7 @@ class Multiotp
                       {
                           $sQuery  = "SELECT COUNT(\"user\") AS \"counter\" FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_users_table']."\" WHERE ((\"locked\" = 1) OR ((\"error_counter\" >= ".$this->GetMaxDelayedFailures().") AND (".$now_epoch." < (\"last_error\" + ".$this->GetMaxDelayedTime()."))))";
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               if ($aRow = pg_fetch_assoc($rResult)) {
                                   $locked_users_count = $aRow['counter'];
@@ -11113,7 +11586,7 @@ class Multiotp
                                                       $local_encryption_check = $this->_encryption_check;
                                                   }
                                               }
-                                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
+                                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
                                               if ('locked' == nullable_trim($line_array[0])) {
                                                   if (1 == (isset($line_array[1])?$line_array[1]:0)) {
                                                       $locked = TRUE;
@@ -11172,8 +11645,8 @@ class Multiotp
       // We initialize the local encryption check variable
       $local_encryption_check = false;
 
-      $list = '';
-      if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType()))
+      $list = "";
+      if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType()))
       {
           switch ($this->GetBackendType())
           {
@@ -11189,26 +11662,26 @@ class Multiotp
                       {
                           if (!($result = $this->_mysqli->query($sQuery)))
                           {
-                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           }
                           else
                           {
                               while ($aRow = $result->fetch_assoc())
                               {
-                                  if ('' != $aRow['user'])
+                                  if ("" != $aRow['user'])
                                   {
-                                      $list.= (('' != $list)?"\t":'').$aRow['user'];
+                                      $list.= (("" != $list)?"\t":"").$aRow['user'];
                                   }
                               }
                           }
                       } else {
                           if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               while ($aRow = mysql_fetch_assoc($rResult)) {
-                                  if ('' != $aRow['user']) {
-                                      $list.= (('' != $list)?"\t":'').$aRow['user'];
+                                  if ("" != $aRow['user']) {
+                                      $list.= (("" != $list)?"\t":"").$aRow['user'];
                                   }
                               }                         
                           }
@@ -11222,11 +11695,11 @@ class Multiotp
                           $sQuery.= " LIMIT 0,".$limit;
                       }
                       if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       } else {
                           while ($aRow = pg_fetch_assoc($rResult)) {
-                              if ('' != $aRow['user']) {
-                                  $list.= (('' != $list)?"\t":'').$aRow['user'];
+                              if ("" != $aRow['user']) {
+                                  $list.= (("" != $list)?"\t":"").$aRow['user'];
                               }
                           }                         
                       }
@@ -11263,7 +11736,7 @@ class Multiotp
                                                   $local_encryption_check = $this->_encryption_check;
                                               }
                                           }
-                                          $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
+                                          $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
                                           if ('desactivated' == nullable_trim($line_array[0])) {
                                               if (1 == (isset($line_array[1])?$line_array[1]:0)) {
                                                   $desactivated = TRUE;
@@ -11280,7 +11753,7 @@ class Multiotp
                                   $users_count++;
                                   
                                   if (!$desactivated) {
-                                      $list.= (('' != $list)?"\t":'').$current_user;
+                                      $list.= (("" != $list)?"\t":"").$current_user;
                                       $active_users_count++;
                                   }
                                   if ($locked) {
@@ -11323,7 +11796,7 @@ class Multiotp
       } else {
           $active_users_count = 0;
           $locked_users_count = -1;
-          if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
+          if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_users_table'])) || ('files' == $this->GetBackendType())) {
               switch ($this->GetBackendType()) {
                   case 'mysql':
                       if ($this->OpenMysqlDatabase()) {
@@ -11333,7 +11806,7 @@ class Multiotp
                           }
                           if (is_object($this->_mysqli)) {
                               if (!($result = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   if ($aRow = $result->fetch_assoc()) {
@@ -11342,7 +11815,7 @@ class Multiotp
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               } else {
                                   if ($aRow = mysql_fetch_assoc($rResult)) {
                                       $active_users_count = $aRow['counter'];
@@ -11358,7 +11831,7 @@ class Multiotp
                             $sQuery.= " AND ((\"request_ldap_pwd\" = 0) OR (\"algorithm\" NOT LIKE 'without2fa'))";
                           }
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               if ($aRow = pg_fetch_assoc($rResult)) {
                                   $active_users_count = $aRow['counter'];
@@ -11402,7 +11875,7 @@ class Multiotp
                                                       $local_encryption_check = $this->_encryption_check;
                                                   }
                                               }
-                                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
+                                              $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
                                               if ('desactivated' == nullable_trim($line_array[0])) {
                                                   if (1 == (isset($line_array[1])?$line_array[1]:0)) {
                                                     $desactivated = TRUE;
@@ -11517,15 +11990,15 @@ class Multiotp
           
       $raw_id = $fields_array[0];
 
-      $fields_text = '';
-      $fields_separator = '';
+      $fields_text = "";
+      $fields_separator = "";
       
       $table_name = 'sql_users_table';
       $folder = $this->GetUsersFolder();
       $parser_id = 'GET_NEXT_USER_ARRAY';
       $user_array = false;
 
-      if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data[$table_name])) || ('files' == $this->GetBackendType())) {
+      if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data[$table_name])) || ('files' == $this->GetBackendType())) {
           if ($first) {
               switch ($this->GetBackendType()) {
                   case 'mysql':
@@ -11537,14 +12010,14 @@ class Multiotp
                           $sQuery = "SELECT ".$fields_text." FROM `".$this->_config_data[$table_name]."` ORDER BY user ASC";
                           if (is_object($this->_mysqli)) {
                               if (!($this->_parser_pointers[$parser_id] = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $this->_parser_pointers[$parser_id] = FALSE;
                                   $result = FALSE;
                                   return $result;
                               }
                           } else {
                               if (!($this->_parser_pointers[$parser_id] = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                                   $this->_parser_pointers[$parser_id] = FALSE;
                                   $result = FALSE;
                                   return $result;
@@ -11560,7 +12033,7 @@ class Multiotp
                       if ($this->OpenPGSQLDatabase()) {
                           $sQuery = "SELECT ".$fields_text." FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data[$table_name]."\" ORDER BY \"user\" ASC";
                           if (!($this->_parser_pointers[$parser_id] = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $this->_parser_pointers[$parser_id] = FALSE;
                               $result = FALSE;
                               return $result;
@@ -11583,11 +12056,11 @@ class Multiotp
                           if (is_object($this->_mysqli)) {
                               do {
                                   $aRow = $this->_parser_pointers[$parser_id]->fetch_assoc();
-                              } while ((FALSE !== $aRow) && (NULL !== $aRow) && ('' == $aRow['user']));
+                              } while ((FALSE !== $aRow) && (NULL !== $aRow) && ("" == $aRow['user']));
                           } else {
                               do {
                                   $aRow = mysql_fetch_assoc($this->_parser_pointers[$parser_id]);
-                              } while ((FALSE !== $aRow) && (NULL !== $aRow) && ('' == $aRow['user']));
+                              } while ((FALSE !== $aRow) && (NULL !== $aRow) && ("" == $aRow['user']));
                           }
                           if (isset($aRow['user'])) {
                               $user_array = array('user'                 => $aRow['user'],
@@ -11602,7 +12075,7 @@ class Multiotp
                                                   'synchronized_channel' => $aRow['synchronized_channel'],
                                                   'synchronized_server'  => $aRow['synchronized_server'],
                                                   'synchronized_time'    => $aRow['synchronized_time'],
-                                                  'token'                => (isset($aRow['token_serial']) ? $aRow['token_serial'] : ''),
+                                                  'token'                => (isset($aRow['token_serial']) ? $aRow['token_serial'] : ""),
                                                   'synchronized_dn'      => $aRow['synchronized_dn'],
                                                   'error_counter'        => $aRow['error_counter'],
                                                   'last_error'           => (isset($aRow['last_error']) ? $aRow['last_error'] : 0)
@@ -11614,7 +12087,7 @@ class Multiotp
                       if ($this->OpenPGSQLDatabase()) {
                           do {
                               $aRow = pg_fetch_assoc($this->_parser_pointers[$parser_id]);
-                          } while ((FALSE !== $aRow) && (NULL !== $aRow) && ('' == $aRow['user']));
+                          } while ((FALSE !== $aRow) && (NULL !== $aRow) && ("" == $aRow['user']));
                           if (isset($aRow['user'])) {
                               $user_array = array('user'                 => $aRow['user'],
                                                   'description'          => $aRow['description'],
@@ -11628,7 +12101,7 @@ class Multiotp
                                                   'synchronized_channel' => $aRow['synchronized_channel'],
                                                   'synchronized_server'  => $aRow['synchronized_server'],
                                                   'synchronized_time'    => $aRow['synchronized_time'],
-                                                  'token'                => (isset($aRow['token_serial']) ? $aRow['token_serial'] : ''),
+                                                  'token'                => (isset($aRow['token_serial']) ? $aRow['token_serial'] : ""),
                                                   'synchronized_dn'      => $aRow['synchronized_dn'],
                                                   'error_counter'        => $aRow['error_counter'],
                                                   'last_error'           => (isset($aRow['last_error']) ? $aRow['last_error'] : 0)
@@ -11687,11 +12160,11 @@ class Multiotp
 
   function GetAlgorithmsList()
   {
-      $algorithms_list = '';
+      $algorithms_list = "";
       $algorithms_array = explode("*",$this->_valid_algorithms);
       foreach ($algorithms_array as $algorithm_one) {
-          if ('' != nullable_trim($algorithm_one)) {
-              $algorithms_list.= (('' != $algorithms_list)?"\t":'').nullable_trim($algorithm_one);
+          if ("" != nullable_trim($algorithm_one)) {
+              $algorithms_list.= (("" != $algorithms_list)?"\t":"").nullable_trim($algorithm_one);
           }
       }
       return $algorithms_list;
@@ -11706,12 +12179,12 @@ class Multiotp
 
 
   function GetUserScratchPasswordsArray(
-      $user = ''
+      $user = ""
   ) {
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user);
       }
-      if ($this->_user_data['scratch_passwords'] != '') {
+      if ($this->_user_data['scratch_passwords'] != "") {
           return (explode(",",$this->_user_data['scratch_passwords']));
       } else {
           return array();
@@ -11752,9 +12225,9 @@ class Multiotp
 
 
   function GetUserScratchPasswordsList(
-      $user = ''
+      $user = ""
   ) {
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user);
       }
       $digits = $this->GetScratchPasswordsDigits();
@@ -11768,19 +12241,19 @@ class Multiotp
       }
       $scratch_passwords = nullable_trim(isset($this->_user_data['scratch_passwords']) ? $this->_user_data['scratch_passwords'] : "");
       if (mb_strlen($scratch_passwords) > ((1.5 * $scratch_loop) * (1 + $digits))) {
-          $scratch_passwords = '';
+          $scratch_passwords = "";
       }
-      $passwords_list = '';
+      $passwords_list = "";
 
       for ($i=0; $i<$scratch_loop; $i++) {
           $one_password = $this->GenerateOathHotp($seed,$i,$digits);
-          $scratch_passwords.= (('' != $scratch_passwords)?",":'').$one_password;
-          $passwords_list.= (('' != $passwords_list)?"\t":'').$one_password;
+          $scratch_passwords.= (("" != $scratch_passwords)?",":"").$one_password;
+          $passwords_list.= (("" != $passwords_list)?"\t":"").$one_password;
       }
       $this->_user_data['scratch_passwords'] = $scratch_passwords;
       $result = $this->WriteUserData();
       if (!$result) {
-          $passwords_list = '';
+          $passwords_list = "";
       }
       return ($passwords_list);
   }
@@ -11819,9 +12292,9 @@ class Multiotp
 
 
   function GetUserMultiAccount(
-      $user = ''
+      $user = ""
   ) {
-      if ($user != '') {
+      if ($user != "") {
           $this->SetUser($user);
       }
       return intval(isset($this->_user_data['multi_account']) ? $this->_user_data['multi_account'] : 0);
@@ -11829,12 +12302,95 @@ class Multiotp
   
 
   function IsUserMultiAccount(
-      $user = ''
+      $user = ""
   ) {
       return (1 == ($this->GetUserMultiAccount($user)));
   }
+
+
+  function SetUserPushGateway(
+      $first_param,
+      $second_param = "*-*"
+  ) {
+      $result = TRUE;
+      $data = 0;
+      if ($second_param == "*-*") {
+          $data = $first_param;
+      } else {
+          $result = $this->SetUser($first_param);
+          $data = $second_param;
+      }
+      $this->_user_data['push_gateway'] = trim($data);
+      return $result;
+  }
+
+
+  function GetUserPushGateway(
+    $user = ""
+  ) {
+    if ($user != "") {
+        $this->SetUser($user);
+    }
+    $user_push_gateway = trim(isset($this->_user_data['push_gateway']) ? $this->_user_data['push_gateway'] : '');
+    if (empty($user_push_gateway)) {
+      $user_push_gateway = $this->GetPushGateway(true);
+    }
+    return $user_push_gateway;
+  }
   
 
+  function SetUserPushEnabled(
+      $first_param,
+      $second_param = "*-*"
+  ) {
+      $result = TRUE;
+      $data = 0;
+      if ($second_param == "*-*") {
+          $data = $first_param;
+      } else {
+          $result = $this->SetUser($first_param);
+          $data = $second_param;
+      }
+      $this->_user_data['push_enabled'] = intval($data);
+      if (0 == intval($data)) {
+        $this->_user_data['push_enable_date'] = 0;
+      }
+      return $result;
+  }
+
+
+  function GetUserPushEnabled(
+    $user = ""
+  ) {
+    if ($user != "") {
+        $this->SetUser($user);
+    }
+    return intval(isset($this->_user_data['push_enabled']) ? $this->_user_data['push_enabled'] : 0);
+  }
+  
+
+  function IsUserPushEnabled(
+    $user = ""
+  ) {
+    return (1 == ($this->GetUserPushEnabled($user)));
+  }
+
+
+  function GetUserPushEnableDate(
+    $user = ""
+  ) {
+    if (!empty($user)) {
+      if ($this->CheckUserExists($user)) {
+        $this->SetUser($user);
+      }
+    }
+    if (!empty($this->GetUser())) {
+      $result = intval($this->_user_data['push_enable_date']);
+    } else {
+      $result = 0;
+    }
+    return $result;
+  }
 
 
   function SetUserAttribute(
@@ -11866,13 +12422,13 @@ class Multiotp
       $valid = FALSE;
       $result = "";
       if ($second_param == "*-*") {
-          if (('' == $first_param) || (FALSE !== mb_strpos($first_param, '@'))) {
+          if (("" == $first_param) || (FALSE !== mb_strpos($first_param, '@'))) {
               $result = $first_param;
               $valid = TRUE;
           }
       } else {
           $this->SetUser($first_param);
-          if (('' == $second_param) || (FALSE !== mb_strpos($second_param, '@'))) {
+          if (("" == $second_param) || (FALSE !== mb_strpos($second_param, '@'))) {
               $result = $second_param;
               $valid = TRUE;
           }
@@ -11884,9 +12440,9 @@ class Multiotp
 
 
   function GetUserEmail(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['email']) ? $this->_user_data['email'] : "");
@@ -11905,7 +12461,7 @@ class Multiotp
           $input = $second_param;
       }
       if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Debug: *SetUserLastCachedCredential cached credential: ".str_repeat('x', (mb_strlen($input) >= 6)?mb_strlen($input)-6:0).mb_substr($input, -6), FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Debug: *SetUserLastCachedCredential cached credential: ".str_repeat('x', (mb_strlen($input) >= 6)?mb_strlen($input)-6:0).mb_substr($input, -6), FALSE, FALSE, 8888, 'Debug', "");
       }
       $this->_user_data['last_cached_credential'] = sha1('$+Cred'.$input.'!@#S');
 
@@ -11925,7 +12481,7 @@ class Multiotp
           $input = $second_param;
       }
       if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Debug: *CompareUserLastCachedCredential cached credential: ".str_repeat('x', (mb_strlen($input) >= 6)?mb_strlen($input)-6:0).mb_substr($input, -6), FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Debug: *CompareUserLastCachedCredential cached credential: ".str_repeat('x', (mb_strlen($input) >= 6)?mb_strlen($input)-6:0).mb_substr($input, -6), FALSE, FALSE, 8888, 'Debug', "");
       }
       return (sha1('$+Cred'.$input.'!@#S') == $this->_user_data['last_cached_credential']);
   }
@@ -12020,9 +12576,9 @@ class Multiotp
 
 
   function GetUserLastLoginForCache(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return $this->_user_data['last_login_for_cache'];
@@ -12047,9 +12603,9 @@ class Multiotp
 
 
   function GetUserGroup(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['group']) ? $this->_user_data['group'] : "");
@@ -12077,9 +12633,9 @@ class Multiotp
 
 
   function GetUserDescription(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['description']) ? $this->_user_data['description'] : "");
@@ -12105,9 +12661,9 @@ class Multiotp
 
 
   function GetUserDisplayName(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['display_name']) ? $this->_user_data['display_name'] : "");
@@ -12144,9 +12700,9 @@ class Multiotp
 
 
   function GetUserSms(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['sms']) ? $this->_user_data['sms'] : "");
@@ -12239,28 +12795,28 @@ class Multiotp
   
  
   function ResetUserLdapHashCache(
-      $user = ''
+      $user = ""
   ) {
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user);
       }
-      $this->_user_data['ldap_hash_cache'] = '';
+      $this->_user_data['ldap_hash_cache'] = "";
       $this->_user_data['ldap_hash_validity'] = 0;
       return TRUE;
   }
 
 
   function GetUserLdapHashCache(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       if ($this->_user_data['ldap_hash_validity'] >= time()) {
           $value = $this->_user_data['ldap_hash_cache'];
       } else {
-          $this->_user_data['ldap_hash_cache'] = '';
-          $value = '';
+          $this->_user_data['ldap_hash_cache'] = "";
+          $value = "";
       }
       return $value;
   }
@@ -12273,25 +12829,25 @@ class Multiotp
       if ($this->IsValidAlgorithm($algorithm)) {
           $this->_user_data['algorithm'] = mb_strtolower($algorithm,'UTF-8');
           if (("totp" == mb_strtolower($algorithm,'UTF-8')) && ((!isset($this->_user_data['time_interval'])) || ($this->_user_data['time_interval'] <= 0))) {
-            $this->_user_data['time_interval'] = $this->_default_time_interval;
+            $this->_user_data['time_interval'] = _MULTIOTP_DEFAULT_TOTP_INTERVAL_;
           }
           $result = TRUE;
       } else {
-          $this->WriteLog("Error: ".$algorithm." algorithm is unknown", FALSE, FALSE, 23, 'User');
+          $this->WriteLog("Error: ".$algorithm." algorithm is unknown", FALSE, FALSE, _MULTIOTP_BAD_ALGORITHM_, 'User');
       }
       return $result;
   }
 
 
   function GetUserAlgorithm(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       $result = mb_strtolower((isset($this->_user_data['algorithm']) ? $this->_user_data['algorithm'] : ""),'UTF-8');
       if (FALSE === mb_strpos(mb_strtolower($this->_valid_algorithms,'UTF-8'), mb_strtolower('*'.$result.'*','UTF-8'))) {
-          $result = '';
+          $result = "";
       }
 
       return $result;
@@ -12301,15 +12857,15 @@ class Multiotp
   function SetUserTokenAlgoSuite(
       $token_algo_suite
   ) {
-      $this->_user_data['token_algo_suite'] = mb_strtoupper(('' == $token_algo_suite)?'HMAC-SHA1':$token_algo_suite,'UTF-8');
+      $this->_user_data['token_algo_suite'] = mb_strtoupper(("" == $token_algo_suite)?'HMAC-SHA1':$token_algo_suite,'UTF-8');
       return TRUE;
   }
 
 
   function GetUserTokenAlgoSuite(
-      $user = ''
+      $user = ""
   ) {
-      return mb_strtoupper(('' == $this->_user_data['token_algo_suite'])?'HMAC-SHA1':$this->_user_data['token_algo_suite'],'UTF-8');
+      return mb_strtoupper(("" == $this->_user_data['token_algo_suite'])?'HMAC-SHA1':$this->_user_data['token_algo_suite'],'UTF-8');
   }
 
 
@@ -12428,12 +12984,12 @@ class Multiotp
 
 
   function GetUserPin(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
-      return (isset($this->_user_data['user_pin']) ? $this->_user_data['user_pin'] : '');
+      return (isset($this->_user_data['user_pin']) ? $this->_user_data['user_pin'] : "");
 
   }
 
@@ -12510,7 +13066,7 @@ class Multiotp
       if (isset($this->_user_data['encryption_hash'])) {
         return $this->_user_data['encryption_hash'];
       } else {
-        return '';
+        return "";
       }
   }
 
@@ -12535,12 +13091,12 @@ class Multiotp
   // TODO Add new method RemoveUserTokenSerialNumber/AddUserTokenSerialNumber like AddTokenAttributedUsers
   
   function GetUserTokenSerialNumber(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
-      return mb_strtolower(isset($this->_user_data['token_serial']) ? $this->_user_data['token_serial'] : '','UTF-8');
+      return mb_strtolower(isset($this->_user_data['token_serial']) ? $this->_user_data['token_serial'] : "", 'UTF-8');
   }
 
 
@@ -12626,9 +13182,9 @@ class Multiotp
 
 
   function GetUserLocked(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return intval(isset($this->_user_data['locked']) ? $this->_user_data['locked'] : 0);
@@ -12636,10 +13192,10 @@ class Multiotp
 
 
   function GetUserDelayed(
-      $user = ''
+      $user = ""
   ) {
       // delayed_account, delayed_time, delayed_finished
-      if ($user != '') {
+      if ($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['delayed_account']) ? $this->_user_data['delayed_account'] : FALSE);
@@ -12647,9 +13203,9 @@ class Multiotp
 
 
   function GetUserDelayedTime(
-      $user = ''
+      $user = ""
   ) {
-      if ($user != '') {
+      if ($user != "") {
           $this->SetUser($user);
       }
       return intval(isset($this->_user_data['delayed_time']) ? $this->_user_data['delayed_time'] : 0);
@@ -12687,10 +13243,10 @@ class Multiotp
 
 
   function GetUserActivated(
-      $user = ''
+      $user = ""
   ) {
       $result = TRUE;
-      if($user != '') {
+      if($user != "") {
           $result = $this->SetUser($user);
       }
       if ($result) {
@@ -12719,9 +13275,9 @@ class Multiotp
 
 
   function GetUserSynchronized(
-      $user = ''
+      $user = ""
   ) {
-      if ($user != '') {
+      if ($user != "") {
           $this->SetUser($user);
       }
       return intval(isset($this->_user_data['synchronized']) ? $this->_user_data['synchronized'] : 0);
@@ -12729,7 +13285,7 @@ class Multiotp
   
 
   function IsUserSynchronized(
-      $user = ''
+      $user = ""
   ) {
       return (1 == ($this->GetUserSynchronized($user)));
   }
@@ -12753,9 +13309,9 @@ class Multiotp
 
 
   function GetUserSynchronizedChannel(
-      $user = ''
+      $user = ""
   ) {
-      if ($user != '') {
+      if ($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['synchronized_channel']) ? $this->_user_data['synchronized_channel'] : "");
@@ -12780,9 +13336,9 @@ class Multiotp
 
 
   function GetUserSynchronizedDn(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['synchronized_dn']) ? $this->_user_data['synchronized_dn'] : "");
@@ -12807,9 +13363,9 @@ class Multiotp
 
 
   function GetUserSynchronizedServer(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return (isset($this->_user_data['synchronized_server']) ? $this->_user_data['synchronized_server'] : "");
@@ -12838,9 +13394,9 @@ class Multiotp
 
 
   function GetUserSynchronizedTime(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return intval(isset($this->_user_data['synchronized_time']) ? $this->_user_data['synchronized_time'] : 0);
@@ -12884,15 +13440,15 @@ class Multiotp
    *
    *********************************************************************/
   function CreateToken(
-      $serial = '',
+      $serial = "",
       $algorithm = 'totp',
-      $seed = '',
+      $seed = "",
       $forced_number_of_digits = -1,
       $time_interval_or_next_event = -1,
       $manufacturer = 'multiOTP',
-      $issuer = '',
-      $description = '',
-      $token_algo_suite = ''
+      $issuer = "",
+      $description = "",
+      $token_algo_suite = ""
   ) {
       if (intval($forced_number_of_digits) > 0) {
         $number_of_digits = $forced_number_of_digits;
@@ -12901,11 +13457,11 @@ class Multiotp
       }
     
       $the_serial = mb_strtolower($serial,'UTF-8');
-      if ('' == $the_serial) {
+      if ("" == $the_serial) {
           $the_serial = mb_strtolower('mu'.bigdec2hex((time()-mktime(1,1,1,1,1,2000)).mt_rand(10000,99999)),'UTF-8');
       }
       $the_description = $description;
-      if ('' == $the_description) {
+      if ("" == $the_description) {
           $the_description = nullable_trim($manufacturer.' '.$the_serial);
       }
       $the_token = mb_strtolower($the_serial,'UTF-8');
@@ -12914,8 +13470,8 @@ class Multiotp
       } else {
           $this->SetToken($the_token);
           $this->SetTokenDescription($the_description);
-          $this->SetTokenManufacturer(('' != $manufacturer)?$manufacturer:'multiOTP');
-          $this->SetTokenIssuer(('' != $issuer)?$issuer:$this->GetIssuer());
+          $this->SetTokenManufacturer(("" != $manufacturer)?$manufacturer:'multiOTP');
+          $this->SetTokenIssuer(("" != $issuer)?$issuer:$this->GetIssuer());
           $this->SetTokenSerialNumber($the_serial);
           $this->SetTokenAlgorithm(mb_strtolower($algorithm,'UTF-8'));
           $this->SetTokenAlgoSuite(mb_strtolower($token_algo_suite,'UTF-8'));
@@ -12926,16 +13482,16 @@ class Multiotp
           $this->SetTokenNumberOfDigits($number_of_digits);
           $this->SetTokenDeltaTime(0);
           
-          $the_seed = (('' == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(md5(mt_rand(100000,999999).date("YmdHis")),0,20):$seed);
+          $the_seed = (("" == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(md5(mt_rand(100000,999999).date("YmdHis")),0,20):$seed);
 
           if ('hotp' == mb_strtolower($algorithm,'UTF-8')) {
               $next_event = ((-1 == $time_interval_or_next_event)?0:$time_interval_or_next_event);
               $time_interval = 0;
           } else {
               $next_event = 0;
-              $time_interval = ((-1 == $time_interval_or_next_event)?$this->_default_time_interval:$time_interval_or_next_event);
+              $time_interval = ((-1 == $time_interval_or_next_event)?_MULTIOTP_DEFAULT_TOTP_INTERVAL_:$time_interval_or_next_event);
               if ('motp' == mb_strtolower($algorithm,'UTF-8')) {
-                  $the_seed = (('' == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,16):$seed);
+                  $the_seed = (("" == $seed)?mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,16):$seed);
                   $time_interval = 10;
               }
           }
@@ -12988,16 +13544,16 @@ class Multiotp
   ) {
     $this->SetUser($user);
     $old_token = $this->GetUserTokenSerialNumber();
-    $this->SetUserTokenSerialNumber('');
+    $this->SetUserTokenSerialNumber("");
     $this->RemoveUserAttributedTokens($old_token);
     $this->RemoveTokenAttributedUsers($old_token, $user);
     
     // Generate a new user token
     $this->SetUserAlgorithm('totp');
-    $this->SetUserTokenAlgoSuite(''); // Default algorithm suite (HMAC-SHA1)
+    $this->SetUserTokenAlgoSuite(""); // Default algorithm suite (HMAC-SHA1)
     $this->SetUserTokenNumberOfDigits($this->GetDefault2faDigits());
     $this->SetUserTokenSeed(mb_substr(md5(date("YmdHis").mt_rand(100000,999999)),0,20).mb_substr(md5(mt_rand(100000,999999).date("YmdHis")),0,20));
-    $this->SetUserTokenTimeInterval($this->_default_time_interval);
+    $this->SetUserTokenTimeInterval(_MULTIOTP_DEFAULT_TOTP_INTERVAL_);
     $this->SetUserTokenLastEvent(0 - 1);
     return ($this->WriteUserData() && $this->WriteTokenData());
   }
@@ -13111,10 +13667,10 @@ class Multiotp
 
 
   function GetTokenDescription(
-      $token = ''
+      $token = ""
   ) {
       $the_token = mb_strtolower($token,'UTF-8');
-      if($the_token != '') {
+      if($the_token != "") {
           $this->SetToken($the_token);
       }
       return $this->_token_data['description'];
@@ -13128,7 +13684,7 @@ class Multiotp
       $the_token = mb_strtolower($token,'UTF-8');
       $this->ResetTokenArray();
       $this->_token = $the_token;
-      $result = $this->ReadTokenData('', $create); // First parameter empty, otherwise it will loop with SetToken !
+      $result = $this->ReadTokenData("", $create); // First parameter empty, otherwise it will loop with SetToken !
 
       return ($create || $result);
   }
@@ -13141,38 +13697,38 @@ class Multiotp
       $the_new_token = mb_strtolower($new_token,'UTF-8');
       $result = FALSE;
       if ($this->CheckTokenExists($the_new_token, false)) { // Check if the new token already exists
-          $this->WriteLog("Error: Unable to rename the current token ".$this->GetToken()." to ".$the_new_token." because it already exists", FALSE, FALSE, 28, 'Token', '');
+          $this->WriteLog("Error: Unable to rename the current token ".$this->GetToken()." to ".$the_new_token." because it already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
       } else {
-          if ($this->CheckTokenExists('', false)) { // Check if the current token already exists
-              if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_tokens_table'])) || ('files' == $this->GetBackendType())) {
+          if ($this->CheckTokenExists("", false)) { // Check if the current token already exists
+              if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_tokens_table'])) || ('files' == $this->GetBackendType())) {
                   switch ($this->GetBackendType()) {
                       case 'mysql':
                           $esc_actual = escape_mysql_string($this->GetToken());
                           $esc_new    = escape_mysql_string($the_new_token);
                           if ($this->OpenMysqlDatabase()) {
-                              if ('' != $this->_config_data['sql_tokens_table']) {
+                              if ("" != $this->_config_data['sql_tokens_table']) {
                                   $sQuery = "UPDATE `".$this->_config_data['sql_tokens_table']."` SET token_id='".$esc_new."' WHERE `token_id`='".$esc_actual."'";
                                   
                                   if (is_object($this->_mysqli)) {
                                       if (!($rResult = $this->_mysqli->query($sQuery))) {
                                           if (!$no_error_info) {
-                                              $this->WriteLog("Error: Could not rename the token ".$this->GetToken().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'Token');
+                                              $this->WriteLog("Error: Could not rename the token ".$this->GetToken().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token');
                                           }
                                       } else {
                                           $num_rows = $this->_mysqli->affected_rows;
                                       }
                                   } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
                                       if (!$no_error_info) {
-                                          $this->WriteLog("Error: Could not rename the token ".$this->GetToken().": ".mysql_error(), FALSE, FALSE, 28, 'Token');
+                                          $this->WriteLog("Error: Could not rename the token ".$this->GetToken().": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token');
                                       }
                                   } else {
                                       $num_rows = mysql_affected_rows($this->_mysql_database_link);
                                   }
                                   
                                   if (0 == $num_rows) {
-                                      $this->WriteLog("Error: Could not rename the token ".$this->GetToken().". Token does not exist", FALSE, FALSE, 29, 'Token');
+                                      $this->WriteLog("Error: Could not rename the token ".$this->GetToken().". Token does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token');
                                   } else {
-                                      $this->WriteLog("Info: Token ".$this->GetToken()." successfully renamed to $the_new_token", FALSE, FALSE, 19, 'Token');
+                                      $this->WriteLog("Info: Token ".$this->GetToken()." successfully renamed to $the_new_token", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Token');
                                       $result = TRUE;
                                   }
                               }
@@ -13182,21 +13738,21 @@ class Multiotp
                           if ($this->OpenPGSQLDatabase()) {
                               $esc_actual = pg_escape_string($this->_pgsql_database_link, $this->GetToken());
                               $esc_new    = pg_escape_string($this->_pgsql_database_link, $the_new_token);
-                              if ('' != $this->_config_data['sql_tokens_table']) {
+                              if ("" != $this->_config_data['sql_tokens_table']) {
                                   $sQuery = "UPDATE \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_tokens_table']."\" SET \"token_id\" = '".$esc_new."' WHERE \"token_id\" = '".$esc_actual."'";
                                   
                                   if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
                                       if (!$no_error_info) {
-                                          $this->WriteLog("Error: Could not rename the token ".$this->GetToken().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'Token');
+                                          $this->WriteLog("Error: Could not rename the token ".$this->GetToken().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token');
                                       }
                                   } else {
                                       $num_rows = pg_affected_rows($rResult);
                                   }
 
                                   if (0 == $num_rows) {
-                                      $this->WriteLog("Error: Could not rename the token ".$this->GetToken().". Token does not exist", FALSE, FALSE, 29, 'Token');
+                                      $this->WriteLog("Error: Could not rename the token ".$this->GetToken().". Token does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token');
                                   } else {
-                                      $this->WriteLog("Info: Token ".$this->GetToken()." successfully renamed to $the_new_token", FALSE, FALSE, 19, 'Token');
+                                      $this->WriteLog("Info: Token ".$this->GetToken()." successfully renamed to $the_new_token", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Token');
                                       $result = TRUE;
                                   }
                               }
@@ -13226,15 +13782,15 @@ class Multiotp
 
 
   function CheckTokenExists(
-      $token = '',
+      $token = "",
       $log_error = true
   ) {
       $the_token = mb_strtolower($token,'UTF-8');
-      $check_token = mb_strtolower(('' != $the_token ? $the_token : $this->GetToken()),'UTF-8');
+      $check_token = mb_strtolower(("" != $the_token ? $the_token : $this->GetToken()),'UTF-8');
       $result = FALSE;
       
-      if ('' != nullable_trim($check_token)) {
-          if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_tokens_table'])) || ('files' == $this->GetBackendType())) {
+      if ("" != nullable_trim($check_token)) {
+          if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_tokens_table'])) || ('files' == $this->GetBackendType())) {
               switch ($this->GetBackendType()) {
                   case 'mysql':
                       $check_token_escaped = escape_mysql_string($check_token);
@@ -13242,19 +13798,19 @@ class Multiotp
                           $sQuery  = "SELECT * FROM `".$this->_config_data['sql_tokens_table']."` WHERE `token_id` = '{$check_token_escaped}'";
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               } else {
                                   $num_rows = $rResult->num_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               $num_rows = mysql_num_rows($this->_mysql_database_link);
                           }
                           
                           if (0 == $num_rows) {
                               if ($log_error) {
-                                  $this->WriteLog("Error: Token ".$check_token.". does not exist", FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Token ".$check_token.". does not exist", FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               }
                               $result = FALSE;
                           } else {
@@ -13267,14 +13823,14 @@ class Multiotp
                           $check_token_escaped = pg_escape_string($this->_pgsql_database_link, $check_token);
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_tokens_table']."\" WHERE \"token_id\" = '{$check_token_escaped}'";
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               $num_rows = pg_num_rows($rResult);
                           }
 
                           if (0 == $num_rows) {
                               if ($log_error) {
-                                  $this->WriteLog("Error: Token ".$check_token.". does not exist", FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Token ".$check_token.". does not exist", FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               }
                               $result = FALSE;
                           } else {
@@ -13287,7 +13843,7 @@ class Multiotp
                       $token_filename = mb_strtolower($check_token,'UTF-8').'.db';
                       $result = file_exists($this->GetTokensFolder().$token_filename);
                       if ($log_error && (false === $result)) {
-                          $this->WriteLog("Error: Token ".$check_token.". does not exist", FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Token ".$check_token.". does not exist", FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       }
                       break;
               }
@@ -13426,7 +13982,7 @@ class Multiotp
           $actual = nullable_trim($this->GetTokenAttributedUsers());
           // We attribute the user only if it is not already attributed
           if (FALSE === mb_strpos(','.$actual.',', ','.$data.',')) {
-              $this->SetTokenAttributedUsers($actual.(('' != $actual)?',':'').$data);
+              $this->SetTokenAttributedUsers($actual.(("" != $actual)?',':"").$data);
           }
           $result = TRUE;
       }
@@ -13462,9 +14018,9 @@ class Multiotp
 
 
   function GetTokenAttributedUsers(
-      $token = ''
+      $token = ""
   ) {
-      if($token != '') {
+      if($token != "") {
           $the_token = mb_strtolower($token,'UTF-8');
           $this->SetToken($the_token);
       }
@@ -13510,7 +14066,7 @@ class Multiotp
           $actual = nullable_trim($this->GetUserAttributedTokens());
           // We attribute the token only if it is not already attributed
           if (FALSE === mb_strpos(','.$actual.',', ','.$data.',')) {
-              $this->SetUserAttributedTokens($actual.(('' != $actual)?',':'').$data);
+              $this->SetUserAttributedTokens($actual.(("" != $actual)?',':"").$data);
           }
           $result = TRUE;
       }
@@ -13546,9 +14102,9 @@ class Multiotp
 
 
   function GetUserAttributedTokens(
-      $user = ''
+      $user = ""
   ) {
-      if($user != '') {
+      if($user != "") {
           $this->SetUser($user);
       }
       return $this->_user_data['attributed_tokens'];
@@ -13584,14 +14140,14 @@ class Multiotp
 
   function GetTokenSerialNumber()
   {
-      return mb_strtolower(isset($this->_token_data['token_serial']) ? $this->_token_data['token_serial'] : '','UTF-8');
+      return mb_strtolower(isset($this->_token_data['token_serial']) ? $this->_token_data['token_serial'] : "",'UTF-8');
   }
 
 
   function SetTokenIssuer(
       $issuer
   ) {
-      if ('' == $issuer) {
+      if ("" == $issuer) {
           $this->_token_data['issuer'] = $this->GetIssuer();
       } else {
           $this->_token_data['issuer'] = $issuer;
@@ -13623,7 +14179,7 @@ class Multiotp
   ) {
       $result = FALSE;
       if (FALSE === mb_strpos(mb_strtolower($this->_valid_algorithms,'UTF-8'), mb_strtolower('*'.$algorithm.'*','UTF-8'))) {
-          $this->WriteLog("Error: ".$algorithm." algorithm unknown for token ".$this->GetToken(), FALSE, FALSE, 23, 'Token');
+          $this->WriteLog("Error: ".$algorithm." algorithm unknown for token ".$this->GetToken(), FALSE, FALSE, _MULTIOTP_BAD_ALGORITHM_, 'Token');
       } else {
           $this->_token_data['algorithm'] = mb_strtolower($algorithm,'UTF-8');
           $result = TRUE;
@@ -13636,7 +14192,7 @@ class Multiotp
   {
       $result = $this->_token_data['algorithm'];
       if (FALSE === mb_strpos(mb_strtolower($this->_valid_algorithms,'UTF-8'), mb_strtolower('*'.$result.'*','UTF-8'))) {
-          $result = '';
+          $result = "";
       }
 
       return $result;
@@ -13646,14 +14202,14 @@ class Multiotp
   function SetTokenAlgoSuite(
       $token_algo_suite
   ) {
-      $this->_token_data['token_algo_suite'] = mb_strtoupper(('' == $token_algo_suite)?'HMAC-SHA1':$token_algo_suite,'UTF-8');
+      $this->_token_data['token_algo_suite'] = mb_strtoupper(("" == $token_algo_suite)?'HMAC-SHA1':$token_algo_suite,'UTF-8');
       return TRUE;
   }
 
 
   function GetTokenAlgoSuite()
   {
-      return mb_strtoupper(('' == $this->_token_data['token_algo_suite'])?'HMAC-SHA1':$this->_token_data['token_algo_suite'],'UTF-8');
+      return mb_strtoupper(("" == $this->_token_data['token_algo_suite'])?'HMAC-SHA1':$this->_token_data['token_algo_suite'],'UTF-8');
   }
 
 
@@ -13824,10 +14380,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing tokens folder ".$new_folder, FALSE, FALSE, 28, 'System',  '');
+              $this->WriteLog("Error: Unable to create the missing tokens folder ".$new_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System',  "");
           }
       }
   }
@@ -13835,7 +14391,7 @@ class Multiotp
 
   function GetTokensFolder()
   {
-      if ('' == $this->_tokens_folder) {
+      if ("" == $this->_tokens_folder) {
           $this->SetTokensFolder($this->GetScriptFolder()."tokens/");
       }
       return $this->ConvertToWindowsPathIfNeeded($this->_tokens_folder);
@@ -13862,7 +14418,7 @@ class Multiotp
                       $sQuery  = "SELECT COUNT(token_id) AS counter FROM `".$this->_config_data['sql_tokens_table']."` ";
                       if (is_object($this->_mysqli)) {
                           if (!($result = $this->_mysqli->query($sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               if ($aRow = $result->fetch_assoc()) {
@@ -13871,7 +14427,7 @@ class Multiotp
                           }
                       } else {
                           if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               if ($aRow = mysql_fetch_assoc($rResult)) {
                                   $tokens_count = $aRow['counter'];
@@ -13885,7 +14441,7 @@ class Multiotp
                   {
                       $sQuery  = "SELECT COUNT(\"token_id\") AS \"counter\" FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_tokens_table']."\" ";
                       if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       } else {
                           if ($aRow = pg_fetch_assoc($rResult)) {
                               $tokens_count = $aRow['counter'];
@@ -13914,11 +14470,11 @@ class Multiotp
 
 
   function DeleteToken(
-      $token = '',
+      $token = "",
       $no_error_info = FALSE
   ) {
       $the_token = mb_strtolower($token,'UTF-8');
-      if ('' != $the_token) {
+      if ("" != $the_token) {
           $this->SetToken($the_token);
       }
       
@@ -13929,18 +14485,18 @@ class Multiotp
           $token_filename = $this->GetToken().'.db';
           if (!file_exists($this->GetTokensFolder().$token_filename)) {
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Error: *Unable to delete token ".$this->GetToken().", the tokens database file ".$this->GetTokensFolder().$token_filename." does not exist", FALSE, FALSE, 29, 'Token',  '');
+                  $this->WriteLog("Error: *Unable to delete token ".$this->GetToken().", the tokens database file ".$this->GetTokensFolder().$token_filename." does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token',  "");
               } else {
-                  $this->WriteLog("Error: Unable to delete token ".$this->GetToken(), FALSE, FALSE, 29, 'Token',  '');
+                  $this->WriteLog("Error: Unable to delete token ".$this->GetToken(), FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token',  "");
               }
           } else {
               $result = unlink($this->GetTokensFolder().$token_filename);
               if ($result) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *Token ".$this->GetToken()." successfully deleted", FALSE, FALSE, 19, 'Token', '');
+                      $this->WriteLog("Info: *Token ".$this->GetToken()." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Token', "");
                   }
               } else {
-                  $this->WriteLog("Error: Unable to delete token ".$this->GetToken(), FALSE, FALSE, 28, 'Token',  '');
+                  $this->WriteLog("Error: Unable to delete token ".$this->GetToken(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token',  "");
               }
           }
       }
@@ -13950,20 +14506,20 @@ class Multiotp
               case 'mysql':
                   $token_escaped = escape_mysql_string($this->GetToken());
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_tokens_table']) {
+                      if ("" != $this->_config_data['sql_tokens_table']) {
                           $sQuery  = "DELETE FROM `".$this->_config_data['sql_tokens_table']."` WHERE `token_id` = '".$token_escaped."'";
 
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
                                   if (!$no_error_info) {
-                                      $this->WriteLog("Error: Could not delete token ".$this->GetToken().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'Token', '');
+                                      $this->WriteLog("Error: Could not delete token ".$this->GetToken().": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token', "");
                                   }
                               } else {
                                   $num_rows = $this->_mysqli->affected_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().": ".mysql_error(), FALSE, FALSE, 28, 'Token', '');
+                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token', "");
                               }
                           } else {
                               $num_rows = mysql_affected_rows($this->_mysql_database_link);
@@ -13971,11 +14527,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().". Token does not exist", FALSE, FALSE, 29, 'Token', '');
+                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().". Token does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *token ".$this->GetToken()." successfully deleted", FALSE, FALSE, 19, 'Token', '');
+                                  $this->WriteLog("Info: *token ".$this->GetToken()." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Token', "");
                               }
                               $result = TRUE;
                           }
@@ -13985,12 +14541,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $token_escaped = pg_escape_string($this->_pgsql_database_link, $this->GetToken());
-                      if ('' != $this->_config_data['sql_tokens_table']) {
+                      if ("" != $this->_config_data['sql_tokens_table']) {
                           $sQuery  = "DELETE FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_tokens_table']."\" WHERE \"token_id\" = '".$token_escaped."'";
 
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'Token', '');
+                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Token', "");
                               }
                           } else {
                               $num_rows = pg_affected_rows($rResult);
@@ -13998,11 +14554,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().". Token does not exist", FALSE, FALSE, 29, 'Token', '');
+                                  $this->WriteLog("Error: Could not delete token ".$this->GetToken().". Token does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *token ".$this->GetToken()." successfully deleted", FALSE, FALSE, 19, 'Token', '');
+                                  $this->WriteLog("Info: *token ".$this->GetToken()." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Token', "");
                               }
                               $result = TRUE;
                           }
@@ -14026,7 +14582,7 @@ class Multiotp
 
 
   function ReadTokenData(
-      $token = '',
+      $token = "",
       $create = FALSE
   ) {
       
@@ -14035,20 +14591,20 @@ class Multiotp
 
       $this->ResetTokenArray();
       $the_token = mb_strtolower($token,'UTF-8');
-      if ('' != $the_token) {
+      if ("" != $the_token) {
           $this->SetToken($the_token);
       }
       $result = FALSE;
       
       // We initialize the encryption hash to empty
-      $this->_token_data['encryption_hash'] = '';
+      $this->_token_data['encryption_hash'] = "";
       
       // First, we read the user file if the backend is files or when migration is enabled
       if (('files' == $this->GetBackendType()) || ($this->GetMigrationFromFile())) {
           $token_filename = mb_strtolower($this->GetToken(),'UTF-8').'.db';
           if (!file_exists($this->GetTokensFolder().$token_filename)) {
               if (!$create) {
-                  $this->WriteLog("Error: database file ".$this->GetTokensFolder().$token_filename." for token ".$this->_token." does not exist", FALSE, FALSE, 29, 'System', '');
+                  $this->WriteLog("Error: database file ".$this->GetTokensFolder().$token_filename." for token ".$this->_token." does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'System', "");
               }
           } else {
               if ($file_handler = @fopen($this->GetTokensFolder().$token_filename, "rt")) {
@@ -14063,8 +14619,8 @@ class Multiotp
                           $line_array[1] = $this->Decrypt($line_array[0],$line_array[1],$this->GetEncryptionKey());
                           $local_encryption_check = $this->_encryption_check;
                       }
-                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
-                      if ('' != nullable_trim($line_array[0])) {
+                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
+                      if ("" != nullable_trim($line_array[0])) {
                           $this->_token_data[mb_strtolower($line_array[0],'UTF-8')] = $line_array[1];
                       }
                   }
@@ -14072,10 +14628,10 @@ class Multiotp
                   fclose($file_handler);
                   $result = TRUE;
 
-                  if (('' != $this->_token_data['encryption_hash']) && ($local_encryption_check)) {
+                  if (("" != $this->_token_data['encryption_hash']) && ($local_encryption_check)) {
                       if ($this->_token_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                           $this->_token_data['encryption_hash'] = "ERROR";
-                          $this->WriteLog("Error: the token information encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                          $this->WriteLog("Error: the token information encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                           $result = FALSE;
                       }
                   }
@@ -14089,20 +14645,20 @@ class Multiotp
               case 'mysql':
                   $token_escaped = escape_mysql_string($this->_token);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_tokens_table']) {
+                      if ("" != $this->_config_data['sql_tokens_table']) {
                           $sQuery  = "SELECT * FROM `".$this->_config_data['sql_tokens_table']."` WHERE `token_id` = '".$token_escaped."'";
                           $aRow = NULL;
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = $rResult->fetch_assoc();
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = mysql_fetch_assoc($rResult);
@@ -14133,19 +14689,19 @@ class Multiotp
                                       }
                                       $this->_token_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_token_data[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the tokens database schema", FALSE, FALSE, 98, 'System', '');
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the tokens database schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "");
                                   }
                                   $result = TRUE;
                               }
                               if(0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for token ".$this->_token." does not exist", FALSE, FALSE, 29, 'System', '');
+                                  $this->WriteLog("Error: SQL database entry for token ".$this->_token." does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'System', "");
                               }
                           }
                       }
-                      if (('' != $this->_token_data['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $this->_token_data['encryption_hash']) && ($local_encryption_check)) {
                           if ($this->_token_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $this->_token_data['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the tokens mysql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the tokens mysql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = FALSE;
                           }
                       }
@@ -14154,12 +14710,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $token_escaped = pg_escape_string($this->_pgsql_database_link, $this->_token);
-                      if ('' != $this->_config_data['sql_tokens_table']) {
+                      if ("" != $this->_config_data['sql_tokens_table']) {
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_tokens_table']."\" WHERE \"token_id\" = '".$token_escaped."'";
                           $aRow = NULL;
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $aRow = pg_fetch_assoc($rResult);
@@ -14195,19 +14751,19 @@ class Multiotp
                                       }
                                       $this->_token_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_token_data[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the tokens database schema", FALSE, FALSE, 98, 'System', '');
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the tokens database schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "");
                                   }
                                   $result = TRUE;
                               }
                               if(0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for token ".$this->_token." does not exist", FALSE, FALSE, 29, 'System', '');
+                                  $this->WriteLog("Error: SQL database entry for token ".$this->_token." does not exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'System', "");
                               }
                           }
                       }
-                      if (('' != $this->_token_data['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $this->_token_data['encryption_hash']) && ($local_encryption_check)) {
                           if ($this->_token_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $this->_token_data['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the tokens pgsql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the tokens pgsql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = FALSE;
                           }
                       }
@@ -14226,7 +14782,7 @@ class Multiotp
   function WriteTokenData(
       $write_token_data_array = array()
   ) {
-      if ('' == nullable_trim($this->GetToken())) {
+      if ("" == nullable_trim($this->GetToken())) {
           $result = false;
       } else {
           $result = $this->WriteData(array_merge(array('item'               => 'Token',
@@ -14243,7 +14799,7 @@ class Multiotp
 
 
   function SetLastClearOtpValue(
-      $value = ''
+      $value = ""
   ) {
       $this->_last_clear_otp_value = $value;
   }
@@ -14295,14 +14851,14 @@ class Multiotp
       // DistinguishedName must be encoded in UTF-8
       $ldap_bind_dn = encode_utf8_if_needed($ldap_username);
       
-      if (('' != $ldap_username) && (FALSE === mb_strpos(mb_strtolower($ldap_bind_dn,'UTF-8'), 'cn='))) {
+      if (("" != $ldap_username) && (FALSE === mb_strpos(mb_strtolower($ldap_bind_dn,'UTF-8'), 'cn='))) {
           $ldap_bind_dn = 'CN='.$ldap_bind_dn.','.$this->GetLdapBaseDn();
       }
 
       if (!function_exists('ldap_connect')) {
-          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, 39, 'System', '', 3);
+          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
           $this->EnableLdapError();
-      } elseif (('' != $this->GetLdapDomainControllers()) && ('' != $ldap_username) && ('' != $ldap_password)) {
+      } elseif (("" != $this->GetLdapDomainControllers()) && ("" != $ldap_username) && ("" != $ldap_password)) {
           $domain_controllers = explode(" ",nullable_trim(str_replace(","," ",str_replace(";"," ",$this->GetLdapDomainControllers()))));
           $ldap_options = array('account_suffix'     => $this->GetLdapAccountSuffix(),
                                 'ad_password'        => $ldap_password,
@@ -14331,7 +14887,7 @@ class Multiotp
           $result = !$ldap_connection->IsError();
 
           if ((!$result) && $this->GetVerboseFlag()) {
-              $this->WriteLog($ldap_connection->ErrorMessage(), FALSE, FALSE, 30, 'LDAP', '', 3);
+              $this->WriteLog($ldap_connection->ErrorMessage(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "", 3);
           }
           unset($ldap_connection);
       }
@@ -14345,7 +14901,7 @@ class Multiotp
       $include_disabled = TRUE;
       $ignore_in_group = FALSE;
 
-      $users_list = '';
+      $users_list = "";
 
       if (1 == $this->GetLdapServerType()) { // enhanced Active Directory
           $recursive_prefix = "1.2.840.113556.1.4.1941:=";
@@ -14356,7 +14912,7 @@ class Multiotp
       // Prepare the array "users_in_groups"
       // - if we are using a generic LDAP and an LdapInGroup Filtering
       // - if we are using enhanced Active Directory
-      if ('' != nullable_trim($this->GetLdapInGroup(true))) {
+      if ("" != nullable_trim($this->GetLdapInGroup(true))) {
         $in_groups_array_raw = explode("\t",nullable_trim(str_replace(",","\t",str_replace(";","\t",$this->GetLdapInGroup(true)))));
       } else {
         $in_groups_array_raw = array();
@@ -14364,9 +14920,9 @@ class Multiotp
 
       if (!function_exists('ldap_connect')) {
           $result = FALSE;
-          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, 39, 'System', '', 3);
+          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
           $this->EnableLdapError();
-      } elseif (('' != $this->GetLdapDomainControllers()) && ('' != $this->GetLdapBindDn()) && ('' != $this->GetLdapServerPassword())) {
+      } elseif (("" != $this->GetLdapDomainControllers()) && ("" != $this->GetLdapBindDn()) && ("" != $this->GetLdapServerPassword())) {
           
           $this->DisableLdapError();
           $in_groups_array = array();
@@ -14399,7 +14955,7 @@ class Multiotp
           $ldap_connection = new MultiotpAdLdap($ldap_options);
 
           if ($ldap_connection->IsError()) {
-              $this->WriteLog("Error: ".$ldap_connection->ErrorMessage(), FALSE, FALSE, 79, 'LDAP', '');
+              $this->WriteLog("Error: ".$ldap_connection->ErrorMessage(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
               $this->EnableLdapError();
           } else {
               // We continue only if there is no error
@@ -14449,11 +15005,11 @@ class Multiotp
                   }
               }
 
-              $ldap_connection->_paging_cookie = '';
+              $ldap_connection->_paging_cookie = "";
 
               $users_in_groups = array();
 
-              if ('' != nullable_trim($this->GetLdapInGroup(true))) {
+              if ("" != nullable_trim($this->GetLdapInGroup(true))) {
                 if ((2 == $this->GetLdapServerType()) || (4 == $this->GetLdapServerType())) { // Generic LDAP or eDirectory, eventually no memberOf function like in AD
                   foreach ($in_groups_array_raw as $one_group) {
                     $temp_array = $ldap_connection->group_users($one_group);
@@ -14487,14 +15043,14 @@ class Multiotp
 
                       if ($ldap_connection->IsError()) {
                           $this->EnableLdapError();
-                          $this->WriteLog("Error: LDAP connection failed", false, false, 30, 'LDAP', '');
+                          $this->WriteLog("Error: LDAP connection failed", false, false, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                           return FALSE;
                       }
-                      if ('' != $ldap_connection->get_warning_message()) {
-                          $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                      if ("" != $ldap_connection->get_warning_message()) {
+                          $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                       }
-                      if ($this->GetVerboseFlag() && ('' != $ldap_connection->get_debug_message())) {
-                          $this->WriteLog("Debug: *LDAP debug: ".$ldap_connection->get_debug_message(), FALSE, FALSE, 98, 'LDAP', '');
+                      if ($this->GetVerboseFlag() && ("" != $ldap_connection->get_debug_message())) {
+                          $this->WriteLog("Debug: *LDAP debug: ".$ldap_connection->get_debug_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                       }
 
                       do {
@@ -14503,16 +15059,16 @@ class Multiotp
                           $in_groups_array = array();
                           $in_groups_lower_array = array();
                           $group = "";
-                          $user_in_groups = '';
+                          $user_in_groups = "";
 
-                          $user = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0]):'');
-                          $account = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0]):'');
+                          $user = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0]):"");
+                          $account = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0]):"");
                           if (!$this->IsCaseSensitiveUsers()) {
                               $user = mb_strtolower($user,'UTF-8');
                               $account = mb_strtolower($account,'UTF-8');
                           }
 
-                          if ($account != '') {
+                          if ($account != "") {
                               
                               $one_user['msradiusframedipaddress'][0] = (isset($one_user['msradiusframedipaddress'][0])) ? long2ip32bit($one_user['msradiusframedipaddress'][0]) : "---";
                               $one_user['radiusframedipaddress'][0] = (isset($one_user['radiusframedipaddress'][0])) ? ($one_user['radiusframedipaddress'][0]) : "---";
@@ -14546,7 +15102,7 @@ class Multiotp
                               }
                               if ($include_disabled || (!$accountdisable)) {
                                   // TODO $in_a_group discovery
-                                  if ('' == nullable_trim($this->GetLdapInGroup(true))) {
+                                  if ("" == nullable_trim($this->GetLdapInGroup(true))) {
                                       $in_a_group = TRUE;
                                   } else {
                                       $in_a_group = FALSE;
@@ -14582,7 +15138,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -14599,7 +15155,7 @@ class Multiotp
                                               foreach ($temp_array as $one_temp) {
                                                   $one_user = $this->EncodeForBackend($one_temp);
                                                   if ($user == $one_user) {
-                                                      $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_group;
+                                                      $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_group;
                                                       $in_a_group = TRUE;
                                                   }
                                               }
@@ -14620,8 +15176,8 @@ class Multiotp
                                           if ($ldap_connection->_recursive_groups) {
                                               foreach ($groups_array_raw as $id => $group_name){
                                                   $extra_groups=$ldap_connection->recursive_groups($group_name, $this->IsLdapRecursiveCacheOnly());
-                                                  if ('' != $ldap_connection->get_warning_message()) {
-                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                                                  if ("" != $ldap_connection->get_warning_message()) {
+                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                                                   }
                                                   $groups_array_raw=array_merge($groups_array_raw,$extra_groups);
                                               }
@@ -14634,7 +15190,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -14649,8 +15205,8 @@ class Multiotp
                                           if ($ldap_connection->_recursive_groups) {
                                               foreach ($groups_array_raw as $id => $group_name){
                                                   $extra_groups=$ldap_connection->recursive_groups($group_name, $this->IsLdapRecursiveCacheOnly());
-                                                  if ('' != $ldap_connection->get_warning_message()) {
-                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                                                  if ("" != $ldap_connection->get_warning_message()) {
+                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                                                   }
                                                   $groups_array_raw=array_merge($groups_array_raw,$extra_groups);
                                               }
@@ -14663,7 +15219,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -14674,10 +15230,10 @@ class Multiotp
                                   }
                                   
                                   if ($ignore_in_group || $in_a_group) {
-                                    $users_list.= (('' != $users_list)?"\t":'').$account;
+                                    $users_list.= (("" != $users_list)?"\t":"").$account;
                                   }
                               }
-                          } // if ($account != '')
+                          } // if ($account != "")
                       } while (($one_user = $ldap_connection->one_user_info(FALSE, NULL, NULL, FALSE, $groups_filtering, $in_groups_filtering))); // $group_cn_cache_only = TRUE before
                       // Loop of LDAP parsing and synchronization
 
@@ -14686,7 +15242,7 @@ class Multiotp
                           ldap_control_paged_result_response($ldap_connection->_conn_paged, $ldap_connection->_oui_paged_sr, $ldap_connection->_paging_cookie);
                         }
                       }
-                  } while (($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != '') && ($ldap_connection->_oui_paged_sr !== FALSE));
+                  } while (($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != "") && ($ldap_connection->_oui_paged_sr !== FALSE));
                   // LDAP pagination loop
 
                   if ($ldap_connection->_paging_legacy) {
@@ -14696,7 +15252,7 @@ class Multiotp
               }
           }
       } else {
-          $this->WriteLog("Error: No LDAP connection information", FALSE, FALSE, 30, 'LDAP', '');
+          $this->WriteLog("Error: No LDAP connection information", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
       }
       return $users_list;
   }
@@ -14718,16 +15274,16 @@ class Multiotp
       // Prepare the array "users_in_groups"
       // - if we are using a generic LDAP and an LdapInGroup Filtering
       // - if we are using enhanced Active Directory
-      if ('' != nullable_trim($this->GetLdapInGroup(true))) {
+      if ("" != nullable_trim($this->GetLdapInGroup(true))) {
         $in_groups_array_raw = explode("\t",nullable_trim(str_replace(",","\t",str_replace(";","\t",$this->GetLdapInGroup(true)))));
       } else {
         $in_groups_array_raw = array();
       }
 
       if (!function_exists('ldap_connect')) {
-          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, 39, 'System', '', 3);
+          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
           $this->EnableLdapError();
-      } elseif (('' != $this->GetLdapDomainControllers()) && ('' != $this->GetLdapBindDn()) && ('' != $this->GetLdapServerPassword())) {
+      } elseif (("" != $this->GetLdapDomainControllers()) && ("" != $this->GetLdapBindDn()) && ("" != $this->GetLdapServerPassword())) {
 
           $this->DisableLdapError();
           $in_groups_array = array();
@@ -14760,7 +15316,7 @@ class Multiotp
           $ldap_connection = new MultiotpAdLdap($ldap_options);
 
           if ($ldap_connection->IsError()) {
-              $this->WriteLog("Error: ".$ldap_connection->ErrorMessage(), FALSE, FALSE, 79, 'LDAP', '');
+              $this->WriteLog("Error: ".$ldap_connection->ErrorMessage(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
               $this->EnableLdapError();
           } else {
               // We continue only if there is no error
@@ -14810,11 +15366,11 @@ class Multiotp
                   }
               }
 
-              $ldap_connection->_paging_cookie = '';
+              $ldap_connection->_paging_cookie = "";
 
               $users_in_groups = array();
 
-              if ('' != nullable_trim($this->GetLdapInGroup(true))) {
+              if ("" != nullable_trim($this->GetLdapInGroup(true))) {
                   if (2 == $this->GetLdapServerType()) { // Generic LDAP, eventually no memberOf function like in AD
                       foreach ($in_groups_array_raw as $one_group) {
                           $temp_array = $ldap_connection->group_users($one_group);
@@ -14848,14 +15404,14 @@ class Multiotp
 
                       if ($ldap_connection->IsError()) {
                           $this->EnableLdapError();
-                          $this->WriteLog("Error: LDAP connection failed", false, false, 30, 'LDAP', '');
+                          $this->WriteLog("Error: LDAP connection failed", false, false, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                           return FALSE;
                       }
-                      if ('' != $ldap_connection->get_warning_message()) {
-                          $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                      if ("" != $ldap_connection->get_warning_message()) {
+                          $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                       }
-                      if ($this->GetVerboseFlag() && ('' != $ldap_connection->get_debug_message())) {
-                          $this->WriteLog("Debug: *LDAP debug: ".$ldap_connection->get_debug_message(), FALSE, FALSE, 98, 'LDAP', '');
+                      if ($this->GetVerboseFlag() && ("" != $ldap_connection->get_debug_message())) {
+                          $this->WriteLog("Debug: *LDAP debug: ".$ldap_connection->get_debug_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                       }
 
                       do {
@@ -14864,16 +15420,16 @@ class Multiotp
                           $in_groups_array = array();
                           $in_groups_lower_array = array();
                           $group = "";
-                          $user_in_groups = '';
+                          $user_in_groups = "";
 
-                          $user = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0]):'');
-                          $account = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0]):'');
+                          $user = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0]):"");
+                          $account = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0]):"");
                           if (!$this->IsCaseSensitiveUsers()) {
                               $user = mb_strtolower($user,'UTF-8');
                               $account = mb_strtolower($account,'UTF-8');
                           }
 
-                          if ($account != '') {
+                          if ($account != "") {
                               
                               $one_user['msradiusframedipaddress'][0] = (isset($one_user['msradiusframedipaddress'][0])) ? long2ip32bit($one_user['msradiusframedipaddress'][0]) : "---";
                               $one_user['radiusframedipaddress'][0] = (isset($one_user['radiusframedipaddress'][0])) ? ($one_user['radiusframedipaddress'][0]) : "---";
@@ -14907,7 +15463,7 @@ class Multiotp
                               }
                               if ($include_disabled || (!$accountdisable)) {
                                   // TODO $in_a_group discovery
-                                  if ('' == nullable_trim($this->GetLdapInGroup(true))) {
+                                  if ("" == nullable_trim($this->GetLdapInGroup(true))) {
                                       $in_a_group = TRUE;
                                   } else {
                                       $in_a_group = FALSE;
@@ -14943,7 +15499,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -14960,7 +15516,7 @@ class Multiotp
                                               foreach ($temp_array as $one_temp) {
                                                   $one_user = $this->EncodeForBackend($one_temp);
                                                   if ($user == $one_user) {
-                                                      $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_group;
+                                                      $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_group;
                                                       $in_a_group = TRUE;
                                                   }
                                               }
@@ -14981,8 +15537,8 @@ class Multiotp
                                           if ($ldap_connection->_recursive_groups) {
                                               foreach ($groups_array_raw as $id => $group_name){
                                                   $extra_groups=$ldap_connection->recursive_groups($group_name, $this->IsLdapRecursiveCacheOnly());
-                                                  if ('' != $ldap_connection->get_warning_message()) {
-                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                                                  if ("" != $ldap_connection->get_warning_message()) {
+                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                                                   }
                                                   $groups_array_raw=array_merge($groups_array_raw,$extra_groups);
                                               }
@@ -14995,7 +15551,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -15010,8 +15566,8 @@ class Multiotp
                                           if ($ldap_connection->_recursive_groups) {
                                               foreach ($groups_array_raw as $id => $group_name){
                                                   $extra_groups=$ldap_connection->recursive_groups($group_name, $this->IsLdapRecursiveCacheOnly());
-                                                  if ('' != $ldap_connection->get_warning_message()) {
-                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                                                  if ("" != $ldap_connection->get_warning_message()) {
+                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                                                   }
                                                   $groups_array_raw=array_merge($groups_array_raw,$extra_groups);
                                               }
@@ -15024,7 +15580,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -15035,20 +15591,20 @@ class Multiotp
                                   }
 
                                   if ($ignore_in_group || $in_a_group) {
-                                      $description = '';
+                                      $description = "";
                                       if (isset($one_user['description'][0])) {
                                           $description = nullable_trim($one_user['description'][0]);
                                       }
-                                      if (('' == $description) && (isset($one_user['gecos'][0]))) {
+                                      if (("" == $description) && (isset($one_user['gecos'][0]))) {
                                           $description = nullable_trim($one_user['gecos'][0]);
                                       }
-                                      if (('' == $description) && (isset($one_user['displayname'][0]))) {
+                                      if (("" == $description) && (isset($one_user['displayname'][0]))) {
                                           $description = nullable_trim($one_user['displayname'][0]);
                                       }
-                                      if ('' == $description) {
+                                      if ("" == $description) {
                                           $description = $account;
                                       }
-                                      $display_name = '';
+                                      $display_name = "";
                                       if (isset($one_user['displayname'][0])) {
                                           $display_name = nullable_trim($one_user['displayname'][0]);
                                       }
@@ -15075,7 +15631,7 @@ class Multiotp
                                       $result_array[$user]['account'] = $account;
                                   }
                               }
-                          } // if ($account != '')
+                          } // if ($account != "")
                       } while (($one_user = $ldap_connection->one_user_info(FALSE, NULL, NULL, FALSE, $groups_filtering, $in_groups_filtering))); // $group_cn_cache_only = TRUE before
                       // Loop of LDAP parsing and synchronization
 
@@ -15084,7 +15640,7 @@ class Multiotp
                           ldap_control_paged_result_response($ldap_connection->_conn_paged, $ldap_connection->_oui_paged_sr, $ldap_connection->_paging_cookie);
                         }
                       }
-                  } while (($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != '') && ($ldap_connection->_oui_paged_sr !== FALSE));
+                  } while (($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != "") && ($ldap_connection->_oui_paged_sr !== FALSE));
                   // LDAP pagination loop
 
                   if ($ldap_connection->_paging_legacy) {
@@ -15094,7 +15650,7 @@ class Multiotp
               }
           }
       } else {
-          $this->WriteLog("Error: No LDAP connection information", FALSE, FALSE, 30, 'LDAP', '');
+          $this->WriteLog("Error: No LDAP connection information", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
       }
 
       return $result_array;
@@ -15135,6 +15691,13 @@ class Multiotp
       } elseif (('totp' == $this->GetUserAlgorithm()) || ('motp' == $this->GetUserAlgorithm())) {
         $result.= "         Token timestep: ".$this->GetUserTokenTimeInterval().$crlf;
       }
+      if ($this->IsUserPushEnabled()) {
+        $result.= "           Push User ID: ". $this->GetUserMouid().$crlf;
+        if ($this->GetUserPushEnableDate() > 0) {
+          $result.= "         Push Server ID: ". $this->GetUserMosid().$crlf;
+          $result.= "       Push enable date: ". date("Y-m-d", $this->GetUserPushEnableDate()).$crlf;
+        }
+      }
       if (is_valid_ipv4($this->GetUserDialinIpAddress())) {
         $result.= "     Dial-In IP address: ".$this->GetUserDialinIpAddress().$crlf;
       }
@@ -15166,7 +15729,7 @@ class Multiotp
               }
           }
       } elseif ($this->GetVerboseFlag()) {
-          $this->WriteLog("Debug: *AD/LDAP error before testing the $value account", FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Debug: *AD/LDAP error before testing the $value account", FALSE, FALSE, 8888, 'Debug', "");
       }
       return $result;
   }
@@ -15208,7 +15771,7 @@ class Multiotp
       // Prepare the array "users_in_groups"
       // - if we are using a generic LDAP and an LdapInGroup Filtering
       // - if we are using enhanced Active Directory
-      if ('' != nullable_trim($this->GetLdapInGroup(true))) {
+      if ("" != nullable_trim($this->GetLdapInGroup(true))) {
         $in_groups_array_raw = explode("\t",nullable_trim(str_replace(",","\t",str_replace(";","\t",$this->GetLdapInGroup(true)))));
       } else {
         $in_groups_array_raw = array();
@@ -15226,9 +15789,9 @@ class Multiotp
       clearstatcache();
       
       if (!function_exists('ldap_connect')) {
-        $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, 39, 'System', '', 3);
+        $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
         $this->EnableLdapError();
-      } elseif (('' != $this->GetLdapDomainControllers()) && ('' != $this->GetLdapBindDn()) && ('' != $this->GetLdapServerPassword())) {
+      } elseif (("" != $this->GetLdapDomainControllers()) && ("" != $this->GetLdapBindDn()) && ("" != $this->GetLdapServerPassword())) {
 
           // Check if an other sync process is already active yet
           if (file_exists($ldap_sync_file_lock)) {
@@ -15238,7 +15801,7 @@ class Multiotp
                   $additional_info = "";
                   // Take some info from the sync process
                   $additional_info = nullable_trim(@file_get_contents($ldap_sync_file_lock));
-                  $this->WriteLog("Info: Previous AD/LDAP synchronization in progress... $additional_info", FALSE, FALSE, 19, 'LDAP', '');
+                  $this->WriteLog("Info: Previous AD/LDAP synchronization in progress... $additional_info", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'LDAP', "");
                   return TRUE;
               }
           }
@@ -15258,11 +15821,11 @@ class Multiotp
               $additional_info = "started at ".date("H:i:s", $start_sync_time);
               if ($this->GetVerboseFlag()) {
                   $additional_info.= " / Memory used: ".(intval(10*memory_get_usage()/(1024*1024))/10)."MB / Peak: ".(intval(10*memory_get_peak_usage()/(1024*1024))/10)."MB";
-                  $this->WriteLog("Debug: *AD/LDAP synchronization ".$additional_info, FALSE, FALSE, 8888, 'LDAP', '');
+                  $this->WriteLog("Debug: *AD/LDAP synchronization ".$additional_info, FALSE, FALSE, 8888, 'LDAP', "");
               }
               fwrite($lock_handle,$additional_info);
               fclose($lock_handle);
-              if ('' != $this->GetLinuxFileMode()) {
+              if ("" != $this->GetLinuxFileMode()) {
                   @chmod($ldap_sync_file_lock, octdec($this->GetLinuxFileMode()));
               }
           } 
@@ -15270,7 +15833,7 @@ class Multiotp
           $this->DisableLdapError();
           $in_groups_array = array();
 
-          $this->WriteLog("Info: AD/LDAP synchronization started", FALSE, FALSE, 19, 'LDAP', '');
+          $this->WriteLog("Info: AD/LDAP synchronization started", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'LDAP', "");
 
           // TODO: later, we could loop in several base-dn (semicolon separated)
           $domain_controllers = explode(" ",nullable_trim(str_replace(","," ",str_replace(";"," ",$this->GetLdapDomainControllers()))));
@@ -15300,7 +15863,7 @@ class Multiotp
           $ldap_connection = new MultiotpAdLdap($ldap_options);
 
           if ($ldap_connection->IsError()) {
-              $this->WriteLog("Error: ".$ldap_connection->ErrorMessage(), FALSE, FALSE, 79, 'LDAP', '');
+              $this->WriteLog("Error: ".$ldap_connection->ErrorMessage(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
               $this->EnableLdapError();
           } else {
               // We continue only if there is no error
@@ -15357,11 +15920,11 @@ class Multiotp
 
               $result = TRUE;
 
-              $ldap_connection->_paging_cookie = '';
+              $ldap_connection->_paging_cookie = "";
 
               $users_in_groups = array();
 
-              if ('' != nullable_trim($this->GetLdapInGroup(true))) {
+              if ("" != nullable_trim($this->GetLdapInGroup(true))) {
                 if ((2 == $this->GetLdapServerType()) || (4 == $this->GetLdapServerType())) { // Generic LDAP or eDirectory, eventually no memberOf function like in AD
               
                   foreach ($in_groups_array_raw as $one_group) {
@@ -15397,17 +15960,17 @@ class Multiotp
 
                       if ($ldap_connection->IsError()) {
                           $this->EnableLdapError();
-                          $this->WriteLog("Error: LDAP connection failed", false, false, 30, 'LDAP', '');
+                          $this->WriteLog("Error: LDAP connection failed", false, false, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                           if (file_exists($ldap_sync_file_lock)) {
                               unlink($ldap_sync_file_lock);
                           }
                           return FALSE;
                       }
-                      if ('' != $ldap_connection->get_warning_message()) {
-                          $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                      if ("" != $ldap_connection->get_warning_message()) {
+                          $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                       }
-                      if ($this->GetVerboseFlag() && ('' != $ldap_connection->get_debug_message())) {
-                          $this->WriteLog("Debug: *DEBUG warning: ".$ldap_connection->get_debug_message(), FALSE, FALSE, 98, 'LDAP', '');
+                      if ($this->GetVerboseFlag() && ("" != $ldap_connection->get_debug_message())) {
+                          $this->WriteLog("Debug: *DEBUG warning: ".$ldap_connection->get_debug_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                       }
 
                       do {
@@ -15426,34 +15989,34 @@ class Multiotp
                                   $additional_info.= ", LDAP account #".($ldap_total_counter+1)." at ".date("H:i:s");
                                   if ($this->GetVerboseFlag()) {
                                       $additional_info.= " / Memory used: ".(intval(10*memory_get_usage()/(1024*1024))/10)."MB / Peak: ".(intval(10*memory_get_peak_usage()/(1024*1024))/10)."MB";
-                                      $this->WriteLog("Debug: *AD/LDAP synchronization ".$additional_info, FALSE, FALSE, 8888, 'LDAP', '');
-                                      print_r($one_user);
+                                      $this->WriteLog("Debug: *AD/LDAP synchronization ".$additional_info, FALSE, FALSE, 8888, 'LDAP', "");
+                                      // print_r($one_user);
                                   }
                                   fwrite($lock_handle,$additional_info);
                                   fclose($lock_handle);
-                                  if ('' != $this->GetLinuxFileMode()) {
+                                  if ("" != $this->GetLinuxFileMode()) {
                                       @chmod($ldap_sync_file_lock, octdec($this->GetLinuxFileMode()));
                                   }
                               } 
                           }
                           $accountdisable = FALSE;
-                          $accountdisable_info = '';
+                          $accountdisable_info = "";
                           $groups_lower_array = array();
                           $in_groups_array = array();
                           $in_groups_lower_array = array();
                           $group = "";
-                          $user_in_groups = '';
+                          $user_in_groups = "";
 
                           $ldap_total_counter++;
 
-                          $user = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0]):'');
-                          $account = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0]):'');
+                          $user = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapCnIdentifier(),'UTF-8')][0]):"");
+                          $account = $this->EncodeForBackend(isset($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0])?($one_user[mb_strtolower($this->GetLdapSyncedUserAttribute(),'UTF-8')][0]):"");
                           if (!$this->IsCaseSensitiveUsers()) {
                               $user = mb_strtolower($user,'UTF-8');
                               $account = mb_strtolower($account,'UTF-8');
                           }
 
-                          if ($account != '') {
+                          if ($account != "") {
 
                               $one_user['msradiusframedipaddress'][0] = (isset($one_user['msradiusframedipaddress'][0])) ? long2ip32bit($one_user['msradiusframedipaddress'][0]) : "---";
                               $one_user['radiusframedipaddress'][0] = (isset($one_user['radiusframedipaddress'][0])) ? ($one_user['radiusframedipaddress'][0]) : "---";
@@ -15462,37 +16025,37 @@ class Multiotp
                               if (isset($one_user['useraccountcontrol'][0])) {
                                   if (0 != ($one_user['useraccountcontrol'][0] & 2)) {
                                       $accountdisable = TRUE;
-                                      $accountdisable_info = (('' != $accountdisable_info) ? ', ' : '') . 'account disabled in the AD';
+                                      $accountdisable_info = (("" != $accountdisable_info) ? ', ' : "") . 'account disabled in the AD';
                                   }
                               }
                               if (isset($one_user['ms-ds-user-account-control-computed'][0])) {
                                   if (0 != ($one_user['ms-ds-user-account-control-computed'][0] & 16)) {
                                       $accountdisable = TRUE;
-                                      $accountdisable_info = (('' != $accountdisable_info) ? ', ' : '') . 'account locked out in the AD';
+                                      $accountdisable_info = (("" != $accountdisable_info) ? ', ' : "") . 'account locked out in the AD';
                                   }
                               }
                               if (isset($one_user['accountexpires'][0])) {
                                   if (($one_user['accountexpires'][0] > 0) && ((($one_user['accountexpires'][0] / 10000000) - 11644473600) < time())) {
                                       $accountdisable = TRUE;
-                                      $accountdisable_info = (('' != $accountdisable_info) ? ', ' : '') . 'account expired in the AD (account expires)';
+                                      $accountdisable_info = (("" != $accountdisable_info) ? ', ' : "") . 'account expired in the AD (account expires)';
                                   }
                               }
 
                               if (isset($one_user['shadowexpire'][0])) {
                                   if (($one_user['shadowexpire'][0] >= 0) && ((86400 * $one_user['shadowexpire'][0]) < time())) {
                                       $accountdisable = TRUE;
-                                      $accountdisable_info = (('' != $accountdisable_info) ? ', ' : '') . 'account expired in the AD (shadow expire)';
+                                      $accountdisable_info = (("" != $accountdisable_info) ? ', ' : "") . 'account expired in the AD (shadow expire)';
                                   }
                               }
                               if (isset($one_user['sambaacctflags'][0])) {
                                   if ((FALSE !== mb_strpos($one_user['sambaacctflags'][0], "D")) || (FALSE !== mb_strpos($one_user['sambaacctflags'][0], "L"))) {
                                       $accountdisable = TRUE;
-                                      $accountdisable_info = (('' != $accountdisable_info) ? ', ' : '') . 'account disabled in Samba (Disabeld or automatically Locked)';
+                                      $accountdisable_info = (("" != $accountdisable_info) ? ', ' : "") . 'account disabled in Samba (Disabeld or automatically Locked)';
                                   }
                               }
                               if ($include_disabled || (!$accountdisable)) {
                                   // TODO $in_a_group discovery
-                                  if ('' == nullable_trim($this->GetLdapInGroup(true))) {
+                                  if ("" == nullable_trim($this->GetLdapInGroup(true))) {
                                       $in_a_group = TRUE;
                                   } else {
                                       $in_a_group = FALSE;
@@ -15528,7 +16091,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -15544,7 +16107,7 @@ class Multiotp
                                               foreach ($temp_array as $one_temp) {
                                                   $one_user = $this->EncodeForBackend($one_temp);
                                                   if ($user == $one_user) {
-                                                      $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_group;
+                                                      $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_group;
                                                       $in_a_group = TRUE;
                                                   }
                                               }
@@ -15565,8 +16128,8 @@ class Multiotp
                                           if ($ldap_connection->_recursive_groups) {
                                               foreach ($groups_array_raw as $id => $group_name){
                                                   $extra_groups=$ldap_connection->recursive_groups($group_name, $this->IsLdapRecursiveCacheOnly());
-                                                  if ('' != $ldap_connection->get_warning_message()) {
-                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                                                  if ("" != $ldap_connection->get_warning_message()) {
+                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                                                   }
                                                   $groups_array_raw=array_merge($groups_array_raw,$extra_groups);
                                               }
@@ -15579,7 +16142,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -15594,8 +16157,8 @@ class Multiotp
                                           if ($ldap_connection->_recursive_groups) {
                                               foreach ($groups_array_raw as $id => $group_name){
                                                   $extra_groups=$ldap_connection->recursive_groups($group_name, $this->IsLdapRecursiveCacheOnly());
-                                                  if ('' != $ldap_connection->get_warning_message()) {
-                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, 98, 'LDAP', '');
+                                                  if ("" != $ldap_connection->get_warning_message()) {
+                                                      $this->WriteLog("Warning: LDAP warning: ".$ldap_connection->get_warning_message(), FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
                                                   }
                                                   $groups_array_raw=array_merge($groups_array_raw,$extra_groups);
                                               }
@@ -15608,7 +16171,7 @@ class Multiotp
                                           
                                           foreach ($in_groups_array as $one_filtered_group) {
                                               if (in_array(mb_strtolower($one_filtered_group,'UTF-8'), $groups_lower_array)) {
-                                                  $user_in_groups.= (('' != $user_in_groups) ? ',' : '') . $one_filtered_group;
+                                                  $user_in_groups.= (("" != $user_in_groups) ? ',' : "") . $one_filtered_group;
                                                   $in_a_group = TRUE;
                                                   if ("" == $group) {
                                                       $group = $one_filtered_group;
@@ -15619,29 +16182,29 @@ class Multiotp
                                   }
 
                                   if ($ignore_in_group || $in_a_group) {
-                                      $description = '';
+                                      $description = "";
                                       if (isset($one_user['description'][0])) {
                                           $description = nullable_trim($one_user['description'][0]);
                                       }
-                                      if (('' == $description) && (isset($one_user['gecos'][0]))) {
+                                      if (("" == $description) && (isset($one_user['gecos'][0]))) {
                                           $description = nullable_trim($one_user['gecos'][0]);
                                       }
-                                      if (('' == $description) && (isset($one_user['displayname'][0]))) {
+                                      if (("" == $description) && (isset($one_user['displayname'][0]))) {
                                           $description = nullable_trim($one_user['displayname'][0]);
                                       }
-                                      if ('' == $description) {
+                                      if ("" == $description) {
                                           $description = $account;
                                       }
-                                      $display_name = '';
+                                      $display_name = "";
                                       if (isset($one_user['displayname'][0])) {
                                           $display_name = nullable_trim($one_user['displayname'][0]);
                                       }
 
                                       // $user;
                                       $ldap_email = nullable_trim(isset($one_user['mail'][0])?$this->EncodeForBackend($one_user['mail'][0]):"");
-                                      $ldap_group = nullable_trim(('' != $group) ? $group : $this->GetDefaultUserGroup());
+                                      $ldap_group = nullable_trim(("" != $group) ? $group : $this->GetDefaultUserGroup());
                                       if ($this->IsMultipleGroupsEnabled()) {
-                                          $ldap_group = nullable_trim(('' != $user_in_groups) ? $user_in_groups : $this->GetDefaultUserGroup());
+                                          $ldap_group = nullable_trim(("" != $user_in_groups) ? $user_in_groups : $this->GetDefaultUserGroup());
                                       }
                                       $ldap_description = $this->EncodeForBackend($description);
                                       $ldap_display_name = $this->EncodeForBackend($display_name);
@@ -15659,7 +16222,7 @@ class Multiotp
                                       $ldap_framedipnetmask = (isset($one_user['radiusframedipnetmask'][0]) ? ($one_user['radiusframedipnetmask'][0]) : "---");
 
                                       $ldap_algorithm = $this->GetLdapDefaultAlgorithm();
-                                      if ('' != nullable_trim($this->GetLdapWithout2faInGroup())) {
+                                      if ("" != nullable_trim($this->GetLdapWithout2faInGroup())) {
                                         $without2fa_in_groups_array_raw = explode("\t",nullable_trim(str_replace(",","\t",str_replace(";","\t",$this->GetLdapWithout2faInGroup()))));
                                         $user_in_groups_array_raw = explode("\t",nullable_trim(str_replace(",","\t",str_replace(";","\t",$user_in_groups))));
                                         foreach ($without2fa_in_groups_array_raw as $one_without2fa_group) {
@@ -15674,7 +16237,7 @@ class Multiotp
 
                                       if (!$this->CheckUserExists($account, true, true)) { // $no_server_check = TRUE; $no_error = TRUE
                                       // User doesn't exist yet
-                                          if ('' == $ldap_description) {
+                                          if ("" == $ldap_description) {
                                               $ldap_description = $account;
                                           }
 
@@ -15687,7 +16250,7 @@ class Multiotp
                                                                           $ldap_description,
                                                                           $ldap_group,
                                                                           1,  // Synchronized
-                                                                          '', // Pin
+                                                                          "", // Pin
                                                                           true, // Automatically
                                                                           'LDAP', // Synchronized channel
                                                                           $this->GetLdapDomainControllers(), // Synchronized server
@@ -15723,78 +16286,78 @@ class Multiotp
 
                                               // !!! Special without2fa behavior !!!
                                               if ((('without2fa' == $ldap_algorithm) && ($algorithm != $ldap_algorithm)) ||
-                                                  (('without2fa' != $ldap_algorithm) && ('without2fa' == $algorithm) && ('' != nullable_trim($this->GetLdapWithout2faInGroup())))
+                                                  (('without2fa' != $ldap_algorithm) && ('without2fa' == $algorithm) && ("" != nullable_trim($this->GetLdapWithout2faInGroup())))
                                                  ) {
                                                 $this->SetUserAlgorithm($ldap_algorithm);
                                                 $modified = TRUE;
-                                                $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Algorithm: $algorithm -> $ldap_algorithm";
+                                                $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Algorithm: $algorithm -> $ldap_algorithm";
                                               }
                                               
-                                              if (('' != $ldap_description) && ($description != $ldap_description)) {
+                                              if (("" != $ldap_description) && ($description != $ldap_description)) {
                                                   $this->SetUserDescription($ldap_description);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Description: $description -> $ldap_description";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Description: $description -> $ldap_description";
                                               }
                                               
-                                              if (('' != $ldap_display_name) && ($display_name != $ldap_display_name)) {
+                                              if (("" != $ldap_display_name) && ($display_name != $ldap_display_name)) {
                                                   $this->SetUserDisplayName($ldap_display_name);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "DisplayName: $display_name -> $ldap_display_name";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "DisplayName: $display_name -> $ldap_display_name";
                                               }
                                               
-                                              if (('' != $ldap_email) && ($email != $ldap_email)) {
+                                              if (("" != $ldap_email) && ($email != $ldap_email)) {
                                                   $this->SetUserEmail($ldap_email);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Email: $email -> $ldap_email";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Email: $email -> $ldap_email";
                                               }
 
                                               if ($enabled != $ldap_enabled) {
                                                   $this->SetUserActivated($ldap_enabled);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Activated: $enabled -> $ldap_enabled";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Activated: $enabled -> $ldap_enabled";
                                               }
 
-                                              if (('' != $ldap_group) && ($group != $ldap_group)) {
+                                              if (("" != $ldap_group) && ($group != $ldap_group)) {
                                                   $this->SetUserGroup($ldap_group);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Group: $group -> $ldap_group";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Group: $group -> $ldap_group";
                                               }
 
-                                              if (('' != $ldap_sms) && ($sms != $ldap_sms)) {
+                                              if (("" != $ldap_sms) && ($sms != $ldap_sms)) {
                                                   $this->SetUserSms($ldap_sms);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "SMS: $sms -> $ldap_sms";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "SMS: $sms -> $ldap_sms";
                                               }
 
                                               if ($synchronized_channel != 'LDAP') {
                                                   $this->SetUserSynchronizedChannel('LDAP');
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Synchronized channel: $synchronized_channel -> LDAP";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Synchronized channel: $synchronized_channel -> LDAP";
                                               }
 
                                               if ($synchronized_dn != $ldap_synchronized_dn) {
                                                   $this->SetUserSynchronizedDn($ldap_synchronized_dn);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Synchronized DN: $synchronized_dn -> $ldap_synchronized_dn";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Synchronized DN: $synchronized_dn -> $ldap_synchronized_dn";
                                               }
 
-                                              if (('' != $this->GetLdapDomainControllers()) && ($synchronized_server != $this->GetLdapDomainControllers())) {
+                                              if (("" != $this->GetLdapDomainControllers()) && ($synchronized_server != $this->GetLdapDomainControllers())) {
                                                   $this->SetUserSynchronizedServer($this->GetLdapDomainControllers());
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "AD/LDAP controller : $synchronized_server -> ".$this->GetLdapDomainControllers();
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "AD/LDAP controller : $synchronized_server -> ".$this->GetLdapDomainControllers();
                                               }
 
                                               if ($language != $ldap_language) {
                                                   $this->SetUserLanguage($ldap_language);
                                                   $modified = TRUE;
-                                                  $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Language: $language -> $ldap_language";
+                                                  $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Language: $language -> $ldap_language";
                                               }
 
                                               if ("---" != $ldap_framedipaddress) {
                                                   if ($dialin_ip_address != $ldap_framedipaddress) {
                                                       $this->SetUserDialinIpAddress($ldap_framedipaddress);
                                                       $modified = TRUE;
-                                                      $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Dialin IP address: $dialin_ip_address -> $ldap_framedipaddress";
+                                                      $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Dialin IP address: $dialin_ip_address -> $ldap_framedipaddress";
                                                   }
                                               }
 
@@ -15802,7 +16365,7 @@ class Multiotp
                                                   if ($dialin_ip_mask != $ldap_framedipnetmask) {
                                                       $this->SetUserDialinIpNetmask($ldap_framedipnetmask);
                                                       $modified = TRUE;
-                                                      $detailed_modif = (('' != $detailed_modif) ? ', ' : '') . "Dialin IP mask: $dialin_ip_mask -> $ldap_framedipnetmask";
+                                                      $detailed_modif = (("" != $detailed_modif) ? ', ' : "") . "Dialin IP mask: $dialin_ip_mask -> $ldap_framedipnetmask";
                                                   }
                                               }
 
@@ -15814,14 +16377,21 @@ class Multiotp
                                                 }
                                               }
 
+                                              if ($this->IsOverwritePushEnabled()) {
+                                                if ($this->GetUserPushEnabled() != $this->GetDefaultPushEnabled()) {
+                                                  $this->SetUserPushEnabled($this->GetDefaultPushEnabled());
+                                                  $modified = TRUE;
+                                                }
+                                              }
+
                                               $this->SetUserSynchronizedTime();
                                               
                                               $this->WriteUserData(TRUE, $modified); // $automatically = TRUE, $update_last_change = $modified
                                               if ($modified) {
                                                   if ($this->GetVerboseFlag()) {
-                                                      $this->WriteLog("Debug: *AD/LDAP $account modified: $detailed_modif", FALSE, FALSE, 8888, 'Debug', '');
-                                                      if ('' != $accountdisable_info) {
-                                                          $this->WriteLog("Debug: *AD/LDAP $account disabled: $accountdisable_info", FALSE, FALSE, 8888, 'Debug', '');
+                                                      $this->WriteLog("Debug: *AD/LDAP $account modified: $detailed_modif", FALSE, FALSE, 8888, 'Debug', "");
+                                                      if ("" != $accountdisable_info) {
+                                                          $this->WriteLog("Debug: *AD/LDAP $account disabled: $accountdisable_info", FALSE, FALSE, 8888, 'Debug', "");
                                                       }
                                                   }
                                                   $this->SyncUserModified(FALSE, $account);
@@ -15831,7 +16401,7 @@ class Multiotp
                                       }
                                   }
                               }
-                          } // if ($account != '')
+                          } // if ($account != "")
                       } while ((!$ldap_sync_stop) && ($one_user = $ldap_connection->one_user_info(FALSE, NULL, NULL, FALSE, $groups_filtering, $in_groups_filtering))); // $group_cn_cache_only = TRUE before
                       // Loop of LDAP parsing and synchronization
 
@@ -15841,11 +16411,11 @@ class Multiotp
                         }
                       }
                       if ($this->GetVerboseFlag()) {
-                        if (($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != '')) {
-                          $this->WriteLog("Debug: *LDAP paging used", FALSE, FALSE, 8888, 'Debug', '');
+                        if (($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != "")) {
+                          $this->WriteLog("Debug: *LDAP paging used", FALSE, FALSE, 8888, 'Debug', "");
                         }
                       }
-                  } while ((!$ldap_sync_stop) && ($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != '') && ($ldap_connection->_oui_paged_sr !== FALSE));
+                  } while ((!$ldap_sync_stop) && ($ldap_connection->_paging_cookie !== null) && ($ldap_connection->_paging_cookie != "") && ($ldap_connection->_oui_paged_sr !== FALSE));
                   // LDAP pagination loop
 
                   if ($ldap_connection->_paging_legacy) {
@@ -15871,11 +16441,11 @@ class Multiotp
                               $additional_info.= ", internal account #".($internal_users_loop+1)." at ".date("H:i:s");
                               if ($this->GetVerboseFlag()) {
                                   $additional_info.= " / Memory used: ".(intval(10*memory_get_usage()/(1024*1024))/10)."MB / Peak: ".(intval(10*memory_get_peak_usage()/(1024*1024))/10)."MB";
-                                  $this->WriteLog("Debug: *AD/LDAP synchronization ".$additional_info, FALSE, FALSE, 8888, 'LDAP', '');
+                                  $this->WriteLog("Debug: *AD/LDAP synchronization ".$additional_info, FALSE, FALSE, 8888, 'LDAP', "");
                               }
                               fwrite($lock_handle,$additional_info);
                               fclose($lock_handle);
-                              if ('' != $this->GetLinuxFileMode()) {
+                              if ("" != $this->GetLinuxFileMode()) {
                                   @chmod($ldap_sync_file_lock, octdec($this->GetLinuxFileMode()));
                               }
                           } 
@@ -15911,13 +16481,13 @@ class Multiotp
                                     $accountdisable_info = "account not found anymore in the AD/LDAP with the specified filters ";
                                     $accountdisable_info.= "(synchronized last time the " . date('Y-m-d H:i:s', $modified_synchronized_time) . ") ";
                                     $accountdisable_info.= "with server $modified_synchronized_server, ";
-                                    if ('' != $modified_group) {
+                                    if ("" != $modified_group) {
                                         $accountdisable_info.= "in group $modified_group, ";
                                     }
                                     $accountdisable_info.= "DN was $modified_synchronized_dn)";
-                                    $this->WriteLog("Debug: *AD/LDAP $modified_user deleted: $accountdisable_info", FALSE, FALSE, 8888, 'Debug', '');
+                                    $this->WriteLog("Debug: *AD/LDAP $modified_user deleted: $accountdisable_info", FALSE, FALSE, 8888, 'Debug', "");
                                   }
-                                  $this->WriteLog("Info: account ".$modified_user." automatically deleted (no more in the AD/LDAP)", FALSE, FALSE, 19, 'System', '');
+                                  $this->WriteLog("Info: account ".$modified_user." automatically deleted (no more in the AD/LDAP)", FALSE, FALSE, _MULTIOTP_USER_DELETED_, 'System', "");
                                   $modified_counter++;
                               } elseif ($modified_enabled) {
                                   $this->SetUser($modified_user);
@@ -15927,11 +16497,11 @@ class Multiotp
                                       $accountdisable_info = "account not found anymore in the AD/LDAP with the specified filters ";
                                       $accountdisable_info.= "(synchronized last time the " . date('Y-m-d H:i:s', $modified_synchronized_time) . ") ";
                                       $accountdisable_info.= "with server $modified_synchronized_server, ";
-                                      if ('' != $modified_group) {
+                                      if ("" != $modified_group) {
                                           $accountdisable_info.= "in group $modified_group, ";
                                       }
                                       $accountdisable_info.= "DN was $modified_synchronized_dn)";
-                                      $this->WriteLog("Debug: *AD/LDAP $modified_user disabled: $accountdisable_info", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *AD/LDAP $modified_user disabled: $accountdisable_info", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                                   $modified_counter++;
                               }
@@ -15941,35 +16511,35 @@ class Multiotp
                   } while (($one_user = $this->GetNextUserArray()) && (!$ldap_sync_stop));
                   
                   if ($ldap_sync_stop) {
-                      $this->WriteLog("Info: LDAP sync stopped", FALSE, FALSE, 19, 'LDAP', '');
+                      $this->WriteLog("Info: LDAP sync stopped", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'LDAP', "");
                   } else {
                       $time_info = gmdate("H:i:s", time()-$start_sync_time);
-                      $info_txt = '';
+                      $info_txt = "";
                       
                       if ($modified_counter > 0) {
-                          $ldap_counter_suffix = ((1 < $modified_counter)?'s':'');
+                          $ldap_counter_suffix = ((1 < $modified_counter)?'s':"");
                           $info_txt.= $modified_counter." user$ldap_counter_suffix updated, based on $ldap_total_counter LDAP entries";
                       }
                       if ($ldap_created_counter > 0) {
-                          if ('' != $info_txt) {
+                          if ("" != $info_txt) {
                               $info_txt.= ', ';
                           }
-                          $ldap_counter_suffix = ((1 < $ldap_created_counter)?'s':'');
+                          $ldap_counter_suffix = ((1 < $ldap_created_counter)?'s':"");
                           $info_txt.= $ldap_created_counter." user$ldap_counter_suffix created, based on $ldap_total_counter LDAP entries";
                       }
-                      if ('' == $info_txt) {
+                      if ("" == $info_txt) {
                           $info_txt = "No update for the $existing_ldap_users_counter LDAP synced users, based on $ldap_total_counter LDAP entries";
                       }
-                      $this->WriteLog("Info: $info_txt (processed in $time_info)", FALSE, FALSE, 19, 'LDAP', '');
+                      $this->WriteLog("Info: $info_txt (processed in $time_info)", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'LDAP', "");
                   }
               } else {
-                  $this->WriteLog("Info: LDAP sync stopped", FALSE, FALSE, 19, 'LDAP', '');
+                  $this->WriteLog("Info: LDAP sync stopped", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'LDAP', "");
               }
           } // We have done this loop only if there was no error before
       // End of successful LDAP parameters
       } else {
           $this->EnableLdapError();
-          $this->WriteLog("Error: no LDAP connection information", FALSE, FALSE, 30, 'LDAP', '');
+          $this->WriteLog("Error: no LDAP connection information", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'LDAP', "");
       }
       if (file_exists($ldap_sync_file_lock)) {
           unlink($ldap_sync_file_lock);
@@ -15981,7 +16551,7 @@ class Multiotp
   // It's possible to overload this stub in order to do something when the current user is modified (or created)
   function SyncUserModified(
       $created = FALSE,
-      $user = ''
+      $user = ""
   ) {
       return TRUE;
   }
@@ -16001,8 +16571,8 @@ class Multiotp
   {
       $result = FALSE;
       if (!function_exists('ldap_connect')) {
-          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, 39, 'System', '', 3);
-      } elseif (('' != $this->GetLdapDomainControllers()) && ('' != $this->GetLdapBindDn()) && ('' != $this->GetLdapServerPassword())) {
+          $this->WriteLog("Error: LDAP library not installed", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'System', "", 3);
+      } elseif (("" != $this->GetLdapDomainControllers()) && ("" != $this->GetLdapBindDn()) && ("" != $this->GetLdapServerPassword())) {
           $domain_controllers = explode(" ",nullable_trim(str_replace(","," ",str_replace(";"," ",$this->GetLdapDomainControllers()))));
           $ldap_options = array('account_suffix'     => $this->GetLdapAccountSuffix(),
                                 'ad_password'        => $this->GetLdapServerPassword(),
@@ -16126,7 +16696,7 @@ class Multiotp
    */
   function GetScriptFolder()
   {
-      if ('' != $this->GetBaseDir()) {
+      if ("" != $this->GetBaseDir()) {
           $current_script_folder_detected = $this->ConvertToUnixPath($this->GetBaseDir());
       } else {
           $current_script_folder_detected = $this->ConvertToUnixPath(dirname(__FILE__));
@@ -16158,7 +16728,7 @@ class Multiotp
 
 
   function GetReplyMessageForRadius() {
-    return (isset($this->_reply_array_for_radius[0]) ? $this->_reply_array_for_radius[0] : '');
+    return (isset($this->_reply_array_for_radius[0]) ? $this->_reply_array_for_radius[0] : "");
   }
 
 
@@ -16193,7 +16763,7 @@ class Multiotp
     }
 
     $group = nullable_trim($this->GetUserGroup());
-    if (('' != $group) && ('' != $this->GetGroupAttribute())) {
+    if (("" != $group) && ("" != $this->GetGroupAttribute())) {
       $group_array = explode("\t",nullable_trim(str_replace(",","\t",str_replace(";","\t",$group))));
       if ($multiple_groups) {
         foreach ($group_array as $one_group) {
@@ -16209,7 +16779,7 @@ class Multiotp
       }
     }
 
-    if (('' != $this->GetLastClearOtpValue()) && ('' != $this->GetClearOtpAttribute())) {
+    if (("" != $this->GetLastClearOtpValue()) && ("" != $this->GetClearOtpAttribute())) {
       $this->AddReplyArrayForRadius($this->GetClearOtpAttribute().$this->GetRadiusReplyAttributor().'"'.$this->GetLastClearOtpValue().'"');
     }
 
@@ -16220,9 +16790,9 @@ class Multiotp
         $dialin_ip_mask = $this->GetDefaultDialinIpMask();
       }
       // IP address and netmask
-      $this->AddReplyArrayForRadius('Framed-IP-Address'.$this->GetRadiusReplyAttributor().''.$dialin_ip_address.'');
+      $this->AddReplyArrayForRadius('Framed-IP-Address'.$this->GetRadiusReplyAttributor()."".$dialin_ip_address."");
       if (is_valid_ipv4($dialin_ip_mask)) {
-        $this->AddReplyArrayForRadius('Framed-IP-Netmask'.$this->GetRadiusReplyAttributor().''.$dialin_ip_mask.'');
+        $this->AddReplyArrayForRadius('Framed-IP-Netmask'.$this->GetRadiusReplyAttributor()."".$dialin_ip_mask."");
       }
     }
   }
@@ -16245,7 +16815,7 @@ class Multiotp
       $attributes_to_encrypt
   ) {
       $attributes = nullable_trim($attributes_to_encrypt);
-      if (('' != $attributes) && ('*' == mb_substr($attributes,0,1)) && ('*' == mb_substr($attributes,-1))) {
+      if (("" != $attributes) && ('*' == mb_substr($attributes,0,1)) && ('*' == mb_substr($attributes,-1))) {
           $this->_attributes_to_encrypt = $attributes;
       }
   }
@@ -16274,10 +16844,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing users folder ".$new_folder, FALSE, FALSE, 28, 'System', '');
+              $this->WriteLog("Error: Unable to create the missing users folder ".$new_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
           }
       }
   }
@@ -16285,7 +16855,7 @@ class Multiotp
 
   function GetUsersFolder()
   {
-      if ('' == $this->_users_folder) {
+      if ("" == $this->_users_folder) {
           $this->SetUsersFolder($this->GetScriptFolder()."users/");
       }
       return $this->ConvertToWindowsPathIfNeeded($this->_users_folder);
@@ -16308,10 +16878,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing credusers folder ".$new_folder, FALSE, FALSE, 28, 'System', '');
+              $this->WriteLog("Error: Unable to create the missing credusers folder ".$new_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
           }
       }
   }
@@ -16319,7 +16889,7 @@ class Multiotp
 
   function GetCredUsersFolder()
   {
-      if ('' == $this->_credusers_folder) {
+      if ("" == $this->_credusers_folder) {
           $this->SetCredUsersFolder($this->GetScriptFolder()."credusers/");
       }
       return $this->ConvertToWindowsPathIfNeeded($this->_credusers_folder);
@@ -16342,10 +16912,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing devices folder ".$new_folder, FALSE, FALSE, 28, 'System', '');
+              $this->WriteLog("Error: Unable to create the missing devices folder ".$new_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
           }
       }
   }
@@ -16353,7 +16923,7 @@ class Multiotp
 
   function GetDevicesFolder()
   {
-      if ('' == $this->_devices_folder) {
+      if ("" == $this->_devices_folder) {
           $this->SetDevicesFolder($this->GetScriptFolder()."devices/");
       }
       return $this->ConvertToWindowsPathIfNeeded($this->_devices_folder);
@@ -16376,10 +16946,10 @@ class Multiotp
     if ($create && (!file_exists($new_folder))) {
         if (!@mkdir(
                 $new_folder,
-                ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                 true //recursive
         )) {
-            $this->WriteLog("Error: Unable to create the missing devices folder ".$new_folder, FALSE, FALSE, 28, 'System', '');
+            $this->WriteLog("Error: Unable to create the missing devices folder ".$new_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
         }
     }
   }
@@ -16387,7 +16957,7 @@ class Multiotp
 
   function GetDdnsFolder()
   {
-    if ('' == $this->_ddns_folder) {
+    if ("" == $this->_ddns_folder) {
         $this->SetDdnsFolder($this->GetScriptFolder()."ddns/");
     }
     return $this->ConvertToWindowsPathIfNeeded($this->_ddns_folder);
@@ -16424,7 +16994,7 @@ class Multiotp
 
   function GetTemplatesFolder()
   {
-      if ('' == $this->_templates_folder) {
+      if ("" == $this->_templates_folder) {
           $this->SetTemplatesFolder($this->GetScriptFolder()."templates/");
       }
       return $this->ConvertToWindowsPathIfNeeded($this->_templates_folder);
@@ -16447,10 +17017,10 @@ class Multiotp
       if ($create && (!file_exists($new_folder))) {
           if (!@mkdir(
                   $new_folder,
-                  ('' != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+                  ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
                   true //recursive
           )) {
-              $this->WriteLog("Error: Unable to create the missing groups folder ".$new_folder, FALSE, FALSE, 28, 'System', '');
+              $this->WriteLog("Error: Unable to create the missing groups folder ".$new_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
           }
       }
   }
@@ -16458,7 +17028,7 @@ class Multiotp
 
   function GetGroupsFolder()
   {
-      if ('' == $this->_groups_folder) {
+      if ("" == $this->_groups_folder) {
           $this->SetGroupsFolder($this->GetScriptFolder()."groups/");
       }
       return $this->ConvertToWindowsPathIfNeeded($this->_groups_folder);
@@ -16468,23 +17038,23 @@ class Multiotp
   function SendSms(
       $sms_recipient,
       $sms_message_to_send,
-      $real_user = '',
-      $originator = '',
-      $provider = '',
-      $username = '',
-      $password = '',
-      $api_id = '',
+      $real_user = "",
+      $originator = "",
+      $provider = "",
+      $username = "",
+      $password = "",
+      $api_id = "",
       $write_log = TRUE,
-      $source_tag = ''
+      $source_tag = ""
   ) {
 
-      $result = 62; // ERROR: SMS provider not supported
+      $result = _MULTIOTP_SMS_PROVIDER_ERROR_; // ERROR: SMS provider not supported
       
-      $sms_provider   = mb_strtolower((('' != $provider)?$provider:$this->GetSmsProvider()),'UTF-8');
-      $sms_api_id     = (('' != $api_id)?$api_id:$this->GetSmsApiId());
-      $sms_username   = (('' != $username)?$username:$this->GetSmsUsername());
-      $sms_password   = (('' != $password)?$password:$this->GetSmsPassword());
-      $sms_originator = (('' != $originator)?$originator:$this->GetSmsOriginator());
+      $sms_provider   = mb_strtolower((("" != $provider)?$provider:$this->GetSmsProvider()),'UTF-8');
+      $sms_api_id     = (("" != $api_id)?$api_id:$this->GetSmsApiId());
+      $sms_username   = (("" != $username)?$username:$this->GetSmsUsername());
+      $sms_password   = (("" != $password)?$password:$this->GetSmsPassword());
+      $sms_originator = (("" != $originator)?$originator:$this->GetSmsOriginator());
 
       $sms_number     = $this->CleanPhoneNumber($sms_recipient);
      
@@ -16494,7 +17064,7 @@ class Multiotp
           $exec_cmd = str_replace('%to',   $sms_number,  $exec_cmd);
           $exec_cmd = str_replace('%msg',  encode_utf8_if_needed($sms_message_to_send),  $exec_cmd);
           exec($exec_cmd, $output);
-          $result = 18; // INFO: Static code request received
+          $result = _MULTIOTP_USER_STATIC_CODE_REQUESTED_; // INFO: Static code request received
           if ($write_log) {
               $this->WriteLog("Info: Static code request received for ".$real_user.(("" != $source_tag)?" for $source_tag":"")." and sent via ".$exec_cmd, FALSE, FALSE, $result, 'Authentication', $real_user);
           }
@@ -16521,22 +17091,22 @@ class Multiotp
                                               ));
 
           if ($sms_message->sendSMS()) {
-              $result = 18; // INFO: Static code request received
+              $result = _MULTIOTP_USER_STATIC_CODE_REQUESTED_; // INFO: Static code request received
               if ($write_log) {
                   $this->WriteLog("Info: Static code request received for ".$real_user.(("" != $source_tag)?" for $source_tag":"")." and sent via ".$sms_provider." to ".$sms_number, FALSE, FALSE, $result, 'Authentication', $real_user);
               }
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Debug: *Detailed Sent Info successful to $sms_provider: ".$sms_message->getLastSendInfo(), FALSE, FALSE, 8888, 'Debug', '');
-                  $this->WriteLog("Debug: *Detailed Sent Info successful returned from $sms_provider: ".$sms_message->getLastReplyInfo(), FALSE, FALSE, 8888, 'Debug', '');
+                  $this->WriteLog("Debug: *Detailed Sent Info successful to $sms_provider: ".$sms_message->getLastSendInfo(), FALSE, FALSE, 8888, 'Debug', "");
+                  $this->WriteLog("Debug: *Detailed Sent Info successful returned from $sms_provider: ".$sms_message->getLastReplyInfo(), FALSE, FALSE, 8888, 'Debug', "");
               }
           } else {
-              $result = 61; // ERROR: SMS code request received, but an error occurred during transmission
+              $result = _MULTIOTP_SMS_CODE_TRANSMISSION_ERROR_; // ERROR: SMS code request received, but an error occurred during transmission
               if ($write_log) {
                   $this->WriteLog("Error: SMS code request received for ".$real_user.(("" != $source_tag)?" for $source_tag":"").", but the ".$sms_provider." error ".$sms_message->getLastReplyInfo()." occurred during transmission to ".$sms_number, FALSE, FALSE, $result, 'SMS', $real_user);
               }
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Debug: *Detailed Sent Info error to $sms_provider: ".$sms_message->getLastSendInfo(), FALSE, FALSE, 8888, 'Debug', '');
-                  $this->WriteLog("Debug: *Detailed Sent Info error returned from $sms_provider: ".$sms_message->getLastReplyInfo(), FALSE, FALSE, 8888, 'Debug', '');
+                  $this->WriteLog("Debug: *Detailed Sent Info error to $sms_provider: ".$sms_message->getLastSendInfo(), FALSE, FALSE, 8888, 'Debug', "");
+                  $this->WriteLog("Debug: *Detailed Sent Info error returned from $sms_provider: ".$sms_message->getLastReplyInfo(), FALSE, FALSE, 8888, 'Debug', "");
               }
           }
       }
@@ -16545,18 +17115,18 @@ class Multiotp
 
 
   function GenerateSmsToken(
-      $user = ''
+      $user = ""
   ) {
-      $result = 99;
+      $result = _MULTIOTP_ERROR_;
       if ($this->IsSmsCodeAllowed()) {
         $now_epoch = time();
-        if ('' != $user) {
+        if ("" != $user) {
           $this->SetUser($user);
         } else {
           $user = $this->GetUser();
         }
         $sms_number = $this->CleanPhoneNumber($this->GetUserSms());
-        if ('' != $sms_number) {
+        if ("" != $sms_number) {
           $sms_message_prefix = nullable_trim($this->GetSmsMessage());
           $sms_token = $this->GeneratePin($this->GetSmsDigits());
 
@@ -16574,15 +17144,15 @@ class Multiotp
 
           $result = $this->SendSms($sms_number, $sms_message_to_send, $user);
         } else {
-          $result = 60; // ERROR: no information on where to send SMS code
+          $result = _MULTIOTP_SMS_NO_DESTINATION_ERROR_; // ERROR: no information on where to send SMS code
           $this->WriteLog("Error: no information on where to send SMS code for ".$user, FALSE, FALSE, $result, 'SMS', $user);
         }
       } else {
-        $result = 65;
+        $result = _MULTIOTP_SMS_REQUEST_UNAUTHORIZED_;
         $this->WriteLog(array('text'       => "ERROR: SMS code request not allowed",
                               'error_code' => $result,
                               'category'   => 'System',
-                              'user'       => '')
+                              'user'       => "")
                        );
       }
       return $result;
@@ -16592,18 +17162,18 @@ class Multiotp
   // Generate Email token, and store them in the static token
   // (which was initially the sms token)
   function GenerateEmailToken(
-      $user = ''
+      $user = ""
   ) {
-      $result = 99;
+      $result = _MULTIOTP_ERROR_;
       if ($this->IsEmailCodeAllowed()) {
         $now_epoch = time();
-        if ('' != $user) {
+        if ("" != $user) {
           $this->SetUser($user);
         } else {
           $user = $this->GetUser();
         }
         $email = $this->GetUserEmail();
-        if ('' != $email) {
+        if ("" != $email) {
           $token = $this->GeneratePin($this->GetEmailDigits());
 
           $this->SetUserEmailOtp($token);
@@ -16619,9 +17189,9 @@ class Multiotp
                                             'subject' => $subject,
                                             'content' => $content
                                            )
-                                     ) ? 18 : 68);
+                                     ) ? _MULTIOTP_USER_STATIC_CODE_REQUESTED_ : _MULTIOTP_EMAIL_CODE_TRANSMISSION_ERROR_);
         } else {
-          $result = 67; // ERROR: No information on where to send Email code
+          $result = _MULTIOTP_EMAIL_NO_DESTINATION_ERROR_; // ERROR: No information on where to send Email code
           $this->WriteLog(array('text'       => "Error: no information on where to send Email code for ".$user,
                                 'error_code' => $result,
                                 'category'   => 'Authentication',
@@ -16629,11 +17199,11 @@ class Multiotp
                          );
         }
       } else {
-        $result = 66;
+        $result = _MULTIOTP_EMAIL_REQUEST_UNAUTHORIZED_;
         $this->WriteLog(array('text'       => "ERROR: Email code request not allowed",
                               'error_code' => $result,
                               'category'   => 'System',
-                              'user'       => '')
+                              'user'       => "")
                        );
       }
       return $result;
@@ -16643,72 +17213,72 @@ class Multiotp
   function SendEmail(
       $send_email_array = array()
   ) {
-      $user       = isset($send_email_array['user'])?$send_email_array['user']:'';
-      $email      = isset($send_email_array['email'])?$send_email_array['email']:'';
-      $from_email = isset($send_email_array['from_email'])?$send_email_array['from_email']:'';
-      $from_name  = isset($send_email_array['from_name'])?$send_email_array['from_name']:'';
-      $returnpath = isset($send_email_array['returnpath'])?$send_email_array['returnpath']:'';
-      $subject    = isset($send_email_array['subject'])?$send_email_array['subject']:'';
-      $content    = isset($send_email_array['content'])?$send_email_array['content']:'';
-      $template   = isset($send_email_array['template'])?$send_email_array['template']:'';
-      $var        = isset($send_email_array['var'])?$send_email_array['var']:'';
-      $x_sender   = isset($send_email_array['x-sender'])?$send_email_array['x-sender']:'';
-      $priority   = isset($send_email_array['priority'])?$send_email_array['priority']:'';
-      $language   = isset($send_email_array['language'])?$send_email_array['language']:'';
+      $user       = isset($send_email_array['user'])?$send_email_array['user']:"";
+      $email      = isset($send_email_array['email'])?$send_email_array['email']:"";
+      $from_email = isset($send_email_array['from_email'])?$send_email_array['from_email']:"";
+      $from_name  = isset($send_email_array['from_name'])?$send_email_array['from_name']:"";
+      $returnpath = isset($send_email_array['returnpath'])?$send_email_array['returnpath']:"";
+      $subject    = isset($send_email_array['subject'])?$send_email_array['subject']:"";
+      $content    = isset($send_email_array['content'])?$send_email_array['content']:"";
+      $template   = isset($send_email_array['template'])?$send_email_array['template']:"";
+      $var        = isset($send_email_array['var'])?$send_email_array['var']:"";
+      $x_sender   = isset($send_email_array['x-sender'])?$send_email_array['x-sender']:"";
+      $priority   = isset($send_email_array['priority'])?$send_email_array['priority']:"";
+      $language   = isset($send_email_array['language'])?$send_email_array['language']:"";
 
       $result = FALSE;
       $actual_user = "";
 
       $specific_language = $this->GetLanguage();
 
-      if ('' == $email) {
-        $actual_user = ('' != $user)?$user:$this->GetUser();
-        if ('' != $actual_user) {
+      if ("" == $email) {
+        $actual_user = ("" != $user)?$user:$this->GetUser();
+        if ("" != $actual_user) {
           $this->ReadUserData($actual_user);
           $email = nullable_trim($this->GetUserEmail());
           $specific_language = $this->GetUserLanguage();
         }
       }
           
-      if ('' != $language) {
+      if ("" != $language) {
         $specific_language = $language();
       } else {
         $language = $this->GetLanguage();
       }
 
-      if ('' != $email) {
-        if ('' == $from_email) {
+      if ("" != $email) {
+        if ("" == $from_email) {
             $from_email = $this->GetSmtpSender();
         }
-        if ('' == $from_email) {
+        if ("" == $from_email) {
             $from_email = $email;
         }
 
-        if ('' == $from_name) {
+        if ("" == $from_name) {
             $from_name = nullable_trim($this->GetSmtpSenderName());
         }
-        if ('' == $from_name) {
-            $from_name = $this->GetSystemName().(('' != $this->GetDomainName())?'.'.$this->GetDomainName():'');
+        if ("" == $from_name) {
+            $from_name = $this->GetSystemName().(("" != $this->GetDomainName())?'.'.$this->GetDomainName():"");
         }
 
-        if ('' == $returnpath) {
+        if ("" == $returnpath) {
             $returnpath = $from_email;
         }
 
-        if ('' == $content) {
+        if ("" == $content) {
             $content = $subject;
         }
 
-        if ('' == $x_sender) {
+        if ("" == $x_sender) {
             $x_sender = $this->GetClassName();
         }
         
-        if ('' == $priority) {
+        if ("" == $priority) {
             $priority = 'High';
         }
         
         //Get template file
-        if ('' != $template) {
+        if ("" != $template) {
             $file_to_show = $this->GetConfigFolder().$template.'.html';
             if(!file_exists($file_to_show)) {
                 $file_to_show = $this->GetTemplatesFolder().$template.'.html';
@@ -16728,8 +17298,8 @@ class Multiotp
           }
         }
         // Clean other languages info
-        $content = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', '', $content);
-        $content = preg_replace('/<!--\s*\{IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', '', $content);
+        $content = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', "", $content);
+        $content = preg_replace('/<!--\s*\{IfMultiotpLanguage="'.$specific_language.'"\}\s*-->/i', "", $content);
         $content = preg_replace('/<!--\s*\{\/IfMultiotpLanguage="[a-z]*"\}\s*-->/i', ' -- {/IfMultiotpLanguage="other"} {ML} -->', $content);
         $content = preg_replace('/<!--\s*\{IfMultiotpLanguage="[a-z]*"\}\s*-->/i', '<!-- {ML} {IfMultiotpLanguage="other"} -- ', $content);
 
@@ -16782,7 +17352,7 @@ class Multiotp
         if (($title_begin !== FALSE) && ($title_end !== FALSE))
         {
             $subject = mb_substr($content, $title_begin+7, $title_end - ($title_begin+7));
-            $subject = preg_replace('@[\r\n][\s]+@', '', $subject);
+            $subject = preg_replace('@[\r\n][\s]+@', "", $subject);
         }
 
         $text = html2text($content);
@@ -16830,18 +17400,18 @@ class Multiotp
    * @date    2014-11-04
    * @since   2014-10-17
    */
-  function ResyncUserToken($user = '',
-                           $input = '',
-                           $input_sync = '',
+  function ResyncUserToken($user = "",
+                           $input = "",
+                           $input_sync = "",
                            $display_status = FALSE,
                            $ignore_lock = FALSE,
                            $resync_enc_pass = FALSE,
                            $no_server_check = FALSE,
-                           $self_register_serial = '',
-                           $hardware_tokens_list = ''
+                           $self_register_serial = "",
+                           $hardware_tokens_list = ""
   ) {
       $the_hardware_tokens_list = $hardware_tokens_list;
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user);
           $the_hardware_tokens_list = $this->GetUserTokenSerialNumber();
       }
@@ -16876,14 +17446,14 @@ class Multiotp
    * @date    2014-11-04
    * @since   2014-10-17
    */
-  function ResyncToken($input = '',
-                       $input_sync = '',
+  function ResyncToken($input = "",
+                       $input_sync = "",
                        $display_status = FALSE,
                        $ignore_lock = FALSE,
                        $resync_enc_pass = FALSE,
                        $no_server_check = FALSE,
-                       $self_register_serial = '',
-                       $hardware_tokens_list = ''
+                       $self_register_serial = "",
+                       $hardware_tokens_list = ""
   ) {
       $result = $this->CheckToken($input,
                                   $input_sync,
@@ -16895,7 +17465,7 @@ class Multiotp
                                   $hardware_tokens_list);
 
       // Both resynchronization and authentication are TRUE
-      return (($result == 14) || ($result == 0));
+      return (($result == _MULTIOTP_TOKEN_RESYNCED_) || ($result == 0));
   }
 
 
@@ -16920,26 +17490,26 @@ class Multiotp
    * @since   2010-08-12
    */
   function CheckUserToken(
-      $function_array = array('user' => ''),
-      $input_param = '',
-      $input_sync_param = '',
+      $function_array = array('user' => ""),
+      $input_param = "",
+      $input_sync_param = "",
       $display_status_param = FALSE,
       $ignore_lock_param = FALSE,
       $resync_enc_pass_param = FALSE,
       $no_server_check_param = FALSE,
-      $self_register_serial_param = '',
-      $hardware_tokens_list_param = ''
+      $self_register_serial_param = "",
+      $hardware_tokens_list_param = ""
   ) {
       if (is_array($function_array)) {
-          $user = isset($function_array['user'])?$function_array['user']:'';
-          $input = isset($function_array['input'])?$function_array['input']:'';
-          $input_sync = isset($function_array['input_sync'])?$function_array['input_sync']:'';
+          $user = isset($function_array['user'])?$function_array['user']:"";
+          $input = isset($function_array['input'])?$function_array['input']:"";
+          $input_sync = isset($function_array['input_sync'])?$function_array['input_sync']:"";
           $display_status = isset($function_array['display_status'])?$function_array['display_status']:FALSE;
           $ignore_lock = isset($function_array['ignore_lock'])?$function_array['ignore_lock']:FALSE;
           $resync_enc_pass = isset($function_array['resync_enc_pass'])?$function_array['resync_enc_pass']:FALSE;
           $no_server_check = isset($function_array['no_server_check'])?$function_array['no_server_check']:FALSE;
-          $self_register_serial = isset($function_array['self_register_serial'])?$function_array['self_register_serial']:'';
-          $hardware_tokens_list = isset($function_array['hardware_tokens_list'])?$function_array['hardware_tokens_list']:'';
+          $self_register_serial = isset($function_array['self_register_serial'])?$function_array['self_register_serial']:"";
+          $hardware_tokens_list = isset($function_array['hardware_tokens_list'])?$function_array['hardware_tokens_list']:"";
       } else { // backward compatibility
           $user = $function_array;
           $input = $input_param;
@@ -16952,7 +17522,7 @@ class Multiotp
           $hardware_tokens_list = $hardware_tokens_list_param;
       }
   
-      if ('' != $user) {
+      if ("" != $user) {
           $this->SetUser($user);
           $hardware_tokens_list = $this->GetUserTokenSerialNumber();
       }
@@ -16989,31 +17559,31 @@ class Multiotp
    * @since   2010-06-07
    */
   function CheckToken(
-      $input_array = array('input' => ''),
-      $input_sync_param = '',
+      $input_array = array('input' => ""),
+      $input_sync_param = "",
       $display_status_param = FALSE,
       $ignore_lock_param = FALSE,
       $resync_enc_pass_param = FALSE,
       $no_server_check_param = FALSE,
-      $self_register_serial_param = '',
-      $hardware_tokens_list_param = ''
+      $self_register_serial_param = "",
+      $hardware_tokens_list_param = ""
   ) {
       $now_epoch = time();
 
       if (is_array($input_array)) {
-          $input = isset($input_array['input'])?$input_array['input']:'';
-          $input_sync = isset($input_array['input_sync'])?$input_array['input_sync']:'';
+          $input = isset($input_array['input'])?$input_array['input']:"";
+          $input_sync = isset($input_array['input_sync'])?$input_array['input_sync']:"";
           $display_status = isset($input_array['display_status'])?$input_array['display_status']:FALSE;
           $ignore_lock = isset($input_array['ignore_lock'])?$input_array['ignore_lock']:FALSE;
           $resync_enc_pass = isset($input_array['resync_enc_pass'])?$input_array['resync_enc_pass']:FALSE;
           $no_server_check = isset($input_array['no_server_check'])?$input_array['no_server_check']:FALSE;
-          $self_register_serial = isset($input_array['self_register_serial'])?$input_array['self_register_serial']:'';
-          $hardware_tokens_list = isset($input_array['hardware_tokens_list'])?$input_array['hardware_tokens_list']:'';
+          $self_register_serial = isset($input_array['self_register_serial'])?$input_array['self_register_serial']:"";
+          $hardware_tokens_list = isset($input_array['hardware_tokens_list'])?$input_array['hardware_tokens_list']:"";
           $no_increment_error = isset($input_array['no_increment_error'])?$input_array['no_increment_error']:FALSE;
           $challenge_response_enabled = intval(isset($input_array['challenge_response_enabled'])?$input_array['challenge_response_enabled']:0);
           $sms_challenge_enabled = intval(isset($input_array['sms_challenge_enabled'])?$input_array['sms_challenge_enabled']:0);
-          $text_sms_challenge = isset($input_array['text_sms_challenge'])?$input_array['text_sms_challenge']:'';
-          $text_token_challenge = isset($input_array['text_token_challenge'])?$input_array['text_token_challenge']:'';
+          $text_sms_challenge = isset($input_array['text_sms_challenge'])?$input_array['text_sms_challenge']:"";
+          $text_token_challenge = isset($input_array['text_token_challenge'])?$input_array['text_token_challenge']:"";
       } else {
           $input = $input_array; // backward compatibility
           $input_sync = $input_sync_param;
@@ -17027,8 +17597,8 @@ class Multiotp
           $no_increment_error = FALSE;
           $challenge_response_enabled = 0;
           $sms_challenge_enabled = 0;
-          $text_sms_challenge = '';
-          $text_token_challenge = '';
+          $text_sms_challenge = "";
+          $text_token_challenge = "";
       }
       
       if ($this->IsGlobalChallengeResponse()) {
@@ -17039,20 +17609,23 @@ class Multiotp
       }
   
       $state = nullable_trim($this->GetState());
-      if ('' == $state) {
+      if ("" == $state) {
         $state = "multiOTP".mb_substr(md5($this->GetEncryptionKey().time().mt_rand(100000,999999)),0,24);
       }
 
+      $push_timeout_error = false;
+      $push_denied_error = false;
       $cache_result_enabled = false;
       $disable_error_counter = false;
       $force_no_prefix_pin = false;
       $multi_account_enabled = false;
+      $device_description = "";
       
       $supplemental_login_info = "";
 
       // Specific device detection, based on the source tag, to check if cache is enabled
       $source_tag = nullable_trim($this->GetSourceTag());
-      if ('' != $source_tag) {
+      if ("" != $source_tag) {
           if ("" != $this->GetRadiusTagPrefix()) {
               $device_id = $this->GetRadiusTagPrefix().$source_tag;
           } else {
@@ -17061,7 +17634,22 @@ class Multiotp
           if ($this->ReadDeviceData($device_id, FALSE, TRUE)) {
               $cache_result_enabled = $this->IsDeviceCacheResultEnabled();
               $force_no_prefix_pin = $this->IsDeviceForceNoPrefixEnabled();
+              $device_description = $this->GetDeviceDescription();
           }
+      }
+
+      if (empty($device_description)) {
+        $device_description = $this->GetDeviceDescription(array("ip" => isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:""));
+      }
+
+      if ($this->GetCredentialProviderMode()) {
+        $device_description = _MULTIOTP_CREDENTIAL_PROVIDER_;
+      } elseif ($this->IsCredentialProviderRequest()) {
+        if (empty($device_description)) {
+          $device_description = _MULTIOTP_CREDENTIAL_PROVIDER_;
+        } else {
+          $device_description = _MULTIOTP_CREDENTIAL_PROVIDER_ .  ", " . $device_description;
+        }
       }
 
       // Force no prefix pin to true if the request come from a multiOTP Credential Provider
@@ -17079,24 +17667,24 @@ class Multiotp
       $this->SendWeeklyAnonymousStat();
 
       $this->SetLastClearOtpValue();
-      $calculated_token = '';
+      $calculated_token = "";
 
       // 4.3.2.2
       // As external passwords are now supported,
       // we cannot trim or remove the minus anymore.
-      // We disabled nullable_trim(str_replace('-','',$input))
+      // We disabled nullable_trim(str_replace('-',"",$input))
       $input_to_check = $input;
       $real_user = $this->GetUser();
       $real_rawUser = $this->GetRawUser();
       // We don't accept any input without at least 3 characters (like 'sms'), except for without2FA
-      $input_is_empty = ('' == $input_to_check);
+      $input_is_empty = ("" == $input_to_check);
       if (mb_strlen($input_to_check) < 3) {
           $input_to_check.= "! <3 digits !";
       }
       
       $server_result = -1;
       // Check on the external server(s) first
-      if ((!$no_server_check) && ('' != $this->GetServerUrl())) {
+      if ((!$no_server_check) && ("" != $this->GetServerUrl())) {
           // For multi-account definition, we are also looking on the server(s) if any
           if ($this->ReadUserData($real_user)) {
               // multi account works only if authentication is done with PAP
@@ -17107,7 +17695,7 @@ class Multiotp
                       $real_user = mb_substr($input_to_check,0,$pos);
                       $real_rawUser = $real_user;
                       $input_to_check = nullable_trim(mb_substr($input_to_check,$pos+1));
-                      $input_is_empty = ('' == $input_to_check);
+                      $input_is_empty = ("" == $input_to_check);
                       if (mb_strlen($input_to_check) < 3) {
                           $input_to_check.= "!! <3 digits !!";
                       }
@@ -17115,7 +17703,13 @@ class Multiotp
               }
           }
 
-          if ('' != $this->GetChapPassword()) {
+          // If the user is push enabled, wait more time for push operation
+          $push_timeout = $this->GetPushTimeout();
+          if ($push_timeout > $this->GetServerTimeout()) {
+            $this->SetServerTimeout($push_timeout);
+          }
+
+          if ("" != $this->GetChapPassword()) {
               if (32 < mb_strlen($this->GetChapPassword())) {
                   $hex_id = mb_substr($this->GetChapPassword(),0,2);
               } else {
@@ -17129,37 +17723,37 @@ class Multiotp
           }
 
           if ($this->_xml_dump_in_log) {
-              $this->WriteLog("Debug: CheckUserTokenOnServer returns ".$server_result, FALSE, FALSE, 8888, 'Debug', '');
+              $this->WriteLog("Debug: CheckUserTokenOnServer returns ".$server_result, FALSE, FALSE, 8888, 'Debug', "");
           }
       }
 
       if ($this->GetVerboseFlag() && $this->IsKeepLocal()) {
-          $this->WriteLog("Info: *Local users are kept locally", FALSE, FALSE, 8888, 'System', '');
+          $this->WriteLog("Info: *Local users are kept locally", FALSE, FALSE, 8888, 'System', "");
       }
       if (0 == $server_result) {
-          $result = 0;
+          $result = _MULTIOTP_AUTH_OK_;
           $this->WriteLog("Info: User ".$real_user." successfully logged in".$supplemental_login_info." using an external server", FALSE, FALSE, $result, 'User');
-      } elseif (18 == $server_result) {
-          $result = 18; // INFO: Static code request received
+      } elseif (_MULTIOTP_USER_STATIC_CODE_REQUESTED_ == $server_result) {
+          $result = _MULTIOTP_USER_STATIC_CODE_REQUESTED_; // INFO: Static code request received
           $this->WriteLog("Info: Static code request received and sent for ".$real_user." to ".$this->CleanPhoneNumber($this->GetUserSms()), FALSE, FALSE, $result, 'Authentication', $real_user);
-      } elseif ((21 == $server_result) && (!$this->IsKeepLocal())) {
+      } elseif ((_MULTIOTP_USER_MISSING_ == $server_result) && (!$this->IsKeepLocal())) {
           $this->DeleteUser($real_user, TRUE); // $no_error_info = TRUE
-          $result = 21; // ERROR: User doesn't exist. (on the server)
+          $result = _MULTIOTP_USER_MISSING_; // ERROR: User doesn't exist. (on the server)
           $this->WriteLog("Error: User ".$real_user." doesn't exist", FALSE, FALSE, $result, 'User');
-      } elseif ((($server_result >= 0) && (22 <= $server_result) && (70 > $server_result)) || (90 <= $server_result)) {
+      } elseif ((($server_result >= _MULTIOTP_AUTH_OK_) && ($server_result >= _MULTIOTP_USER_EXISTS_) && ($server_result < 70)) || ($server_result >= 90)) {
           // We want to stop only if it's an error (but not -1), except if the user doesn't exist (>= 22), if it's a 7x (server) or 8x (cache) error
           $result = $server_result;
           // Already logged using CheckUserTokenOnServer
-          // $this->WriteLog("Error: server sent back the error ".$server_result, FALSE, FALSE, $result, 'Server', '');
+          // $this->WriteLog("Error: server sent back the error ".$server_result, FALSE, FALSE, $result, 'Server', "");
       } elseif (!$this->ReadUserData($real_user, FALSE, TRUE)) {
           // LOCALLY ONLY
-          $result = 21; // ERROR: User doesn't exist.
+          $result = _MULTIOTP_USER_MISSING_; // ERROR: User doesn't exist.
           $this->WriteLog("Error: User ".$real_user." doesn't exist", FALSE, FALSE, $result, 'User');
       } else {
           // *********************************************
           // Let's go for the whole authentication process
           // *********************************************
-          $result = 99; // Unknown error
+          $result = _MULTIOTP_ERROR_; // Unknown error
 
           // multi account works only if authentication is done with PAP
           if ($this->IsUserMultiAccount()) {
@@ -17169,7 +17763,7 @@ class Multiotp
                   $real_user = mb_substr($input_to_check,0,$pos);
                   $real_rawUser = $real_user;
                   $input_to_check = nullable_trim(mb_substr($input_to_check,$pos+1));
-                  $input_is_empty = ('' == $input_to_check);
+                  $input_is_empty = ("" == $input_to_check);
                   if (mb_strlen($input_to_check) < 3) {
                       $input_to_check.= "!!! <3 digits !!!";
                   }
@@ -17177,7 +17771,7 @@ class Multiotp
       
               // LOCALLY ONLY
               if (!$this->ReadUserData($real_user, FALSE, TRUE)) {
-                  $result = 34; // ERROR: linked user doesn't exist.
+                  $result = _MULTIOTP_USER_LINKED_MISSING_; // ERROR: linked user doesn't exist.
                   $this->WriteLog("Error: linked user ".$real_user." doesn't exist", FALSE, FALSE, $result, 'User', $real_user);
                   return $result;
               }
@@ -17188,24 +17782,24 @@ class Multiotp
               
           // First we check if the users is activated or not.
           if (1 != $this->GetUserActivated()) {
-              $result = 38; // ERROR: User is desactivated.
+              $result = _MULTIOTP_USER_DISABLED_; // ERROR: User is desactivated.
               $this->WriteLog("Error: User ".$real_user." is desactivated", FALSE, FALSE, $result, 'User', $real_user);
               return $result;
           }
 
-          $detected_serial_number = '';
+          $detected_serial_number = "";
 
           // Check if self-registration of tokens is enabled and try the autoregistration if needed
           if ($this->IsSelfRegistrationEnabled()) {
               // Self-registration serial number is directly given in the dedicated field
-              if ('' != $self_register_serial) {
+              if ("" != $self_register_serial) {
                   if ($this->CheckTokenExists($self_register_serial, false)) {
                       $detected_serial_number = $self_register_serial;
                   }
               }
           }
           
-          if ('' == $detected_serial_number) {
+          if ("" == $detected_serial_number) {
               // Looking for an existing token with this serial number
               $token_serial_number_length = $this->GetTokenSerialNumberLength();
               $token_serial_number_length_array = explode(" ",nullable_trim(str_replace(","," ",str_replace(";"," ",$token_serial_number_length))));
@@ -17232,7 +17826,7 @@ class Multiotp
                                                               );
                                       */
                                       // It can appears twice, so we do a replace
-                                      $input_to_check = str_replace($detected_serial_number, '', $input_to_check);
+                                      $input_to_check = str_replace($detected_serial_number, "", $input_to_check);
                                       break(2);
                                   }
                               }
@@ -17244,15 +17838,15 @@ class Multiotp
 
           
           // If detected, we remove the serial number in the input_sync
-          if ('' != $detected_serial_number) {
-              $input_sync = str_replace($detected_serial_number, '', $input_sync);
+          if ("" != $detected_serial_number) {
+              $input_sync = str_replace($detected_serial_number, "", $input_sync);
           }
 
           if ($this->IsSelfRegistrationEnabled()) {
               // echo "DEBUG SelfRegisterHardwareToken: $detected_serial_number / $self_input_to_check\n";
 
               // TODO check if the serial number is in the list (instead of a single token)
-              if (('' != $detected_serial_number) && ($detected_serial_number != $this->GetUserTokenSerialNumber())) {
+              if (("" != $detected_serial_number) && ($detected_serial_number != $this->GetUserTokenSerialNumber())) {
                   $result = $this->SelfRegisterHardwareToken($real_user,$detected_serial_number, $input_to_check, $input);
                   // Self registered access cannot be cached for special device
                   if (0 == $result) {
@@ -17267,16 +17861,16 @@ class Multiotp
           // TODO: Without serial number we have to check with all tokens attributed to this user
           
           if (($this->GetUserAutolockTime() > 0) && ($this->GetUserAutolockTime() < $now_epoch)) {
-              $result = 81; // ERROR: Cache too old for this user, account autolocked
+              $result = _MULTIOTP_CACHE_TOO_OLD_ERROR_; // ERROR: Cache too old for this user, account autolocked
               $this->WriteLog("Error: cache too old for user ".$real_user.", account autolocked.", FALSE, FALSE, $result, 'User', $real_user);
               return $result;
           }
 
-          if ('' != $this->GetChapPassword()) {
+          if ("" != $this->GetChapPassword()) {
               $input_to_check = $this->GetChapPassword();
-          } elseif ('' != $this->GetMsChapResponse()) {
+          } elseif ("" != $this->GetMsChapResponse()) {
               $input_to_check = $this->GetMsChapResponse();
-          } elseif ('' != $this->GetMsChap2Response()) {
+          } elseif ("" != $this->GetMsChap2Response()) {
               $input_to_check = $this->GetMsChap2Response();
           }
 
@@ -17285,20 +17879,20 @@ class Multiotp
           if ((1 == $challenge_response_enabled) && (($state == $this->GetUserChallenge()) && ($this->GetUserChallengeValidity() >= $now_epoch))) {
               // Challenge/response stage 2
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Debug: *Challenge stage 2, state is ok, now checking OTP without prefix", FALSE, FALSE, 8888, 'Debug', '');
+                  $this->WriteLog("Debug: *Challenge stage 2, state is ok, now checking OTP without prefix", FALSE, FALSE, 8888, 'Debug', "");
               }
               $force_no_prefix_pin = true;
           } elseif ((1 == $challenge_response_enabled) && (($state != $this->GetUserChallenge()) || ($this->GetUserChallengeValidity() < $now_epoch))) {
               // Challenge/response stage 1
-              if ('' != $input_to_check) {
+              if ("" != $input_to_check) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Debug: *Challenge stage 1, waiting prefix only", FALSE, FALSE, 8888, 'Debug', '');
+                      $this->WriteLog("Debug: *Challenge stage 1, waiting prefix only", FALSE, FALSE, 8888, 'Debug', "");
                   }
                   if ($this->IsUserRequestLdapPasswordEnabled()) {
                       $ldap_check_passed = FALSE;
                       $ldap_to_check = $input_to_check;
                       if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Debug: *Challenge stage 1, check LDAP prefix", FALSE, FALSE, 8888, 'Debug', '');
+                          $this->WriteLog("Debug: *Challenge stage 1, check LDAP prefix", FALSE, FALSE, 8888, 'Debug', "");
                       }
                       if ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check)) {
                           $ldap_check_passed = TRUE;
@@ -17309,16 +17903,16 @@ class Multiotp
                       } elseif ($this->IsCacheLdapHash()) {
                           if (!$this->IsLdapServerReachable()) {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP hash password checked in the cache", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP hash password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
                               }
                               if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
                                   $ldap_check_passed = TRUE;
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP hash password verified, based on cached hash password", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP hash password verified, based on cached hash password", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               } else {
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP hash password verification failed", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP hash password verification failed", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               }
                           } else {
@@ -17326,7 +17920,7 @@ class Multiotp
                               $ldap_to_check = '!LDAP_FALSE!';
                               $this->ResetUserLdapHashCache();
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
                               }
                           }
                       } else { // If the LdapHash cache is disabled
@@ -17334,37 +17928,37 @@ class Multiotp
                           $ldap_to_check = '!LDAP_FALSE!';
                           $this->ResetUserLdapHashCache();
                           if ($this->IsLdapServerReachable()) {
-                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
                           } else {
-                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
                           }
                       }
                   } else {
                       // It is a real prefix pin, not an LDAP/AD prefix
                       $code_to_check = $this->GetUserPin();
                       if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Debug: *Challenge stage 1, check prefix PIN", FALSE, FALSE, 8888, 'Debug', '');
+                          $this->WriteLog("Debug: *Challenge stage 1, check prefix PIN", FALSE, FALSE, 8888, 'Debug', "");
                       }
-                      if ('' != $this->GetChapPassword()) {
+                      if ("" != $this->GetChapPassword()) {
                           $code_to_check = $this->CalculateChapPassword($code_to_check);
-                      } elseif ('' != $this->GetMsChapResponse()) {
+                      } elseif ("" != $this->GetMsChapResponse()) {
                           $code_to_check = $this->CalculateMsChapResponse($code_to_check);
-                      } elseif ('' != $this->GetMsChap2Response()) {
+                      } elseif ("" != $this->GetMsChap2Response()) {
                           $code_to_check = $this->CalculateMsChap2Response($real_rawUser, $code_to_check);
                       }
                   }
                   if ($ldap_check_passed || ($input_to_check === $code_to_check)) {
-                      $result = 9; // INFO: Access Challenge returned back to the client
+                      $result = _MULTIOTP_USER_CHALLENGE_; // INFO: Access Challenge returned back to the client
                       $state = "multiOTP".mb_substr(md5($this->GetEncryptionKey().time().mt_rand(100000,999999)),0,24);
                       if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Debug: *Challenge sent to the client: $state", FALSE, FALSE, 8888, 'Debug', '');
+                          $this->WriteLog("Debug: *Challenge sent to the client: $state", FALSE, FALSE, 8888, 'Debug', "");
                       }
                       $this->SetUserChallenge($state);
                       $this->SetUserChallengeValidity($now_epoch + (5*60)); // The challenge state is valid for 5 minutes
                       $this->SetReplyMessageForRadius('State = "'.$state.'"');
 
                       if (1 == $sms_challenge_enabled) {
-                          if (18 == $this->GenerateSmsToken()) {
+                          if (_MULTIOTP_USER_STATIC_CODE_REQUESTED_ == $this->GenerateSmsToken()) {
                               $this->AddReplyArrayForRadius('Reply-Message'.$this->GetRadiusReplyAttributor().'"'.$text_sms_challenge.'"');
                           } else {
                               $this->AddReplyArrayForRadius('Reply-Message'.$this->GetRadiusReplyAttributor().'"'.$text_token_challenge.'"');
@@ -17374,7 +17968,7 @@ class Multiotp
                       }
                       
                       if (!$this->WriteUserData()) {
-                          $result = 28; // ERROR: Unable to write the changes in the file
+                          $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
                           $this->WriteLog("Error: Unable to write the challenge changes in the file for the user ".$real_user, FALSE, FALSE, $result, 'User');
                       } else {
                           $this->WriteLog("Info: waiting challenge response for user ".$real_user.", state $state.", FALSE, FALSE, $result, 'User', $real_user);
@@ -17391,13 +17985,13 @@ class Multiotp
               $ldap_to_check = '!LDAP_FALSE!';
               
               // AD/LDAP case
-              if ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin)) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+              if ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin)) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                   $code_confirmed = $this->GetUserSmsOtp();
                   $this->SetLastClearOtpValue($code_confirmed);
                   $code_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));
                   $ldap_to_check = mb_substr($input_to_check, 0, mb_strlen($input_to_check) - mb_strlen($code_to_check));
                   if ($code_to_check === $code_confirmed) {
-                      if (('' != $ldap_to_check) && ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check))) {
+                      if (("" != $ldap_to_check) && ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check))) {
                           $ldap_check_passed = TRUE;
                           if ($this->IsCacheLdapHash()) {
                               // The LDAP password is stored in a cache
@@ -17406,16 +18000,16 @@ class Multiotp
                       } elseif ($this->IsCacheLdapHash()) {
                           if (!$this->IsLdapServerReachable()) {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP hash password checked in the cache", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP hash password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
                               }
                               if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
                                   $ldap_check_passed = TRUE;
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP hash password verified, based on cached hash password", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP hash password verified, based on cached hash password", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               } else {
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP hash password verification failed", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP hash password verification failed", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               }
                           } else {
@@ -17423,7 +18017,7 @@ class Multiotp
                               $ldap_to_check = '!LDAP_FALSE!';
                               $this->ResetUserLdapHashCache();
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
                               }
                           }
                       } else { // If the LdapHash cache is disabled
@@ -17431,25 +18025,25 @@ class Multiotp
                           $ldap_to_check = '!LDAP_FALSE!';
                           $this->ResetUserLdapHashCache();
                           if ($this->IsLdapServerReachable()) {
-                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
                           } else {
-                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
                           }
                       }
                   } // ($code_to_check === $code_confirmed)
               } else {
                   // It is a real prefix pin, not an LDAP/AD prefix
-                  $code_confirmed = ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin))?$this->GetUserPin():'').$this->GetUserSmsOtp();
+                  $code_confirmed = ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin))?$this->GetUserPin():"").$this->GetUserSmsOtp();
                   $this->SetLastClearOtpValue($code_confirmed);
-                  if ('' != $this->GetChapPassword()) {
+                  if ("" != $this->GetChapPassword()) {
                       $code_confirmed = $this->CalculateChapPassword($code_confirmed);
-                  } elseif ('' != $this->GetMsChapResponse()) {
+                  } elseif ("" != $this->GetMsChapResponse()) {
                       $code_confirmed = $this->CalculateMsChapResponse($code_confirmed);
-                  } elseif ('' != $this->GetMsChap2Response()) {
+                  } elseif ("" != $this->GetMsChap2Response()) {
                       $clear_code_confirmed = $code_confirmed;
                       $code_confirmed = $this->CalculateMsChap2Response($real_rawUser, $code_confirmed);
                       if ($this->IsDeveloperMode()) {
-                        $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for SMS: $code_confirmed", false, false, 19, 'Debug', '');
+                        $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for SMS: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                       }
                   }
               }
@@ -17464,7 +18058,7 @@ class Multiotp
                   // Finally, we update the last login of the user
                   $this->SetUserLastLogin($now_epoch);
                   $this->SetUserTokenLastLogin($now_epoch);
-                  $result = 0; // OK: This is the correct SMS token
+                  $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct SMS token
 
                   if ($cache_result_enabled) {
                       $this->SetUserLastCachedCredential(nullable_trim($input.' '.$input_sync));
@@ -17473,13 +18067,13 @@ class Multiotp
                   $this->SetUserLastSuccessCredential(nullable_trim($input.' '.$input_sync));
 
                   if (!$this->WriteUserData()) {
-                      $result = 28; // ERROR: Unable to write the changes in the file
+                      $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
                       $this->WriteLog("Error: Unable to write the changes in the file for the user ".$real_user, FALSE, FALSE, $result, 'User');
                   } else {
                       $this->WriteLog("Ok: User ".$real_user." successfully logged in".$supplemental_login_info." with SMS token", FALSE, FALSE, $result, 'User');
                   }
                   
-                  if (0 == $result) {
+                  if (_MULTIOTP_AUTH_OK_ == $result) {
                       $this->AddExtraRadiusInfo();
                   }
                   return $result;
@@ -17492,13 +18086,13 @@ class Multiotp
               $ldap_to_check = '!LDAP_FALSE!';
               
               // AD/LDAP case
-              if ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin)) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+              if ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin)) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                   $code_confirmed = $this->GetUserEmailOtp();
                   $this->SetLastClearOtpValue($code_confirmed);
                   $code_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));
                   $ldap_to_check = mb_substr($input_to_check, 0, mb_strlen($input_to_check) - mb_strlen($code_to_check));
                   if ($code_to_check === $code_confirmed) {
-                      if (('' != $ldap_to_check) && ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check))) {
+                      if (("" != $ldap_to_check) && ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check))) {
                           $ldap_check_passed = TRUE;
                           if ($this->IsCacheLdapHash()) {
                               // The LDAP password is stored in a cache
@@ -17507,16 +18101,16 @@ class Multiotp
                       } elseif ($this->IsCacheLdapHash()) {
                           if (!$this->IsLdapServerReachable()) {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP hash password checked in the cache", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP hash password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
                               }
                               if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
                                   $ldap_check_passed = TRUE;
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP hash password verified, based on cached hash password", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP hash password verified, based on cached hash password", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               } else {
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP hash password verification failed", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP hash password verification failed", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               }
                           } else {
@@ -17524,7 +18118,7 @@ class Multiotp
                               $ldap_to_check = '!LDAP_FALSE!';
                               $this->ResetUserLdapHashCache();
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
                               }
                           }
                       } else { // If the LdapHash cache is disabled
@@ -17532,25 +18126,25 @@ class Multiotp
                           $ldap_to_check = '!LDAP_FALSE!';
                           $this->ResetUserLdapHashCache();
                           if ($this->IsLdapServerReachable()) {
-                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
                           } else {
-                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
                           }
                       }
                   } // ($code_to_check === $code_confirmed)
               } else {
                   // It is a real prefix pin, not an LDAP/AD prefix
-                  $code_confirmed = ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin))?$this->GetUserPin():'').$this->GetUserEmailOtp();
+                  $code_confirmed = ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin))?$this->GetUserPin():"").$this->GetUserEmailOtp();
                   $this->SetLastClearOtpValue($code_confirmed);
-                  if ('' != $this->GetChapPassword()) {
+                  if ("" != $this->GetChapPassword()) {
                       $code_confirmed = $this->CalculateChapPassword($code_confirmed);
-                  } elseif ('' != $this->GetMsChapResponse()) {
+                  } elseif ("" != $this->GetMsChapResponse()) {
                       $code_confirmed = $this->CalculateMsChapResponse($code_confirmed);
-                  } elseif ('' != $this->GetMsChap2Response()) {
+                  } elseif ("" != $this->GetMsChap2Response()) {
                       $clear_code_confirmed = $code_confirmed;
                       $code_confirmed = $this->CalculateMsChap2Response($real_rawUser, $code_confirmed);
                       if ($this->IsDeveloperMode()) {
-                        $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for Email: $code_confirmed", false, false, 19, 'Debug', '');
+                        $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for Email: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                       }
                   }
               }
@@ -17565,7 +18159,7 @@ class Multiotp
                   // Finally, we update the last login of the user
                   $this->SetUserLastLogin($now_epoch);
                   $this->SetUserTokenLastLogin($now_epoch);
-                  $result = 0; // OK: This is the correct Email token
+                  $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct Email token
 
                   if ($cache_result_enabled) {
                       $this->SetUserLastCachedCredential(nullable_trim($input.' '.$input_sync));
@@ -17574,13 +18168,13 @@ class Multiotp
                   $this->SetUserLastSuccessCredential(nullable_trim($input.' '.$input_sync));
 
                   if (!$this->WriteUserData()) {
-                      $result = 28; // ERROR: Unable to write the changes in the file
+                      $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
                       $this->WriteLog("Error: Unable to write the changes in the file for the user ".$real_user, FALSE, FALSE, $result, 'User');
                   } else {
                       $this->WriteLog("Ok: User ".$real_user." successfully logged in".$supplemental_login_info." with Email token", FALSE, FALSE, $result, 'User');
                   }
                   
-                  if (0 == $result) {
+                  if (_MULTIOTP_AUTH_OK_ == $result) {
                       $this->AddExtraRadiusInfo();
                   }
                   return $result;
@@ -17591,7 +18185,7 @@ class Multiotp
           // Check if we have to validate a scratch password
           foreach ($this->GetUserScratchPasswordsArray() as $one_password) {
               // AD/LDAP case
-              if ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin)) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+              if ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin)) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                   $ldap_check_passed = FALSE;
                   $ldap_to_check = '!LDAP_FALSE!';
 
@@ -17601,7 +18195,7 @@ class Multiotp
                   $ldap_to_check = mb_substr($input_to_check, 0, mb_strlen($input_to_check) - mb_strlen($code_to_check));
                   
                   if ($code_to_check === $code_confirmed) {
-                      if (('' != $ldap_to_check) && ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check))) {
+                      if (("" != $ldap_to_check) && ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check))) {
                           $ldap_check_passed = TRUE;
                           if ($this->IsCacheLdapHash()) {
                               // The LDAP password is stored in a cache
@@ -17611,7 +18205,7 @@ class Multiotp
                       elseif ($this->IsCacheLdapHash()) {
                           if (!$this->IsLdapServerReachable()) {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
                               }
                               if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
                                   $ldap_check_passed = TRUE;
@@ -17622,7 +18216,7 @@ class Multiotp
                               $ldap_to_check = '!LDAP_FALSE!';
                               $this->ResetUserLdapHashCache();
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', '');
+                                  $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
                               }
                           }
                       } else { // If the LdapHash cache is disabled
@@ -17630,25 +18224,25 @@ class Multiotp
                           $ldap_to_check = '!LDAP_FALSE!';
                           $this->ResetUserLdapHashCache();
                           if ($this->IsLdapServerReachable()) {
-                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
                           } else {
-                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, 99, 'User');
+                              $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
                           }
                       }
                   }
               } else {
                   // It is a real prefix pin, not an LDAP/AD prefix
-                  $code_confirmed = ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin))?$this->GetUserPin():'').$one_password;
+                  $code_confirmed = ((($this->IsUserPrefixPin()) && (!$force_no_prefix_pin))?$this->GetUserPin():"").$one_password;
                   $this->SetLastClearOtpValue($code_confirmed);
-                  if ('' != $this->GetChapPassword()) {
+                  if ("" != $this->GetChapPassword()) {
                       $code_confirmed = $this->CalculateChapPassword($code_confirmed);
-                  } elseif ('' != $this->GetMsChapResponse()) {
+                  } elseif ("" != $this->GetMsChapResponse()) {
                       $code_confirmed = $this->CalculateMsChapResponse($code_confirmed);
-                  } elseif ('' != $this->GetMsChap2Response()) {
+                  } elseif ("" != $this->GetMsChap2Response()) {
                       $clear_code_confirmed = $code_confirmed;
                       $code_confirmed = $this->CalculateMsChap2Response($real_rawUser, $code_confirmed);
                       if ($this->IsDeveloperMode()) {
-                        $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for scratch password: $code_confirmed", false, false, 19, 'Debug', '');
+                        $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for scratch password: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                       }
                   }
               }
@@ -17661,7 +18255,7 @@ class Multiotp
                   $this->SetUserLastLogin($now_epoch);
                   $this->SetUserTokenLastLogin($now_epoch);
                   $this->RemoveUserUsedScratchPassword($one_password);
-                  $result = 0; // OK: This is the correct scratch token
+                  $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct scratch token
 
                   if ($cache_result_enabled) {
                       $this->SetUserLastCachedCredential(nullable_trim($input.' '.$input_sync));
@@ -17670,33 +18264,74 @@ class Multiotp
                   $this->SetUserLastSuccessCredential(nullable_trim($input.' '.$input_sync));
 
                   if (!$this->WriteUserData()) {
-                      $result = 28; // ERROR: Unable to write the changes in the file
+                      $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
                       $this->WriteLog("Error: Unable to write the changes in the file for the user ".$real_user, FALSE, FALSE, $result, 'User');
                   } else {
                       $this->WriteLog("Ok: User ".$real_user." successfully logged in".$supplemental_login_info." with a scratch password", FALSE, FALSE, $result, 'User');
                   }
                   
-                  if (0 == $result) {
+                  if (_MULTIOTP_AUTH_OK_ == $result) {
                       $this->AddExtraRadiusInfo();
                   }
                   return $result;
               }
           }
 
+          $push_trial = (($this->IsPushActivated() && $this->IsUserPushEnabled() && (!$multi_account_enabled)) ? 1 : 0);
+
+          // Check if a code request per Push is done
+          if ((!empty($this->GetUserMouid())) && (!empty($this->GetUserMosid()))) {
+            $code_confirmed = 'push';
+            $code_confirmed_upper = 'PUSH';
+            $code_confirmed_camel = 'Push';
+            $this->SetLastClearOtpValue($code_confirmed);
+            if ("" != $this->GetChapPassword()) {
+              $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
+              $code_confirmed_upper = mb_strtoupper($this->CalculateChapPassword($code_confirmed_upper),'UTF-8');
+              $code_confirmed_camel = mb_strtoupper($this->CalculateChapPassword($code_confirmed_camel),'UTF-8');
+            } elseif ("" != $this->GetMsChapResponse()) {
+              $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
+              $code_confirmed_upper = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_upper),'UTF-8');
+              $code_confirmed_camel = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_camel),'UTF-8');
+            } elseif ("" != $this->GetMsChap2Response()) {
+              $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
+              $code_confirmed_upper = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_upper),'UTF-8');
+              $code_confirmed_camel = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_camel),'UTF-8');
+            }
+            // If something like 'push' or 'PUSH' or 'Push' is detected, we generate a push request
+            if ((mb_strtolower($input_to_check,'UTF-8') === $code_confirmed) || (mb_strtoupper($input_to_check,'UTF-8') === $code_confirmed_upper) || (mb_strtoupper($input_to_check,'UTF-8') === $code_confirmed_camel)) {
+              $push_trial = 0;
+              $push_answer = $this->PushRequest(array(
+                "title"    => $this->Translate('push_title', $this->GetUserLanguage()),
+                "subtitle" => $device_description
+              ));
+              if (_MULTIOTP_PUSH_TIMEOUT_CODE_ == $push_answer) {
+                $push_answer = "";
+                $push_timeout_error = true;
+                $disable_error_counter = true;
+              } elseif (_MULTIOTP_PUSH_DENIED_CODE_ == $push_answer) {
+                $push_answer = "";
+                $push_denied_error = true;
+                $disable_error_counter = true;
+              }
+              $input_to_check = $push_answer;
+            }
+          }
+          
           // Check if a code request per SMS is done
           $code_confirmed = 'sms';
           $code_confirmed_upper = 'SMS';
           $code_confirmed_camel = 'Sms';
           $this->SetLastClearOtpValue($code_confirmed);
-          if ('' != $this->GetChapPassword()) {
+          if ("" != $this->GetChapPassword()) {
               $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
               $code_confirmed_upper = mb_strtoupper($this->CalculateChapPassword($code_confirmed_upper),'UTF-8');
               $code_confirmed_camel = mb_strtoupper($this->CalculateChapPassword($code_confirmed_camel),'UTF-8');
-          } elseif ('' != $this->GetMsChapResponse()) {
+          } elseif ("" != $this->GetMsChapResponse()) {
               $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
               $code_confirmed_upper = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_upper),'UTF-8');
               $code_confirmed_camel = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_camel),'UTF-8');
-          } elseif ('' != $this->GetMsChap2Response()) {
+          } elseif ("" != $this->GetMsChap2Response()) {
               $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
               $code_confirmed_upper = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_upper),'UTF-8');
               $code_confirmed_camel = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_camel),'UTF-8');
@@ -17712,15 +18347,15 @@ class Multiotp
           $code_confirmed_upper = 'EMAIL';
           $code_confirmed_camel = 'Email';
           $this->SetLastClearOtpValue($code_confirmed);
-          if ('' != $this->GetChapPassword()) {
+          if ("" != $this->GetChapPassword()) {
               $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
               $code_confirmed_upper = mb_strtoupper($this->CalculateChapPassword($code_confirmed_upper),'UTF-8');
               $code_confirmed_camel = mb_strtoupper($this->CalculateChapPassword($code_confirmed_camel),'UTF-8');
-          } elseif ('' != $this->GetMsChapResponse()) {
+          } elseif ("" != $this->GetMsChapResponse()) {
               $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
               $code_confirmed_upper = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_upper),'UTF-8');
               $code_confirmed_camel = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_camel),'UTF-8');
-          } elseif ('' != $this->GetMsChap2Response()) {
+          } elseif ("" != $this->GetMsChap2Response()) {
               $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
               $code_confirmed_upper = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_upper),'UTF-8');
               $code_confirmed_camel = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_camel),'UTF-8');
@@ -17734,15 +18369,15 @@ class Multiotp
           // Cached result support
           if ($cache_result_enabled) {
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Debug: *code to check: ".str_repeat('x', (mb_strlen($input_to_check) >= 6)?mb_strlen($input_to_check)-6:0).mb_substr($input_to_check, -6), FALSE, FALSE, 8888, 'Debug', '');
+                  $this->WriteLog("Debug: *code to check: ".str_repeat('x', (mb_strlen($input_to_check) >= 6)?mb_strlen($input_to_check)-6:0).mb_substr($input_to_check, -6), FALSE, FALSE, 8888, 'Debug', "");
               }
               if ($this->CompareUserLastCachedCredential(nullable_trim($input.' '.$input_sync))) {
                   if (($this->GetUserLastLoginForCache() + $this->GetDeviceCacheTimeout()) >= $now_epoch) {
                       $this->SetLastClearOtpValue(mb_substr($input_to_check, 0, mb_strpos($input_to_check.' ', ' ')));
-                      $result = 0; // OK: This is the correct token for cached access, no update of the user record
+                      $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token for cached access, no update of the user record
                       if ($this->GetVerboseFlag()) {
-                          $this->WriteLog("Debug: *User ".$real_user." successfully confirmed for cached access", FALSE, FALSE, 8888, 'Debug', '');
-                          $this->WriteLog("Debug: *checked code for cache access: ".str_repeat('x', (mb_strlen($input_to_check) >= 6)?mb_strlen($input_to_check)-6:0).mb_substr($input_to_check, -6), FALSE, FALSE, 8888, 'Debug', '');
+                          $this->WriteLog("Debug: *User ".$real_user." successfully confirmed for cached access", FALSE, FALSE, 8888, 'Debug', "");
+                          $this->WriteLog("Debug: *checked code for cache access: ".str_repeat('x', (mb_strlen($input_to_check) >= 6)?mb_strlen($input_to_check)-6:0).mb_substr($input_to_check, -6), FALSE, FALSE, 8888, 'Debug', "");
                       }
                       $this->AddExtraRadiusInfo();
                       return $result;
@@ -17759,7 +18394,7 @@ class Multiotp
           // TODO check multiple tokens (loop)
 
           $algorithm         = mb_strtolower($this->GetUserAlgorithm(),'UTF-8');
-          $pin               = $this->GetUserPin();
+          $pin               = ($this->IsUserRequestLdapPasswordEnabled() ? "" : $this->GetUserPin());
           $need_prefix       = ($this->IsUserPrefixPin()) && (!$force_no_prefix_pin);
           $last_event        = $this->GetUserTokenLastEvent();
           $last_login        = $this->GetUserTokenLastLogin();
@@ -17785,14 +18420,14 @@ class Multiotp
           $last_login_step   = intval($last_login / $interval);
           $delta_step        = intval($delta_time) / intval($interval);
 
-          $prefix_pin = ($need_prefix?$pin:'');
+          $prefix_pin = ($need_prefix?$pin:"");
           // 4.3.2.2
           // Check if resynchronisation can be done automatically
           $needed_space_pos = (mb_strlen($input_to_check)-$digits-1);
-          if (('' == $input_sync) && ($needed_space_pos >= $digits) && (($needed_space_pos === strrpos($input_to_check, ' ')) || (($needed_space_pos-mb_strlen($prefix_pin)) === strrpos($input_to_check, ' '))) && ($this->IsAutoResync())) {
+          if (("" == $input_sync) && ($needed_space_pos >= $digits) && (($needed_space_pos === strrpos($input_to_check, ' ')) || (($needed_space_pos-mb_strlen($prefix_pin)) === strrpos($input_to_check, ' '))) && ($this->IsAutoResync())) {
               if (($need_prefix) && ($this->IsUserRequestLdapPasswordEnabled())) {
                   $ldap_to_check = mb_substr($input_to_check, 0, - ($digits + 1 + $digits));
-                  if ('' != $ldap_to_check) {
+                  if ("" != $ldap_to_check) {
                       if ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check)) {
                           $input_sync = mb_substr($input_to_check, -$digits);
                           $input_to_check = mb_substr($input_to_check, 0, - ($digits + 1));
@@ -17800,26 +18435,26 @@ class Multiotp
                   }
               } elseif ($prefix_pin === mb_substr($input_to_check, 0, mb_strlen($prefix_pin))) {
                       $separator_pos = strrpos($input_to_check, ' ');
-                      $input_sync = str_replace($prefix_pin, '', mb_substr($input_to_check, $separator_pos+1));
+                      $input_sync = str_replace($prefix_pin, "", mb_substr($input_to_check, $separator_pos+1));
                       $input_to_check = mb_substr($input_to_check, 0, $separator_pos);
               }
           }
 
 
-          if ((1 == $this->GetUserLocked()) && ('' == $input_sync) && (!$resync_enc_pass) && (!$ignore_lock)) {
-              $result = 24; // ERROR: User locked;
+          if ((1 == $this->GetUserLocked()) && ("" == $input_sync) && (!$resync_enc_pass) && (!$ignore_lock)) {
+              $result = _MULTIOTP_USER_LOCKED_; // ERROR: User locked;
               $this->WriteLog("Error: User ".$real_user." locked after ".$this->GetUserErrorCounter()." failed authentications", FALSE, FALSE, $result, 'User');
-          } elseif(($this->GetUserErrorCounter() >= $this->GetMaxDelayedFailures()) && ('' == $input_sync) && ($now_epoch < ($this->GetUserTokenLastError() + $this->GetMaxDelayedTime())) && (!$ignore_lock)) {
-              $result = 25; // ERROR: User delayed;
+          } elseif(($this->GetUserErrorCounter() >= $this->GetMaxDelayedFailures()) && ("" == $input_sync) && ($now_epoch < ($this->GetUserTokenLastError() + $this->GetMaxDelayedTime())) && (!$ignore_lock)) {
+              $result = _MULTIOTP_USER_DELAYED_; // ERROR: User delayed;
               $delayed_time = ($this->GetUserTokenLastError() + $this->GetMaxDelayedTime()) - $now_epoch;
               $this->WriteLog("Error: User ".$real_user." still delayed for ".$delayed_time." seconds after ".$this->GetUserErrorCounter()." failed authentications", FALSE, FALSE, $result, 'User');
           } else {
               $ldap_check_passed = FALSE;
               $ldap_to_check = '!LDAP_FALSE!';
               if (($need_prefix) && ($this->IsUserRequestLdapPasswordEnabled())) {
-                  if ($input_to_check != '') {
+                  if ($input_to_check != "") {
                       $ldap_to_check = mb_substr($input_to_check, 0, mb_strlen($input_to_check) - $digits);
-                      if ('' != $ldap_to_check) {
+                      if ("" != $ldap_to_check) {
                           if ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check)) {
                               $ldap_check_passed = TRUE;
                               // TODO Write a specific message in the log
@@ -17829,7 +18464,7 @@ class Multiotp
                           } elseif ($this->IsCacheLdapHash()) {
                               if (!$this->IsLdapServerReachable()) {
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                                   if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
                                       $ldap_check_passed = TRUE;
@@ -17840,7 +18475,7 @@ class Multiotp
                                   $ldap_to_check = '!LDAP_FALSE!';
                                   $this->ResetUserLdapHashCache();
                                   if ($this->GetVerboseFlag()) {
-                                      $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', '');
+                                      $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
                                   }
                               }
                           } else { // If the LdapHash cache is disabled
@@ -17848,22 +18483,66 @@ class Multiotp
                               $ldap_to_check = '!LDAP_FALSE!';
                               $this->ResetUserLdapHashCache();
                               if ($this->IsLdapServerReachable()) {
-                                  $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, 99, 'User');
+                                  $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
                               } else {
-                                  $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, 99, 'User');
+                                  $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
                               }
                           }
                       }
                   }
                   if (!$ldap_check_passed) {
+                    $ldap_to_check = '!LDAP_FALSE!';
+                    // Special LDAP check if push is enabled
+                    if (($need_prefix) && ($this->IsPushActivated() && $this->IsUserPushEnabled() && (!$multi_account_enabled))) {
+                        if ($input_to_check != "") {
+                            $ldap_to_check = $input_to_check;
+                            if ("" != $ldap_to_check) {
+                                if ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check)) {
+                                    $ldap_check_passed = TRUE;
+                                    // TODO Write a specific message in the log
+                                    if ($this->IsCacheLdapHash()) {
+                                        $this->SetUserLdapHashCache(nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check))));
+                                    }
+                                } elseif ($this->IsCacheLdapHash()) {
+                                    if (!$this->IsLdapServerReachable()) {
+                                        if ($this->GetVerboseFlag()) {
+                                            $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
+                                        }
+                                        if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
+                                            $ldap_check_passed = TRUE;
+                                            // TODO Write a specific message in the log
+                                        }
+                                    } else {
+                                        $ldap_check_passed = FALSE;
+                                        $ldap_to_check = '!LDAP_FALSE!';
+                                        $this->ResetUserLdapHashCache();
+                                        if ($this->GetVerboseFlag()) {
+                                            $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
+                                        }
+                                    }
+                                } else { // If the LdapHash cache is disabled
+                                    $ldap_check_passed = FALSE;
+                                    $ldap_to_check = '!LDAP_FALSE!';
+                                    $this->ResetUserLdapHashCache();
+                                    if ($this->IsLdapServerReachable()) {
+                                        $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
+                                    } else {
+                                        $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!$ldap_check_passed) {
                       $input_to_check = "LDAP_FAILED_".$input_to_check.'_LDAP_FAILED';
-                      $result = 99;
+                      $result = _MULTIOTP_LDAP_AUTH_ERROR_;
+                    }
                   }
               }
 
               switch (mb_strtolower($algorithm,'UTF-8')) {
                   case 'motp':
-                      if (('' == $input_sync) && (!$resync_enc_pass)) {
+                      if (("" == $input_sync) && (!$resync_enc_pass)) {
                           $max_steps = 2 * $step_window;
                       } else {
                           $max_steps = 2 * $step_sync_window;
@@ -17875,7 +18554,7 @@ class Multiotp
                           $pure_calculated_token = $this->ComputeMotp($seed.$pin, $now_steps+$additional_step+$delta_step, $digits);
                           $calculated_token = $pure_calculated_token;
                           
-                          if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                          if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                               $code_confirmed_without_pin = $calculated_token;
                               $code_confirmed = $calculated_token;
                               $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
@@ -17888,23 +18567,23 @@ class Multiotp
                               $code_confirmed_without_pin = $pure_calculated_token;
                               $code_confirmed = $calculated_token;
                               $this->SetLastClearOtpValue($code_confirmed);
-                              if ('' != $this->GetChapPassword()) {
+                              if ("" != $this->GetChapPassword()) {
                                   $code_confirmed_without_pin = mb_strtolower($this->CalculateChapPassword($code_confirmed_without_pin),'UTF-8');
                                   $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                              } elseif ('' != $this->GetMsChapResponse()) {
+                              } elseif ("" != $this->GetMsChapResponse()) {
                                   $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChapResponse($code_confirmed_without_pin),'UTF-8');
                                   $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                              } elseif ('' != $this->GetMsChap2Response()) {
+                              } elseif ("" != $this->GetMsChap2Response()) {
                                   $clear_code_confirmed = $code_confirmed;
                                   $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_without_pin),'UTF-8');
                                   $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
                                   if ($this->IsDeveloperMode()) {
-                                    $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for motp: $code_confirmed", false, false, 19, 'Debug', '');
+                                    $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for motp: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                   }
                               }
                           }
                           
-                          if (('' == $input_sync) && (!$resync_enc_pass)) {
+                          if (("" == $input_sync) && (!$resync_enc_pass)) {
                               // With mOTP, the code should not be prefixed, so we accept of course always input without prefix!
                               if (($input_to_check === $code_confirmed) || ($input_to_check === $code_confirmed_without_pin)) {
                                   if ($input_to_check === $code_confirmed_without_pin) {
@@ -17915,10 +18594,10 @@ class Multiotp
                                       $this->SetUserTokenLastLogin(($now_steps+$additional_step+$delta_step) * $interval);
                                       $this->SetUserTokenDeltaTime(($additional_step+$delta_step) * $interval);
                                       $this->SetUserErrorCounter(0);
-                                      $result = 0; // OK: This is the correct token
+                                      $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                                       $this->WriteLog("Ok: User ".$real_user." successfully logged in".$supplemental_login_info." with mOTP token", FALSE, FALSE, $result, 'User');
                                   } else {
-                                      $result = 26; // ERROR: this token has already been used
+                                      $result = _MULTIOTP_TOKEN_REUSED_; // ERROR: this token has already been used
                                       if ($this->CompareUserLastSuccessCredential(nullable_trim($input.' '.$input_sync))) {
                                           $disable_error_counter = true;
                                       }
@@ -17935,7 +18614,7 @@ class Multiotp
                               $pure_sync_calculated_token = $this->ComputeMotp($seed.$pin, $now_steps+$additional_step+$delta_step+1, $digits);
                               $sync_calculated_token = $pure_sync_calculated_token;
                               
-                              if (($need_prefix) && ($input_sync != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                              if (($need_prefix) && ($input_sync != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                                   $input_sync = mb_substr($input_sync, -mb_strlen($code_confirmed));                            
                               } elseif ($need_prefix) {
                                   $sync_calculated_token = $pin.$sync_calculated_token;
@@ -17946,11 +18625,11 @@ class Multiotp
                                   $this->SetUserTokenDeltaTime(($additional_step+$delta_step+1) * $interval);
                                   $this->SetUserErrorCounter(0);
                                   $this->SetUserLocked(0);
-                                  $result = 14; // INFO: token is now synchronized
+                                  $result = _MULTIOTP_TOKEN_RESYNCED_; // INFO: token is now synchronized
                                   $this->WriteLog("Info: token for user ".$real_user." is now resynchronized with a delta of ".(($additional_step+$delta_step+1) * $interval). " seconds", FALSE, FALSE, $result, 'User');
-                                  $result = 0; // INFO: authentication is successful, regardless of the PIN code if needed, as the PIN code is already used to generate the token
+                                  $result = _MULTIOTP_AUTH_OK_; // INFO: authentication is successful, regardless of the PIN code if needed, as the PIN code is already used to generate the token
                               } else {
-                                  $result = 27; // ERROR: resync failed
+                                  $result = _MULTIOTP_TOKEN_RESYNC_FAILED_; // ERROR: resync failed
                                   $this->WriteLog("Error: resync for user ".$real_user." has failed", FALSE, FALSE, $result, 'User');
                               }
                           } else {
@@ -17959,11 +18638,11 @@ class Multiotp
                                   MultiotpShowStatus($check_step, $max_steps);
                               }
                           }
-                      } while (($check_step < $max_steps) && (90 <= $result));
+                      } while (($check_step < $max_steps) && ($result >= 90));
                       if ($display_status) {
                         echo "\r\n";
                       }
-                      if (90 <= $result) {
+                      if ($result >= 90) {
                         if ($this->CompareUserLastFailedCredential(nullable_trim($input.' '.$input_sync))) {
                           $disable_error_counter = true;
                         }
@@ -17974,7 +18653,7 @@ class Multiotp
                       }
                       break;
                   case 'hotp';
-                      if (('' == $input_sync)&& (!$resync_enc_pass)) {
+                      if (("" == $input_sync)&& (!$resync_enc_pass)) {
                           $max_steps = 2 * $event_window;
                       } else {
                           $max_steps = 2 * $event_sync_window;
@@ -17984,7 +18663,7 @@ class Multiotp
                           $additional_step = (1 - (2 * ($check_step % 2))) * intval($check_step/2);
                           $pure_calculated_token = $this->GenerateOathHotp($seed_bin,$last_event+$additional_step,$digits,$token_algo_suite);
                           $calculated_token = $pure_calculated_token;
-                          if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                          if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                               $code_confirmed_without_pin = $calculated_token;
                               $code_confirmed = $calculated_token;
                               $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
@@ -17997,33 +18676,33 @@ class Multiotp
                               $code_confirmed_without_pin = $pure_calculated_token;
                               $code_confirmed = $calculated_token;
                               $this->SetLastClearOtpValue($code_confirmed);
-                              if ('' != $this->GetChapPassword()) {
+                              if ("" != $this->GetChapPassword()) {
                                   $code_confirmed_without_pin = mb_strtolower($this->CalculateChapPassword($code_confirmed_without_pin),'UTF-8');
                                   $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                              } elseif ('' != $this->GetMsChapResponse()) {
+                              } elseif ("" != $this->GetMsChapResponse()) {
                                   $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChapResponse($code_confirmed_without_pin),'UTF-8');
                                   $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                              } elseif ('' != $this->GetMsChap2Response()) {
+                              } elseif ("" != $this->GetMsChap2Response()) {
                                   $clear_code_confirmed = $code_confirmed;
                                   $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_without_pin),'UTF-8');
                                   $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
                                   if ($this->IsDeveloperMode()) {
-                                    $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for hotp: $code_confirmed", false, false, 19, 'Debug', '');
+                                    $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for hotp: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                   }
                               }
                           }
                           
-                          if (('' == $input_sync) && (!$resync_enc_pass)) {
+                          if (("" == $input_sync) && (!$resync_enc_pass)) {
                               if ($input_to_check === $code_confirmed) {
                                   if ($additional_step >= 1) {
                                       $this->SetUserLastLogin($now_epoch);
                                       $this->SetUserTokenLastLogin($now_epoch);
                                       $this->SetUserTokenLastEvent($last_event+$additional_step);
                                       $this->SetUserErrorCounter(0);
-                                      $result = 0; // OK: This is the correct token
+                                      $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                                       $this->WriteLog("OK: User ".$real_user." successfully logged in".$supplemental_login_info." with HOTP token", FALSE, FALSE, $result, 'User');
                                   } else {
-                                      $result = 26; // ERROR: this token has already been used
+                                      $result = _MULTIOTP_TOKEN_REUSED_; // ERROR: this token has already been used
                                       if ($this->CompareUserLastSuccessCredential(nullable_trim($input.' '.$input_sync))) {
                                           $disable_error_counter = true;
                                       }
@@ -18040,7 +18719,7 @@ class Multiotp
                               $pure_sync_calculated_token = $this->GenerateOathHotp($seed_bin, $last_event+$additional_step+1,$digits,$token_algo_suite);
                               $sync_calculated_token = $pure_sync_calculated_token;
                               
-                              if (($need_prefix) && ($input_sync != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                              if (($need_prefix) && ($input_sync != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                                   $input_sync = mb_substr($input_sync, -mb_strlen($code_confirmed));                            
                               } elseif ($need_prefix) {
                                   $sync_calculated_token = $pin.$sync_calculated_token;
@@ -18051,13 +18730,13 @@ class Multiotp
                                   $this->SetUserTokenLastEvent($last_event+$additional_step+1);
                                   $this->SetUserErrorCounter(0);
                                   $this->SetUserLocked(0);
-                                  $result = 14; // INFO: token is now synchronized
+                                  $result = _MULTIOTP_TOKEN_RESYNCED_; // INFO: token is now synchronized
                                   $this->WriteLog("Info: token for user ".$real_user." is now resynchronized with the last event ".($last_event+$additional_step+1), FALSE, FALSE, $result, 'User');
                                   if ($input_to_check === $code_confirmed) {
-                                      $result = 0; // INFO: authentication is successful, as the prefix has also been typed (if any)
+                                      $result = _MULTIOTP_AUTH_OK_; // INFO: authentication is successful, as the prefix has also been typed (if any)
                                   }
                               } else {
-                                  $result = 27; // ERROR: resync failed
+                                  $result = _MULTIOTP_TOKEN_RESYNC_FAILED_; // ERROR: resync failed
                                   $this->WriteLog("Error: resync for user ".$real_user." has failed", FALSE, FALSE, $result, 'User');
                               }
                           } else {
@@ -18066,11 +18745,11 @@ class Multiotp
                                   MultiotpShowStatus($check_step, $max_steps);
                               }
                           }
-                      } while (($check_step < $max_steps) && ((90 <= $result)));
+                      } while (($check_step < $max_steps) && (($result >= 90)));
                       if ($display_status) {
                         echo "\r\n";
                       }
-                      if (90 <= $result) {
+                      if ($result >= 90) {
                         if ($this->CompareUserLastFailedCredential(nullable_trim($input.' '.$input_sync))) {
                           $disable_error_counter = true;
                         }
@@ -18083,7 +18762,7 @@ class Multiotp
                   case 'yubicootp';
                       $yubikey_class = new MultiotpYubikey();
                       $bad_precheck = FALSE;
-                      if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                      if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                           if (!$ldap_check_passed) {
                               $input_to_check.= '_BAD_LDAP_CHECK';
                               $bad_precheck = TRUE;
@@ -18108,16 +18787,16 @@ class Multiotp
                                                                    $private_id);
                       }
 
-                      if (0 == $result) {
+                      if (_MULTIOTP_AUTH_OK_ == $result) {
                           $calculated_token = $input_to_check;
                           $this->SetUserLastLogin($now_epoch);
                           $this->SetUserTokenLastLogin($now_epoch);
                           $this->SetUserTokenLastEvent($yubikey_class->GetYubicoOtpLastCount());
                           $this->SetUserErrorCounter(0);
-                          $result = 0; // OK: This is the correct token
+                          $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                           $this->WriteLog("OK: User ".$real_user." successfully logged in".$supplemental_login_info." with YubicoOTP token", FALSE, FALSE, $result, 'User');
-                      } elseif (26 == $result) {
-                          $result = 26; // ERROR: this token has already been used
+                      } elseif (_MULTIOTP_TOKEN_REUSED_ == $result) {
+                          $result = _MULTIOTP_TOKEN_REUSED_; // ERROR: this token has already been used
                           if ($this->CompareUserLastSuccessCredential(nullable_trim($input.' '.$input_sync))) {
                               $disable_error_counter = true;
                           }
@@ -18138,104 +18817,221 @@ class Multiotp
                       }
                       break;
                   case 'totp';
-                      if (('' == $input_sync) && (!$resync_enc_pass)) {
+
+                      if (("" == $input_sync) && (!$resync_enc_pass)) {
                           $max_steps = 2 * $step_window;
                       } else {
                           $max_steps = 2 * $step_sync_window;
                       }
-                      $check_step = 1;
+                      
+                      // Check if a code request per Push is done
+                      if ((!empty($this->GetUserMouid())) && (!empty($this->GetUserMosid()))) {
+                        $code_confirmed = 'push';
+                        $code_confirmed_upper = 'PUSH';
+                        $code_confirmed_camel = 'Push';
+                        $this->SetLastClearOtpValue($code_confirmed);
+                        if ("" != $this->GetChapPassword()) {
+                          $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
+                          $code_confirmed_upper = mb_strtoupper($this->CalculateChapPassword($code_confirmed_upper),'UTF-8');
+                          $code_confirmed_camel = mb_strtoupper($this->CalculateChapPassword($code_confirmed_camel),'UTF-8');
+                        } elseif ("" != $this->GetMsChapResponse()) {
+                          $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
+                          $code_confirmed_upper = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_upper),'UTF-8');
+                          $code_confirmed_camel = mb_strtoupper($this->CalculateMsChapResponse($code_confirmed_camel),'UTF-8');
+                        } elseif ("" != $this->GetMsChap2Response()) {
+                          $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
+                          $code_confirmed_upper = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_upper),'UTF-8');
+                          $code_confirmed_camel = mb_strtoupper($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_camel),'UTF-8');
+                        }
+                        // If something like 'push' or 'PUSH' or 'Push' is detected, we generate a push request
+                        if ((mb_strtolower(substr($input_to_check, -4),'UTF-8') === $code_confirmed) || (mb_strtolower($input_to_check,'UTF-8') === $code_confirmed) || (mb_strtoupper($input_to_check,'UTF-8') === $code_confirmed_upper) || (mb_strtoupper($input_to_check,'UTF-8') === $code_confirmed_camel)) {
+                          $push_trial = 0;
+                          $push_answer = $this->PushRequest(array(
+                            "title"    => $this->Translate('push_title', $this->GetUserLanguage()),
+                            "subtitle" => $device_description
+                          ));
+                          if (_MULTIOTP_PUSH_TIMEOUT_CODE_ == $push_answer) {
+                            $push_answer = "";
+                            $push_timeout_error = true;
+                            $disable_error_counter = true;
+                          } elseif (_MULTIOTP_PUSH_DENIED_CODE_ == $push_answer) {
+                            $push_answer = "";
+                            $push_denied_error = true;
+                            $disable_error_counter = true;
+                          }
+                          $input_to_check = $push_answer;
+                        }
+                      }
+                      
                       do {
-                          $additional_step = (1 - (2 * ($check_step % 2))) * intval($check_step/2);
-                          $pure_calculated_token = $this->GenerateOathHotp($seed_bin,$now_steps+$additional_step+$delta_step,$digits,$token_algo_suite);
-                          $calculated_token = $pure_calculated_token;
-                          
-                          if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
-                              $code_confirmed_without_pin =  $calculated_token;
-                              $code_confirmed = $calculated_token;
-                              $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
-                              $this->SetLastClearOtpValue($code_confirmed);
-                          } else {
-                              if ($need_prefix) {
-                                  $calculated_token = $pin.$calculated_token;
-                              }
+                        $push_trial--;
+                      
+                        $check_step = 1;
+                        do {
+                            $additional_step = (1 - (2 * ($check_step % 2))) * intval($check_step/2);
+                            $pure_calculated_token = $this->GenerateOathHotp($seed_bin,$now_steps+$additional_step+$delta_step,$digits,$token_algo_suite);
+                            $calculated_token = $pure_calculated_token;
+                            
+                            if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
+                                $code_confirmed_without_pin =  $calculated_token;
+                                $code_confirmed = $calculated_token;
+                                $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
+                                $this->SetLastClearOtpValue($code_confirmed);
+                            } else {
+                                if ($need_prefix) {
+                                    $calculated_token = $pin.$calculated_token;
+                                }
 
-                              $code_confirmed_without_pin = $pure_calculated_token;
-                              $code_confirmed = $calculated_token;
-                              $this->SetLastClearOtpValue($code_confirmed);
-                              if ('' != $this->GetChapPassword()) {
-                                  $code_confirmed_without_pin = mb_strtolower($this->CalculateChapPassword($code_confirmed_without_pin),'UTF-8');
-                                  $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                              } elseif ('' != $this->GetMsChapResponse()) {
-                                  $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChapResponse($code_confirmed_without_pin),'UTF-8');
-                                  $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                              } elseif ('' != $this->GetMsChap2Response()) {
-                                  $clear_code_confirmed = $code_confirmed;
-                                  $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_without_pin),'UTF-8');
-                                  $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
-                                  if ($this->IsDeveloperMode()) {
-                                    $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for totp: $code_confirmed", false, false, 19, 'Debug', '');
-                                  }
-                              }
-                          }
-                          
-                          if (('' == $input_sync) && (!$resync_enc_pass)) {
-                              if ($input_to_check === $code_confirmed) {
-                                  if (($now_steps+$additional_step+$delta_step) > $last_login_step) {
-                                      $this->SetUserLastLogin($now_epoch);
-                                      $this->SetUserTokenLastLogin(($now_steps+$additional_step+$delta_step) * $interval);
-                                      $this->SetUserTokenDeltaTime(($additional_step+$delta_step) * $interval);
-                                      $this->SetUserErrorCounter(0);
-                                      $result = 0; // OK: This is the correct token
-                                      $this->WriteLog("OK: User ".$real_user." successfully logged in".$supplemental_login_info." with TOTP token", FALSE, FALSE, $result, 'User');
-                                  } else {
-                                      $result = 26; // ERROR: this token has already been used
-                                      if ($this->CompareUserLastSuccessCredential(nullable_trim($input.' '.$input_sync))) {
-                                          $disable_error_counter = true;
-                                      }
-                                      if (!$disable_error_counter) {
-                                          $this->SetUserErrorCounter($error_counter+1);
-                                      }
-                                      $this->SetUserTokenLastError($now_epoch);
-                                      $this->WriteLog("Error: token of user ".$real_user." already used", FALSE, FALSE, $result, 'User');
-                                  }
-                              } else {
-                                  $check_step++;
-                              }
-                          } elseif (($input_to_check === $code_confirmed) || ($input_to_check === $code_confirmed_without_pin)) {
-                              $pure_sync_calculated_token = $this->GenerateOathHotp($seed_bin,$now_steps+$additional_step+$delta_step+1,$digits,$token_algo_suite);
-                              $sync_calculated_token = $pure_sync_calculated_token;
-                              
-                              if (($need_prefix) && ($input_sync != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
-                                  $input_sync = mb_substr($input_sync, -mb_strlen($code_confirmed));                            
-                              } elseif ($need_prefix) {
-                                  $sync_calculated_token = $pin.$sync_calculated_token;
-                              }
-                              if ((($input_sync === $sync_calculated_token) || ($input_sync === $pure_sync_calculated_token)) && (($now_steps+$additional_step+$delta_step) > $last_login_step)) {
-                                  $this->SetUserLastLogin($now_epoch);
-                                  $this->SetUserTokenLastLogin(($now_steps+$additional_step+$delta_step+1) * $interval);
-                                  $this->SetUserTokenDeltaTime(($additional_step+$delta_step+1) * $interval);
-                                  $this->SetUserErrorCounter(0);
-                                  $this->SetUserLocked(0);
-                                  $result = 14; // INFO: token is now synchronized
-                                  $this->WriteLog("Info: token for user ".$real_user." is now resynchronized with a delta of ".(($additional_step+$delta_step+1) * $interval). " seconds", FALSE, FALSE, $result, 'User');
-                                  if ($input_to_check === $code_confirmed) {
-                                      $result = 0; // INFO: authentication is successful, as the prefix has also been typed (if any)
-                                  }
-                              } else {
-                                  $result = 27; // ERROR: resync failed
-                                  $this->WriteLog("Error: resync for user ".$real_user." has failed", FALSE, FALSE, $result, 'User');
-                              }
+                                $code_confirmed_without_pin = $pure_calculated_token;
+                                $code_confirmed = $calculated_token;
+                                $this->SetLastClearOtpValue($code_confirmed);
+                                if ("" != $this->GetChapPassword()) {
+                                    $code_confirmed_without_pin = mb_strtolower($this->CalculateChapPassword($code_confirmed_without_pin),'UTF-8');
+                                    $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
+                                } elseif ("" != $this->GetMsChapResponse()) {
+                                    $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChapResponse($code_confirmed_without_pin),'UTF-8');
+                                    $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
+                                } elseif ("" != $this->GetMsChap2Response()) {
+                                    $clear_code_confirmed = $code_confirmed;
+                                    $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_without_pin),'UTF-8');
+                                    $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
+                                    if ($this->IsDeveloperMode()) {
+                                      $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for totp: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
+                                    }
+                                }
+                            }
+                            
+                            if (("" == $input_sync) && (!$resync_enc_pass)) {
+                                if ($input_to_check === $code_confirmed) {
+                                    if (($now_steps+$additional_step+$delta_step) > $last_login_step) {
+                                        $this->SetUserLastLogin($now_epoch);
+                                        $this->SetUserTokenLastLogin(($now_steps+$additional_step+$delta_step) * $interval);
+                                        $this->SetUserTokenDeltaTime(($additional_step+$delta_step) * $interval);
+                                        $this->SetUserErrorCounter(0);
+                                        $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
+                                        $this->WriteLog("OK: User ".$real_user." successfully logged in".$supplemental_login_info." with TOTP token", FALSE, FALSE, $result, 'User');
+                                    } else {
+                                        $result = _MULTIOTP_TOKEN_REUSED_; // ERROR: this token has already been used
+                                        if ($this->CompareUserLastSuccessCredential(nullable_trim($input.' '.$input_sync))) {
+                                            $disable_error_counter = true;
+                                        }
+                                        if (!$disable_error_counter) {
+                                            $this->SetUserErrorCounter($error_counter+1);
+                                        }
+                                        $this->SetUserTokenLastError($now_epoch);
+                                        $this->WriteLog("Error: token of user ".$real_user." already used", FALSE, FALSE, $result, 'User');
+                                    }
+                                } else {
+                                    $check_step++;
+                                }
+                            } elseif (($input_to_check === $code_confirmed) || ($input_to_check === $code_confirmed_without_pin)) {
+                                $pure_sync_calculated_token = $this->GenerateOathHotp($seed_bin,$now_steps+$additional_step+$delta_step+1,$digits,$token_algo_suite);
+                                $sync_calculated_token = $pure_sync_calculated_token;
+                                
+                                if (($need_prefix) && ($input_sync != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
+                                    $input_sync = mb_substr($input_sync, -mb_strlen($code_confirmed));                            
+                                } elseif ($need_prefix) {
+                                    $sync_calculated_token = $pin.$sync_calculated_token;
+                                }
+                                if ((($input_sync === $sync_calculated_token) || ($input_sync === $pure_sync_calculated_token)) && (($now_steps+$additional_step+$delta_step) > $last_login_step)) {
+                                    $this->SetUserLastLogin($now_epoch);
+                                    $this->SetUserTokenLastLogin(($now_steps+$additional_step+$delta_step+1) * $interval);
+                                    $this->SetUserTokenDeltaTime(($additional_step+$delta_step+1) * $interval);
+                                    $this->SetUserErrorCounter(0);
+                                    $this->SetUserLocked(0);
+                                    $result = _MULTIOTP_TOKEN_RESYNCED_; // INFO: token is now synchronized
+                                    $this->WriteLog("Info: token for user ".$real_user." is now resynchronized with a delta of ".(($additional_step+$delta_step+1) * $interval). " seconds", FALSE, FALSE, $result, 'User');
+                                    if ($input_to_check === $code_confirmed) {
+                                        $result = _MULTIOTP_AUTH_OK_; // INFO: authentication is successful, as the prefix has also been typed (if any)
+                                    }
+                                } else {
+                                    $result = _MULTIOTP_TOKEN_RESYNC_FAILED_; // ERROR: resync failed
+                                    $this->WriteLog("Error: resync for user ".$real_user." has failed", FALSE, FALSE, $result, 'User');
+                                }
+                            } else {
+                                $check_step++;
+                                if ($display_status) {
+                                    MultiotpShowStatus($check_step, $max_steps);
+                                }
+                            }
+                        } while (($check_step < $max_steps) && ($result >= 90));
+                        
+                        if (($result >= 90) && ($push_trial >= 0)) {
+                          // Push tests BEGIN
+                          $push_precheck = FALSE;
+                          if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
+                            if (!$ldap_check_passed) {
+                              $input_to_check.= '_BAD_LDAP_CHECK';
+                            } else {
+                              $push_precheck = TRUE;
+                            }
                           } else {
-                              $check_step++;
-                              if ($display_status) {
-                                  MultiotpShowStatus($check_step, $max_steps);
+                            if ($need_prefix) {
+                              $code_to_check = $pin;
+                              if ($code_to_check != $input_to_check) {
+
+                                // Request could by hashed
+
+                                if ("" != $this->GetChapPassword()) {
+                                  $code_to_check = mb_strtolower($this->CalculateChapPassword($pin),'UTF-8');
+                                  if ($this->GetVerboseFlag()) {
+                                    $this->WriteLog("Debug: *CalculateChapPassword()", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
+                                  }
+                                } elseif ("" != $this->GetMsChapResponse()) {
+                                  $code_to_check = mb_strtolower($this->CalculateMsChapResponse($pin),'UTF-8');
+                                  if ($this->GetVerboseFlag()) {
+                                    $this->WriteLog("Debug: *CalculateMsChapResponse()", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
+                                  }
+                                } elseif ("" != $this->GetMsChap2Response()) {
+                                  $code_to_check = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $pin),'UTF-8');
+                                  if ($this->IsDeveloperMode()) {
+                                    $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $pin) for without2fa: $code_to_check", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
+                                  } elseif ($this->GetVerboseFlag()) {
+                                    $this->WriteLog("Debug: *CalculateMsChap2Response()", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
+                                  }
+                                }
+
+                                if ($code_to_check != $input_to_check) {
+                                  $input_to_check.= '_BAD_PREFIX';
+                                  $this->SetLastClearOtpValue($input_to_check);
+                                } else {
+                                  $push_precheck = TRUE;
+                                }
+                                  
+                              } elseif (!empty($input_to_check)) {
+                                $push_precheck = TRUE;
                               }
+                            } elseif ($input_is_empty) {
+                              $push_precheck = TRUE;
+                            }
                           }
-                      } while (($check_step < $max_steps) && (90 <= $result));
+                          if ($push_precheck) {
+                            $this->WriteLog("Info: Push request for user $real_user", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'User', $real_user);
+                            $push_answer = $this->PushRequest(array(
+                              "title"    => $this->Translate('push_title', $this->GetUserLanguage()),
+                              "subtitle" => $device_description
+                            ));
+                            if (_MULTIOTP_PUSH_TIMEOUT_CODE_ == $push_answer) {
+                              $push_answer = "";
+                              $push_timeout_error = true;
+                              $disable_error_counter = true;
+                            } elseif (_MULTIOTP_PUSH_DENIED_CODE_ == $push_answer) {
+                              $push_answer = "";
+                              $push_denied_error = true;
+                              $disable_error_counter = true;
+                            }
+                            $input_to_check = ($need_prefix ? $pin : '') . $push_answer;
+                            $this->WriteLog("Info: OTP received by push for user $real_user", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'User', $real_user);
+                          }
+                          // Push tests END
+                        }
+                      } while ($push_trial >= 0);
+
+
                       if ($display_status) {
                         echo "\r\n";
                       }
-                      if (90 <= $result) {
+                      if ($result >= 90) {
                           
                           // BEGIN to give an info if time based token is probably out of sync (in a window 10 time bigger)
                           do {
@@ -18243,7 +19039,7 @@ class Multiotp
                               $pure_calculated_token = $this->GenerateOathHotp($seed_bin,$now_steps+$additional_step+$delta_step,$digits,$token_algo_suite);
                               $calculated_token = $pure_calculated_token;
                               
-                              if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                              if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                                   $code_confirmed_without_pin =  $calculated_token;
                                   $code_confirmed = $calculated_token;
                                   $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
@@ -18256,28 +19052,28 @@ class Multiotp
                                   $code_confirmed_without_pin = $pure_calculated_token;
                                   $code_confirmed = $calculated_token;
                                   $this->SetLastClearOtpValue($code_confirmed);
-                                  if ('' != $this->GetChapPassword()) {
+                                  if ("" != $this->GetChapPassword()) {
                                       $code_confirmed_without_pin = mb_strtolower($this->CalculateChapPassword($code_confirmed_without_pin),'UTF-8');
                                       $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChapResponse()) {
+                                  } elseif ("" != $this->GetMsChapResponse()) {
                                       $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChapResponse($code_confirmed_without_pin),'UTF-8');
                                       $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChap2Response()) {
+                                  } elseif ("" != $this->GetMsChap2Response()) {
                                       $clear_code_confirmed = $code_confirmed;
                                       $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed_without_pin),'UTF-8');
                                       $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $code_confirmed),'UTF-8');
                                   if ($this->IsDeveloperMode()) {
-                                        $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for totp: $code_confirmed", false, false, 19, 'Debug', '');
+                                        $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $clear_code_confirmed) for totp: $code_confirmed", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                       }
                                   }
                               }
                              
-                              if (('' == $input_sync) && (!$resync_enc_pass) && ($input_to_check === $code_confirmed)) {
-                                  $result = 93; // ERROR: Authentication failed (time based token probably out of sync)
+                              if (("" == $input_sync) && (!$resync_enc_pass) && ($input_to_check === $code_confirmed)) {
+                                  $result = _MULTIOTP_AUTH_TOTP_OUTOFSYNC_ERROR_; // ERROR: Authentication failed (time based token probably out of sync)
                               } else {
                                   $check_step++;
                               }
-                          } while (($check_step < (10 * $max_steps)) && (93 != $result));
+                          } while (($check_step < (10 * $max_steps)) && (_MULTIOTP_AUTH_TOTP_OUTOFSYNC_ERROR_ != $result));
                           // END to give an info if time based token is probably out of sync (in a window 10 time bigger)
 
                           
@@ -18293,14 +19089,14 @@ class Multiotp
                   case 'without2fa';
                       // NO without2fa token as multi_account authentication
                       if ($multi_account_enabled) {
-                        $result = 91;
+                        $result = _MULTIOTP_WITHOUT2FA_TOKEN_UNAUTHORIZED_;
                         $this->WriteLog("Error: authentication failed".$supplemental_login_info." for user ".$real_user." (without2fa token not authorized here)", FALSE, FALSE, $result, 'User');
                         return $result;
                       }
 
-                      $result = 92; // ERROR: Authentication failed (bad password)
+                      $result = _MULTIOTP_AUTH_PASSWORD_FAILED_; // ERROR: Authentication failed (bad password)
                       $bad_precheck = FALSE;
-                      if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                      if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                           if (!$ldap_check_passed) {
                               $input_to_check.= '_BAD_LDAP_CHECK';
                               $bad_precheck = TRUE;
@@ -18313,22 +19109,22 @@ class Multiotp
 
                                 // Request could by hashed
 
-                                if ('' != $this->GetChapPassword()) {
+                                if ("" != $this->GetChapPassword()) {
                                   $code_to_check = mb_strtolower($this->CalculateChapPassword($pin),'UTF-8');
                                   if ($this->GetVerboseFlag()) {
-                                    $this->WriteLog("Debug: *CalculateChapPassword()", false, false, 19, 'Debug', '');
+                                    $this->WriteLog("Debug: *CalculateChapPassword()", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                   }
-                                } elseif ('' != $this->GetMsChapResponse()) {
+                                } elseif ("" != $this->GetMsChapResponse()) {
                                   $code_to_check = mb_strtolower($this->CalculateMsChapResponse($pin),'UTF-8');
                                   if ($this->GetVerboseFlag()) {
-                                    $this->WriteLog("Debug: *CalculateMsChapResponse()", false, false, 19, 'Debug', '');
+                                    $this->WriteLog("Debug: *CalculateMsChapResponse()", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                   }
-                                } elseif ('' != $this->GetMsChap2Response()) {
+                                } elseif ("" != $this->GetMsChap2Response()) {
                                   $code_to_check = mb_strtolower($this->CalculateMsChap2Response($real_rawUser, $pin),'UTF-8');
                                   if ($this->IsDeveloperMode()) {
-                                    $this->WriteLog("Debug: *CalculateMsChap2Response($real_rawUser, $pin) for without2fa: $code_to_check", false, false, 19, 'Debug', '');
+                                    $this->WriteLog("Developer: *CalculateMsChap2Response($real_rawUser, $pin) for without2fa: $code_to_check", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                   } elseif ($this->GetVerboseFlag()) {
-                                    $this->WriteLog("Debug: *CalculateMsChap2Response()", false, false, 19, 'Debug', '');
+                                    $this->WriteLog("Debug: *CalculateMsChap2Response()", false, false, _MULTIOTP_OPERATION_DONE_, 'Debug', "");
                                   }
                                 }
 
@@ -18345,11 +19141,11 @@ class Multiotp
                       }
                       if (!$bad_precheck) {
                           // $code_confirmed = ($need_prefix ? (mb_substr($input_to_check, mb_strlen($pin))) : $input_to_check);
-                          // if ('' == $code_confirmed) {
+                          // if ("" == $code_confirmed) {
                               $this->SetUserLastLogin($now_epoch);
                               $this->SetUserTokenLastLogin($now_epoch);
                               $this->SetUserErrorCounter(0);
-                              $result = 0; // OK: This is the correct token
+                              $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                               $this->WriteLog("OK: User ".$real_user." successfully logged in".$supplemental_login_info." without 2FA token", FALSE, FALSE, $result, 'User');
                           // }
                       } else {
@@ -18363,10 +19159,10 @@ class Multiotp
                       }
                       break;
                   default:
-                      $result = 23;
+                      $result = _MULTIOTP_BAD_ALGORITHM_;
                       $this->WriteLog("Error: ".$algorithm." algorithm is unknown", FALSE, FALSE, $result, 'User');
               }
-              if (90 <= $result) {
+              if ($result >= 90) {
                   if ($cache_result_enabled && ((mb_strlen($input_to_check) != mb_strlen($calculated_token)))) {
                       $disable_error_counter = true;
                   }
@@ -18377,41 +19173,41 @@ class Multiotp
               }
           }
 
-          if (0 == $result) {
+          if (_MULTIOTP_AUTH_OK_ == $result) {
               $this->SetUserLocked(0);
           }
           
-          if (90 <= $result) {
+          if ($result >= 90) {
               $replayed_text = (($disable_error_counter) ? " (same token replayed)" : "");
-              if (("" == $replayed_text) && (93 == $result)) {
+              if (("" == $replayed_text) && (_MULTIOTP_AUTH_TOTP_OUTOFSYNC_ERROR_ == $result)) {
                 $replayed_text = " (time based token probably out of sync)";
               }
               $this->WriteLog("Error: authentication failed".$supplemental_login_info." for user ".$real_user.$replayed_text, FALSE, FALSE, $result, 'User');
-              if (92 == $result) {
+              if (_MULTIOTP_AUTH_PASSWORD_FAILED_ == $result) {
                 // We do nothing else, the password is bad.
               } elseif ($this->GetVerboseFlag()) {
-                  if ('' != $this->GetChapPassword()) {
+                  if ("" != $this->GetChapPassword()) {
                       $this->WriteLog("Info: *(authentication typed by the user is CHAP encrypted)", FALSE, FALSE, $result, 'User');
-                  } elseif ('' != $this->GetMsChapResponse()) {
+                  } elseif ("" != $this->GetMsChapResponse()) {
                       $this->WriteLog("Info: *(authentication typed by the user is MS-CHAP encrypted)", FALSE, FALSE, $result, 'User');
-                  } elseif ('' != $this->GetMsChap2Response()) {
+                  } elseif ("" != $this->GetMsChap2Response()) {
                       $this->WriteLog("Info: *(authentication typed by the user is MS-CHAP V2 encrypted)", FALSE, FALSE, $result, 'User');
                   } elseif ((mb_strlen($input_to_check) === mb_strlen($calculated_token))) {
                       $this->WriteLog("Info: *(authentication typed by the user: ".$input_to_check.")", FALSE, FALSE, $result, 'User');
                   } else {
-                      $result = 98;
+                      $result = _MULTIOTP_AUTH_TOKEN_LENGTH_ERROR_;
                       $this->WriteLog("*(authentication typed by the user is ".mb_strlen($input_to_check)." chars long instead of ".mb_strlen($calculated_token)." chars)", FALSE, FALSE, $result, 'User');
                   }
-              } elseif (('' == $this->GetChapPassword()) &&
-                        ('' == $this->GetMsChapResponse()) &&
-                        ('' == $this->GetMsChap2Response()) &&
+              } elseif (("" == $this->GetChapPassword()) &&
+                        ("" == $this->GetMsChapResponse()) &&
+                        ("" == $this->GetMsChap2Response()) &&
                         ((mb_strlen($input_to_check) != mb_strlen($calculated_token)))
                        ) {
-                  $result = 98;
+                  $result = _MULTIOTP_AUTH_TOKEN_LENGTH_ERROR_;
                   $this->WriteLog("Error: authentication typed by the user is ".mb_strlen($input_to_check)." chars long instead of ".mb_strlen($calculated_token)." chars", FALSE, FALSE, $result, 'User');
               }
               if ($this->IsDeveloperMode()) {
-                $this->WriteLog("Developer: *authentication typed by the user is $input_to_check", FALSE, FALSE, 8888, 'Debug', '');
+                $this->WriteLog("Developer: *authentication typed by the user is $input_to_check", FALSE, FALSE, 8888, 'Debug', "");
               }
           }
           
@@ -18424,14 +19220,14 @@ class Multiotp
               $this->WriteLog("Error: User ".$real_user." is now delayed for ".$this->GetMaxDelayedTime()." seconds after ".$this->GetUserErrorCounter()." failed authentications", FALSE, FALSE, $result, 'User');
           }
 
-          if (0 == $result) {
+          if (_MULTIOTP_AUTH_OK_ == $result) {
               // Remove the state to block the challenge
-              $this->SetUserChallenge('');
+              $this->SetUserChallenge("");
               $this->SetUserChallengeValidity(0);
 
               if ($cache_result_enabled) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Debug: *checked code for future cache access: ".str_repeat('x', (mb_strlen($input_to_check) >= 6)?mb_strlen($input_to_check)-6:0).mb_substr($input_to_check, -6), FALSE, FALSE, 8888, 'Debug', '');
+                      $this->WriteLog("Debug: *checked code for future cache access: ".str_repeat('x', (mb_strlen($input_to_check) >= 6)?mb_strlen($input_to_check)-6:0).mb_substr($input_to_check, -6), FALSE, FALSE, 8888, 'Debug', "");
                   }
                   $this->SetUserLastCachedCredential(nullable_trim($input.' '.$input_sync));
                   $this->SetUserLastLoginForCache($now_epoch);
@@ -18442,12 +19238,18 @@ class Multiotp
           }
 
           if (!$this->WriteUserData()) {
-              $result = 28; // ERROR: Unable to write the changes in the file
+              $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
               $this->WriteLog("Error: Unable to write the changes in the file for the user ".$real_user, FALSE, FALSE, $result, 'User');
           }
       } // end of the else block of the test: if (!$this->ReadUserData($real_user))
 
-      if (0 == $result) {
+      if (($result >= 90) && $push_timeout_error) {
+        $result = _MULTIOTP_PUSH_TIMEOUT_ERROR_;
+      } elseif (($result >= 90) && $push_denied_error) {
+        $result = _MULTIOTP_PUSH_DENIED_ERROR_;
+      }
+
+      if (_MULTIOTP_AUTH_OK_ == $result) {
           $this->AddExtraRadiusInfo();
       }
       return $result;
@@ -18458,10 +19260,10 @@ class Multiotp
       $user,
       $serial,
       $input,
-      $original_input = ''
+      $original_input = ""
   ) {
       // TODO the whole process has to be changed to support multi tokens
-      $result = 99; // Unknown error
+      $result = _MULTIOTP_ERROR_; // Unknown error
       
       $cache_result_enabled = false;
       $disable_error_counter = false;
@@ -18471,7 +19273,7 @@ class Multiotp
 
       // Specific device detection, based on the source tag, to check if cache is enabled
       $source_tag = nullable_trim($this->GetSourceTag());
-      if ('' != $source_tag) {
+      if ("" != $source_tag) {
           if ("" != $this->GetRadiusTagPrefix()) {
               $device_id = $this->GetRadiusTagPrefix().$source_tag;
           } else {
@@ -18495,8 +19297,8 @@ class Multiotp
 
       $ldap_check_passed = FALSE;
       
-      $calculated_token = '';
-      if ('' == $original_input) {
+      $calculated_token = "";
+      if ("" == $original_input) {
           $original_input = $input;
       }
       $serial_number = mb_strtolower($serial,'UTF-8');
@@ -18506,12 +19308,12 @@ class Multiotp
 
           if ($this->ReadTokenData($serial_number)) {
               $attributed_users = nullable_trim($this->GetTokenAttributedUsers());
-              if ('' != nullable_trim($attributed_users)) {
+              if ("" != nullable_trim($attributed_users)) {
                   if (FALSE === mb_strpos(','.$attributed_users.',', ','.$user.',')) {
-                      $result = 37; // ERROR: Token already attributed
+                      $result = _MULTIOTP_TOKEN_ALREADY_ATTRIBUTED_; // ERROR: Token already attributed
                       $this->WriteLog("Error: Token ".$this->GetToken()." already attributed", FALSE, FALSE, $result, 'Token', $user);
                   }
-                  // else $result = 99; // The token is already attributed to this user, stay neutral with the error
+                  // else $result = _MULTIOTP_ERROR_; // The token is already attributed to this user, stay neutral with the error
               } else {
                   $algorithm = $this->GetTokenAlgorithm();
                   $token_algo_suite = $this->GetTokenAlgoSuite();
@@ -18531,7 +19333,7 @@ class Multiotp
                   $input_to_check = $input;
                   $interval = (0 >= $time_interval)?1:$time_interval;
 
-                  $input_is_empty = ('' == $input_to_check);
+                  $input_is_empty = ("" == $input_to_check);
                   if (mb_strlen($input_to_check) < 3) {
                       $input_to_check.= "!!!! <3 digits !!!!";
                   }
@@ -18549,9 +19351,9 @@ class Multiotp
                   $ldap_check_passed = FALSE;
                   $ldap_to_check = '!LDAP_FALSE!';
                   if (($need_prefix) && ($this->IsUserRequestLdapPasswordEnabled())) {
-                      if ($input_to_check != '') {
+                      if ($input_to_check != "") {
                           $ldap_to_check = mb_substr($input_to_check, 0, mb_strlen($input_to_check) - $digits);
-                          if ('' != $ldap_to_check) {
+                          if ("" != $ldap_to_check) {
                               if ($this->CheckUserLdapPassword($this->GetUserSynchronizedDn(), $ldap_to_check)) {
                                   $ldap_check_passed = TRUE;
                                   // TODO Write a specific message in the log
@@ -18561,7 +19363,7 @@ class Multiotp
                               } elseif ($this->IsCacheLdapHash()) {
                                   if (!$this->IsLdapServerReachable()) {
                                       if ($this->GetVerboseFlag()) {
-                                          $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', '');
+                                          $this->WriteLog("Debug: *user LDAP password checked in the cache", FALSE, FALSE, 8888, 'Debug', "");
                                       }
                                       if ($this->GetUserLdapHashCache() === nullable_bin2hex($this->NtPasswordHashHash($this->NtPasswordHash($ldap_to_check)))) {
                                           $ldap_check_passed = TRUE;
@@ -18572,7 +19374,7 @@ class Multiotp
                                       $ldap_to_check = '!LDAP_FALSE!';
                                       $this->ResetUserLdapHashCache();
                                       if ($this->GetVerboseFlag()) {
-                                          $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', '');
+                                          $this->WriteLog("Debug: *user LDAP password false, hash cache cleared", FALSE, FALSE, 8888, 'Debug', "");
                                       }
                                   }
                               } else { // If the LdapHash cache is disabled
@@ -18580,9 +19382,9 @@ class Multiotp
                                   $ldap_to_check = '!LDAP_FALSE!';
                                   $this->ResetUserLdapHashCache();
                                   if ($this->IsLdapServerReachable()) {
-                                      $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, 99, 'User');
+                                      $this->WriteLog("Error: User $real_user LDAP password false", FALSE, FALSE, _MULTIOTP_LDAP_AUTH_ERROR_, 'User');
                                   } else {
-                                      $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, 99, 'User');
+                                      $this->WriteLog("Error: User $real_user verification failed, unreachable LDAP/AD server(s)", FALSE, FALSE, _MULTIOTP_LDAP_CONNECTION_ERROR_, 'User');
                                   }
                               }
                           }
@@ -18590,7 +19392,7 @@ class Multiotp
                       if (!$ldap_check_passed) {
                           $this->WriteLog("Error: authentication failed".$supplemental_login_info." for user ".$this->GetUser(), FALSE, FALSE, $result, 'User');
                           $input_to_check = "LDAP_FAILED_".$input_to_check.'_LDAP_FAILED';
-                          $result = 99;
+                          $result = _MULTIOTP_LDAP_AUTH_ERROR_;
                       }
                   }
 
@@ -18603,7 +19405,7 @@ class Multiotp
                               $pure_calculated_token = $this->ComputeMotp($seed.$pin, $now_steps+$additional_step+$delta_step, $digits);
                               $calculated_token = $pure_calculated_token;
                               
-                              if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                              if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                                   $code_confirmed_without_pin = $calculated_token;
                                   $code_confirmed = $calculated_token;
                                   $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
@@ -18619,13 +19421,13 @@ class Multiotp
                                   $code_confirmed_without_pin = $pure_calculated_token;
                                   $code_confirmed = $calculated_token;
                                   $this->SetLastClearOtpValue($original_input);
-                                  if ('' != $this->GetChapPassword()) {
+                                  if ("" != $this->GetChapPassword()) {
                                       $code_confirmed_without_pin = mb_strtolower($this->CalculateChapPassword($code_confirmed_without_pin),'UTF-8');
                                       $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChapResponse()) {
+                                  } elseif ("" != $this->GetMsChapResponse()) {
                                       $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChapResponse($code_confirmed_without_pin),'UTF-8');
                                       $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChap2Response()) {
+                                  } elseif ("" != $this->GetMsChap2Response()) {
                                       $code_confirmed_without_pin = mb_strtolower($this->CalculateMsChap2Response($user, $code_confirmed_without_pin),'UTF-8');
                                       $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($user, $code_confirmed),'UTF-8');
                                   }
@@ -18636,14 +19438,14 @@ class Multiotp
                                       $this->SetTokenLastLogin(($now_steps+$additional_step+$delta_step) * $interval);
                                       $this->SetTokenDeltaTime(($additional_step+$delta_step) * $interval);
                                       $this->SetTokenErrorCounter(0);
-                                      $result = 0; // OK: This is the correct token
+                                      $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                                   } else {
-                                      $result = 26; // ERROR: this token has already been used
+                                      $result = _MULTIOTP_TOKEN_REUSED_; // ERROR: this token has already been used
                                   }
                               } else {
                                   $check_step++;
                               }
-                          } while (($check_step < $max_steps) && (90 <= $result));
+                          } while (($check_step < $max_steps) && ($result >= 90));
                           break;
                       case 'hotp';
                           $max_steps = $event_sync_window;
@@ -18652,7 +19454,7 @@ class Multiotp
                               $pure_calculated_token = $this->GenerateOathHotp($seed_bin,$last_event+$check_step,$digits,$token_algo_suite);
                               $calculated_token = $pure_calculated_token;
                               
-                              if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                              if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                                   $code_confirmed_without_pin = $calculated_token;
                                   $code_confirmed = $calculated_token;
                                   $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
@@ -18667,11 +19469,11 @@ class Multiotp
                                   
                                   $code_confirmed = $calculated_token;
                                   $this->SetLastClearOtpValue($original_input);
-                                  if ('' != $this->GetChapPassword()) {
+                                  if ("" != $this->GetChapPassword()) {
                                       $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChapResponse()) {
+                                  } elseif ("" != $this->GetMsChapResponse()) {
                                       $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChap2Response()) {
+                                  } elseif ("" != $this->GetMsChap2Response()) {
                                       $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($user, $code_confirmed),'UTF-8');
                                   }
                               }
@@ -18680,16 +19482,16 @@ class Multiotp
                                   $this->SetTokenLastLogin($now_epoch);
                                   $this->SetTokenLastEvent($last_event+$check_step);
                                   $this->SetTokenErrorCounter(0);
-                                  $result = 0; // OK: This is the correct token
+                                  $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                               } else {
                                   $check_step++;
                               }
-                          } while (($check_step < $max_steps) && (90 <= $result));
+                          } while (($check_step < $max_steps) && ($result >= 90));
                           break;
                       case 'yubicootp':
                           $yubikey_class = new MultiotpYubikey();
                           $bad_precheck = FALSE;
-                          if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                          if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                               if (!$ldap_check_passed) {
                                   $input_to_check.= '_BAD_LDAP_CHECK';
                                   $bad_precheck = TRUE;
@@ -18713,12 +19515,12 @@ class Multiotp
                                                                        $last_event,
                                                                        $private_id);
                           }
-                          if (0 == $result) {
+                          if (_MULTIOTP_AUTH_OK_ == $result) {
                               $calculated_token = $input_to_check;
                               $this->SetTokenLastLogin($now_epoch);
                               $this->SetTokenLastEvent($yubikey_class->GetYubicoOtpLastCount());
                               $this->SetTokenErrorCounter(0);
-                              $result = 0; // OK: This is the correct token
+                              $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                           }
                           break;
                       case 'totp';
@@ -18729,7 +19531,7 @@ class Multiotp
                               $pure_calculated_token = $this->GenerateOathHotp($seed_bin,$now_steps+$additional_step+$delta_step,$digits,$token_algo_suite);
                               $calculated_token = $pure_calculated_token;
                               
-                              if (($need_prefix) && ($input_to_check != '') && ($this->IsUserRequestLdapPasswordEnabled())) {
+                              if (($need_prefix) && ($input_to_check != "") && ($this->IsUserRequestLdapPasswordEnabled())) {
                                   $code_confirmed_without_pin = $calculated_token;
                                   $code_confirmed = $calculated_token;
                                   $input_to_check = mb_substr($input_to_check, -mb_strlen($code_confirmed));                            
@@ -18744,11 +19546,11 @@ class Multiotp
 
                                   $code_confirmed = $calculated_token;
                                   $this->SetLastClearOtpValue($original_input);
-                                  if ('' != $this->GetChapPassword()) {
+                                  if ("" != $this->GetChapPassword()) {
                                       $code_confirmed = mb_strtolower($this->CalculateChapPassword($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChapResponse()) {
+                                  } elseif ("" != $this->GetMsChapResponse()) {
                                       $code_confirmed = mb_strtolower($this->CalculateMsChapResponse($code_confirmed),'UTF-8');
-                                  } elseif ('' != $this->GetMsChap2Response()) {
+                                  } elseif ("" != $this->GetMsChap2Response()) {
                                       $code_confirmed = mb_strtolower($this->CalculateMsChap2Response($user, $code_confirmed),'UTF-8');
                                   }
                               }
@@ -18758,40 +19560,40 @@ class Multiotp
                                       $this->SetTokenLastLogin(($now_steps+$additional_step+$delta_step) * $interval);
                                       $this->SetTokenDeltaTime(($additional_step+$delta_step) * $interval);
                                       $this->SetTokenErrorCounter(0);
-                                      $result = 0; // OK: This is the correct token
+                                      $result = _MULTIOTP_AUTH_OK_; // OK: This is the correct token
                                   } else {
-                                      $result = 26; // ERROR: this token has already been used
+                                      $result = _MULTIOTP_TOKEN_REUSED_; // ERROR: this token has already been used
                                   }
                               } else {
                                   $check_step++;
                               }
-                          } while (($check_step < $max_steps) && (90 <= $result));
+                          } while (($check_step < $max_steps) && ($result >= 90));
                           break;
                       default:
                           if ($this->GetVerboseFlag()) {
-                            $this->WriteLog("Debug: *Invalid algorithm (SelfRegisterHardwareToken): $algorithm", FALSE, FALSE, 8888, 'Debug', '');
+                            $this->WriteLog("Debug: *Invalid algorithm (SelfRegisterHardwareToken): $algorithm", FALSE, FALSE, 8888, 'Debug', "");
                           }
-                          $result = 23; // ERROR: Invalid algorithm
+                          $result = _MULTIOTP_BAD_ALGORITHM_; // ERROR: Invalid algorithm
                   }
 
-                  if (90 <= $result) {
+                  if ($result >= 90) {
                       if ($this->GetVerboseFlag()) {
                           if ((mb_strlen($input_to_check) === mb_strlen($calculated_token))) {
                               $this->WriteLog("Info: *(authentication typed by the user: ".$input_to_check.")", FALSE, FALSE, $result, 'User', $user);
                           } else {
-                              $result = 98;
+                              $result = _MULTIOTP_AUTH_TOKEN_LENGTH_ERROR_;
                               $this->WriteLog("Info: *(authentication typed by the user is ".mb_strlen($input_to_check)." chars long instead of ".mb_strlen($calculated_token)." chars", FALSE, FALSE, $result, 'User', $user);
                           }
                       }
                       if ($this->IsDeveloperMode()) {
-                        $this->WriteLog("Developer: *authentication typed by the user is $input_to_check", FALSE, FALSE, 8888, 'Debug', '');
+                        $this->WriteLog("Developer: *authentication typed by the user is $input_to_check", FALSE, FALSE, 8888, 'Debug', "");
                       }
                   }
                   
-                  if (0 == $result) {
+                  if (_MULTIOTP_AUTH_OK_ == $result) {
                       $this->AddTokenAttributedUsers($user);
                       if (!$this->WriteTokenData()) {
-                          $result = 28; // ERROR: Unable to write the changes in the file
+                          $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
                           $this->WriteLog("Error: Unable to write the changes in the file for the token ".$this->GetToken(), FALSE, FALSE, $result, 'Token', $user);
                       } else {
                           $this->SetUserTokenSerialNumber($serial_number);
@@ -18806,20 +19608,20 @@ class Multiotp
                           $this->SetUserTokenLastLogin($this->GetTokenLastLogin());
                           $this->SetUserErrorCounter(0);
                           if (!$this->WriteUserData()) {
-                              $result = 28; // ERROR: Unable to write the changes in the file
-                              $this->WriteLog("Error: Unable to write the changes in the file for the user ".$this->GetUser(), FALSE, FALSE, $result, 'System', '');
+                              $result = _MULTIOTP_DATA_UPDATE_ERROR_; // ERROR: Unable to write the changes in the file
+                              $this->WriteLog("Error: Unable to write the changes in the file for the user ".$this->GetUser(), FALSE, FALSE, $result, 'System', "");
                           } else {
-                              $this->WriteLog("OK: token ".$this->GetToken()." successfully attributed to user ".$this->GetUser(), FALSE, FALSE, 19, 'User');
+                              $this->WriteLog("OK: token ".$this->GetToken()." successfully attributed to user ".$this->GetUser(), FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'User');
                           }
                       }
                   }
               }
           } else {
-              $result = 29; // ERROR: Token doesn't exist
+              $result = _MULTIOTP_TOKEN_MISSING_; // ERROR: Token doesn't exist
               $this->WriteLog("Error: Token ".$this->GetToken()." does not exist", FALSE, FALSE, $result, 'Token');
           }
       } else {
-          $result = 29; // ERROR: User doesn't exist
+          $result = _MULTIOTP_USER_MISSING_; // ERROR: User doesn't exist
           $this->WriteLog("Error: User ".$this->GetUser()." does not exist", FALSE, FALSE, $result, 'User');
       }
       return $result;
@@ -18828,15 +19630,15 @@ class Multiotp
 
   function ImportTokensFile(
       $file,
-      $original_name = '',
-      $cipher_password = '',
+      $original_name = "",
+      $cipher_password = "",
       $key_mac = ""
   ) {
       if (!file_exists($file)) {
           $result = FALSE;
       } else {
           $data1000 = @file_get_contents($file, FALSE, NULL, 0, 1000);
-          $file_name = ('' != $original_name)?$original_name:$file;
+          $file_name = ("" != $original_name)?$original_name:$file;
           if (FALSE !== mb_strpos(mb_strtolower($data1000,'UTF-8'), mb_strtolower('"urn:ietf:params:xml:ns:keyprov:pskc"','UTF-8'))) {
               $result = $this->ImportTokensFromPskc($file, $cipher_password, $key_mac);
           } elseif (FALSE !== mb_strpos(mb_strtolower($data1000,'UTF-8'), mb_strtolower('LOGGING START','UTF-8'))) {
@@ -18864,30 +19666,30 @@ class Multiotp
       $integer_value = FALSE
   ) {
       $passphrase = $cipher_array['Password'];
-      $Secret = '';
+      $Secret = "";
       $cipher_aes = new Crypt_AES();
 
-      $encryption_method_tag = (isset($encrypted_tree->{$cipher_array['xenc_ns'].'encryptionmethod'})?$cipher_array['xenc_ns']:'').'encryptionmethod';
-      $encryption_method_algorithm_url = isset($encrypted_tree->{$encryption_method_tag}[0]->tagAttrs["algorithm"])?($encrypted_tree->{$encryption_method_tag}[0]->tagAttrs["algorithm"]):'';
-      $encryption_method_algorithm = (FALSE !== mb_strpos($encryption_method_algorithm_url,'#aes128-cbc'))?'aes128':((FALSE !== mb_strpos($encryption_method_algorithm_url,'#kw-aes128'))?'kw-ases128':'');
-      $cipher_data_tag = (isset($encrypted_tree->{$cipher_array['xenc_ns'].'cipherdata'})?$cipher_array['xenc_ns']:'').'cipherdata';
-      $cipher_value_tag = (isset($encrypted_tree->{$cipher_data_tag}[0]->{$cipher_array['xenc_ns'].'ciphervalue'})?$cipher_array['xenc_ns']:'').'ciphervalue';
-      $cipher_value = isset($encrypted_tree->{$cipher_data_tag}[0]->{$cipher_value_tag}[0]->tagData)?($encrypted_tree->{$cipher_data_tag}[0]->{$cipher_value_tag}[0]->tagData):'';
+      $encryption_method_tag = (isset($encrypted_tree->{$cipher_array['xenc_ns'].'encryptionmethod'})?$cipher_array['xenc_ns']:"").'encryptionmethod';
+      $encryption_method_algorithm_url = isset($encrypted_tree->{$encryption_method_tag}[0]->tagAttrs["algorithm"])?($encrypted_tree->{$encryption_method_tag}[0]->tagAttrs["algorithm"]):"";
+      $encryption_method_algorithm = (FALSE !== mb_strpos($encryption_method_algorithm_url,'#aes128-cbc'))?'aes128':((FALSE !== mb_strpos($encryption_method_algorithm_url,'#kw-aes128'))?'kw-ases128':"");
+      $cipher_data_tag = (isset($encrypted_tree->{$cipher_array['xenc_ns'].'cipherdata'})?$cipher_array['xenc_ns']:"").'cipherdata';
+      $cipher_value_tag = (isset($encrypted_tree->{$cipher_data_tag}[0]->{$cipher_array['xenc_ns'].'ciphervalue'})?$cipher_array['xenc_ns']:"").'ciphervalue';
+      $cipher_value = isset($encrypted_tree->{$cipher_data_tag}[0]->{$cipher_value_tag}[0]->tagData)?($encrypted_tree->{$cipher_data_tag}[0]->{$cipher_value_tag}[0]->tagData):"";
 
-      if ('' != $passphrase) {
+      if ("" != $passphrase) {
           for ($tries = 0; $tries < 3; $tries++) {
-              if ('' == $cipher_array['KeyDerivationMethodAlgorithm']) {
+              if ("" == $cipher_array['KeyDerivationMethodAlgorithm']) {
                   $cipher_aes->setKey($passphrase);
                   $Secret = (mb_substr($cipher_aes->decrypt(base64_decode($cipher_value)),16));
-                  if ('' == $Secret) {
-                      $cipher_aes->setKey(hex2bin(preg_replace("/[^A-Fa-f0-9]/", '', $passphrase)));
+                  if ("" == $Secret) {
+                      $cipher_aes->setKey(hex2bin(preg_replace("/[^A-Fa-f0-9]/", "", $passphrase)));
                       $Secret = (mb_substr($cipher_aes->decrypt(base64_decode($cipher_value)),16));
                   }
               } elseif ('pkcs5' == $cipher_array['KeyDerivationMethodAlgorithm']) {
                   $cipher_aes->setPassword($passphrase, 'pbkdf2', 'sha1', $cipher_array['Salt'], $cipher_array['IterationCount'], $cipher_array['KeyLength']);
                   $Secret = (mb_substr($cipher_aes->decrypt(base64_decode($cipher_value)),16));
               }
-              if ('' != $Secret) {
+              if ("" != $Secret) {
                   break;
               } elseif (0 == $tries) {
                   $passphrase = nullable_trim($passphrase);
@@ -18898,7 +19700,7 @@ class Multiotp
               }
           }
       }
-      if (('' != $Secret) && ($integer_value)) {
+      if (("" != $Secret) && ($integer_value)) {
           $value = 0;
           for( $i = 0; $i < mb_strlen($Secret); $i++ ) {
               $value = ($value << 8) | ord($Secret[$i]);
@@ -18911,13 +19713,13 @@ class Multiotp
   
   function ImportTokensFromPskc(
       $pskc_file,
-      $cipher_password = '',
-      $keymac = ''
+      $cipher_password = "",
+      $keymac = ""
   ) {
       $this->ResetLastImportedTokensArray();
       $result = TRUE;
       if (!file_exists($pskc_file)) {
-          $this->WriteLog("Error: Tokens definition file ".$pskc_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: Tokens definition file ".$pskc_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
           $result = FALSE;
       } else {
           //Get the XML document loaded into a variable
@@ -18929,34 +19731,34 @@ class Multiotp
           //Parse it !
           $xml->Parse();
 
-          $ds_ns = '';
-          $pkcs5_ns = '';
-          $pskc_ns = '';
-          $xenc_ns = '';
-          $xenc11_ns = '';
+          $ds_ns = "";
+          $pkcs5_ns = "";
+          $pskc_ns = "";
+          $xenc_ns = "";
+          $xenc11_ns = "";
 
           if (isset($xml->document)) {
               $keycontainer = $xml->document;
               foreach ($keycontainer->tagAttrs as $attribute_key => $attribute_value) {
                   if ('http://www.w3.org/2000/09/xmldsig#' == $attribute_value) {
                       $ds_ns = mb_substr($attribute_key,mb_strpos($attribute_key,':')+1);
-                      $ds_ns.= ('' != $ds_ns)?':':'';
+                      $ds_ns.= ("" != $ds_ns)?':':"";
                   }
                   if ('http://www.rsasecurity.com/rsalabs/pkcs/schemas/pkcs-5v2-0#' == $attribute_value) {
                       $pkcs5_ns = mb_substr($attribute_key,mb_strpos($attribute_key,':')+1);
-                      $pkcs5_ns.= ('' != $pkcs5_ns)?'_':'';
+                      $pkcs5_ns.= ("" != $pkcs5_ns)?'_':"";
                   }
                   if ('urn:ietf:params:xml:ns:keyprov:pskc' == $attribute_value) {
                       $pskc_ns = mb_substr($attribute_key,mb_strpos($attribute_key,':')+1);
-                      $pskc_ns.= ('' != $pskc_ns)?'_':'';
+                      $pskc_ns.= ("" != $pskc_ns)?'_':"";
                   }
                   if ('http://www.w3.org/2001/04/xmlenc#' == $attribute_value) {
                       $xenc_ns = mb_substr($attribute_key,mb_strpos($attribute_key,':')+1);
-                      $xenc_ns.= ('' != $xenc_ns)?'_':'';
+                      $xenc_ns.= ("" != $xenc_ns)?'_':"";
                   }
                   if ('http://www.w3.org/2009/xmlenc11#' == $attribute_value) {
                       $xenc11_ns = mb_substr($attribute_key,mb_strpos($attribute_key,':')+1);
-                      $xenc11_ns.= ('' != $xenc11_ns)?'_':'';
+                      $xenc11_ns.= ("" != $xenc11_ns)?'_':"";
                   }
               }
 
@@ -18964,14 +19766,14 @@ class Multiotp
               $CipherArray['Password'] = $cipher_password;
               $CipherArray['xenc_ns'] = $xenc_ns;
 
-              $EncryptionKey_tag = (isset($keycontainer->{$pskc_ns.'encryptionkey'})?$pskc_ns:'').'encryptionkey';
-              $DerivedKey_tag = (isset($keycontainer->{$EncryptionKey_tag}[0]->{$xenc11_ns.'derivedkey'})?$xenc11_ns:'').'derivedkey';
-              $KeyDerivationMethod_tag = (isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$xenc11_ns.'keyderivationmethod'})?$xenc11_ns:'').'keyderivationmethod';
-              $KeyDerivationMethodAlgorithmUrl = isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->tagAttrs["algorithm"])?($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->tagAttrs["algorithm"]):'';
-              $CipherArray['KeyDerivationMethodAlgorithm'] = ((FALSE !== mb_strpos($KeyDerivationMethodAlgorithmUrl,'#pbkdf2'))?'pkcs5':'');
+              $EncryptionKey_tag = (isset($keycontainer->{$pskc_ns.'encryptionkey'})?$pskc_ns:"").'encryptionkey';
+              $DerivedKey_tag = (isset($keycontainer->{$EncryptionKey_tag}[0]->{$xenc11_ns.'derivedkey'})?$xenc11_ns:"").'derivedkey';
+              $KeyDerivationMethod_tag = (isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$xenc11_ns.'keyderivationmethod'})?$xenc11_ns:"").'keyderivationmethod';
+              $KeyDerivationMethodAlgorithmUrl = isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->tagAttrs["algorithm"])?($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->tagAttrs["algorithm"]):"";
+              $CipherArray['KeyDerivationMethodAlgorithm'] = ((FALSE !== mb_strpos($KeyDerivationMethodAlgorithmUrl,'#pbkdf2'))?'pkcs5':"");
               // http://www.rsasecurity.com/rsalabs/pkcs/schemas/pkcs-5v2-0#pbkdf2
               // http://www.rsasecurity.com/rsalabs/pkcs/schemas/pkcs-5#pbkdf2
-              $CipherArray['Salt'] = '';
+              $CipherArray['Salt'] = "";
               $CipherArray['IterationCount'] = 0;
               $CipherArray['KeyLength'] = 0;
               if ('pkcs5' == $CipherArray['KeyDerivationMethodAlgorithm']) {
@@ -19016,7 +19818,7 @@ class Multiotp
                   }
                   $keylength_tag = $search_tag;
 
-                  $CipherArray['Salt'] = base64_decode(isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$salt_tag}[0]->{$salt_specified_tag}[0]->tagData)?($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$salt_tag}[0]->{$salt_specified_tag}[0]->tagData):'');
+                  $CipherArray['Salt'] = base64_decode(isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$salt_tag}[0]->{$salt_specified_tag}[0]->tagData)?($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$salt_tag}[0]->{$salt_specified_tag}[0]->tagData):"");
                   $CipherArray['IterationCount'] = intval(isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$iterationcount_tag}[0]->tagData)?($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$iterationcount_tag}[0]->tagData):0);
                   $CipherArray['KeyLength'] = intval(isset($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$keylength_tag}[0]->tagData)?($keycontainer->{$EncryptionKey_tag}[0]->{$DerivedKey_tag}[0]->{$KeyDerivationMethod_tag}[0]->{$pbkdf2_params_tag}[0]->{$keylength_tag}[0]->tagData):0);
               }
@@ -19034,91 +19836,91 @@ class Multiotp
               // Extract each key
               // foreach ($keycontainer[0][$KeyPackage_tag] as $keypackage) // this is not working well in PHP4
               foreach ($keycontainer->{$KeyPackage_tag} as $keypackage_key => $keypackage) {
-                  $DeviceInfo_tag = (isset($keypackage->{$pskc_ns.'deviceinfo'})?$pskc_ns:'').'deviceinfo';
+                  $DeviceInfo_tag = (isset($keypackage->{$pskc_ns.'deviceinfo'})?$pskc_ns:"").'deviceinfo';
                   
-                  $Manufacturer_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'manufacturer'})?$pskc_ns:'').'manufacturer';
-                  $Manufacturer = (isset($keypackage->{$DeviceInfo_tag}[0]->{$Manufacturer_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$Manufacturer_tag}[0]->tagData):'');
+                  $Manufacturer_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'manufacturer'})?$pskc_ns:"").'manufacturer';
+                  $Manufacturer = (isset($keypackage->{$DeviceInfo_tag}[0]->{$Manufacturer_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$Manufacturer_tag}[0]->tagData):"");
                   
-                  $SerialNo_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'serialno'})?$pskc_ns:'').'serialno';
-                  $SerialNo = (isset($keypackage->{$DeviceInfo_tag}[0]->{$SerialNo_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$SerialNo_tag}[0]->tagData):'');
+                  $SerialNo_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'serialno'})?$pskc_ns:"").'serialno';
+                  $SerialNo = (isset($keypackage->{$DeviceInfo_tag}[0]->{$SerialNo_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$SerialNo_tag}[0]->tagData):"");
 
-                  $Model_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'model'})?$pskc_ns:'').'model';
-                  $Model = (isset($keypackage->{$DeviceInfo_tag}[0]->{$Model_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$Model_tag}[0]->tagData):'');
+                  $Model_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'model'})?$pskc_ns:"").'model';
+                  $Model = (isset($keypackage->{$DeviceInfo_tag}[0]->{$Model_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$Model_tag}[0]->tagData):"");
                   
-                  $IssueNo_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'issueno'})?$pskc_ns:'').'issueno';
-                  $IssueNo = (isset($keypackage->{$DeviceInfo_tag}[0]->{$IssueNo_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$IssueNo_tag}[0]->tagData):'');
+                  $IssueNo_tag = (isset($keypackage->{$DeviceInfo_tag}[0]->{$pskc_ns.'issueno'})?$pskc_ns:"").'issueno';
+                  $IssueNo = (isset($keypackage->{$DeviceInfo_tag}[0]->{$IssueNo_tag}[0]->tagData)?($keypackage->{$DeviceInfo_tag}[0]->{$IssueNo_tag}[0]->tagData):"");
                   
-                  $CryptoModuleInfo_tag = (isset($keypackage->{$pskc_ns.'cryptomoduleinfo'})?$pskc_ns:'').'cryptomoduleinfo';
+                  $CryptoModuleInfo_tag = (isset($keypackage->{$pskc_ns.'cryptomoduleinfo'})?$pskc_ns:"").'cryptomoduleinfo';
                   
-                  $CryptoId_tag = (isset($keypackage->{$CryptoModuleInfo_tag}[0]->{$pskc_ns.'id'})?$pskc_ns:'').'id';
-                  $CryptoId = (isset($keypackage->{$CryptoModuleInfo_tag}[0]->{$CryptoId_tag}[0]->tagData)?($keypackage->{$CryptoModuleInfo_tag}[0]->{$CryptoId_tag}[0]->tagData):'');
+                  $CryptoId_tag = (isset($keypackage->{$CryptoModuleInfo_tag}[0]->{$pskc_ns.'id'})?$pskc_ns:"").'id';
+                  $CryptoId = (isset($keypackage->{$CryptoModuleInfo_tag}[0]->{$CryptoId_tag}[0]->tagData)?($keypackage->{$CryptoModuleInfo_tag}[0]->{$CryptoId_tag}[0]->tagData):"");
 
-                  $Key_tag = (isset($keypackage->{$pskc_ns.'key'})?$pskc_ns:'').'key';
+                  $Key_tag = (isset($keypackage->{$pskc_ns.'key'})?$pskc_ns:"").'key';
                   
-                  $AlgorithmUrl = isset($keypackage->{$Key_tag}[0]->tagAttrs["algorithm"])?($keypackage->{$Key_tag}[0]->tagAttrs["algorithm"]):'';
-                  $Algorithm = (FALSE !== mb_strpos($AlgorithmUrl,'hotp'))?'hotp':((FALSE !== mb_strpos($AlgorithmUrl,'totp'))?'totp':'');
-                  // $Algorithm = (FALSE !== mb_strpos($AlgorithmUrl,'hotp'))?'hotp':((FALSE !== mb_strpos($AlgorithmUrl,'totp'))?'totp':((FALSE !== mb_strpos($AlgorithmUrl,'ocra'))?'ocra':''));
+                  $AlgorithmUrl = isset($keypackage->{$Key_tag}[0]->tagAttrs["algorithm"])?($keypackage->{$Key_tag}[0]->tagAttrs["algorithm"]):"";
+                  $Algorithm = (FALSE !== mb_strpos($AlgorithmUrl,'hotp'))?'hotp':((FALSE !== mb_strpos($AlgorithmUrl,'totp'))?'totp':"");
+                  // $Algorithm = (FALSE !== mb_strpos($AlgorithmUrl,'hotp'))?'hotp':((FALSE !== mb_strpos($AlgorithmUrl,'totp'))?'totp':((FALSE !== mb_strpos($AlgorithmUrl,'ocra'))?'ocra':""));
 
-                  $KeyId = isset($keypackage->{$Key_tag}[0]->tagAttrs["id"])?($keypackage->{$Key_tag}[0]->tagAttrs["id"]):'';
+                  $KeyId = isset($keypackage->{$Key_tag}[0]->tagAttrs["id"])?($keypackage->{$Key_tag}[0]->tagAttrs["id"]):"";
                   
-                  $Issuer_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'issuer'})?$pskc_ns:'').'issuer';
-                  $Issuer = (isset($keypackage->{$Key_tag}[0]->{$Issuer_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Issuer_tag}[0]->tagData):'');
+                  $Issuer_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'issuer'})?$pskc_ns:"").'issuer';
+                  $Issuer = (isset($keypackage->{$Key_tag}[0]->{$Issuer_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Issuer_tag}[0]->tagData):"");
                   
-                  $AlgorithmParameters_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'algorithmparameters'})?$pskc_ns:'').'algorithmparameters';
+                  $AlgorithmParameters_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'algorithmparameters'})?$pskc_ns:"").'algorithmparameters';
                   
-                  $Suite_tag = (isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$pskc_ns.'suite'})?$pskc_ns:'').'suite';
+                  $Suite_tag = (isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$pskc_ns.'suite'})?$pskc_ns:"").'suite';
                   $Suite = (isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$Suite_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$Suite_tag}[0]->tagData):'HMAC-SHA1');
-                  $ResponseFormat_tag = (isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$pskc_ns.'responseformat'})?$pskc_ns:'').'responseformat';
+                  $ResponseFormat_tag = (isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$pskc_ns.'responseformat'})?$pskc_ns:"").'responseformat';
                   $Length = isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$ResponseFormat_tag}[0]->tagAttrs["length"])?($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$ResponseFormat_tag}[0]->tagAttrs["length"]):0;
                   $Encoding = isset($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$ResponseFormat_tag}[0]->tagAttrs["encoding"])?($keypackage->{$Key_tag}[0]->{$AlgorithmParameters_tag}[0]->{$ResponseFormat_tag}[0]->tagAttrs["encoding"]):'DECIMAL';
                   
-                  $Data_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'data'})?$pskc_ns:'').'data';
+                  $Data_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'data'})?$pskc_ns:"").'data';
                   
-                  $Secret_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'secret'})?$pskc_ns:'').'secret';
-                  $SecretPlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:'').'plainvalue';
-                  $Secret = base64_decode(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$SecretPlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$SecretPlainValue_tag}[0]->tagData):'');
-                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:'').'encryptedvalue';
+                  $Secret_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'secret'})?$pskc_ns:"").'secret';
+                  $SecretPlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:"").'plainvalue';
+                  $Secret = base64_decode(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$SecretPlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$SecretPlainValue_tag}[0]->tagData):"");
+                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:"").'encryptedvalue';
                   if (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$EncryptedValue_tag}[0])) {
                       $SecretEncryptedPath = $keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Secret_tag}[0]->{$EncryptedValue_tag}[0];
                       $Secret = $this->DecodeCipherValue($SecretEncryptedPath, $CipherArray);
                   }
                   
-                  $Counter_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'counter'})?$pskc_ns:'').'counter';
-                  $CounterPlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:'').'plainvalue';
+                  $Counter_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'counter'})?$pskc_ns:"").'counter';
+                  $CounterPlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:"").'plainvalue';
                   $Counter = intval(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$CounterPlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$CounterPlainValue_tag}[0]->tagData):0);
-                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:'').'encryptedvalue';
+                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:"").'encryptedvalue';
                   if (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$EncryptedValue_tag}[0])) {
                     $CounterEncryptedPath = $keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Counter_tag}[0]->{$EncryptedValue_tag}[0];
                     $Counter = intval($this->DecodeCipherValue($CounterEncryptedPath, $CipherArray, TRUE));
                   }
 
-                  $Time_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'time'})?$pskc_ns:'').'time';
-                  $TimePlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:'').'plainvalue';
-                  $Time = intval(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$TimePlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$TimePlainValue_tag}[0]->tagData):'');
-                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:'').'encryptedvalue';
+                  $Time_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'time'})?$pskc_ns:"").'time';
+                  $TimePlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:"").'plainvalue';
+                  $Time = intval(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$TimePlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$TimePlainValue_tag}[0]->tagData):"");
+                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:"").'encryptedvalue';
                   if (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$EncryptedValue_tag}[0])) {
                     $TimeEncryptedPath = $keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$Time_tag}[0]->{$EncryptedValue_tag}[0];
                     $Time = intval($this->DecodeCipherValue($TimeEncryptedPath, $CipherArray, TRUE));
                   }
                   
-                  $TimeInterval_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'timeinterval'})?$pskc_ns:'').'timeinterval';
-                  $TimeIntervalPlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:'').'plainvalue';
-                  $TimeInterval = intval(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$TimeIntervalPlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$TimeIntervalPlainValue_tag}[0]->tagData):$this->_default_time_interval);
-                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:'').'encryptedvalue';
+                  $TimeInterval_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$pskc_ns.'timeinterval'})?$pskc_ns:"").'timeinterval';
+                  $TimeIntervalPlainValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$pskc_ns.'plainvalue'})?$pskc_ns:"").'plainvalue';
+                  $TimeInterval = intval(isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$TimeIntervalPlainValue_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$TimeIntervalPlainValue_tag}[0]->tagData):_MULTIOTP_DEFAULT_TOTP_INTERVAL_);
+                  $EncryptedValue_tag = (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$pskc_ns.'encryptedvalue'})?$pskc_ns:"").'encryptedvalue';
                   if (isset($keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$EncryptedValue_tag}[0])) {
                     $TimeIntervalEncryptedPath = $keypackage->{$Key_tag}[0]->{$Data_tag}[0]->{$TimeInterval_tag}[0]->{$EncryptedValue_tag}[0];
                     $TimeInterval = intval($this->DecodeCipherValue($TimeIntervalEncryptedPath, $CipherArray, TRUE));
                   }
 
-                  $Policy_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'policy'})?$pskc_ns:'').'policy';
+                  $Policy_tag = (isset($keypackage->{$Key_tag}[0]->{$pskc_ns.'policy'})?$pskc_ns:"").'policy';
 
-                  $PINPolicy_tag = (isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$pskc_ns.'pinpolicy'})?$pskc_ns:'').'pinpolicy';
-                  $PINPolicyAttributes = isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$PINPolicy_tag}[0]->tagAttrs[0])?($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$PINPolicy_tag}[0]->tagAttrs):'';
+                  $PINPolicy_tag = (isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$pskc_ns.'pinpolicy'})?$pskc_ns:"").'pinpolicy';
+                  $PINPolicyAttributes = isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$PINPolicy_tag}[0]->tagAttrs[0])?($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$PINPolicy_tag}[0]->tagAttrs):"";
 
-                  $keyusage_tag = (isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$pskc_ns.'keyusage'})?$pskc_ns:'').'keyusage';
-                  $keyusage = isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$keyusage_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$keyusage_tag}[0]->tagData):'';
+                  $keyusage_tag = (isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$pskc_ns.'keyusage'})?$pskc_ns:"").'keyusage';
+                  $keyusage = isset($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$keyusage_tag}[0]->tagData)?($keypackage->{$Key_tag}[0]->{$Policy_tag}[0]->{$keyusage_tag}[0]->tagData):"";
 
-                  $SerialNumber = (('' == $SerialNo)?$KeyId:$SerialNo);
+                  $SerialNumber = (("" == $SerialNo)?$KeyId:$SerialNo);
 
                   /*
                   if ((FALSE !== mb_strpos($KeyId, $SerialNo)) && (mb_strlen($KeyId) > mb_strlen($SerialNo))) {
@@ -19127,7 +19929,7 @@ class Multiotp
                   */
 
                   if (("" == $keyusage) || ("OTP" == $keyusage)) {
-                      if ((('hotp' == $Algorithm) || ('totp' == $Algorithm)) && ('' != $SerialNo) && ('' != $Secret)) {
+                      if ((('hotp' == $Algorithm) || ('totp' == $Algorithm)) && ("" != $SerialNo) && ("" != $Secret)) {
                           $this->SetToken($SerialNumber);
                           $this->SetTokenDescription(nullable_trim(nullable_trim($Manufacturer.' '.$Model).' '.$SerialNo));
                           $this->SetTokenManufacturer($Manufacturer);
@@ -19153,25 +19955,25 @@ class Multiotp
                           $this->SetTokenTimeInterval($TimeInterval);
                           $this->SetTokenSeed(nullable_bin2hex($Secret));
                           
-                          if ($this->CheckTokenExists('', false)) {
-                              $this->WriteLog("Info: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                          if ($this->CheckTokenExists("", false)) {
+                              $this->WriteLog("Info: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                           } else {
                               $result = $this->WriteTokenData() && $result;
                               $this->AddLastImportedToken($this->GetToken());
-                              $this->WriteLog("Info: Token with SerialNo ".$SerialNo." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                              $this->WriteLog("Info: Token with SerialNo ".$SerialNo." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                           }
                           if ($this->GetVerboseFlag()) {
-                              $full_token_data = '';
+                              $full_token_data = "";
                               foreach ($this->_token_data as $key => $value) {
-                                  if ('' != $value) {
+                                  if ("" != $value) {
                                       $full_token_data = $full_token_data."  Token ".$SerialNo." - ".$key.": ".$value."\n";
                                   }
                               }
-                              $this->WriteLog("Debug: *".$full_token_data, FALSE, FALSE, 8888, 'Debug', '');
+                              $this->WriteLog("Debug: *".$full_token_data, FALSE, FALSE, 8888, 'Debug', "");
                           }
                       } elseif (('hotp' == $Algorithm) || ('totp' == $Algorithm)) {
                           $result = FALSE;
-                          $this->WriteLog("Info: Token with SerialNo ".$SerialNo." failed during importation", FALSE, FALSE, 32, 'Token', '');
+                          $this->WriteLog("Info: Token with SerialNo ".$SerialNo." failed during importation", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORT_ERROR_, 'Token', "");
                       }
                   }
               }
@@ -19209,7 +20011,7 @@ class Multiotp
       $this->ResetTokenArray();
       $this->ResetLastImportedTokensArray();
       if (!file_exists($yubikey_file)) {
-          $this->WriteLog("Error: YubiKeys log file ".$yubikey_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: YubiKeys log file ".$yubikey_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
           $result = FALSE;
       } else {
           //Get the document loaded into a variable
@@ -19267,7 +20069,7 @@ class Multiotp
                           $time_interval = 0;
                       }
                       
-                      if ('' != $algorithm) {
+                      if ("" != $algorithm) {
                           $this->SetToken($esn);
                           $this->SetTokenPrivateId($private_id);
                           $this->SetTokenDescription(nullable_trim($manufacturer.' '.$esn));
@@ -19282,16 +20084,16 @@ class Multiotp
 
                           $imported_tokens++;
                           
-                          if ('' == $esn) {
-                              $this->WriteLog("Error: A token doesn't have any serial number", FALSE, FALSE, 32, 'Token', '');
+                          if ("" == $esn) {
+                              $this->WriteLog("Error: A token doesn't have any serial number", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
                           } elseif (!$this->IsValidAlgorithm($algorithm)) {
-                              $this->WriteLog("Error: The algorithm ".$algorithm." is not recognized", FALSE, FALSE, 32, 'Token', '');
-                          } elseif ($this->CheckTokenExists('', false)) {
-                              $this->WriteLog("Info: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                              $this->WriteLog("Error: The algorithm ".$algorithm." is not recognized", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
+                          } elseif ($this->CheckTokenExists("", false)) {
+                              $this->WriteLog("Info: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                           } else {
                               $result = $this->WriteTokenData() && $result;
                               $this->AddLastImportedToken($this->GetToken());
-                              $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                              $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                           }
                           $this->ResetTokenArray();
                       }
@@ -19315,7 +20117,7 @@ class Multiotp
       $this->ResetTokenArray();
       $this->ResetLastImportedTokensArray();
       if (!file_exists($csv_file)) {
-          $this->WriteLog("Error: Tokens definition file ".$csv_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: Tokens definition file ".$csv_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
           $result = FALSE;
       } else {
           //Get the document loaded into a variable
@@ -19360,23 +20162,23 @@ class Multiotp
 
                       $imported_tokens++;
                       
-                      if ('' == $esn) {
-                          $this->WriteLog("Error: A token doesn't have any serial number", FALSE, FALSE, 32, 'Token', '');
+                      if ("" == $esn) {
+                          $this->WriteLog("Error: A token doesn't have any serial number", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORT_ERROR_, 'Token', "");
                       } elseif (!$this->IsValidAlgorithm($algorithm)) {
-                          $this->WriteLog("Error: The algorithm ".$algorithm." is not recognized", FALSE, FALSE, 32, 'Token', '');
-                      } elseif ($this->CheckTokenExists('', false)) {
-                          $this->WriteLog("Info: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                          $this->WriteLog("Error: The algorithm ".$algorithm." is not recognized", FALSE, FALSE, _MULTIOTP_BAD_ALGORITHM_, 'Token', "");
+                      } elseif ($this->CheckTokenExists("", false)) {
+                          $this->WriteLog("Info: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                       } else {
                           $result = $this->WriteTokenData() && $result;
                           $this->AddLastImportedToken($this->GetToken());
-                          $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                          $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                       }
                       $this->ResetTokenArray();
                   }
               }
               fclose($file_handler);
           } else {
-              $this->WriteLog("Error: Tokens definition file ".$csv_file." cannot be read", FALSE, FALSE, 29, 'Token', '');
+              $this->WriteLog("Error: Tokens definition file ".$csv_file." cannot be read", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token', "");
               $result = FALSE;
           }
       }
@@ -19393,7 +20195,7 @@ class Multiotp
       $this->ResetLastImportedTokensArray();
       $result = TRUE;
       if (!file_exists($xml_file)) {
-          $this->WriteLog("Error: Tokens definition file ".$xml_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: Tokens definition file ".$xml_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_, 'Token', "");
           $result = FALSE;
       } else {
           // http://tools.ietf.org/html/draft-hoyer-keyprov-pskc-algorithm-profiles-00
@@ -19412,44 +20214,44 @@ class Multiotp
           
           if (isset($xml->document->keyproperties)) {
               foreach ($xml->document->keyproperties as $keyproperty) {
-                  $id = (isset($keyproperty->tagAttrs['xml:id'])?$keyproperty->tagAttrs['xml:id']:'');
+                  $id = (isset($keyproperty->tagAttrs['xml:id'])?$keyproperty->tagAttrs['xml:id']:"");
                   
-                  if ('' != $id) {
+                  if ("" != $id) {
                       $key_types[$id]['id'] = $id;
-                      $key_types[$id]['issuer'] = (isset($keyproperty->issuer[0]->tagData)?$keyproperty->issuer[0]->tagData:'');
-                      $key_types[$id]['keyalgorithm'] = (isset($keyproperty->tagAttrs['keyalgorithm'])?$keyproperty->tagAttrs['keyalgorithm']:'');
+                      $key_types[$id]['issuer'] = (isset($keyproperty->issuer[0]->tagData)?$keyproperty->issuer[0]->tagData:"");
+                      $key_types[$id]['keyalgorithm'] = (isset($keyproperty->tagAttrs['keyalgorithm'])?$keyproperty->tagAttrs['keyalgorithm']:"");
                       $pos = strrpos($key_types[$id]['keyalgorithm'], "#");
-                      $key_types[$id]['algorithm'] = (($pos === false)?'':mb_strtolower(mb_substr($key_types[$id]['keyalgorithm'], $pos+1),'UTF-8'));
-                      $key_types[$id]['otp'] = (isset($keyproperty->usage[0]->tagAttrs['otp'])?$keyproperty->usage[0]->tagAttrs['otp']:'');
-                      $key_types[$id]['format'] = (isset($keyproperty->usage[0]->responseformat[0]->tagAttrs['format'])?$keyproperty->usage[0]->responseformat[0]->tagAttrs['format']:'');
+                      $key_types[$id]['algorithm'] = (($pos === false)?"":mb_strtolower(mb_substr($key_types[$id]['keyalgorithm'], $pos+1),'UTF-8'));
+                      $key_types[$id]['otp'] = (isset($keyproperty->usage[0]->tagAttrs['otp'])?$keyproperty->usage[0]->tagAttrs['otp']:"");
+                      $key_types[$id]['format'] = (isset($keyproperty->usage[0]->responseformat[0]->tagAttrs['format'])?$keyproperty->usage[0]->responseformat[0]->tagAttrs['format']:"");
                       $key_types[$id]['length'] = (isset($keyproperty->usage[0]->responseformat[0]->tagAttrs['length'])?$keyproperty->usage[0]->responseformat[0]->tagAttrs['length']:-1);
                       $key_types[$id]['counter'] = (isset($keyproperty->data[0]->counter[0]->plainvalue[0]->tagData)?$keyproperty->data[0]->counter[0]->plainvalue[0]->tagData:-1);
                       $key_types[$id]['time'] = (isset($keyproperty->data[0]->time[0]->plainvalue[0]->tagData)?$keyproperty->data[0]->time[0]->plainvalue[0]->tagData:-1);
                       $key_types[$id]['timeinterval'] = (isset($keyproperty->data[0]->timeinterval[0]->plainvalue[0]->tagData)?$keyproperty->data[0]->timeinterval[0]->plainvalue[0]->tagData:-1);
-                      $key_types[$id]['suite'] = (isset($keyproperty->data[0]->suite[0]->plainvalue[0]->tagData)?$keyproperty->data[0]->suite[0]->plainvalue[0]->tagData:'');
+                      $key_types[$id]['suite'] = (isset($keyproperty->data[0]->suite[0]->plainvalue[0]->tagData)?$keyproperty->data[0]->suite[0]->plainvalue[0]->tagData:"");
                   }
               }
           }
           
           if (isset($xml->document->device)) {
               foreach ($xml->document->device as $device) {
-                  $keyid = (isset($device->key[0]->tagAttrs['keyid'])?$device->key[0]->tagAttrs['keyid']:'');
-                  if ('' != $keyid) {
+                  $keyid = (isset($device->key[0]->tagAttrs['keyid'])?$device->key[0]->tagAttrs['keyid']:"");
+                  if ("" != $keyid) {
                       $this->ResetTokenArray();                        
-                      $keyproperties = '';
-                      $manufacturer = '';
-                      $serialno = '';
-                      $issuer = '';
-                      $keyalgorithm = '';
-                      $algorithm = '';
-                      $otp = '';
-                      $format = '';
+                      $keyproperties = "";
+                      $manufacturer = "";
+                      $serialno = "";
+                      $issuer = "";
+                      $keyalgorithm = "";
+                      $algorithm = "";
+                      $otp = "";
+                      $format = "";
                       $length = 0;
                       $counter = -1;
                       $time = 0;
                       $timeinterval = 0;
-                      $secret = '';
-                      $suite = '';
+                      $secret = "";
+                      $suite = "";
                       
                       if (isset($device->key[0]->tagAttrs['keyproperties'])) {
                           $keyproperties = $device->key[0]->tagAttrs['keyproperties'];
@@ -19483,7 +20285,7 @@ class Multiotp
                           $secret = nullable_bin2hex(base64_decode($device->key[0]->data[0]->secret[0]->plainvalue[0]->tagData));
                       }
 
-                      if ('' == nullable_trim($serialno)) {
+                      if ("" == nullable_trim($serialno)) {
                           $serialno = nullable_trim($keyid);
                       }
                       $this->SetToken($serialno);
@@ -19506,21 +20308,21 @@ class Multiotp
                       $this->SetTokenTimeInterval($timeinterval);
                       $this->SetTokenSeed($secret);
                       
-                      if ($this->CheckTokenExists('', false)) {
-                          $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                      if ($this->CheckTokenExists("", false)) {
+                          $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                       } else {
                           $result = $this->WriteTokenData() && $result;
                           $this->AddLastImportedToken($this->GetToken());
-                          $this->WriteLog("Info: Token with keyid ".$keyid." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                          $this->WriteLog("Info: Token with keyid ".$keyid." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                       }
                       if ($this->GetVerboseFlag()) {
-                          $full_token_data = '';
+                          $full_token_data = "";
                           foreach ($this->_token_data as $key => $value) {
-                              if ('' != $value) {
+                              if ("" != $value) {
                                   $full_token_data = $full_token_data."  Token ".$keyid." - ".$key.": ".$value."\n";
                               }
                           }
-                          $this->WriteLog("Debug: *".$full_token_data, FALSE, FALSE, 8888, 'Debug', '');
+                          $this->WriteLog("Debug: *".$full_token_data, FALSE, FALSE, 8888, 'Debug', "");
                       }
                   }
               }
@@ -19536,7 +20338,7 @@ class Multiotp
       $this->ResetLastImportedTokensArray();
       $result = TRUE;
       if (!file_exists($xml_file)) {
-          $this->WriteLog("Error: Tokens definition file ".$xml_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: Tokens definition file ".$xml_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
           $result = FALSE;
       } else {
           $sXmlData = @file_get_contents($xml_file);
@@ -19551,8 +20353,8 @@ class Multiotp
           $key_types = array();
           if (isset($xml->document->token)) {
               foreach ($xml->document->token as $token) {
-                  $serial = (isset($token->tagAttrs['serial'])?$token->tagAttrs['serial']:'');
-                  if ('' != $serial) {
+                  $serial = (isset($token->tagAttrs['serial'])?$token->tagAttrs['serial']:"");
+                  if ("" != $serial) {
                       $this->ResetTokenArray();                        
                       $manufacturer = 'SafeWord';
                       $serialno = $serial;
@@ -19562,7 +20364,7 @@ class Multiotp
                       $counter = 0;
                       $time = 0;
                       $timeinterval = 0;
-                      $secret = '';
+                      $secret = "";
                       
                       if (isset($token->applications[0]->application[0]->seed[0]->tagData)) {
                           $secret = $token->applications[0]->application[0]->seed[0]->tagData;
@@ -19579,13 +20381,13 @@ class Multiotp
                       $this->SetTokenTimeInterval($timeinterval);
                       $this->SetTokenSeed($secret);
                       
-                      if ($this->CheckTokenExists('', false)) {
-                          $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                      if ($this->CheckTokenExists("", false)) {
+                          $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                       } else {
                           $result = $this->WriteTokenData() && $result;
                           $this->AddLastImportedToken($this->GetToken());
                           
-                          $this->WriteLog("Info: Token with serial number ".$serialno." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                          $this->WriteLog("Info: Token with serial number ".$serialno." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                       }
                   }
               }
@@ -19603,7 +20405,7 @@ class Multiotp
       $this->ResetLastImportedTokensArray();
       $result = TRUE;
       if (!file_exists($data_file)) {
-          $this->WriteLog("Error: Tokens definition file ".$data_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: Tokens definition file ".$data_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
           $result = FALSE;
       } else {
           // SafeWord Authenticator Records
@@ -19624,7 +20426,7 @@ class Multiotp
                       $line = nullable_trim(fgets($file_handler));
                       $line_array = explode(":",$line,2);
                       $line_array[0] = nullable_trim($line_array[0]);
-                      $line_array[1] = nullable_trim((isset($line_array[1])?$line_array[1]:''));
+                      $line_array[1] = nullable_trim((isset($line_array[1])?$line_array[1]:""));
 
                       switch (mb_strtolower($line_array[0],'UTF-8')) {
                           case '# ===== safeword authenticator records $version':
@@ -19647,7 +20449,7 @@ class Multiotp
                               foreach ($data_array as $data_one) {
                                   $attribute_array = explode("=",$data_one,2);
                                   $attribute_array[0] = nullable_trim($attribute_array[0]);
-                                  $attribute_array[1] = nullable_trim((isset($attribute_array[1])?$attribute_array[1]:''));
+                                  $attribute_array[1] = nullable_trim((isset($attribute_array[1])?$attribute_array[1]:""));
                                   switch (mb_strtolower($attribute_array[0],'UTF-8')) {
                                       case 'scckey':
                                           $sccKey = $attribute_array[1];
@@ -19681,15 +20483,15 @@ class Multiotp
                               }
                               break;
                           case 'sccsignature':
-                              if ($this->CheckTokenExists('', false)) {
-                                  $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                              if ($this->CheckTokenExists("", false)) {
+                                  $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                               } else {
                                   $this->SetTokenManufacturer($manufacturer);
                                   $this->SetTokenIssuer($manufacturer);
                                   $this->SetTokenAlgorithm('HOTP');
                                   $result = $this->WriteTokenData() && $result;
                                   $this->AddLastImportedToken($this->GetToken());
-                                  $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                                  $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                               }
                               $this->ResetTokenArray();
                               break;
@@ -19711,7 +20513,7 @@ class Multiotp
       $this->ResetLastImportedTokensArray();
       $result = TRUE;
       if (!file_exists($data_file)) {
-          $this->WriteLog("Error: Tokens definition file ".$data_file." doesn't exist", FALSE, FALSE, 29, 'Token', '');
+          $this->WriteLog("Error: Tokens definition file ".$data_file." doesn't exist", FALSE, FALSE, _MULTIOTP_TOKEN_MISSING_FILE_, 'Token', "");
           $result = FALSE;
       } else {
           // Authenex Authenticator Records
@@ -19737,8 +20539,8 @@ class Multiotp
                           $token_line = str_replace(")",",",$line_array[2]);
                           $token_array = explode(",",$token_line);
                           if (isset($token_array[1])) {
-                              $esn  = preg_replace('#\W#', '', $token_array[0]);
-                              $seed = preg_replace('#\W#', '', $token_array[1]);
+                              $esn  = preg_replace('#\W#', "", $token_array[0]);
+                              $seed = preg_replace('#\W#', "", $token_array[1]);
                               $this->SetToken($esn);
                               $this->SetTokenDescription(nullable_trim($manufacturer.' '.$esn));
                               $this->SetTokenManufacturer($manufacturer);
@@ -19748,12 +20550,12 @@ class Multiotp
                               $this->SetTokenNumberOfDigits(6);
                               $this->SetTokenLastEvent(-1);
                           }
-                          if ($this->CheckTokenExists('', false)) {
-                              $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, 32, 'Token', '');
+                          if ($this->CheckTokenExists("", false)) {
+                              $this->WriteLog("Error: Token ".$this->GetToken()." already exists", FALSE, FALSE, _MULTIOTP_TOKEN_EXISTS_, 'Token', "");
                           } else {
                               $result = $this->WriteTokenData() && $result;
                               $this->AddLastImportedToken($this->GetToken());
-                              $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, 15, 'Token', '');
+                              $this->WriteLog("Info: Token ".$this->GetToken()." successfully imported", FALSE, FALSE, _MULTIOTP_TOKEN_IMPORTED_, 'Token', "");
                           }
                           $this->ResetTokenArray();
                       }
@@ -19812,23 +20614,23 @@ class Multiotp
    * @date    2016-10-03
    * @since   2013-12-23
    */
-  function CreateDevice($id_array = array('id' => ''),
-                        $description = '',
-                        $device_secret = '',
-                        $ip_or_fqdn = '',
-                        $subnet = '',
-                        $shortname = '',
+  function CreateDevice($id_array = array('id' => ""),
+                        $description = "",
+                        $device_secret = "",
+                        $ip_or_fqdn = "",
+                        $subnet = "",
+                        $shortname = "",
                         $with_radius_update = TRUE,
                         $challenge_response_enabled = 0,
-                        $text_token_challenge = '',
+                        $text_token_challenge = "",
                         $sms_challenge_enabled = 0,
-                        $text_sms_challenge = '',
+                        $text_sms_challenge = "",
                         $cache_result_enabled = 0,
                         $cache_timeout = 3600
   ) {
     $result = FALSE;
-    $device_id = (is_array($id_array)?(isset($id_array['id'])?$id_array['id']:''):$id_array);
-    if (((0 == intval($device_id)) && (strlen($device_id) <= 1)) || ('' == $device_id)) {
+    $device_id = (is_array($id_array)?(isset($id_array['id'])?$id_array['id']:""):$id_array);
+    if (((0 == intval($device_id)) && (strlen($device_id) <= 1)) || ("" == $device_id)) {
         $device_id = bigdec2hex((time()-mktime(1,1,1,1,1,2000)).mt_rand(10000,99999));
     }
     if (!$this->ReadDeviceData($device_id, TRUE)) {
@@ -19855,13 +20657,13 @@ class Multiotp
       
       if (is_valid_ipv4($this->_device_data['ip_or_fqdn'])) {
         if ($this->IsDeveloperMode()) {
-          $this->WriteLog("Info: IP address to check is " . $this->_device_data['ip_or_fqdn'] . " with subnet " . $this->_device_data['subnet'], FALSE, FALSE, 8888, 'System', '');
+          $this->WriteLog("Developer: IP address to check is " . $this->_device_data['ip_or_fqdn'] . " with subnet " . $this->_device_data['subnet'], FALSE, FALSE, 8888, 'System', "");
         }
         $cidr_mask = mask2cidr($this->_device_data['subnet']);
         $device_ip_network = (ip2long($this->_device_data['ip_or_fqdn']) >> (32-$cidr_mask));
         $this->_device_data['ip_or_fqdn'] = long2ip($device_ip_network << (32-$cidr_mask));
         if ($this->IsDeveloperMode()) {
-          $this->WriteLog("Info: Validated IP address is " . $this->_device_data['ip_or_fqdn'], FALSE, FALSE, 8888, 'System', '');
+          $this->WriteLog("Developer: Validated IP address is " . $this->_device_data['ip_or_fqdn'], FALSE, FALSE, 8888, 'System', "");
         }
       }
       
@@ -19872,7 +20674,7 @@ class Multiotp
 
 
   function DeleteDdns(
-      $ddns = '',
+      $ddns = "",
       $no_error_info = FALSE
   ) {
       $result = FALSE;
@@ -19882,17 +20684,17 @@ class Multiotp
           $ddns_filename = $ddns.'.db';
           if (!file_exists($this->GetDdnsFolder().$ddns_filename)) {
               if (!$no_error_info) {
-                  $this->WriteLog("Error: Unable to delete ddns ".$ddns.", database file ".$this->GetDdnssFolder().$ddns_filename." does not exist", FALSE, FALSE, 28, 'System', '');
+                  $this->WriteLog("Error: Unable to delete ddns ".$ddns.", database file ".$this->GetDdnssFolder().$ddns_filename." does not exist", FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
               }
           } else {
               $result = unlink($this->GetDdnsFolder().$ddns_filename);
               if ($result) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *Ddns ".$ddns." successfully deleted", FALSE, FALSE, 19, 'Ddns', '');
+                      $this->WriteLog("Info: *Ddns ".$ddns." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Ddns', "");
                   }
               } else {
                   if (!$no_error_info) {
-                      $this->WriteLog("Error: Unable to delete ddns ".$ddns, FALSE, FALSE, 28, 'Ddns', '');
+                      $this->WriteLog("Error: Unable to delete ddns ".$ddns, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Ddns', "");
                   }
               }
           }
@@ -19903,20 +20705,20 @@ class Multiotp
               case 'mysql':
                   $ddns_escaped = escape_mysql_string($ddns);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_ddns_table']) {
+                      if ("" != $this->_config_data['sql_ddns_table']) {
                           $sQuery  = "DELETE FROM `".$this->_config_data['sql_ddns_table']."` WHERE `ddns_id` = '".$ddns_escaped."'";
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
                                   if (!$no_error_info) {
-                                      $this->WriteLog("Error: Could not delete ddns ".$ddns.": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'System', '');
+                                      $this->WriteLog("Error: Could not delete ddns ".$ddns.": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                                   }
                               } else {
                                   $num_rows = $this->_mysqli->affected_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.": ".mysql_error(), FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               $num_rows = mysql_affected_rows($this->_mysql_database_link);
@@ -19924,11 +20726,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.". Ddns does not exist", FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.". Ddns does not exist", FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *Ddns ".$ddns." successfully deleted", FALSE, FALSE, 19, 'Ddns', '');
+                                  $this->WriteLog("Info: *Ddns ".$ddns." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Ddns', "");
                               }
                               $result = TRUE;
                           }
@@ -19938,12 +20740,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $ddns_escaped = pg_escape_string($this->_pgsql_database_link, $ddns);
-                      if ('' != $this->_config_data['sql_ddns_table']) {
+                      if ("" != $this->_config_data['sql_ddns_table']) {
                           $sQuery  = "DELETE FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_ddns_table']."\" WHERE \"ddns_id\" = '".$ddns_escaped."'";
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               $num_rows = pg_affected_rows($rResult);
@@ -19951,11 +20753,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.". Ddns does not exist", FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete ddns ".$ddns.". Ddns does not exist", FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *Ddns ".$ddns." successfully deleted", FALSE, FALSE, 19, 'Ddns', '');
+                                  $this->WriteLog("Info: *Ddns ".$ddns." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Ddns', "");
                               }
                               $result = TRUE;
                           }
@@ -20027,7 +20829,7 @@ class Multiotp
           }
           fclose($file_handler);
         }
-      } elseif ($result['alternate_password'] != '') {
+      } elseif ($result['alternate_password'] != "") {
           $result["exists"] = true;
           $result["username"] = substr($hostname, 0, strpos($hostname.'.', '.'));
           $result["password"] = $result['alternate_password'];
@@ -20042,7 +20844,7 @@ class Multiotp
       $hostname,
       $write_ddns_data_array = array()
   ) {
-      if ('' == nullable_trim($hostname)) {
+      if ("" == nullable_trim($hostname)) {
           $result = false;
       } else {
           if (isset($data_array['exists'])) { unset($data_array['exists']); }
@@ -20066,7 +20868,7 @@ class Multiotp
 
 
   function ReadDeviceData(
-      $device_id = '',
+      $device_id = "",
       $create = FALSE,
       $ignore_missing = FALSE
   ) {
@@ -20074,20 +20876,20 @@ class Multiotp
       $local_encryption_check = false;
 
       $this->ResetDeviceArray();
-      if ('' != $device_id) {
+      if ("" != $device_id) {
           $this->SetDevice($device_id);
       }
       $result = FALSE;
       
       // We initialize the encryption hash to empty
-      $this->_device_data['encryption_hash'] = '';
+      $this->_device_data['encryption_hash'] = "";
       
       // First, we read the user file if the backend is files or when migration is enabled
       if (('files' == $this->GetBackendType()) || ($this->GetMigrationFromFile())) {
           $device_filename = mb_strtolower($this->GetDevice(),'UTF-8').'.db';
           if (!file_exists($this->GetDevicesFolder().$device_filename)) {
               if ((!$create) && (!$ignore_missing)) {
-                  $this->WriteLog("Error: database file ".$this->GetDevicesFolder().$device_filename." for device ".$this->_device." does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                  $this->WriteLog("Error: database file ".$this->GetDevicesFolder().$device_filename." for device ".$this->_device." does not exist", FALSE, FALSE, _MULTIOTP_DEVICE_MISSING_, 'System', "", 3);
               }
           } else {
               if ($file_handler = @fopen($this->GetDevicesFolder().$device_filename, "rt")) {
@@ -20102,8 +20904,8 @@ class Multiotp
                           $line_array[1] = $this->Decrypt($line_array[0],$line_array[1],$this->GetEncryptionKey());
                           $local_encryption_check = $this->_encryption_check;
                       }
-                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
-                      if ('' != nullable_trim($line_array[0])) {
+                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
+                      if ("" != nullable_trim($line_array[0])) {
                           $this->_device_data[mb_strtolower($line_array[0],'UTF-8')] = $line_array[1];
                       }
                   }
@@ -20111,10 +20913,10 @@ class Multiotp
                   fclose($file_handler);
                   $result = TRUE;
 
-                  if (('' != $this->_device_data['encryption_hash']) && ($local_encryption_check)) {
+                  if (("" != $this->_device_data['encryption_hash']) && ($local_encryption_check)) {
                       if ($this->_device_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                           $this->_device_data['encryption_hash'] = "ERROR";
-                          $this->WriteLog("Error: the device information encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                          $this->WriteLog("Error: the device information encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                           $result = FALSE;
                       }
                   }
@@ -20128,20 +20930,20 @@ class Multiotp
               case 'mysql':
                   $device_escaped = escape_mysql_string($this->_device);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_devices_table']) {
+                      if ("" != $this->_config_data['sql_devices_table']) {
                           $sQuery  = "SELECT * FROM `".$this->_config_data['sql_devices_table']."` WHERE `device_id` = '".$device_escaped."'";
                           $aRow = NULL;
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = $rResult->fetch_assoc();
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = mysql_fetch_assoc($rResult);
@@ -20172,19 +20974,19 @@ class Multiotp
                                       }
                                       $this->_device_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_device_data[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the devices database schema", FALSE, FALSE, 42, 'System', '', 3);
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the devices database schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "", 3);
                                   }
                                   $result = TRUE;
                               }
                               if (0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for device ".$this->_device." does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL database entry for device ".$this->_device." does not exist", FALSE, FALSE, _MULTIOTP_DEVICE_MISSING_, 'System', "", 3);
                               }
                           }
                       }
-                      if (('' != $this->_device_data['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $this->_device_data['encryption_hash']) && ($local_encryption_check)) {
                           if ($this->_device_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $this->_device_data['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the devices mysql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the devices mysql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = FALSE;
                           }
                       }
@@ -20193,12 +20995,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $device_escaped = pg_escape_string($this->_pgsql_database_link, $this->_device);
-                      if ('' != $this->_config_data['sql_devices_table']) {
+                      if ("" != $this->_config_data['sql_devices_table']) {
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_devices_table']."\" WHERE \"device_id\" = '".$device_escaped."'";
                           $aRow = NULL;
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $aRow = pg_fetch_assoc($rResult);
@@ -20228,19 +21030,19 @@ class Multiotp
                                       }
                                       $this->_device_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_device_data[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the devices database schema", FALSE, FALSE, 42, 'System', '', 3);
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the devices database schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "", 3);
                                   }
                                   $result = TRUE;
                               }
                               if (0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for device ".$this->_device." does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL database entry for device ".$this->_device." does not exist", FALSE, FALSE, _MULTIOTP_DEVICE_MISSING_, 'System', "", 3);
                               }
                           }
                       }
-                      if (('' != $this->_device_data['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $this->_device_data['encryption_hash']) && ($local_encryption_check)) {
                           if ($this->_device_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $this->_device_data['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the devices pgsql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the devices pgsql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = FALSE;
                           }
                       }
@@ -20269,7 +21071,7 @@ class Multiotp
         $write_device_data_array = $temp_array;
       }
 
-      if ('' == nullable_trim($this->GetDevice())) {
+      if ("" == nullable_trim($this->GetDevice())) {
           $result = false;
       } else {
           $result = $this->WriteData(array_merge(array('item'               => 'Device',
@@ -20290,7 +21092,7 @@ class Multiotp
   ) {
       $this->ResetDeviceArray();
       $this->_device = mb_strtolower($device,'UTF-8');
-      $this->ReadDeviceData('', TRUE); // First parameter empty, otherwise it will loop with SetDevice !
+      $this->ReadDeviceData("", TRUE); // First parameter empty, otherwise it will loop with SetDevice !
   }
 
 
@@ -20300,9 +21102,9 @@ class Multiotp
 
 
   function IsDeviceCacheResultEnabled(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return (1 == (isset($this->_device_data['cache_result_enabled'])?$this->_device_data['cache_result_enabled']:false));
@@ -20327,9 +21129,9 @@ class Multiotp
 
 
   function GetDeviceCacheResultEnabled(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return intval($this->_device_data['cache_result_enabled']);
@@ -20337,9 +21139,9 @@ class Multiotp
 
 
   function IsDeviceForceNoPrefixEnabled(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return (1 == (isset($this->_device_data['force_no_prefix_pin'])?$this->_device_data['force_no_prefix_pin']:false));
@@ -20364,9 +21166,9 @@ class Multiotp
 
 
   function GetDeviceForceNoPrefixEnabled(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return intval($this->_device_data['force_no_prefix_pin']);
@@ -20391,9 +21193,9 @@ class Multiotp
 
 
   function GetDeviceCacheTimeout(
-      $device = ''
+      $device = ""
   ) {
-      if ($device != '') {
+      if ($device != "") {
           $this->SetDevice($device);
       }
       return intval($this->_device_data['cache_timeout']);
@@ -20418,9 +21220,16 @@ class Multiotp
 
 
   function GetDeviceDescription(
-      $device = ''
+      $device_description_array = array()
   ) {
-      if($device != '') {
+      if (!is_array($device_description_array)) {
+        // Backward compatibility
+        $device = $device_description_array;
+      } else {
+        $device = isset($device_description_array['device'])?$device_description_array['device']:"";
+      }
+
+      if($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['description'];
@@ -20445,9 +21254,9 @@ class Multiotp
 
 
   function GetDeviceShortname(
-      $device = ''
+      $device = ""
   ) {
-      if ($device != '') {
+      if ($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['shortname'];
@@ -20472,9 +21281,9 @@ class Multiotp
 
 
   function GetDeviceIpOrFqdn(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['ip_or_fqdn'];
@@ -20499,9 +21308,9 @@ class Multiotp
 
 
   function GetDeviceSubnet(
-      $device = ''
+      $device = ""
   ) {
-      if ($device != '') {
+      if ($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['subnet'];
@@ -20526,9 +21335,9 @@ class Multiotp
 
 
   function GetDeviceSecret(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['device_secret'];
@@ -20553,9 +21362,9 @@ class Multiotp
 
 
   function GetDeviceChallengeEnabled(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return intval($this->_device_data['challenge_response_enabled']);
@@ -20580,9 +21389,9 @@ class Multiotp
 
 
   function GetDeviceTextTokenChallenge(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['text_token_challenge'];
@@ -20607,9 +21416,9 @@ class Multiotp
 
 
   function GetDeviceSmsChallengeEnabled(
-      $device = ''
+      $device = ""
   ) {
-      if($device != '') {
+      if($device != "") {
           $this->SetDevice($device);
       }
       return intval($this->_device_data['sms_challenge_enabled']);
@@ -20634,9 +21443,9 @@ class Multiotp
 
 
   function GetDeviceTextSmsChallenge(
-      $device = ''
+      $device = ""
   ) {
-      if ($device != '') {
+      if ($device != "") {
           $this->SetDevice($device);
       }
       return $this->_device_data['text_sms_challenge'];
@@ -20644,10 +21453,10 @@ class Multiotp
 
 
   function DeleteDevice(
-      $device = '',
+      $device = "",
       $no_error_info = FALSE
   ) {
-      if ('' != $device) {
+      if ("" != $device) {
           $this->SetDevice($device);
       }
       
@@ -20658,17 +21467,17 @@ class Multiotp
           $device_filename = $this->GetDevice().'.db';
           if (!file_exists($this->GetDevicesFolder().$device_filename)) {
               if (!$no_error_info) {
-                  $this->WriteLog("Error: Unable to delete device ".$this->_device.", database file ".$this->GetDevicesFolder().$device_filename." does not exist", FALSE, FALSE, 28, 'System', '');
+                  $this->WriteLog("Error: Unable to delete device ".$this->_device.", database file ".$this->GetDevicesFolder().$device_filename." does not exist", FALSE, FALSE, _MULTIOTP_DEVICE_MISSING_, 'System', "");
               }
           } else {
               $result = unlink($this->GetDevicesFolder().$device_filename);
               if ($result) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *Device ".$this->_device." successfully deleted", FALSE, FALSE, 19, 'Device', '');
+                      $this->WriteLog("Info: *Device ".$this->_device." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Device', "");
                   }
               } else {
                   if (!$no_error_info) {
-                      $this->WriteLog("Error: Unable to delete device ".$this->_device, FALSE, FALSE, 28, 'Device', '');
+                      $this->WriteLog("Error: Unable to delete device ".$this->_device, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Device', "");
                   }
               }
           }
@@ -20679,20 +21488,20 @@ class Multiotp
               case 'mysql':
                   $device_escaped = escape_mysql_string($this->_device);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_devices_table']) {
+                      if ("" != $this->_config_data['sql_devices_table']) {
                           $sQuery  = "DELETE FROM `".$this->_config_data['sql_devices_table']."` WHERE `device_id` = '".$device_escaped."'";
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
                                   if (!$no_error_info) {
-                                      $this->WriteLog("Error: Could not delete device ".$this->_device.": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'System', '');
+                                      $this->WriteLog("Error: Could not delete device ".$this->_device.": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                                   }
                               } else {
                                   $num_rows = $this->_mysqli->affected_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete device ".$this->_device.": ".mysql_error(), FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete device ".$this->_device.": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               $num_rows = mysql_affected_rows($this->_mysql_database_link);
@@ -20700,11 +21509,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete device ".$this->_device.". Device does not exist", FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete device ".$this->_device.". Device does not exist", FALSE, FALSE, _MULTIOTP_DEVICE_MISSING_, 'System', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *Device ".$this->_device." successfully deleted", FALSE, FALSE, 19, 'Device', '');
+                                  $this->WriteLog("Info: *Device ".$this->_device." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Device', "");
                               }
                               $result = TRUE;
                           }
@@ -20714,12 +21523,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $device_escaped = pg_escape_string($this->_pgsql_database_link, $this->_device);
-                      if ('' != $this->_config_data['sql_devices_table']) {
+                      if ("" != $this->_config_data['sql_devices_table']) {
                           $sQuery  = "DELETE FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_devices_table']."\" WHERE \"device_id\" = '".$device_escaped."'";
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete device ".$this->_device.": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete device ".$this->_device.": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               $num_rows = pg_affected_rows($rResult);
@@ -20727,11 +21536,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete device ".$this->_device.". Device does not exist", FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete device ".$this->_device.". Device does not exist", FALSE, FALSE, _MULTIOTP_DEVICE_MISSING_, 'System', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *Device ".$this->_device." successfully deleted", FALSE, FALSE, 19, 'Device', '');
+                                  $this->WriteLog("Info: *Device ".$this->_device." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Device', "");
                               }
                               $result = TRUE;
                           }
@@ -20780,7 +21589,7 @@ class Multiotp
                       {
                           if (!($result = $this->_mysqli->query($sQuery)))
                           {
-                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           }
                           else
@@ -20795,7 +21604,7 @@ class Multiotp
                       {
                           if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link)))
                           {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           }
                           else
                           {
@@ -20814,7 +21623,7 @@ class Multiotp
                       
                       if (!($rResult = pg_query($sQuery, $this->_pgsql_database_link)))
                       {
-                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       }
                       else
                       {
@@ -20859,13 +21668,13 @@ class Multiotp
    ***************************/
 
   function CreateGroup(
-      $id = '',
-      $name = '',
-      $description = ''
+      $id = "",
+      $name = "",
+      $description = ""
   ) {
       if ("" != nullable_trim($name)) {
           $group_id = $id;
-          if (('' == $group_id) || ('0' == $group_id)) {
+          if (("" == $group_id) || ('0' == $group_id)) {
               $group_id = bigdec2hex((time()-mktime(1,1,1,1,1,2000)).mt_rand(10000,99999));
           }
           if ($this->CheckGroupExists($group_id)) {
@@ -20883,20 +21692,20 @@ class Multiotp
 
 
   function ReadGroupData(
-      $group_id = '',
+      $group_id = "",
       $create = FALSE
   ) {
       // We initialize the local encryption check variable
       $local_encryption_check = false;
 
       $this->ResetGroupArray();
-      if ('' != $group_id) {
+      if ("" != $group_id) {
           $this->SetGroup($group_id);
       }
       $result = FALSE;
       
       // We initialize the encryption hash to empty
-      $this->_group_data['encryption_hash'] = '';
+      $this->_group_data['encryption_hash'] = "";
       
       // First, we read the user file if the backend is files or when migration is enabled
       if (('files' == $this->GetBackendType()) || ($this->GetMigrationFromFile())) {
@@ -20906,7 +21715,7 @@ class Multiotp
           }
           if (!file_exists($this->GetGroupsFolder().$group_filename)) {
               if (!$create) {
-                  $this->WriteLog("Error: database file ".$this->GetGroupsFolder().$group_filename." for group ".$this->_group." does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                  $this->WriteLog("Error: database file ".$this->GetGroupsFolder().$group_filename." for group ".$this->_group." does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'System', "", 3);
               }
           } else {
               if ($file_handler = @fopen($this->GetGroupsFolder().$group_filename, "rt")) {
@@ -20921,8 +21730,8 @@ class Multiotp
                           $line_array[1] = $this->Decrypt($line_array[0],$line_array[1],$this->GetEncryptionKey());
                           $local_encryption_check = $this->_encryption_check;
                       }
-                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
-                      if ('' != nullable_trim($line_array[0])) {
+                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
+                      if ("" != nullable_trim($line_array[0])) {
                           $this->_group_data[mb_strtolower($line_array[0],'UTF-8')] = $line_array[1];
                       }
                   }
@@ -20930,10 +21739,10 @@ class Multiotp
                   fclose($file_handler);
                   $result = TRUE;
 
-                  if (('' != $this->_group_data['encryption_hash']) && ($local_encryption_check)) {
+                  if (("" != $this->_group_data['encryption_hash']) && ($local_encryption_check)) {
                       if ($this->_group_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                           $this->_group_data['encryption_hash'] = "ERROR";
-                          $this->WriteLog("Error: the group information encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                          $this->WriteLog("Error: the group information encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                           $result = FALSE;
                       }
                   }
@@ -20947,20 +21756,20 @@ class Multiotp
               case 'mysql':
                   $group_escaped = escape_mysql_string($this->_group);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_groups_table']) {
+                      if ("" != $this->_config_data['sql_groups_table']) {
                           $sQuery  = "SELECT * FROM `".$this->_config_data['sql_groups_table']."` WHERE `group_id` = '".$group_escaped."'";
                           $aRow = NULL;
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".nullable_trim($this->_mysqli->error).' ', TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = $rResult->fetch_assoc();
                               }
                           } else {
                               if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, 40, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL query error ($sQuery) : ".mysql_error(), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                                   $result = FALSE;
                               } else {
                                   $aRow = mysql_fetch_assoc($rResult);
@@ -20991,19 +21800,19 @@ class Multiotp
                                       }
                                       $this->_group_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_group_data[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the groups database schema", FALSE, FALSE, 42, 'System', '', 3);
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the groups database schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "", 3);
                                   }
                                   $result = TRUE;
                               }
                               if (0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for group ".$this->_group." does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL database entry for group ".$this->_group." does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'System', "", 3);
                               }
                           }
                       }
-                      if (('' != $this->_group_data['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $this->_group_data['encryption_hash']) && ($local_encryption_check)) {
                           if ($this->_group_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $this->_group_data['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the groups mysql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the groups mysql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = FALSE;
                           }
                       }
@@ -21012,12 +21821,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $group_escaped = pg_escape_string($this->_pgsql_database_link, $this->_group);
-                      if ('' != $this->_config_data['sql_groups_table']) {
+                      if ("" != $this->_config_data['sql_groups_table']) {
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_groups_table']."\" WHERE \"group_id\" = '".$group_escaped."'";
                           $aRow = NULL;
                       
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, 40, 'System', '', 3);
+                              $this->WriteLog("Error: SQL query error ($sQuery) : ".pg_last_error($this->_pgsql_database_link), TRUE, FALSE, _MULTIOTP_SYSTEM_SQL_QUERY_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $aRow = pg_fetch_assoc($rResult);
@@ -21047,19 +21856,19 @@ class Multiotp
                                       }
                                       $this->_group_data[$key] = str_replace("<<CRLF>>",chr(10),$this->_group_data[$key]);
                                   } elseif ((!$in_the_schema) && ('unique_id' != $key)  && $this->GetVerboseFlag()) {
-                                      $this->WriteLog("Warning: *The key ".$key." is not in the groups database schema", FALSE, FALSE, 42, 'System', '', 3);
+                                      $this->WriteLog("Warning: *The key ".$key." is not in the groups database schema", FALSE, FALSE, _MULTIOTP_SYSTEM_KEY_NOT_IN_SCHEMA_ERROR_, 'System', "", 3);
                                   }
                                   $result = TRUE;
                               }
                               if (0 == count($aRow) && !$create) {
-                                  $this->WriteLog("Error: SQL database entry for group ".$this->_group." does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                                  $this->WriteLog("Error: SQL database entry for group ".$this->_group." does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'System', "", 3);
                               }
                           }
                       }
-                      if (('' != $this->_group_data['encryption_hash']) && ($local_encryption_check)) {
+                      if (("" != $this->_group_data['encryption_hash']) && ($local_encryption_check)) {
                           if ($this->_group_data['encryption_hash'] != $this->CalculateControlHash($this->GetEncryptionKey())) {
                               $this->_group_data['encryption_hash'] = "ERROR";
-                              $this->WriteLog("Error: the groups pgsql encryption key is not matching", FALSE, FALSE, 33, 'System', '');
+                              $this->WriteLog("Error: the groups pgsql encryption key is not matching", FALSE, FALSE, _MULTIOTP_ENCRYPTION_ERROR_, 'System', "");
                               $result = FALSE;
                           }
                       }
@@ -21077,7 +21886,7 @@ class Multiotp
   function WriteGroupData(
     $write_group_data_array = array()
   ) {
-      if ('' == nullable_trim($this->GetGroup())) {
+      if ("" == nullable_trim($this->GetGroup())) {
           $result = false;
       } else {
           $result = $this->WriteData(array_merge(array('item'               => 'Group',
@@ -21098,7 +21907,7 @@ class Multiotp
   ) {
       $this->ResetGroupArray();
       $this->_group = mb_strtolower($group,'UTF-8');
-      $this->ReadGroupData('', TRUE); // First parameter empty, otherwise it will loop with SetGroup !
+      $this->ReadGroupData("", TRUE); // First parameter empty, otherwise it will loop with SetGroup !
   }
 
 
@@ -21144,9 +21953,9 @@ class Multiotp
 
 
   function GetGroupDescription(
-      $group = ''
+      $group = ""
   ) {
-      if($group != '') {
+      if($group != "") {
           $this->SetGroup($group);
       }
       return $this->_group_data['description'];
@@ -21154,9 +21963,9 @@ class Multiotp
 
 
   function GetGroupName(
-      $group = ''
+      $group = ""
   ) {
-      if($group != '') {
+      if($group != "") {
           $this->SetGroup($group);
       }
       return $this->_group_data['name'];
@@ -21164,10 +21973,10 @@ class Multiotp
 
 
   function DeleteGroup(
-      $group = '',
+      $group = "",
       $no_error_info = FALSE
   ) {
-      if ('' != $group) {
+      if ("" != $group) {
           $this->SetGroup($group);
       }
       
@@ -21181,17 +21990,17 @@ class Multiotp
           }
           if (!file_exists($this->GetGroupsFolder().$group_filename)) {
               if (!$no_error_info) {
-                  $this->WriteLog("Error: Unable to delete group ".$this->_group.", database file ".$this->GetGroupsFolder().$group_filename." does not exist", FALSE, FALSE, 28, 'System', '');
+                  $this->WriteLog("Error: Unable to delete group ".$this->_group.", database file ".$this->GetGroupsFolder().$group_filename." does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'System', "");
               }
           } else {
               $result = unlink($this->GetGroupsFolder().$group_filename);
               if ($result) {
                   if ($this->GetVerboseFlag()) {
-                      $this->WriteLog("Info: *Group ".$this->_group." successfully deleted", FALSE, FALSE, 19, 'Group', '');
+                      $this->WriteLog("Info: *Group ".$this->_group." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Group', "");
                   }
               } else {
                   if (!$no_error_info) {
-                      $this->WriteLog("Error: Unable to delete group ".$this->_group, FALSE, FALSE, 28, 'Group', '');
+                      $this->WriteLog("Error: Unable to delete group ".$this->_group, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'Group', "");
                   }
               }
           }
@@ -21202,20 +22011,20 @@ class Multiotp
               case 'mysql':
                   $group_escaped = escape_mysql_string($this->_group);
                   if ($this->OpenMysqlDatabase()) {
-                      if ('' != $this->_config_data['sql_groups_table']) {
+                      if ("" != $this->_config_data['sql_groups_table']) {
                           $sQuery  = "DELETE FROM `".$this->_config_data['sql_groups_table']."` WHERE `group_id` = '".$group_escaped."'";
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
                                   if (!$no_error_info) {
-                                      $this->WriteLog("Error: Could not delete group ".$this->_group.": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 28, 'System', '');
+                                      $this->WriteLog("Error: Could not delete group ".$this->_group.": ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                                   }
                               } else {
                                   $num_rows = $this->_mysqli->affected_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete group ".$this->_group.": ".mysql_error(), FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete group ".$this->_group.": ".mysql_error(), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               $num_rows = mysql_affected_rows($this->_mysql_database_link);
@@ -21223,11 +22032,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete group ".$this->_group.". Group does not exist", FALSE, FALSE, 28, 'Group', '');
+                                  $this->WriteLog("Error: Could not delete group ".$this->_group.". Group does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'Group', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *Group ".$this->_group." successfully deleted", FALSE, FALSE, 19, 'Group', '');
+                                  $this->WriteLog("Info: *Group ".$this->_group." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Group', "");
                               }
                               $result = TRUE;
                           }
@@ -21237,12 +22046,12 @@ class Multiotp
               case 'pgsql':
                   if ($this->OpenPGSQLDatabase()) {
                       $group_escaped = pg_escape_string($this->_pgsql_database_link, $this->_group);
-                      if ('' != $this->_config_data['sql_groups_table']) {
+                      if ("" != $this->_config_data['sql_groups_table']) {
                           $sQuery  = "DELETE FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_groups_table']."\" WHERE \"group_id\" = '".$group_escaped."'";
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete group ".$this->_group.": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 28, 'System', '');
+                                  $this->WriteLog("Error: Could not delete group ".$this->_group.": ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "");
                               }
                           } else {
                               $num_rows = pg_affected_rows($rResult);
@@ -21250,11 +22059,11 @@ class Multiotp
                           
                           if (0 == $num_rows) {
                               if (!$no_error_info) {
-                                  $this->WriteLog("Error: Could not delete group ".$this->_group.". Group does not exist", FALSE, FALSE, 28, 'Group', '');
+                                  $this->WriteLog("Error: Could not delete group ".$this->_group.". Group does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'Group', "");
                               }
                           } else {
                               if ($this->GetVerboseFlag()) {
-                                  $this->WriteLog("Info: *Group ".$this->_group." successfully deleted", FALSE, FALSE, 19, 'Group', '');
+                                  $this->WriteLog("Info: *Group ".$this->_group." successfully deleted", FALSE, FALSE, _MULTIOTP_OPERATION_DONE_, 'Group', "");
                               }
                               $result = TRUE;
                           }
@@ -21279,13 +22088,13 @@ class Multiotp
 
   // Check if group exists
   function CheckGroupExists(
-      $group = ''
+      $group = ""
   ) {
-      $check_group = ('' != $group)?$group:$this->GetGroup();
+      $check_group = ("" != $group)?$group:$this->GetGroup();
       $result = FALSE;
 
-      if ('' != nullable_trim($check_group)) {
-          if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data['sql_groups_table'])) || ('files' == $this->GetBackendType())) {
+      if ("" != nullable_trim($check_group)) {
+          if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data['sql_groups_table'])) || ('files' == $this->GetBackendType())) {
               switch ($this->GetBackendType()) {
                   case 'mysql':
                       $check_group_escaped = escape_mysql_string($check_group);
@@ -21294,18 +22103,18 @@ class Multiotp
                           
                           if (is_object($this->_mysqli)) {
                               if (!($rResult = $this->_mysqli->query($sQuery))) {
-                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                                  $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               } else {
                                   $num_rows = $rResult->num_rows;
                               }
                           } elseif (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               $num_rows = mysql_num_rows($this->_mysql_database_link);
                           }
                           
                           if (0 == $num_rows) {
-                              $this->WriteLog("Error: Group ".$group.". does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                              $this->WriteLog("Error: Group ".$group.". does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $result = TRUE;
@@ -21318,13 +22127,13 @@ class Multiotp
                           $sQuery  = "SELECT * FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data['sql_groups_table']."\" WHERE \"group_id\" = '{$check_group_escaped}'";
                           
                           if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               $num_rows = pg_num_rows($rResult);
                           }
                           
                           if (0 == $num_rows) {
-                              $this->WriteLog("Error: Group ".$group.". does not exist", FALSE, FALSE, 39, 'System', '', 3);
+                              $this->WriteLog("Error: Group ".$group.". does not exist", FALSE, FALSE, _MULTIOTP_GROUP_MISSING_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               $result = TRUE;
@@ -21357,9 +22166,9 @@ class Multiotp
       $table_name,
       $folder
   ) {
-      $list = '';
+      $list = "";
       $list_array = array();
-      if ((($this->GetBackendTypeValidated()) && ('' != $this->_config_data[$table_name])) || ('files' == $this->GetBackendType())) {
+      if ((($this->GetBackendTypeValidated()) && ("" != $this->_config_data[$table_name])) || ('files' == $this->GetBackendType())) {
           switch ($this->GetBackendType()) {
               case 'mysql':
                   if ($this->OpenMysqlDatabase()) {
@@ -21367,22 +22176,22 @@ class Multiotp
                       $sQuery.= " ORDER BY `".$raw_id."` ASC";
                       if (is_object($this->_mysqli)) {
                           if (!($result = $this->_mysqli->query($sQuery))) {
-                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".nullable_trim($this->_mysqli->error), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                               $result = FALSE;
                           } else {
                               while ($aRow = $result->fetch_assoc()) {
-                                  if ('' != $aRow[$raw_id]) {
-                                      $list.= (('' != $list)?"\t":'').$aRow[$raw_id];
+                                  if ("" != $aRow[$raw_id]) {
+                                      $list.= (("" != $list)?"\t":"").$aRow[$raw_id];
                                   }
                               }
                           }
                       } else {
                           if (!($rResult = mysql_query($sQuery, $this->_mysql_database_link))) {
-                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, 41, 'System', '', 3);
+                              $this->WriteLog("Error: Unable to access the database: ".mysql_error(), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                           } else {
                               while ($aRow = mysql_fetch_assoc($rResult)) {
-                                  if ('' != $aRow[$raw_id]) {
-                                      $list.= (('' != $list)?"\t":'').$aRow[$raw_id];
+                                  if ("" != $aRow[$raw_id]) {
+                                      $list.= (("" != $list)?"\t":"").$aRow[$raw_id];
                                   }
                               }                         
                           }
@@ -21394,11 +22203,11 @@ class Multiotp
                       $sQuery = "SELECT \"".$raw_id."\" FROM \"".$this->_config_data['sql_schema']."\".\"".$this->_config_data[$table_name]."\"";
                       $sQuery.= " ORDER BY \"".$raw_id."\" ASC";
                       if (!($rResult = pg_query($this->_pgsql_database_link, $sQuery))) {
-                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, 41, 'System', '', 3);
+                          $this->WriteLog("Error: Unable to access the database: ".pg_last_error($this->_pgsql_database_link), FALSE, FALSE, _MULTIOTP_SYSTEM_SQL_ERROR_, 'System', "", 3);
                       } else {
                           while ($aRow = pg_fetch_assoc($rResult)) {
-                              if ('' != $aRow[$raw_id]) {
-                                  $list.= (('' != $list)?"\t":'').$aRow[$raw_id];
+                              if ("" != $aRow[$raw_id]) {
+                                  $list.= (("" != $list)?"\t":"").$aRow[$raw_id];
                               }
                           }                         
                       }
@@ -21414,7 +22223,7 @@ class Multiotp
                       }
                       sort($list_array);
                       foreach ($list_array as $one_list) {
-                          $list.= (('' != $list)?"\t":'').$this->DecodeFileId($one_list);
+                          $list.= (("" != $list)?"\t":"").$this->DecodeFileId($one_list);
                       }
                       closedir($file_handle);
                   }
@@ -21427,7 +22236,7 @@ class Multiotp
   function GetHardwareType(
     $return_array = false
   ) {
-    $os_running = str_replace(' '. $this->GetSystemName(), '', php_uname());
+    $os_running = str_replace(' '. $this->GetSystemName(), "", php_uname());
 
     // Hardware detection (2023-11-23)
     $type       = 'unknown';
@@ -21466,7 +22275,7 @@ class Multiotp
           }
         }
       }
-      if ('' == $hardware) {
+      if ("" == $hardware) {
         exec("cat /proc/cpuinfo | grep --color=never -i \"model name\"", $output);
         foreach ($output as $line) {
           $line.= "  ";
@@ -21490,7 +22299,7 @@ class Multiotp
           }
         }
       }
-      if ('' == $cpu_speed) {
+      if ("" == $cpu_speed) {
         foreach ($output as $line) {
           $line.= "  ";
           if (preg_match("/^cpu MHz\s*:\s*(.*)/", $line)) {
@@ -21581,7 +22390,7 @@ class Multiotp
 
   function GetRaspberryPiSerialNumber()
   {
-      $serial = '';
+      $serial = "";
       exec("cat /proc/cpuinfo | grep --color=never -i Serial", $output);
       foreach ($output as $line) {
           $line.= "  ";
@@ -21600,7 +22409,7 @@ class Multiotp
   function ReadUserDataOnServer(
       $user
   ) {
-      $result = 72;
+      $result = _MULTIOTP_SERVER_ANSWER_FORMAT_ERROR_;
 
       $server_challenge = 'MOSH'.md5($this->GetEncryptionKey().time().mt_rand(100000,999999));
       $this->SetServerChallenge($server_challenge);
@@ -21626,11 +22435,11 @@ EOL;
 
       if (FALSE !== $response) {
           if ($this->_xml_dump_in_log) {
-              $this->WriteLog("Info: Host returned the following answer: $response", FALSE, FALSE, 8888, 'Debug', '');
+              $this->WriteLog("Info: Host returned the following answer: $response", FALSE, FALSE, 8888, 'Debug', "");
           }
           
           if (FALSE !== mb_strpos($response,'<multiOTP')) {
-              $error_code = 99;
+              $error_code = _MULTIOTP_ERROR_;
               
               //Set up the parser object
               $xml = new MultiotpXmlParser($response);
@@ -21639,29 +22448,29 @@ EOL;
               $xml->Parse();
 
               if (isset($xml->document->errorcode[0])) {
-                  $server_password = (isset($xml->document->serverpassword[0]) ? ($xml->document->serverpassword[0]->tagData) : '');
+                  $server_password = (isset($xml->document->serverpassword[0]) ? ($xml->document->serverpassword[0]->tagData) : "");
                   
                   if ($server_password != md5('ReadUserData'.$this->GetServerSecret().$this->GetServerChallenge())) {
-                      $error_code = 70;
+                      $error_code = _MULTIOTP_SERVER_AUTH_FAILED_;
                   } else {
-                      $error_code = (isset($xml->document->errorcode[0]) ? intval($xml->document->errorcode[0]->tagData) : 99);
+                      $error_code = (isset($xml->document->errorcode[0]) ? intval($xml->document->errorcode[0]->tagData) : _MULTIOTP_ERROR_);
                   }
                   $error_description = (isset($xml->document->errordescription[0])?($xml->document->errordescription[0]->tagData):$this->GetErrorText($error_code));
 
                   if ($this->_xml_dump_in_log) {
-                      $this->WriteLog("Info: Host returned the following result: $error_code ($error_description)", FALSE, FALSE, $error_code, 'Debug', '');
+                      $this->WriteLog("Info: Host returned the following result: $error_code ($error_description)", FALSE, FALSE, $error_code, 'Debug', "");
                   }
               }
               
-              if ((19 == intval($error_code)) && (isset($xml->document->user[0]))) {
-                  $result = (isset($xml->document->user[0]->userdata[0])?($xml->document->user[0]->userdata[0]->tagData):'');
+              if ((_MULTIOTP_OPERATION_DONE_ == intval($error_code)) && (isset($xml->document->user[0]))) {
+                  $result = (isset($xml->document->user[0]->userdata[0])?($xml->document->user[0]->userdata[0]->tagData):"");
               } else {
-                  $this->WriteLog("Error: Host answers with the following error code: $error_code ($error_description)", FALSE, FALSE, 39, 'Client-Server', '', 3);
+                  $this->WriteLog("Error: Host answers with the following error code: $error_code ($error_description)", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'Client-Server', "", 3);
                   $result = intval($error_code);
               }
           } else {
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Error: *Host sent an incorrect answer: $response", FALSE, FALSE, 39, 'Client-Server', '', 3);
+                  $this->WriteLog("Error: *Host sent an incorrect answer: $response", FALSE, FALSE, _MULTIOTP_OPERATION_CANCELLED_, 'Client-Server', "", 3);
               }
           }
       }
@@ -21670,9 +22479,9 @@ EOL;
 
 
   function CheckUserExistsOnServer(
-      $user = ''
+      $user = ""
   ) {
-      $result = 72;
+      $result = _MULTIOTP_SERVER_ANSWER_FORMAT_ERROR_;
       
       $server_challenge = 'MOSH'.md5($this->GetEncryptionKey().time().mt_rand(100000,999999));
       $this->SetServerChallenge($server_challenge);
@@ -21698,11 +22507,11 @@ EOL;
 
       if (FALSE !== $response) {
           if ($this->_xml_dump_in_log) {
-              $this->WriteLog("Info: Host returned the following answer: $response", FALSE, FALSE, 8888, 'Debug', '');
+              $this->WriteLog("Info: Host returned the following answer: $response", FALSE, FALSE, 8888, 'Debug', "");
           }
           
           if (FALSE !== mb_strpos($response,'<multiOTP')) {
-              $error_code = 99;
+              $error_code = _MULTIOTP_ERROR_;
               
               //Set up the parser object
               $xml = new MultiotpXmlParser($response);
@@ -21711,17 +22520,17 @@ EOL;
               $xml->Parse();
 
               if (isset($xml->document->errorcode[0])) {
-                  $server_password = (isset($xml->document->serverpassword[0])?($xml->document->serverpassword[0]->tagData):'');
+                  $server_password = (isset($xml->document->serverpassword[0])?($xml->document->serverpassword[0]->tagData):"");
                   
                   if ($server_password != md5('CheckUserExists'.$this->GetServerSecret().$this->GetServerChallenge())) {
-                      $error_code = 70;
+                      $error_code = _MULTIOTP_SERVER_AUTH_FAILED_;
                   } else {
-                      $error_code = (isset($xml->document->errorcode[0]) ? intval($xml->document->errorcode[0]->tagData) : 99);
+                      $error_code = (isset($xml->document->errorcode[0]) ? intval($xml->document->errorcode[0]->tagData) : _MULTIOTP_ERROR_);
                   }
                   $error_description = (isset($xml->document->errordescription[0]) ? ($xml->document->errordescription[0]->tagData) : $this->GetErrorText($error_code));
 
                   if ($this->_xml_dump_in_log) {
-                      $this->WriteLog("Info: Host returned the following result: $error_code ($error_description).", FALSE, FALSE, $error_code, 'Debug', '');
+                      $this->WriteLog("Info: Host returned the following result: $error_code ($error_description).", FALSE, FALSE, $error_code, 'Debug', "");
                   }
               }
               
@@ -21729,7 +22538,7 @@ EOL;
               $result = intval($error_code);
           } else {
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Error: *Host sent an incorrect answer: $response", FALSE, FALSE, 8888, 'Client-Server', '');
+                  $this->WriteLog("Error: *Host sent an incorrect answer: $response", FALSE, FALSE, 8888, 'Client-Server', "");
               }
           }
       }
@@ -21741,11 +22550,11 @@ EOL;
       $user,
       $password,
       $auth_method = "PAP",
-      $id= '',
-      $challenge = '',
-      $response2 = ''
+      $id= "",
+      $challenge = "",
+      $response2 = ""
   ) {
-      $result = 72;
+      $result = _MULTIOTP_SERVER_ANSWER_FORMAT_ERROR_;
       
       // We initialize the local encryption check variable
       $local_encryption_check = false;
@@ -21758,25 +22567,25 @@ EOL;
               $chap_id        = $id;
               $chap_challenge = $challenge;
               $chap_password  = $password;
-              $chap_hash      = '';
+              $chap_hash      = "";
               break;
           case 'MS-CHAP':
               $ms_chap_id        = $id;
               $ms_chap_challenge = $challenge;
               $ms_chap_response  = $password;
-              $chap_hash      = '';
+              $chap_hash      = "";
               break;
           case ' MS-CHAPV2':
               $ms_chap_id        = $id;
               $ms_chap_challenge = $challenge;
               $ms_chap_response  = $password;
               $ms_chap2_response = $response2;
-              $chap_hash      = '';
+              $chap_hash      = "";
               break;
           case 'PAP':
           default:
               /*
-              $chap_id        = '';
+              $chap_id        = "";
               $chap_challenge = md5(time());
               $chap_password  = $password;
               */
@@ -21818,18 +22627,18 @@ EOL;
       $xml_timeout = $this->GetServerTimeout();
       $xml_data_encoded = urlencode($xml_data);
 
-      // $this->WriteLog("Debug: Host received the following request: $xml_data", FALSE, FALSE, 8888, 'Debug', '');
+      // $this->WriteLog("Debug: Host received the following request: $xml_data", FALSE, FALSE, 8888, 'Debug', "");
       
       $response = $this->PostHttpDataXmlRequest($xml_data_encoded, $xml_urls, $xml_timeout);
 
       if (FALSE !== $response) {
           if ($this->_xml_dump_in_log) {
-              $this->WriteLog("Debug: Host returned the following answer: $response", FALSE, FALSE, 8888, 'Debug', '');
+              $this->WriteLog("Debug: Host returned the following answer: $response", FALSE, FALSE, 8888, 'Debug', "");
           }
 
           if (FALSE !== mb_strpos($response,'<multiOTP')) {
-              $result = 99;
-              $error_code = 99;
+              $result = _MULTIOTP_ERROR_;
+              $error_code = _MULTIOTP_ERROR_;
               
               //Set up the parser object
               $xml = new MultiotpXmlParser($response);
@@ -21838,28 +22647,28 @@ EOL;
               $xml->Parse();
 
               if (isset($xml->document->errorcode[0])) {
-                  $server_password = (isset($xml->document->serverpassword[0])?($xml->document->serverpassword[0]->tagData):'');
+                  $server_password = (isset($xml->document->serverpassword[0])?($xml->document->serverpassword[0]->tagData):"");
                   
                   if ($server_password != md5('CheckUserToken'.$this->GetServerSecret().$this->GetServerChallenge())) {
-                      $error_code = 70;
+                      $error_code = _MULTIOTP_SERVER_AUTH_FAILED_;
                   } else {
-                      $error_code = (isset($xml->document->errorcode[0]) ? intval($xml->document->errorcode[0]->tagData) : 99);
+                      $error_code = (isset($xml->document->errorcode[0]) ? intval($xml->document->errorcode[0]->tagData) : _MULTIOTP_ERROR_);
                   }
                   $error_description = (isset($xml->document->errordescription[0])?($xml->document->errordescription[0]->tagData):$this->GetErrorText(intval($error_code)));
                   $result = intval($error_code);
 
                   if ($this->_xml_dump_in_log) {
-                      $this->WriteLog("Info: Host returned the following result: $result ($error_description).", FALSE, FALSE, $result, 'Debug', '');
+                      $this->WriteLog("Info: Host returned the following result: $result ($error_description).", FALSE, FALSE, $result, 'Debug', "");
                   }
               }
 
               if ((intval(0) == intval($error_code)) && (isset($xml->document->cache[0]))) {
                   if (isset($xml->document->cache[0]->user[0])) {
                       foreach ($xml->document->cache[0]->user as $one_user) {
-                          $current_user = isset($one_user->tagAttrs['userid'])?$one_user->tagAttrs['userid']:'';
-                          if ('' != $current_user) {
-                              $current_user_data = isset($one_user->userdata[0])?$one_user->userdata[0]->tagData:'';
-                              if ('' != $current_user_data) {
+                          $current_user = isset($one_user->tagAttrs['userid'])?$one_user->tagAttrs['userid']:"";
+                          if ("" != $current_user) {
+                              $current_user_data = isset($one_user->userdata[0])?$one_user->userdata[0]->tagData:"";
+                              if ("" != $current_user_data) {
                                   $this->SetUser($current_user);
                                   $this->_user_data['encryption_hash'] = $this->CalculateControlHash($this->GetEncryptionKey());
                                   $current_user_array = explode("\n",$current_user_data);
@@ -21872,8 +22681,8 @@ EOL;
                                           $line_array[1] = $this->Decrypt($line_array[0], $line_array[1], $this->GetServerSecret());
                                           $local_encryption_check = $this->_encryption_check;
                                       }
-                                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : '');
-                                      if ('' != nullable_trim($line_array[0])) {
+                                      $line_array[1] = str_replace("<<CRLF>>",chr(10),isset($line_array[1]) ? $line_array[1] : "");
+                                      if ("" != nullable_trim($line_array[0])) {
                                           if ('encryption_hash' != mb_strtolower($line_array[0],'UTF-8')) {
                                               $this->_user_data[mb_strtolower($line_array[0],'UTF-8')] = $line_array[1];
                                           }
@@ -21887,7 +22696,7 @@ EOL;
               }
           } else {
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Error: *Host sent an incorrect answer: $response", FALSE, FALSE, 8888, 'Client-Server', '');
+                  $this->WriteLog("Error: *Host sent an incorrect answer: $response", FALSE, FALSE, 8888, 'Client-Server', "");
               }
           }
       }
@@ -21917,14 +22726,21 @@ EOL;
       $xml_urls,
       $xml_timeout = 3,
       $xml_urls_splitter = ";",
-      $no_multiotp_validity_check = FALSE
+      $no_multiotp_validity_check = FALSE,
+      $prefix_data = "data=",
+      $content_type = "application/x-www-form-urlencoded",
+      $accept = ""
   ) {
+      $this->SetLastHttpStatus(999);
       $result = FALSE;
-      if ('tryurlonly' != $xml_data) {
-        $content_to_post = 'data='.$xml_data;
+      if ("mouid" == substr($xml_data, 0, 5)) {
+        $content_to_post = $xml_data;
+        $no_multiotp_validity_check = TRUE;
+      } elseif ('tryurlonly' != $xml_data) {
+        $content_to_post = $prefix_data.$xml_data;
       }
       else {
-        $content_to_post = 'data=';
+        $content_to_post = $prefix_data;
         $no_multiotp_validity_check = TRUE;
       }
       
@@ -21941,7 +22757,7 @@ EOL;
 
               $pos = mb_strpos($xml_url_one, '://');
               if (FALSE === $pos) {
-                  $protocol = '';
+                  $protocol = "";
               } else {
                   switch (mb_strtolower(mb_substr($xml_url_one,0,$pos),'UTF-8')) {
                       case 'https':
@@ -21954,7 +22770,7 @@ EOL;
                           $port = 443;
                           break;
                       default:
-                          $protocol = '';
+                          $protocol = "";
                           break;
                   }
                   
@@ -21987,7 +22803,10 @@ EOL;
               if (FALSE !== $fp) {
                   $info['timed_out'] = FALSE;
                   fputs($fp, "POST ".$url." HTTP/1.0\r\n");
-                  fputs($fp, "Content-Type: application/x-www-form-urlencoded\r\n");
+                  if (!empty($accept)) {
+                  fputs($fp, "Accept: $accept\r\n");
+                  }
+                  fputs($fp, "Content-Type: $content_type\r\n");
                   fputs($fp, "Content-Length: ".mb_strlen($content_to_post)."\r\n");
                   fputs($fp, "User-Agent: multiOTP\r\n");
                   fputs($fp, "Host: ".$host."\r\n");
@@ -22006,7 +22825,7 @@ EOL;
                   stream_set_timeout($fp, $stream_timeout);
                   $info = stream_get_meta_data($fp); 
           
-                  $reply = '';
+                  $reply = "";
                   $last_length = 0;
                   while ((!feof($fp)) && ((!$info['timed_out']) || ($last_length != mb_strlen($reply)))) {
                       $last_length = mb_strlen($reply);
@@ -22020,7 +22839,7 @@ EOL;
 
                   if ($info['timed_out']) {
                       if ('tryurlonly' != $xml_data) {
-                          $this->WriteLog("Warning: timeout after $xml_timeout seconds for $protocol$host:$port with a result code of $errno ($errdesc).", FALSE, FALSE, 8888, 'Client-Server', '');
+                          $this->WriteLog("Warning: timeout after $xml_timeout seconds for $protocol$host:$port with a result code of $errno ($errdesc).", FALSE, FALSE, 8888, 'Client-Server', "");
                       }
                   } else {
                       $pos = mb_strpos(mb_strtolower($reply,'UTF-8'), "\r\n\r\n");
@@ -22034,7 +22853,7 @@ EOL;
                       $result = $answer;
 
                       if (($errno > 0) && ('tryurlonly' != $xml_data)) {
-                          $this->WriteLog("Info: $protocol$host:$port returns a resultcode of $errno ($errdesc).", FALSE, FALSE, 8888, 'Client-Server', '');
+                          $this->WriteLog("Info: $protocol$host:$port returns a resultcode of $errno ($errdesc).", FALSE, FALSE, 8888, 'Client-Server', "");
                       }
                       if ((FALSE !== mb_strpos($result, '<multiOTP')) || $no_multiotp_validity_check) {
                           break; // Break of the foreach loop
@@ -22047,14 +22866,14 @@ EOL;
                       $log_info.= ": ".$result;
                   }
 
-                  $this->WriteLog($log_info, FALSE, FALSE, 8888, 'Client-Server', '');
+                  $this->WriteLog($log_info, FALSE, FALSE, 8888, 'Client-Server', "");
               } else {
                   $this->AddTemporaryBadServer($server_to_ban, time());
-                  $this->WriteLog("Warning: Host $protocol$host on port $port not reached before a timeout of $xml_timeout seconds.", FALSE, FALSE, 8888, 'Client-Server', '');
+                  $this->WriteLog("Warning: Host $protocol$host on port $port not reached before a timeout of $xml_timeout seconds.", FALSE, FALSE, 8888, 'Client-Server', "");
               }
           } else {
               // This server has been skipped
-              $this->WriteLog("Info: temporary skipping $xml_url_one due to previous timeout or inconsistent response.", FALSE, FALSE, 8888, 'Client-Server', '');
+              $this->WriteLog("Info: temporary skipping $xml_url_one due to previous timeout or inconsistent response.", FALSE, FALSE, 8888, 'Client-Server', "");
               $result = "";
           }
       } // foreach
@@ -22063,7 +22882,7 @@ EOL;
           $this->_servers_last_timeout = time();
 
           if ($this->_xml_dump_in_log) {
-              $this->WriteLog("Debug: timeout detected.", FALSE, FALSE, 8888, 'Debug', '');
+              $this->WriteLog("Debug: timeout detected.", FALSE, FALSE, 8888, 'Debug', "");
           }
       }
       return $result;
@@ -22178,7 +22997,7 @@ EOL;
       if (isset($_SERVER["SERVER_PROTOCOL"])) {
           $result['message'].= "Protocol: ".$_SERVER["SERVER_PROTOCOL"];
       }
-      if ('' != (isset($_SERVER["HTTPS"])?$_SERVER["HTTPS"]:'')) {
+      if ("" != (isset($_SERVER["HTTPS"])?$_SERVER["HTTPS"]:"")) {
           $result['message'].= " (SSL)";
       } else {
           $result['message'].= " (no SSL)";
@@ -22218,10 +23037,10 @@ EOL;
 
       // Grab our request elements
       $scheme  = isset($uri_elements['scheme']) ? $uri_elements['scheme'] : 'http';
-      $port    = isset($uri_elements['port'])   ? $uri_elements['port']   : '';
-      $request = isset($uri_elements['query'])  ? $uri_elements['query']  : '';
-      $host    = isset($uri_elements['host'])   ? $uri_elements['host']   : '';
-      $path    = isset($uri_elements['path'])   ? $uri_elements['path']   : '';
+      $port    = isset($uri_elements['port'])   ? $uri_elements['port']   : "";
+      $request = isset($uri_elements['query'])  ? $uri_elements['query']  : "";
+      $host    = isset($uri_elements['host'])   ? $uri_elements['host']   : "";
+      $path    = isset($uri_elements['path'])   ? $uri_elements['path']   : "";
    
       // Throw them into an array
       parse_str($request, $parameters);
@@ -22253,7 +23072,7 @@ EOL;
       $signature_string = "GET\n{$host}\n{$path}\n{$new_request}";
    
       $secret_key = $secret;
-      if ('' == $secret_key) {
+      if ("" == $secret_key) {
           $secret_key = $this->GetServerSecret();
       }
 
@@ -22261,12 +23080,12 @@ EOL;
       $signature = urlencode(base64_encode(hash_hmac('sha256', $signature_string, $secret_key, TRUE)));
 
       // Return our new request
-      $url_request = "{$scheme}://{$host}".(('' != $port) ? ":{$port}" : "")."{$path}?{$new_request}&Signature={$signature}";
+      $url_request = "{$scheme}://{$host}".(("" != $port) ? ":{$port}" : "")."{$path}?{$new_request}&Signature={$signature}";
 
       // echo "DEBUG: Signature: $signature ($signature_string) $new_request\n<br />";
 
       if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Debug: *CallApi $script_uri (secret: $secret_key, signature string: $signature_string, full URL: $url_request)", FALSE, FALSE, 8888, 'Debug', '');
+          $this->WriteLog("Debug: *CallApi $script_uri (secret: $secret_key, signature string: $signature_string, full URL: $url_request)", FALSE, FALSE, 8888, 'Debug', "");
       }
 
       $api_result = $this->PostHttpDataXmlRequest(
@@ -22286,17 +23105,17 @@ EOL;
   // The XmlServer is called from the client side using PostHttpDataXmlRequest function
   function XmlServer($data)
   {
-      // $this->WriteLog("Info: Host received the following request: $data", FALSE, FALSE, 8888, 'Debug', '');
+      // $this->WriteLog("Info: Host received the following request: $data", FALSE, FALSE, 8888, 'Debug', "");
 
-      $remote_ip = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'';
+      $remote_ip = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:"";
 
-      $cache_data      = '';
-      $command_name    = '';
-      $error_code      = 71;
-      $server_password = '';
-      $user_data       = '';
-      $user_info       = '';
-      $user_password   = '';
+      $cache_data      = "";
+      $command_name    = "";
+      $error_code      = _MULTIOTP_SERVER_REQUEST_FORMAT_ERROR_;
+      $server_password = "";
+      $user_data       = "";
+      $user_info       = "";
+      $user_password   = "";
 
       $cache_data_template = <<<EOL
       <Cache>
@@ -22322,8 +23141,8 @@ EOL;
       
       if (FALSE !== mb_strpos($data,'<multiOTP')) {
           if ($this->_xml_dump_in_log) {
-              $this->WriteLog("Info: Host answer is correctly formatted.", FALSE, FALSE, 8888, 'Debug', '');
-              $this->WriteLog("Info: Host received the following request: $data", FALSE, FALSE, 8888, 'Debug', '');
+              $this->WriteLog("Info: Host answer is correctly formatted.", FALSE, FALSE, 8888, 'Debug', "");
+              $this->WriteLog("Info: Host received the following request: $data", FALSE, FALSE, 8888, 'Debug', "");
           }
           
           //Set up the parser object
@@ -22332,26 +23151,26 @@ EOL;
           //Parse it !
           $xml->Parse();
 
-          $server_challenge = $this->Decrypt('ServerChallenge', (isset($xml->document->serverchallenge[0])?($xml->document->serverchallenge[0]->tagData):''),$this->GetServerSecret($remote_ip));
+          $server_challenge = $this->Decrypt('ServerChallenge', (isset($xml->document->serverchallenge[0])?($xml->document->serverchallenge[0]->tagData):""),$this->GetServerSecret($remote_ip));
 
           $this->SetCredentialProviderRequest(isset($xml->document->credentialproviderrequest[0])?intval($xml->document->credentialproviderrequest[0]->tagData):0);
 
           if ($this->GetVerboseFlag()) {
-              $this->WriteLog("Info: *Value for IsCredentialProviderRequest: ".$this->IsCredentialProviderRequest(), FALSE, FALSE, 8888, 'CredentialProviderRequest', '');
+              $this->WriteLog("Info: *Value for IsCredentialProviderRequest: ".$this->IsCredentialProviderRequest(), FALSE, FALSE, 8888, 'CredentialProviderRequest', "");
           }
 
           if (isset($xml->document->checkusertoken[0])) {
               $command_name = 'CheckUserToken';
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Info: *CheckUserToken server request.", FALSE, FALSE, 8888, 'Server-Client', '');
+                  $this->WriteLog("Info: *CheckUserToken server request.", FALSE, FALSE, 8888, 'Server-Client', "");
               }
-              $user_id = (isset($xml->document->checkusertoken[0]->userid[0])?($xml->document->checkusertoken[0]->userid[0]->tagData):'');
+              $user_id = (isset($xml->document->checkusertoken[0]->userid[0])?($xml->document->checkusertoken[0]->userid[0]->tagData):"");
               $chap_id = (isset($xml->document->checkusertoken[0]->chap[0]->chapid[0])?($xml->document->checkusertoken[0]->chap[0]->chapid[0]->tagData):'00');
-              $chap_challenge = (isset($xml->document->checkusertoken[0]->chap[0]->chapchallenge[0])?($xml->document->checkusertoken[0]->chap[0]->chapchallenge[0]->tagData):'');
-              $chap_password = (isset($xml->document->checkusertoken[0]->chap[0]->chappassword[0])?($xml->document->checkusertoken[0]->chap[0]->chappassword[0]->tagData):'');
+              $chap_challenge = (isset($xml->document->checkusertoken[0]->chap[0]->chapchallenge[0])?($xml->document->checkusertoken[0]->chap[0]->chapchallenge[0]->tagData):"");
+              $chap_password = (isset($xml->document->checkusertoken[0]->chap[0]->chappassword[0])?($xml->document->checkusertoken[0]->chap[0]->chappassword[0]->tagData):"");
 
-              $chap_hash = (isset($xml->document->checkusertoken[0]->chap[0]->chaphash[0])?($xml->document->checkusertoken[0]->chap[0]->chaphash[0]->tagData):'');
-              if ('' != $chap_hash) {
+              $chap_hash = (isset($xml->document->checkusertoken[0]->chap[0]->chaphash[0])?($xml->document->checkusertoken[0]->chap[0]->chaphash[0]->tagData):"");
+              if ("" != $chap_hash) {
                   $chap_hash = $this->Decrypt('ChapHash', $chap_hash, $chap_id.$server_challenge.$chap_id);
               }
               
@@ -22360,19 +23179,19 @@ EOL;
                   $cache_level = $this->GetServerCacheLevel();
               }
               
-              $error_code = 70;
+              $error_code = _MULTIOTP_SERVER_AUTH_FAILED_;
 
               if ('MOSH' == mb_substr($server_challenge, 0, 4)) {
               // Ok, the challenge is encoded with the correct server secret
-                  if ('' != $chap_hash) {
-                      $this->SetChapId('');
-                      $this->SetChapChallenge('');
-                      $this->SetChapPassword('');
+                  if ("" != $chap_hash) {
+                      $this->SetChapId("");
+                      $this->SetChapChallenge("");
+                      $this->SetChapPassword("");
                       $user_password = $chap_hash;
-                  } elseif ('' == $chap_id) {
-                      $this->SetChapId('');
-                      $this->SetChapChallenge('');
-                      $this->SetChapPassword('');
+                  } elseif ("" == $chap_id) {
+                      $this->SetChapId("");
+                      $this->SetChapChallenge("");
+                      $this->SetChapPassword("");
                       $user_password = $chap_password;
                   } else {
                       $this->SetChapId($chap_id);
@@ -22381,33 +23200,33 @@ EOL;
                   }
                   
                   if (!$this->CheckUserExists($user_id)) {
-                      $error_code = 21; // ERROR: User doesn't exist
+                      $error_code = _MULTIOTP_USER_MISSING_; // ERROR: User doesn't exist
                   } else {
-                      $error_code = intval($this->CheckUserToken($user_id, $user_password, '', FALSE, FALSE, FALSE, TRUE)); // do_not_check_on_server = TRUE;
+                      $error_code = intval($this->CheckUserToken($user_id, $user_password, "", FALSE, FALSE, FALSE, TRUE)); // do_not_check_on_server = TRUE;
                       
                       $now_epoch = time();
                       $cache_lifetime = $this->GetServerCacheLifetime();
                       if ($cache_lifetime > $this->GetUserCacheLifetime()) {
                           $cache_lifetime = $this->GetUserCacheLifetime();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache lifetime lowered to $cache_lifetime for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache lifetime lowered to $cache_lifetime for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                       }
 
                       if ($cache_level > $this->GetUserCacheLevel()) {
                           $cache_level = $this->GetUserCacheLevel();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache level lowered to $cache_level for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache level lowered to $cache_level for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                       }
                       
                       if ((0 < $cache_level) && (0 == intval($error_code))) {
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache level is set to $cache_level", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache level is set to $cache_level", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                           
                           foreach ($this->_user_data as $key => $value) {
-                              if ('' != nullable_trim($key)) {
+                              if ("" != nullable_trim($key)) {
                                 // CheckUserToken will return all attributes, included encrypted ones, but only if user is authenticated successfully
                                   if ('encryption_hash' != $key) {
                                       $user_data.= mb_strtolower($key,'UTF-8');
@@ -22426,7 +23245,7 @@ EOL;
                               }
                           }
 
-                          $cache_user = '';
+                          $cache_user = "";
                           $one_cache_user = str_replace('*UserId*', $user_id, $user_template);
                           $one_cache_user = str_replace('*UserData*', $user_data, $one_cache_user);
                           $cache_user .= $one_cache_user;
@@ -22440,7 +23259,7 @@ EOL;
               $command_name = 'ReadUserData';
               $user_id = (isset($xml->document->readuserdata[0]->userid[0])?($xml->document->readuserdata[0]->userid[0]->tagData):'NO_USER_DETECTED!');
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Info: *ReadUserData server request for $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                  $this->WriteLog("Info: *ReadUserData server request for $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
               }
 
               $cache_level = (isset($xml->document->readuserdata[0]->cachelevel[0])?($xml->document->readuserdata[0]->cachelevel[0]->tagData):0);
@@ -22448,15 +23267,15 @@ EOL;
                   $cache_level = $this->GetServerCacheLevel();
               }
 
-              $error_code = 70;
+              $error_code = _MULTIOTP_SERVER_AUTH_FAILED_;
 
               if ('MOSH' == mb_substr($server_challenge, 0, 4)) {
                   // Ok, the challenge is encoded with the correct server secret
-                  $error_code = 21; // ERROR: User doesn't exist
+                  $error_code = _MULTIOTP_USER_MISSING_; // ERROR: User doesn't exist
 
                   if ($this->ReadUserData($user_id, FALSE, TRUE)) {
                       // $no_server_check = TRUE;
-                      $error_code = 19;
+                      $error_code = _MULTIOTP_OPERATION_DONE_;
                       
                       // Preparing caching code
                       $now_epoch = time();
@@ -22464,20 +23283,20 @@ EOL;
                       if ($cache_lifetime > $this->GetUserCacheLifetime()) {
                           $cache_lifetime = $this->GetUserCacheLifetime();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache lifetime lowered to $cache_lifetime for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache lifetime lowered to $cache_lifetime for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                       }
 
                       if ($cache_level > $this->GetUserCacheLevel()) {
                           $cache_level = $this->GetUserCacheLevel();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache level lowered to $cache_level for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache level lowered to $cache_level for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                       }
                       // End of preparing caching code
                       
                       foreach ($this->_user_data as $key => $value) {
-                          if ('' != nullable_trim($key)) {
+                          if ("" != nullable_trim($key)) {
                               // ReadUserData will only return non-encrypted attributes
                               if (('encryption_hash' != $key) &&
                                   (!((FALSE !== mb_strpos(mb_strtolower($this->GetAttributesToEncrypt(),'UTF-8'), mb_strtolower('*'.$key.'*','UTF-8'))) ||
@@ -22503,10 +23322,10 @@ EOL;
                       // Caching for without2fa algorithm only
                       if ((0 < $cache_level) && ("without2fa" == mb_strtolower($this->_user_data['algorithm'],'UTF-8'))) {
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache level is set to $cache_level", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache level is set to $cache_level", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
 
-                          $cache_user = '';
+                          $cache_user = "";
                           $one_cache_user = str_replace('*UserId*', $user_id, $user_template);
                           $one_cache_user = str_replace('*UserData*', $user_data, $one_cache_user);
                           $cache_user .= $one_cache_user;
@@ -22524,7 +23343,7 @@ EOL;
               $command_name = 'CheckUserExists';
               $user_id = (isset($xml->document->checkuserexists[0]->userid[0])?($xml->document->checkuserexists[0]->userid[0]->tagData):'NO_USER_DETECTED!');
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Info: *CheckUserExists server request for $user_id with challenge $server_challenge", FALSE, FALSE, 8888, 'Server-Client', '');
+                  $this->WriteLog("Info: *CheckUserExists server request for $user_id with challenge $server_challenge", FALSE, FALSE, 8888, 'Server-Client', "");
               }
 
               $cache_level = (isset($xml->document->checkuserexists[0]->cachelevel[0])?($xml->document->checkuserexists[0]->cachelevel[0]->tagData):0);
@@ -22532,15 +23351,15 @@ EOL;
                   $cache_level = $this->GetServerCacheLevel();
               }
 
-              $error_code = 70;
+              $error_code = _MULTIOTP_SERVER_AUTH_FAILED_;
 
               if ('MOSH' == mb_substr($server_challenge, 0, 4)) {
                   // Ok, the challenge is encoded with the correct server secret
-                  $error_code = 21; // ERROR: User doesn't exist
+                  $error_code = _MULTIOTP_USER_MISSING_; // ERROR: User doesn't exist
 
                   if ($this->CheckUserExists($user_id, TRUE)) {
                       // $no_server_check = TRUE;
-                      $error_code = 22;
+                      $error_code = _MULTIOTP_USER_EXISTS_;
                       
                       // Preparing caching code
                       $now_epoch = time();
@@ -22548,21 +23367,21 @@ EOL;
                       if ($cache_lifetime > $this->GetUserCacheLifetime()) {
                           $cache_lifetime = $this->GetUserCacheLifetime();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache lifetime lowered to $cache_lifetime for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache lifetime lowered to $cache_lifetime for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                       }
 
                       if ($cache_level > $this->GetUserCacheLevel()) {
                           $cache_level = $this->GetUserCacheLevel();
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache level lowered to $cache_level for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache level lowered to $cache_level for the user $user_id", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
                       }
                       // End of preparing caching code
                       
                       // Reading caching info
                       foreach ($this->_user_data as $key => $value) {
-                          if ('' != nullable_trim($key)) {
+                          if ("" != nullable_trim($key)) {
                               // ReadUserData will only return non-encrypted attributes
                               if (('encryption_hash' != $key) &&
                                   (!((FALSE !== mb_strpos(mb_strtolower($this->GetAttributesToEncrypt(),'UTF-8'), mb_strtolower('*'.$key.'*','UTF-8'))) ||
@@ -22589,10 +23408,10 @@ EOL;
                       // Caching for without2fa algorithm only
                       if ((0 < $cache_level) && ("without2fa" == mb_strtolower($this->_user_data['algorithm'],'UTF-8'))) {
                           if ($this->GetVerboseFlag()) {
-                              $this->WriteLog("Info: *Cache level is set to $cache_level", FALSE, FALSE, 8888, 'Server-Client', '');
+                              $this->WriteLog("Info: *Cache level is set to $cache_level", FALSE, FALSE, 8888, 'Server-Client', "");
                           }
 
-                          $cache_user = '';
+                          $cache_user = "";
                           $one_cache_user = str_replace('*UserId*', $user_id, $user_template);
                           $one_cache_user = str_replace('*UserData*', $user_data, $one_cache_user);
                           $cache_user .= $one_cache_user;
@@ -22604,20 +23423,20 @@ EOL;
                   }
               }
               if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Info: *CheckUserExists intermediate error code: $error_code", FALSE, FALSE, 8888, 'Server-Client', '');
+                  $this->WriteLog("Info: *CheckUserExists intermediate error code: $error_code", FALSE, FALSE, 8888, 'Server-Client', "");
               }
           } // End of CheckUserExists
           
           $server_password = md5($command_name.$this->GetServerSecret($remote_ip).$server_challenge);
           
       } elseif ($this->GetVerboseFlag()) {
-          $this->WriteLog("Info: *Server received the following request: $data", FALSE, FALSE, 8888, 'Server-Client', '');
+          $this->WriteLog("Info: *Server received the following request: $data", FALSE, FALSE, 8888, 'Server-Client', "");
       }
       
       $error_description = $this->GetErrorText($error_code);
       
-      if ($this->GetVerboseFlag()) {
-        $this->WriteLog("Info: *Server secret used for command ".$command_name." with error code result ".$error_code.": ".$this->GetServerSecret($remote_ip), FALSE, FALSE, 8888, 'Server-Client', '');
+      if ($this->IsDeveloperMode()) {
+        $this->WriteLog("Developer: *Server secret used for command ".$command_name." with error code result ".$error_code.": ".$this->GetServerSecret($remote_ip), FALSE, FALSE, 8888, 'Server-Client', "");
       }
       
       $xml_data = str_replace('*Command*', $command_name, $xml_data);
@@ -22638,7 +23457,7 @@ EOL;
       header("Content-type: text/xml");
 
       if ($this->_xml_dump_in_log) {
-        $this->WriteLog("Info: Server sent the following answer: $xml_data", FALSE, FALSE, 8888, 'Debug', '');
+        $this->WriteLog("Info: Server sent the following answer: $xml_data", FALSE, FALSE, 8888, 'Debug', "");
       }
       echo $xml_data;
   }
@@ -22648,8 +23467,8 @@ EOL;
   // If $file_name = "binary", send binary content without header
   
   function qrcode(
-    $qrcode_array = '',
-    $file_name = '',
+    $qrcode_array = "",
+    $file_name = "",
     $image_type = "P",
     $ecc_level = "Q",
     $module_size = 4,
@@ -22657,11 +23476,11 @@ EOL;
     $structure_m = 0,
     $structure_n = 0,
     $parity = 0,
-    $original_data = ''
+    $original_data = ""
   ) {
     if (is_array($qrcode_array)) {
-      $data = isset($qrcode_array['data'])?$qrcode_array['data']:'';
-      $file_name = isset($qrcode_array['file_name'])?$qrcode_array['file_name']:'';
+      $data = isset($qrcode_array['data'])?$qrcode_array['data']:"";
+      $file_name = isset($qrcode_array['file_name'])?$qrcode_array['file_name']:"";
       $format = isset($qrcode_array['format'])?$qrcode_array['format']:'png';
       $symbology = isset($qrcode_array['symbology'])?$qrcode_array['symbology']:'qr-q';
       $options = isset($qrcode_array['options'])?$qrcode_array['options']:array();
@@ -22677,11 +23496,11 @@ EOL;
 
     $generator = new barcode_generator();
     
-    if ($file_name == '') {
+    if ("" == $file_name) {
       $generator->output_image($format, $symbology, $data, $options);
       $result = 100;
     } else {
-      if ('svg' == strtolower(preg_replace('/[^A-Za-z0-9]/', '', $format))) {
+      if ('svg' == strtolower(preg_replace('/[^A-Za-z0-9]/', "", $format))) {
         $result = $generator->render_svg($symbology, $data, $options);
         if (!$return_binary) {
           file_put_contents($file_name, $result);
@@ -22692,7 +23511,7 @@ EOL;
           ob_start();
           $file_name = null;
         }
-        switch (strtolower(preg_replace('/[^A-Za-z0-9]/', '', $format))) {
+        switch (strtolower(preg_replace('/[^A-Za-z0-9]/', "", $format))) {
           case 'png':
             $image = $generator->render_image($symbology, $data, $options);
             imagepng($image, $file_name);
@@ -22725,7 +23544,7 @@ EOL;
 
     ob_start();
     
-  if (('' != nullable_trim($file_name)) && (!$return_binary) && ('' != $this->GetLinuxFileMode())) {
+  if (("" != nullable_trim($file_name)) && (!$return_binary) && ("" != $this->GetLinuxFileMode())) {
       if (file_exists($file_name)) {
         @chmod($file_name, octdec($this->GetLinuxFileMode()));
       }
@@ -22754,8 +23573,8 @@ class MultiotpSms
  * @brief     SMS message using any SMS Provider.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.9.8.0
- * @date      2024-08-26
+ * @version   5.9.9.3
+ * @date      2025-02-18
  * @since     2018-10-09
  *
  * Predefined providers:
@@ -22821,6 +23640,7 @@ class MultiotpSms
  *
  * Change Log
  *
+ *   2025-02-18 5.9.9.3 SysCo/al Remove notice if default_values is empty
  *   2024-08-26 5.9.8.0 SysCo/al default_values added (for example: "ip=xxxx;port=yyy")
  *   2023-11-21 5.9.7.0 SysCo/al Cleaned code
  *   2023-03-21 5.9.5.8 SysCo/al smsgateway provider added
@@ -22948,6 +23768,7 @@ class MultiotpSms
     $this->basic_auth = FALSE;
     $this->content_encoding = "";
     $this->header = "";
+    $this->default_values = "";
 
     $this->encode_ampersand = FALSE;
   }
@@ -23534,10 +24355,14 @@ class MultiotpSms
       $payload_msg = str_replace('&', '%26', $payload_msg);
     }
     
-    foreach (explode(";",$this->default_values) as $one_default_value_array) {
-      list($key, $value) = explode('=', $one_default_value_array);
-      if ("" == trim($this->getProperty($key))) {
-        $this->setProperty($key, $value);
+    $default_values = trim($this->default_values);
+    if (!empty($default_values)) {
+      foreach (explode(";",trim($this->default_values)) as $one_default_value_array) {
+        list($key, $value) = explode('=', $one_default_value_array);
+        $property_key = trim($this->getProperty($key));
+        if (empty($property_key)) {
+          $this->setProperty($key, $value);
+        }
       }
     }
 
@@ -30563,448 +31388,212 @@ function MultiotpShowStatus($done, $total, $size=30)
  * Adam A. Flynn                           *
  * http://www.criticaldevelopment.net/xml/ *
  *******************************************/
+
+class MultiotpXmlParser
 /**
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published
-    by the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    For Support, please visit http://www.criticaldevelopment.net/xml/
-*/
-
-/**
- * XML Parser Class (php4)
- * 
- * Parses an XML document into an object structure much like the SimpleXML extension.
+ * @class     MultiotpXmlParser
+ * @brief     New rewritten PHP XML parser (without eval)
  *
+ * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
+ * @version   5.10.0.1
+ * @date      2025-10-22
+ * @since     2025-10-22
+ *
+ * Based on the following GNU Lesser General Public License work:
+ * XML Parser Class
+ * Parses an XML document into an object structure much like the SimpleXML extension.
  * @author Adam A. Flynn <adamaflynn@criticaldevelopment.net>
  * @copyright Copyright (c) 2005-2007, Adam A. Flynn
- *
  * @version 1.3.0.1
  *
- * Name: MultiotpXmlParser (original name: XMLParser)
+ *
+ * Change Log
+ *
+ *   2025-10-22 5.10.0.1 SysCo/al New rewritten PHP XML parser (without eval)
  */
-class MultiotpXmlParser 
 {
-    /**
-     * The XML parser
-     *
-     * @var resource
-     */
-    var $parser;
+  public $xml;
+  public $document;
+  public $stack;
+  public $cleanTagNames;
 
-    /**
-    * The XML document
-    *
-    * @var string
-    */
-    var $xml;
+  public function __construct(
+    $xml = '',
+    $cleanTagNames = true
+  ) {
+    $this->xml = $xml;
+    $this->stack = array();
+    $this->cleanTagNames = $cleanTagNames;
+  }
 
-    /**
-    * Document tag
-    *
-    * @var object
-    */
-    var $document;
+  public function Parse()
+  {
+    $parser = xml_parser_create();
+    xml_set_element_handler($parser, array($this, 'StartElement'), array($this, 'EndElement'));
+    xml_set_character_data_handler($parser, array($this, 'CharacterData'));
 
-    /**
-    * Current object depth
-    *
-    * @var array
-    */
-    var $stack;
-    /**
-     * Whether or not to replace dashes and colons in tag
-     * names with underscores.
-     * 
-     * @var bool
-     */
-    var $cleanTagNames;
-
-    
-    /**
-     * Constructor. Loads XML document.
-     *
-     * @param string $xml The string of the XML document
-     * @return MultiotpXmlParser
-     */
-    function __construct($xml = '', $cleanTagNames = true)
-    {
-        //Load XML document
-        $this->xml = $xml;
-
-        // Set stack to an array
-        $this->stack = array();
-        
-        //Set whether or not to clean tag names
-        $this->cleanTagNames = $cleanTagNames;
+    if (!xml_parse($parser, $this->xml)) {
+      $this->HandleError(
+        xml_get_error_code($parser),
+        xml_get_current_line_number($parser),
+        xml_get_current_column_number($parser),
+        xml_get_current_byte_index($parser)
+      );
     }
 
-    /**
-     * Initiates and runs PHP's XML parser
-     */
-    function Parse()
-    {
-        //Create the parser resource
-        $this->parser = xml_parser_create();
-        xml_set_element_handler($this->parser, [$this, 'StartElement'], [$this, 'EndElement']);
-        xml_set_character_data_handler($this->parser, [$this, 'CharacterData']);
+    xml_parser_free($parser);
+  }
 
-        //Error handling
-        if (!xml_parse($this->parser, $this->xml))
-            $this->HandleError(xml_get_error_code($this->parser), xml_get_current_line_number($this->parser), xml_get_current_column_number($this->parser), xml_get_current_byte_index($this->parser));
-
-        //Free the parser
-        xml_parser_free($this->parser);
+  public function HandleError(
+    $code,
+    $line,
+    $col,
+    $byte_index = 0
+  ) {
+    $sample_size = 80;
+    $sample_start = $byte_index - ($sample_size / 2);
+    if ($sample_start < 0) {
+      $sample_start = 0;
     }
-    
-    /**
-     * Handles an XML parsing error
-     *
-     * @param int $code XML Error Code
-     * @param int $line Line on which the error happened
-     * @param int $col Column on which the error happened
-     */
-    function HandleError($code, $line, $col, $byte_index = 0)
-    {
-        $sample_size = 80;
-        $sample_start = $byte_index - ($sample_size / 2);
-        if ($sample_start < 0) {
-          $sample_start = 0;
-        }
-        
-        trigger_error('XML Parsing Error at '.$line.':'.$col. (($byte_index != 0)?' (byte index: '.$byte_index.')':''). '. Error '.$code.': '.xml_error_string($code). ' check sample which starts at position '.$sample_start.': html encoded: '.htmlentities(substr($this->xml, $sample_start, $sample_size)). ' (hex: '.bin2hex(substr($this->xml, $sample_start, $sample_size)).', raw: '.(substr($this->xml, $sample_start, $sample_size)).')');
-    }
+    trigger_error(
+      'XML Parsing Error at '.$line.':'.$col.
+      (($byte_index != 0)?' (byte index: '.$byte_index.')':'').
+      '. Error '.$code.': '.xml_error_string($code).
+      ' Sample: '.htmlentities(substr($this->xml, $sample_start, $sample_size)),
+      E_USER_ERROR
+    );
+  }
 
-    
-    /**
-     * Gets the XML output of the PHP structure within $this->document
-     *
-     * @return string
-     */
-    function GenerateXML()
-    {
-        return $this->document->GetXML();
+  public function GenerateXML()
+  {
+    return $this->document->GetXML();
+  }
+
+  public function StartElement(
+    $parser,
+    $name,
+    $attrs = array()
+  ) {
+    $name = strtolower($name);
+
+    if (count($this->stack) === 0) {
+      // Root node
+      $this->document = new MultiotpXMLTag($name, $attrs);
+      $this->stack[] = $this->document;
+      return;
     }
 
-    /**
-     * Gets the reference to the current direct parent
-     *
-     * @return object
-     */
-    function GetStackLocation()
-    {
-        $return = '';
+    $parent = end($this->stack);
+    $child = $parent->AddChild($name, $attrs, count($this->stack), $this->cleanTagNames);
+    $this->stack[] = $child;
+  }
 
-        foreach($this->stack as $stack)
-            $return .= $stack.'->';
-        
-        return rtrim($return, '->');
+  public function EndElement(
+    $parser,
+    $name
+  ) {
+    array_pop($this->stack);
+  }
+
+  public function CharacterData(
+    $parser,
+    $data
+  ) {
+    $current = end($this->stack);
+    if ($current !== false) {
+      $current->tagData .= trim($data);
     }
-
-    /**
-     * Handler function for the start of a tag
-     *
-     * @param resource $parser
-     * @param string $name
-     * @param array $attrs
-     */
-    function StartElement($parser, $name, $attrs = array())
-    {
-        //Make the name of the tag lower case
-        $name = strtolower($name);
-        
-        //Check to see if tag is root-level
-        if (count($this->stack) == 0) 
-        {
-            //If so, set the document as the current tag
-            $this->document = new MultiotpXMLTag($name, $attrs);
-
-            //And start out the stack with the document tag
-            $this->stack = array('document');
-        }
-        //If it isn't root level, use the stack to find the parent
-        else
-        {
-            //Get the name which points to the current direct parent, relative to $this
-            $parent = $this->GetStackLocation();
-            
-            //Add the child
-            eval('$this->'.$parent.'->AddChild($name, $attrs, '.count($this->stack).', $this->cleanTagNames);');
-            
-            //If the cleanTagName feature is on, replace colons and dashes with underscores
-            if($this->cleanTagNames)
-                $name = str_replace(array(':', '-'), '_', $name);
-
-
-            //Update the stack
-            eval('$this->stack[] = $name.\'[\'.(count($this->'.$parent.'->'.$name.') - 1).\']\';');
-        }
-    }
-
-    /**
-     * Handler function for the end of a tag
-     *
-     * @param resource $parser
-     * @param string $name
-     */
-    function EndElement($parser, $name)
-    {
-        //Update stack by removing the end value from it as the parent
-        array_pop($this->stack);
-    }
-
-    /**
-     * Handler function for the character data within a tag
-     *
-     * @param resource $parser
-     * @param string $data
-     */
-    function CharacterData($parser, $data)
-    {
-        //Get the reference to the current parent object
-        $tag = $this->GetStackLocation();
-
-        //Assign data to it
-        eval('$this->'.$tag.'->tagData .= trim($data);');
-    }
+  }
 }
 
-
 /**
- * XML Tag Object (php4)
- *
- * This object stores all of the direct children of itself in the $children array. They are also stored by
- * type as arrays. So, if, for example, this tag had 2 <font> tags as children, there would be a class member
- * called $font created as an array. $font[0] would be the first font tag, and $font[1] would be the second.
- *
- * To loop through all of the direct children of this object, the $children member should be used.
- *
- * To loop through all of the direct children of a specific tag for this object, it is probably easier 
- * to use the arrays of the specific tag names, as explained above.
- *
- * @author Adam A. Flynn <adamaflynn@criticaldevelopment.net>
- * @copyright Copyright (c) 2005-2007, Adam A. Flynn
- *
- * @version 1.3.0
- *
- * Name: MultiotpXMLTag (original name: XMLTag)
+ * XML Tag Object
  */
-
-// PHP >=8.1 specific attribute to allow dynamic properties
-#[AllowDynamicProperties]
 class MultiotpXMLTag
 {
-    /**
-     * Array with the attributes of this XML tag
-     *
-     * @var array
-     */
-    var $tagAttrs;
-    
-    /**
-     * The name of the tag
-     *
-     * @var string
-     */
-    var $tagName;
-    
-    /**
-     * The data the tag contains 
-     * 
-     * So, if the tag doesn't contain child tags, and just contains a string, it would go here
-     *
-     * @var string
-     */
-    var $tagData;
-    
-    /**
-     * Array of references to the objects of all direct children of this XML object
-     *
-     * @var array
-     */
-    var $tagChildren;
-    
-    /**
-     * The number of parents this XML object has (number of levels from this tag to the root tag)
-     *
-     * Used presently only to set the number of tabs when outputting XML
-     *
-     * @var int
-     */
-    var $tagParents;
-    
-    /**
-     * Constructor, sets up all the default values
-     *
-     * @param string $name
-     * @param array $attrs
-     * @param int $parents
-     * @return MultiotpXMLTag
-     */
-    function __construct($name, $attrs = array(), $parents = 0)
-    {
-        //Make the keys of the attr array lower case, and store the value
-        $this->tagAttrs = array_change_key_case($attrs, CASE_LOWER);
-        
-        //Make the name lower case and store the value
-        $this->tagName = strtolower($name);
-        
-        //Set the number of parents
-        $this->tagParents = $parents;
-        
-        //Set the types for children and data
-        $this->tagChildren = array();
-        $this->tagData = '';
-    }
-    
-    /**
-     * Adds a direct child to this object
-     *
-     * @param string $name
-     * @param array $attrs
-     * @param int $parents
-     * @param bool $cleanTagName
-     */
-    function AddChild($name, $attrs, $parents, $cleanTagName = true)
-    {    
-        //If the tag is a reserved name, output an error
-        if(in_array($name, array('tagChildren', 'tagAttrs', 'tagParents', 'tagData', 'tagName')))
-        {
-            trigger_error('You have used a reserved name as the name of an XML tag. Please consult the documentation (http://www.criticaldevelopment.net/xml/) and rename the tag named "'.$name.'" to something other than a reserved name.', E_USER_ERROR);
+  public $tagName;
+  public $tagAttrs;
+  public $tagData;
+  public $tagChildren;
+  public $tagParents;
 
-            return;
-        }
-        
-        //Create the child object itself
-        $child = new MultiotpXMLTag($name, $attrs, $parents);
+  public function __construct(
+    $name,
+    $attrs = array(),
+    $parents = 0,
+    $cleanTagName = true
+  ) {
+    $this->tagName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
+    $this->tagAttrs = array_change_key_case($attrs, CASE_LOWER);
+    $this->tagData = '';
+    $this->tagChildren = array();
+    $this->tagParents = $parents;
+  }
 
-        //If the cleanTagName feature is on, replace colons and dashes with underscores
-        if($cleanTagName)
-            $name = str_replace(array(':', '-'), '_', $name);
-        
-        //Toss up a notice if someone's trying to to use a colon or dash in a tag name
-        elseif(strstr($name, ':') || strstr($name, '-'))
-            trigger_error('Your tag named "'.$name.'" contains either a dash or a colon. Neither of these characters are friendly with PHP variable names, and, as such, they cannot be accessed and will cause the parser to not work. You must enable the cleanTagName feature (pass true as the second argument of the MultiotpXmlParser constructor). For more details, see http://www.criticaldevelopment.net/xml/', E_USER_ERROR);
-            
-        //If there is no array already set for the tag name being added, 
-        //create an empty array for it
-        if(!isset($this->$name))
-            $this->$name = array();
-        
-        //Add the reference of it to the end of an array member named for the tag's name
-        $this->{$name}[] =& $child;
-        
-        //Add the reference to the children array member
-        $this->tagChildren[] =& $child;
+  /**
+   * Helper for legagy compatibility
+   * $parent->tagChildren['foo'][0] works also like the legacy $parent->foo[0] 
+   */
+  public function __get(
+    $name
+  ) {
+    $name = strtolower($name);
+    if (isset($this->tagChildren[$name])) {
+      return $this->tagChildren[$name];
     }
-    
-    /**
-     * Returns the string of the XML document which would be generated from this object
-     * 
-     * This function works recursively, so it gets the XML of itself and all of its children, which
-     * in turn gets the XML of all their children, which in turn gets the XML of all thier children,
-     * and so on. So, if you call GetXML from the document root object, it will return a string for 
-     * the XML of the entire document.
-     * 
-     * This function does not, however, return a DTD or an XML version/encoding tag. That should be
-     * handled by MultiotpXmlParser::GetXML()
-     *
-     * @return string
-     */
-    function GetXML()
-    {
-        //Start a new line, indent by the number indicated in $this->parents, add a <, and add the name of the tag
-        $out = "\n".str_repeat("\t", $this->tagParents).'<'.$this->tagName;
+    return array();
+  }
 
-        //For each attribute, add attr="value"
-        foreach($this->tagAttrs as $attr => $value)
-            $out .= ' '.$attr.'="'.$value.'"';
-        
-        //If there are no children and it contains no data, end it off with a />
-        if(empty($this->tagChildren) && empty($this->tagData))
-            $out .= " />";
-        
-        //Otherwise...
-        else
-        {    
-            //If there are children
-            if(!empty($this->tagChildren))        
-            {
-                //Close off the start tag
-                $out .= '>';
-                
-                //For each child, call the GetXML function (this will ensure that all children are added recursively)
-                foreach($this->tagChildren as $child)
-                {
-                    if(is_object($child))
-                        $out .= $child->GetXML();
-                }
+  public function AddChild(
+    $name,
+    $attrs = array(),
+    $parents = 0,
+    $cleanTagName = true
+  ) {
+    $childName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
+    $child = new self($name, $attrs, $parents, $cleanTagName);
 
-                //Add the newline and indentation to go along with the close tag
-                $out .= "\n".str_repeat("\t", $this->tagParents);
-            }
-            
-            //If there is data, close off the start tag and add the data
-            elseif(!empty($this->tagData))
-                $out .= '>'.$this->tagData;
-            
-            //Add the end tag    
-            $out .= '</'.$this->tagName.'>';
-        }
-        
-        //Return the final output
-        return $out;
+    if (!isset($this->tagChildren[$childName])) {
+      $this->tagChildren[$childName] = array();
     }
-    
-    /**
-     * Deletes this tag's child with a name of $childName and an index
-     * of $childIndex
-     *
-     * @param string $childName
-     * @param int $childIndex
-     */
-    function Delete($childName, $childIndex = 0)
-    {
-        //Delete all of the children of that child
-        $this->{$childName}[$childIndex]->DeleteChildren();
-        
-        //Destroy the child's value
-        $this->{$childName}[$childIndex] = null;
-        
-        //Remove the child's name from the named array
-        unset($this->{$childName}[$childIndex]);
-        
-        //Loop through the tagChildren array and remove any null
-        //values left behind from the above operation
-        for($x = 0; $x < count($this->tagChildren); $x ++)
-        {
-            if(is_null($this->tagChildren[$x]))
-                unset($this->tagChildren[$x]);
-        }
+    $this->tagChildren[$childName][] = $child;
+
+    return $child;
+  }
+
+  public function GetChild(
+    $name,
+    $index = 0
+  ) {
+    $name = strtolower($name);
+    return isset($this->tagChildren[$name][$index]) ? $this->tagChildren[$name][$index] : null;
+  }
+
+  public function GetXML()
+  {
+    $out = "\n" . str_repeat("\t", $this->tagParents) . '<'.$this->tagName;
+
+    foreach ($this->tagAttrs as $attr => $value) {
+      $out .= ' '.$attr.'="'.$value.'"';
     }
-    
-    /**
-     * Removes all of the children of this tag in both name and value
-     */
-    function DeleteChildren()
-    {
-        //Loop through all child tags
-        for($x = 0; $x < count($this->tagChildren); $x ++)
-        {
-            //Do this recursively
-            $this->tagChildren[$x]->DeleteChildren();
-            
-            //Delete the name and value
-            $this->tagChildren[$x] = null;
-            unset($this->tagChildren[$x]);
+
+    if (empty($this->tagChildren) && $this->tagData === '') {
+      $out .= " />";
+    } else {
+      $out .= ">";
+      if ($this->tagData !== '') {
+        $out .= $this->tagData;
+      }
+      foreach ($this->tagChildren as $children) {
+        foreach ($children as $child) {
+          $out .= $child->GetXML();
         }
+      }
+      $out .= '</'.$this->tagName.'>';
     }
+
+    return $out;
+  }
 }
 
 /*****************************************
@@ -66492,7 +67081,7 @@ class MAIL4 {
   class MAIL extends MAIL4 { }
 }
 
-/********************************************************
+/*******************************************************
 * NuSOAP - PHP Web Services Toolkit 1.123 (LGPLv2.1)   *
 * NuSphere Corporation                                 *
 * http://sourceforge.net/projects/nusoap/              *
@@ -74655,5 +75244,275 @@ if (!extension_loaded('soap')) {
 	}
 }
 
+}
+
+/*******************************************************
+* Based on phpWebSocketServer project                  *
+* https://github.com/napengam/phpWebSocketServer       *
+********************************************************/
+if (!class_exists('websocketCore')) {
+  
+class websocketCore {
+
+    public $prot, $connected = false, $firstFragment = true, $finBit = true,
+            $ident, $socketMaster, $key, $expectedToken, $errorHandshake, $fin, $opcode,
+            $frame, $length, $fromUUID, $timeout = 2;
+
+    function __construct($Address, $ident = '') {
+        $this->ident = $ident;
+        $context = stream_context_create();
+
+        // Extract protocol and set default port
+        $parts = explode('://', $Address, 2);
+        $protocol = (count($parts) > 1) ? strtolower($parts[0]) : 'tcp';
+        $Address = (count($parts) > 1) ? $parts[1] : $Address;
+
+        $isSecure = ($protocol === 'ssl' || $protocol === 'wss');
+        $defaultPort = $isSecure ? '443' : '80';
+        $prot = $isSecure ? 'ssl://' : 'tcp://';
+
+        if ($isSecure) {
+            stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
+            stream_context_set_option($context, 'ssl', 'verify_peer', false);
+            stream_context_set_option($context, 'ssl', 'verify_peer_name', false);
+        }
+
+        // Extract endpoint and default to '/'
+        [$host, $app] = explode('/', $Address, 2) + [null, '/'];
+        $app = '/' . $app;
+
+        // Extract port if specified
+        [$host, $port] = explode(':', $host, 2) + [null, $defaultPort];
+        $addressWithPort = "$prot$host:$port";
+
+        $errno = 0;
+        $errstr = '';
+        $this->socketMaster = stream_socket_client($addressWithPort, $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $context);
+
+        if (!$this->socketMaster) {
+            $this->connected = false;
+            return false;
+        }
+
+        $this->connected = true;
+        fwrite($this->socketMaster, $this->setHandshake($host, $app));
+        $buffer = fread($this->socketMaster, 1024);
+
+        if (!$this->getHandshake($buffer)) {
+            $this->silent();
+            echo $this->errorHandshake;
+            return false;
+        }
+
+        // Set a timeout for non-blocking client actions
+        stream_set_timeout($this->socketMaster, $this->timeout);
+        return true;
+    }
+
+    final function writeSocket($message) {
+        if ($this->connected) {
+            fwrite($this->socketMaster, $this->encodeForServer($message));
+        }
+    }
+
+    final function readSocket() {
+
+        if ($this->connected === false) {
+            return '';
+        }
+        $buff = [];
+        $i = 0;
+        do { // probaly reading fragements
+            $continue = false;
+            $buff[$i] = $this->decodeFromServer(fread($this->socketMaster, 8192));
+            if (stream_get_meta_data($this->socketMaster)['timed_out']) {
+                $this->connected = false;
+                return '';
+            }
+            switch ($this->opcode) {
+                case 9: // Ping frame
+                    $this->opcode = 10; // Respond with pong
+                    $m = implode('', $buff);
+                    $this->writeSocket($m, strlen($m));
+                    $this->fin = false; // Continue reading
+                    $continue = true;
+                    break;
+
+                case 10: // Pong frame
+                    $this->fin = false; // Ignore, continue reading
+                    $continue = true;
+                    break;
+                case 8: // Close frame
+                    $this->silent(); // Close connection
+                    return '';
+
+                default:
+                    // Adjust length remaining to read
+                    $this->length -= strlen($buff[$i]);
+                    break;
+            }
+            if ($continue) {
+                $continue = false;
+                continue;
+            }
+            $i++;
+            while ($this->length > 0) { // data buffered by socket 
+                $buff[$i] = fread($this->socketMaster, 8192);
+                if (stream_get_meta_data($this->socketMaster)['timed_out']) {
+                    $this->connected = false;
+                    return '';
+                }
+                $this->length -= strlen($buff[$i]);
+                $i++;
+            }
+        } while ($this->fin == false);
+        return implode('', $buff);
+    }
+
+    final function silent() {
+        if ($this->connected) {
+            $this->writeSocket(''); // close
+            fclose($this->socketMaster);
+            $this->connected = false;
+        }
+    }
+
+    private function setHandshake($server, $app = '/') {
+        $this->key = random_bytes(16);
+        $key = base64_encode($this->key);
+
+        // Expected token calculated from key and the WebSocket GUID
+        $sah1 = sha1($key . "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
+        $this->expectedToken = base64_encode(hex2bin($sah1));
+
+        // Determine protocol based on $this->prot
+        $prot = ($this->prot === 'ssl://') ? "https://" : "http://";
+
+        // Assemble handshake request headers
+        $req = [
+            "GET $app HTTP/1.1",
+            "Host: $server",
+            "Upgrade: websocket",
+            "Connection: Upgrade",
+            "Sec-WebSocket-Key: $key",
+            "Origin: {$prot}{$server}",
+            "Sec-WebSocket-Version: 13",
+            "Client-Type: php", // Private, not part of RFC6455
+            "Ident: $this->ident", // Private, not part of RFC6455
+            "allowRemote: ''"               // Private, not part of RFC6455
+        ];
+
+        return implode("\r\n", $req) . "\r\n\r\n";
+    }
+
+    private function getHandshake($Buffer) {
+        $Headers = [];
+        $this->errorHandshake = $Buffer;
+        $Lines = explode("\n", $Buffer);
+        foreach ($Lines as $Line) {
+            if (strpos($Line, ":") !== false) {
+                $Header = explode(":", $Line, 2);
+                $Headers[strtolower(trim($Header[0]))] = trim($Header[1]);
+            } else if (stripos($Line, "HTTP/") !== false) {
+                $Headers['101'] = trim($Line);
+            }
+        }
+        foreach (['101', 'upgrade', 'connection', 'sec-websocket-accept']as $key) {
+            if (isset($Headers[$key]) === false) {
+                return false;
+            }
+        }
+
+        if (stripos($Headers['101'], "HTTP/1.1 101") === false) {
+            return false;
+        }
+        if (strcasecmp($Headers['upgrade'], 'websocket') <> 0) {
+            return false;
+        }
+        if (strcasecmp($Headers['connection'], 'Upgrade') <> 0) {
+            return false;
+        }
+        if ($Headers['sec-websocket-accept'] != $this->expectedToken) {
+            return false;
+        }
+        $this->errorHandshake = '';
+        return true;
+    }
+
+    final function encodeForServer($M) {
+        $L = strlen($M);
+        $bHead = [];
+
+        // Set the first byte based on the opcode and fragment
+        if ($L === 0) {
+            $bHead[] = 136; // Close frame if message length = 0
+        } else {
+            $bHead[] = $this->finBit ? ($this->firstFragment ? ($this->opcode === 10 ? 138 : 129) : 128) : ($this->firstFragment ? 1 : 0);
+
+            $this->firstFragment = !$this->finBit;
+        }
+
+        // Prepare the payload length and mask bit
+        if ($L <= 125) {
+            $bHead[] = $L | 128;
+        } elseif ($L <= 65535) {
+            $bHead = array_merge($bHead, [126 | 128, ($L >> 8) & 255, $L & 255]);
+        } else {
+            $bHead = array_merge($bHead, [127 | 128, ($L >> 56) & 255, ($L >> 48) & 255, ($L >> 40) & 255, ($L >> 32) & 255, ($L >> 24) & 255, ($L >> 16) & 255, ($L >> 8) & 255, $L & 255]);
+        }
+
+        // Generate masking key and apply it to the message payload
+        $masks = random_bytes(4);
+        $maskedPayload = '';
+
+        for ($i = 0; $i < $L; $i++) {
+            $maskedPayload .= $M[$i] ^ $masks[$i % 4];
+        }
+
+        // Combine header, masking key, and masked payload
+        return implode(array_map("chr", $bHead)) . $masks . $maskedPayload;
+    }
+
+    final function decodeFromServer($frame) {
+        if (!is_string($frame)) {
+          $this->frame = '';
+          return '';
+        }
+        // Detects and processes WebSocket frames, including ping, pong, and fragmented frames.
+        $this->fin = (ord($frame[0]) & 0b10000000) !== 0; // FIN bit
+        $this->opcode = ord($frame[0]) & 0b00001111;       // Opcode
+        $this->frame = $frame;
+
+        $length = ord($frame[1]) & 0b01111111; // Mask length byte to get payload length
+        $poff = 2; // Default payload offset for lengths <= 125
+
+        if ($length === 126) {
+            $length = (ord($frame[2]) << 8) | ord($frame[3]);
+            $poff = 4;
+        } elseif ($length === 127) {
+            // Assemble 64-bit length for extended payloads
+            $length = 0;
+            for ($i = 2; $i < 10; $i++) {
+                $length = ($length << 8) | ord($frame[$i]);
+            }
+            $poff = 10;
+        }
+
+        $this->length = $length;
+        return substr($frame, $poff, $length); // Extract payload data starting at offset
+    }
+}
+
+}
+
+class multiotpwebsocket extends websocketCore {
+  function __construct($Address, $timeout = _MULTIOTP_DEFAULT_PUSH_TIMEOUT_) {
+    $this->timeout = $timeout;
+    parent::__construct($Address);
+  }
+
+  final function setTimeout($timeout) {
+    $this->timeout = $timeout;
+  }
 }
 

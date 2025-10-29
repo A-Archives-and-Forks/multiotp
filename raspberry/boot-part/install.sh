@@ -16,12 +16,14 @@
 # Please check https://www.multiotp.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.9.9.1
-# @date      2025-01-20
+# @version   5.10.0.1
+# @date      2025-10-28
 # @since     2013-11-29
 # @copyright (c) 2013-2022 by SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
+#                             systemd-timesyncd instead of ntp for Debian 12+
 # 2023-11-23 5.9.7.0 SysCo/al Update Raspberry Pi detection 
 # 2023-10-11 5.9.6.8 SysCo/al Add initial Debian Bookworm 12.0 support
 # 2022-06-17 5.9.1.0 SysCo/al Option -request-nt-key replaced by -nt-key-only for MSCHAP for FreeRADIUS 3.x
@@ -71,7 +73,7 @@ SSH_ROOT_LOGIN="1"
 DEFAULT_IP="192.168.1.44"
 REBOOT_AT_THE_END="1"
 
-TEMPVERSION="@version   5.9.9.1"
+TEMPVERSION="@version   5.10.0.1"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -94,21 +96,21 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCEDIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# OS ID and version (2023-11-20)
+# OS ID and version (2025-08-25)
 # Architecture (for example x86_64)
 OSID=$(cat /etc/os-release | grep "^ID=" | awk -F'=' '{print $2}')
 OSVERSION=$(cat /etc/os-release | grep "VERSION_ID=" | awk -F'"' '{print $2}')
 ARCHITECTURE=$(lscpu |grep "^Architecture" | awk -F':' '{print $2}' | awk '{$1=$1;print}')
 
-BACKENDDB="mysql"
-PHPFPM="php7.3-fpm"
-PHPFPMSED="php\/php7.3-fpm"
+BACKENDDB="mariadb"
+PHPFPM="php8.4-fpm"
+PHPFPMSED="php\/php8.4-fpm"
 PHPINSTALLPREFIX="php"
-PHPINSTALLPREFIXVERSION="php7.3"
-PHPMODULEPREFIX="php/7.3"
-PHPMAJORVERSION="7"
+PHPINSTALLPREFIXVERSION="php8.4"
+PHPMODULEPREFIX="php/8.4"
+PHPMAJORVERSION="8"
 SQLITEVERSION="sqlite3"
-VMRELEASENUMBER="010"
+VMRELEASENUMBER="013"
 if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "7" ]]; then
     BACKENDDB="mysql"
     PHPFPM="php5-fpm"
@@ -169,6 +171,16 @@ elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "12" ]]; then
     PHPMAJORVERSION="8"
     SQLITEVERSION="sqlite3"
     VMRELEASENUMBER="012"
+elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "13" ]]; then
+    BACKENDDB="mariadb"
+    PHPFPM="php8.4-fpm"
+    PHPFPMSED="php\/php8.4-fpm"
+    PHPINSTALLPREFIX="php"
+    PHPINSTALLPREFIXVERSION="php8.4"
+    PHPMODULEPREFIX="php/8.4"
+    PHPMAJORVERSION="8"
+    SQLITEVERSION="sqlite3"
+    VMRELEASENUMBER="013"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "7" ]]; then
     BACKENDDB="mysql"
     PHPFPM="php5-fpm"
@@ -229,8 +241,18 @@ elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "12" ]]; then
     PHPMAJORVERSION="8"
     SQLITEVERSION="sqlite3"
     VMRELEASENUMBER="012"
+elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "13" ]]; then
+    BACKENDDB="mariadb"
+    PHPFPM="php8.4-fpm"
+    PHPFPMSED="php\/php8.4-fpm"
+    PHPINSTALLPREFIX="php"
+    PHPINSTALLPREFIXVERSION="php8.4"
+    PHPMODULEPREFIX="php/8.4"
+    PHPMAJORVERSION="8"
+    SQLITEVERSION="sqlite3"
+    VMRELEASENUMBER="013"
 fi
-# End of OS ID and version (2023-11-20)
+# End of OS ID and version (2025-08-25)
 
 
 # Early docker detection (2023-11-20)
@@ -262,6 +284,7 @@ if [[ "${TYPE}" != "DOCKER" ]]; then
     apt-get -y install nano
     apt-get -y install net-tools
     apt-get -y install ssh
+    apt-get -y install tcpdump
     apt-get -y install wget
     if [[ "${TYPE}" == "HV" ]]; then
         apt-get -y install hyperv-daemons
@@ -389,7 +412,10 @@ else
     FAMILY="VAP"
     TYPE="VA"
     DMIDECODE=$(dmidecode -s system-product-name)
-    if [[ "${DMIDECODE}" == *VMware* ]]; then
+
+    if systemd-detect-virt -q && dmidecode -s system-manufacturer 2>/dev/null | grep -qi "QEMU"; then
+        TYPE="PX"
+    elif [[ "${DMIDECODE}" == *VMware* ]]; then
         VMTOOLS=$(which vmtoolsd)
         if [[ "${VMTOOLS}" == *vmtoolsd* ]]; then
             TYPE="VM"
@@ -537,7 +563,6 @@ if [[ "${TYPE}" != "DOCKER" ]]; then
     apt-get -y install ldap-utils
     apt-get -y install libbz2-dev
     apt-get -y install nginx-extras
-    apt-get -y install ntp
     apt-get -y install p7zip-full
     apt-get -y install php-pear
     apt-get -y install ${PHPINSTALLPREFIX}-bcmath
@@ -550,13 +575,18 @@ if [[ "${TYPE}" != "DOCKER" ]]; then
     apt-get -y install ${PHPINSTALLPREFIXVERSION}-${SQLITEVERSION}
     
     # mcrypt is removed in PHP 7.2 (Debian 10+ integrates PHP 7.3+)
-    if [[ "${OSVERSION}" != "10" ]] && [[ "${OSVERSION}" != "11" ]] && [[ "${OSVERSION}" != "12" ]]; then
+    if [ "${OSVERSION}" -lt "10" ]; then
         apt-get -y install ${PHPINSTALLPREFIX}-mcrypt
+    fi
+    
+    # ntp is removed in Debian 12
+    if [ "${OSVERSION}" -lt "12" ]; then
+        apt-get -y install ntp
     fi
 fi
 
-# Add mbstring support for PHP 7 (no more embedded like in PHP 5)
-if [[ "${PHPMAJORVERSION}" == "7" ]]; then
+# Add mbstring support for PHP 7 (no more embedded like in PHP 5) - since 5.9.9.3, check 7+
+if [ "$PHPMAJORVERSION" -ge 7 ]; then
     apt-get -y install ${PHPINSTALLPREFIXVERSION}-mbstring
 fi
 
@@ -683,7 +713,7 @@ fi
 # 5.4.1.2
 # For Strech+, reactivate traditional eth0 support (except for Raspbian)
 # https://unix.stackexchange.com/questions/396382/how-can-i-show-the-old-eth0-names-and-also-rename-network-interfaces-in-debian-9
-if [[ "${OSID}" == "debian" ]] && ( [[ "${OSVERSION}" == "9" ]] || [[ "${OSVERSION}" == "10" ]] || [[ "${OSVERSION}" == "11" ]] || [[ "${OSVERSION}" == "12" ]] ); then
+if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" -ge 9 ]]; then
     IFNAME=$(ifconfig | grep -o -E '(^e[a-zA-Z0-9]*)')
     if [[ "${IFNAME}" != "eth0" ]]; then
         sed -i 's/.*GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
@@ -693,9 +723,11 @@ fi
 
 
 # 5.4.1.8 Disable the dhcpcd service if we are in the Debian Stretch+ distribution
-if [[ "${OSVERSION}" == "9" ]] || [[ "${OSVERSION}" == "10" ]] || [[ "${OSVERSION}" == "11" ]] || [[ "${OSVERSION}" == "12" ]]; then
-    systemctl stop dhcpcd.service
-    systemctl disable dhcpcd.service
+if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" -ge 9 ]]; then
+    if [ -d /run/systemd/system ]; then
+      systemctl stop dhcpcd.service
+      systemctl disable dhcpcd.service
+    fi
 fi
 
 
@@ -795,7 +827,6 @@ fi
 chmod 666    /etc/hostname
 chmod 666    /etc/hosts
 chmod 755    /etc/init.d/multiotp
-chmod 644    /etc/logrotate.d/multiotp
 chmod 777 -R /etc/multiotp
 chmod 440    /etc/sudoers.d/www-data-authorized
 chmod 777 -R /usr/local/bin/multiotp
@@ -808,20 +839,26 @@ chown -R www-data:www-data /etc/multiotp
 chown -R www-data:www-data /usr/local/bin/multiotp
 chown -R www-data:www-data /var/log/multiotp
 chown -R www-data:www-data /var/www
-chown root:root /etc/logrotate.d/multiotp
 chown root:root /etc/sudoers.d/www-data-authorized
+
+if [ -e /etc/logrotate.d/multiotp ] ; then
+  chmod 644 /etc/logrotate.d/multiotp
+  chown root:root /etc/logrotate.d/multiotp
+fi
 
 
 # Since 5.8.1.9, Disable CBC Ciphers and weak MAC Algorithms for SSH
-sed -i '/^Ciphers/d' /etc/ssh/sshd_config
-sed -i '/^MACs/d' /etc/ssh/sshd_config
-echo Ciphers aes256-ctr,aes192-ctr,aes128-ctr >> /etc/ssh/sshd_config
-echo MACs hmac-sha1,umac-64@openssh.com >> /etc/ssh/sshd_config
+if [ -e /etc/ssh/sshd_config ] ; then
+  sed -i '/^Ciphers/d' /etc/ssh/sshd_config
+  sed -i '/^MACs/d' /etc/ssh/sshd_config
+  echo Ciphers aes256-ctr,aes192-ctr,aes128-ctr >> /etc/ssh/sshd_config
+  echo MACs hmac-sha1,umac-64@openssh.com >> /etc/ssh/sshd_config
 
-if [ -e /etc/init.d/ssh ] ; then
-    /etc/init.d/ssh restart
-else
-    service ssh restart
+  if [ -e /etc/init.d/ssh ] ; then
+      /etc/init.d/ssh restart
+  else
+      service ssh restart
+  fi
 fi
 
 
@@ -1024,17 +1061,26 @@ rm -f /etc/localtime && cp -f /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 
 
 # Stop NTP, update date/time, restart NTP and check configuration
-if [ -e /etc/init.d/ntp ] ; then
-    /etc/init.d/ntp stop
-    /etc/init.d/ntp start
-else
-    service ntp stop
-    service ntp start
+if [[ "${TYPE}" != "DOCKER" ]]; then
+  if [ "${OSVERSION}" -lt "12" ]; then
+    if [ -e /etc/init.d/ntp ] ; then
+        /etc/init.d/ntp stop
+        /etc/init.d/ntp start
+    else
+        service ntp stop
+        service ntp start
+    fi
+
+    ntpq -p
+  else
+    if [ -d /run/systemd/system ]; then
+      systemctl restart systemd-timesyncd
+    fi
+  fi
 fi
 
-ntpq -p
 date -R
-# date --set="2018-07-06 05:04:03"
+# date --set="2025-08-25 05:09:09"
 
 
 if [[ "${FAMILY}" == "RPI" ]]; then
@@ -1115,7 +1161,7 @@ fi
 
 # Since 5.4.1.5
 # Create multiotp service if needed
-if [ -e /etc/systemd/system/ ] ; then
+if [ -d /run/systemd/system ]; then
     cat >/etc/systemd/system/multiotp.service <<EOL
 [Unit]
 Description=Initialize the multiOTP functionalities
@@ -1138,7 +1184,9 @@ fi
 
 
 # Install multiotp service
-insserv multiotp
+if command -v insserv >/dev/null 2>&1; then
+  insserv multiotp
+fi
 
 
 # Since 5.8.3.x, disable multicast support
@@ -1342,8 +1390,9 @@ else
 fi
 
 # 5.4.1.5 Enable Freeradius service
-systemctl enable freeradius.service
-
+if [ -d /run/systemd/system ]; then
+  systemctl enable freeradius.service
+fi
 
 # Don't touch SSH if we test only the installation
 if [[ "$1" != "test" ]] && [[ "$2" != "test" ]] && [[ "${TYPE}" != "DOCKER" ]] ; then
@@ -1352,8 +1401,10 @@ if [[ "$1" != "test" ]] && [[ "$2" != "test" ]] && [[ "${TYPE}" != "DOCKER" ]] ;
     if [[ "${SSH_ROOT_LOGIN}" == "1" ]] ; then
         sed -i 's/.*PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
     fi
-    systemctl enable ssh
-    systemctl start ssh
+    if [ -d /run/systemd/system ]; then
+      systemctl enable ssh
+      systemctl start ssh
+    fi
     if [ -e /etc/init.d/ssh ] ; then
         /etc/init.d/ssh restart
     else
@@ -1524,10 +1575,14 @@ if [[ "${TYPE}" == "DOCKER" ]]; then
     else
         service nginx stop
     fi
-    if [ -e /etc/init.d/ntp ] ; then
-        /etc/init.d/ntp stop
-    else
-        service ntp stop
+
+    # NTP is removed in Debian 12 and further
+    if [ "${OSVERSION}" -lt "12" ]; then
+      if [ -e /etc/init.d/ntp ] ; then
+          /etc/init.d/ntp stop
+      else
+          service ntp stop
+      fi
     fi
     if [ -e /etc/init.d/${PHPFPM} ] ; then
         /etc/init.d/${PHPFPM} stop

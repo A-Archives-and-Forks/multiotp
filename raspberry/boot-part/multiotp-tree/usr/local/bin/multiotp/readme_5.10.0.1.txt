@@ -6,7 +6,7 @@ multiOTP open source is OATH certified for HOTP/TOTP
 (c) 2010-2025 SysCo systemes de communication sa  
 https://www.multiotp.net/
 
-Current build: 5.9.9.1 (2025-01-20)
+Current build: 5.10.0.1 (2025-10-28)
 
 Binary download: https://download.multiotp.net/ (including virtual appliance image)
 
@@ -146,18 +146,24 @@ upgrade your installation by copying the extracted content of the folder and
 subfolders from windows to your current multiOTP folder
 
 
-WHAT'S NEW IN THIS 5.9.x RELEASE
-- LDAP filter can be customized
-- Users without 2FA tokens don't see the second screen in the Credential Provider during logon
-- New Raspberry, Hyper-V and OVA appliances available (version 011, based on Debian 11)
-- Scratchlist can be generated from the Web GUI
-- {MultiotpUserDisplayName} (AD/LDAP DisplayName) can be used in templates
-- New open source on-premises SMS provider support (https://github.com/multiOTP/SMSGateway)
+WHAT'S NEW IN THIS 5.10.x RELEASE
+- New Proxmox, OVA and Hyper-V appliances available (version 013, based on Debian 13)
+- Push support with the multiOTP token App, available for free with Enterprise subscription
 
 
 CHANGE LOG OF RELEASED VERSIONS
 ===============================
 ```
+2025-10-28 5.10.0.1 FIX: Warning was displayed in some cases when using GetSysLogServer() method
+                    FIX: Notice was displayed in some cases when using the sms library (MultiotpSms)
+                    FIX: Implementation check URI no more enabled by default in Windows source
+                    FIX: Syslog server handling was sometimes generating warnings
+                    ENH: New Proxmox, OVA and Hyper-V appliances available (version 013, based on Debian 13)
+                    ENH: Initial Push support with the multiOTP token App, needs multiOTP-gateway-service
+                    ENH: multiOTP Credential Provider enhanced support
+                    ENH: URI only reacting on / to avoid intensive hits
+                    ENH: Embedded Windows PHP edition updated to version 8.4.13
+                    ENH: Embedded Windows nginx edition updated to version 1.29.2
 2025-01-20 5.9.9.1 FIX: Windows backup temp folder is now the default system temp folder
                    FIX: Adding -sync-delete-retention-days parameter doesn't return missing parameters error
                    FIX: Case sensitive issue has been fixed with MSCHAPv2 authentication (thanks Alexey)
@@ -1929,7 +1935,7 @@ MULTIOTP COMMAND LINE TOOL
 ==========================
 
 ``` 
-multiOTP 5.9.9.1 (2025-01-20)
+multiOTP 5.10.0.1 (2025-10-28)
 (c) 2010-2025 SysCo systemes de communication sa
 http://www.multiOTP.net   (you can try the [Donate] button ;-)
 
@@ -2028,13 +2034,14 @@ Return codes:
 82 ERROR: User not allowed for this device 
 88 ERROR: Device is not defined as a HA slave 
 89 ERROR: Device is not defined as a HA master 
+90 ERROR: AD/LDAP authentication failed 
 91 ERROR: Authentication failed (without2fa token not authorized here) 
 92 ERROR: Authentication failed (bad password) 
 93 ERROR: Authentication failed (time based token probably out of sync) 
 94 ERROR: API request error 
 95 ERROR: API authentication failed 
-96 ERROR: Authentication failed (CRC error) 
-97 ERROR: Authentication failed (wrong private id) 
+96 ERROR: Push authentication timeout 
+97 ERROR: Push authentication denied 
 98 ERROR: Authentication failed (wrong token length) 
 99 ERROR: Authentication failed (and other possible unknown errors) 
 
@@ -2343,6 +2350,7 @@ Switches:
  -param          All parameters are logged for debugging purposes
  -php-version    Display the current version of the running PHP interpreter
  -request-nt-key Return NT_KEY with the other attributes to the radius server
+ -error-codes    List all error codes
  -status         Display a status bar during resynchronization
  -version        Display the current version of the library
 

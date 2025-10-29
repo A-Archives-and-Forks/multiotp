@@ -8,15 +8,16 @@
 # https://www.multiotp.net/
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.9.9.1
-# @date      2025-01-20
+# @version   5.10.0.1
+# @date      2025-10-28
 # @since     2013-09-22
 # @copyright (c) 2013-2025 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
 # 2023-11-23 5.9.7.0 SysCo/al Update Raspberry Pi detection 
 # 2023-10-11 5.9.6.8 SysCo/al Add Debian Bookworm 12.0 support
-# 2022-05-26 5.9.0.3 SysCo/al ssue with /run/php when a Docker container is restarted
+# 2022-05-26 5.9.0.3 SysCo/al Issue with /run/php when a Docker container is restarted
 # 2022-05-08 5.8.8.4 SysCo/al Better docker support (also for Synology)
 # 2022-05-08 5.8.8.1 SysCo/al Add Raspberry Pi Bullseye 11.0 support
 # 2021-09-14 5.8.3.0 SysCo/al VM version 011 support
@@ -40,7 +41,7 @@
 # 2013-09-22 4.0.9.0 SysCo/al Initial release
 ##########################################################################
 
-TEMPVERSION="@version   5.9.9.1"
+TEMPVERSION="@version   5.10.0.1"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -74,21 +75,21 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCEDIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# OS ID and version (2023-11-20)
+# OS ID and version (2025-08-25)
 # Architecture (for example x86_64)
 OSID=$(cat /etc/os-release | grep "^ID=" | awk -F'=' '{print $2}')
 OSVERSION=$(cat /etc/os-release | grep "VERSION_ID=" | awk -F'"' '{print $2}')
 ARCHITECTURE=$(lscpu |grep "^Architecture" | awk -F':' '{print $2}' | awk '{$1=$1;print}')
 
-BACKENDDB="mysql"
-PHPFPM="php7.3-fpm"
-PHPFPMSED="php\/php7.3-fpm"
+BACKENDDB="mariadb"
+PHPFPM="php8.4-fpm"
+PHPFPMSED="php\/php8.4-fpm"
 PHPINSTALLPREFIX="php"
-PHPINSTALLPREFIXVERSION="php7.3"
-PHPMODULEPREFIX="php/7.3"
-PHPMAJORVERSION="7"
+PHPINSTALLPREFIXVERSION="php8.4"
+PHPMODULEPREFIX="php/8.4"
+PHPMAJORVERSION="8"
 SQLITEVERSION="sqlite3"
-VMRELEASENUMBER="010"
+VMRELEASENUMBER="013"
 if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "7" ]]; then
     BACKENDDB="mysql"
     PHPFPM="php5-fpm"
@@ -149,6 +150,16 @@ elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "12" ]]; then
     PHPMAJORVERSION="8"
     SQLITEVERSION="sqlite3"
     VMRELEASENUMBER="012"
+elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "13" ]]; then
+    BACKENDDB="mariadb"
+    PHPFPM="php8.4-fpm"
+    PHPFPMSED="php\/php8.4-fpm"
+    PHPINSTALLPREFIX="php"
+    PHPINSTALLPREFIXVERSION="php8.4"
+    PHPMODULEPREFIX="php/8.4"
+    PHPMAJORVERSION="8"
+    SQLITEVERSION="sqlite3"
+    VMRELEASENUMBER="013"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "7" ]]; then
     BACKENDDB="mysql"
     PHPFPM="php5-fpm"
@@ -209,8 +220,18 @@ elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "12" ]]; then
     PHPMAJORVERSION="8"
     SQLITEVERSION="sqlite3"
     VMRELEASENUMBER="012"
+elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "13" ]]; then
+    BACKENDDB="mariadb"
+    PHPFPM="php8.4-fpm"
+    PHPFPMSED="php\/php8.4-fpm"
+    PHPINSTALLPREFIX="php"
+    PHPINSTALLPREFIXVERSION="php8.4"
+    PHPMODULEPREFIX="php/8.4"
+    PHPMAJORVERSION="8"
+    SQLITEVERSION="sqlite3"
+    VMRELEASENUMBER="013"
 fi
-# End of OS ID and version (2023-11-20)
+# End of OS ID and version (2025-08-25)
 
 
 # Early docker detection (2023-11-20)
@@ -351,7 +372,10 @@ else
     FAMILY="VAP"
     TYPE="VA"
     DMIDECODE=$(dmidecode -s system-product-name)
-    if [[ "${DMIDECODE}" == *VMware* ]]; then
+
+    if systemd-detect-virt -q && dmidecode -s system-manufacturer 2>/dev/null | grep -qi "QEMU"; then
+        TYPE="PX"
+    elif [[ "${DMIDECODE}" == *VMware* ]]; then
         VMTOOLS=$(which vmtoolsd)
         if [[ "${VMTOOLS}" == *vmtoolsd* ]]; then
             TYPE="VM"
@@ -597,7 +621,13 @@ if [[ "${RUNDOCKER}" != "TRUE" ]]; then
   echo The device is now halted.
 
   #Stop the VM
-  shutdown now -h &
+  if [ -d /run/systemd/system ]; then
+    systemctl poweroff
+  else
+    if [ -e /usr/sbin/shutdown ] ; then
+      shutdown now -h &
+    fi
+  fi
   exit 0
 
 else
@@ -612,12 +642,24 @@ else
   else
     service nginx start
   fi
-  if [ -e /etc/init.d/ntp ] ; then
-    /etc/init.d/ntp start
-  else
-    service ntp start
-  fi
   
+  # Stop NTP, update date/time, restart NTP and check configuration
+  if [ "${OSVERSION}" -lt "12" ]; then
+    if [ -e /etc/init.d/ntp ] ; then
+        /etc/init.d/ntp stop
+        /etc/init.d/ntp start
+    else
+        service ntp stop
+        service ntp start
+    fi
+
+    ntpq -p
+  else
+    if [ -d /run/systemd/system ]; then
+      systemctl restart systemd-timesyncd
+    fi
+  fi
+
   if [ -e /etc/init.d/${PHPFPM} ] ; then
     if [ -e /run/php ] ; then
       /etc/init.d/${PHPFPM} restart

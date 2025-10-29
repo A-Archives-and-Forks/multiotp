@@ -9,8 +9,8 @@ REM
 REM Windows batch file for Windows 2K/XP/2003/7/2008/8/2012/10
 REM
 REM @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-REM @version   5.9.9.1
-REM @date      2025-01-20
+REM @version   5.10.0.1
+REM @date      2025-10-28
 REM @since     2013-08-09
 REM @copyright (c) 2013-2025 SysCo systemes de communication sa
 REM @copyright GNU Lesser General Public License
@@ -41,11 +41,19 @@ REM
 REM
 REM Change Log
 REM
-REM   2023-11-23 5.9.7.0 SysCo/al nginx 1.24.0, PHP 8.2.12
+REM   2025-10-16 5.9.9.3 SysCo/al Implementation check URI no more enabled by default (thanks robvh1 for proposal)
+REM                               URI only reacting on / to avoid intensive hits (thanks robvh1 for proposal)
+REM   2025-01-31 5.9.9.2 SysCo/al nginx 1.27.3, PHP 8.3.16
+REM   2025-01-10 5.9.8.3 SysCo/al nginx 1.27.3, PHP 8.3.15
+REM   2023-12-03 5.9.7.1 SysCo/al nginx 1.25.3, PHP 8.2.13
+REM   2023-11-23 5.9.7.0 SysCo/al nginx 1.24.0, PHP 8.2.13
 REM                               Path backslashes converted to slashes to avoid \t interpretation
 REM                               Space in installation path supported
 REM   2022-12-31 5.9.5.3 SysCo/al nginx 1.22.1, PHP 8.2.0
 REM   2022-11-11 5.9.5.1 SysCo/al Windows nginx subfolders are now protected
+REM   2022-04-28 5.8.7.0 SysCo/al nginx 1.21.6, PHP 7.4.29
+REM   2022-01-14 5.8.5.1 SysCo/al nginx 1.21.6, PHP 7.4
+REM   2021-09-14 5.8.3.0 SysCo/al nginx 1.18.0, PHP 7.4
 REM   2020-12-11 5.8.0.6 SysCo/al Do an automatic "Run as administrator" if needed
 REM   2017-05-29 5.0.4.5 SysCo/al Unified script with some bug fixes
 REM                               Alternate GUI file support
@@ -89,8 +97,8 @@ REM Define the main file
 SET _web_multiotp=multiotp.server.php
 IF NOT "%_web_multiotp_alternate%"=="" SET _web_multiotp=%_web_multiotp_alternate%
 
-REM Define the check file
-SET _web_multiotp_class_check=check.multiotp.class.php
+REM Define the check file (if we want to add the /check URI for implementation check)
+REM SET _web_multiotp_class_check=check.multiotp.class.php
 IF NOT "%_web_multiotp_class_check_alternate%"=="" SET _web_multiotp_class_check=%_web_multiotp_class_check_alternate%
 
 
@@ -121,7 +129,7 @@ REM Stop and delete the service (if already existing)
 SC stop %_service_tag% >NUL
 SC delete %_service_tag% >NUL
 
-SET _check_pattern=location /check { root "%_root_folder:\=/%"; try_files $uri $uri/ /%_web_multiotp_class_check%$is_args$args; }
+IF NOT "%_web_multiotp_class_check%"=="" SET _check_pattern=location /check { root "%_root_folder:\=/%"; try_files $uri $uri/ /%_web_multiotp_class_check%$is_args$args; }
 
 SET _config_file="%_web_folder%webservice\conf\sites-enabled\multiotp.conf"
 IF NOT EXIST "%_web_folder%webservice\conf" MD "%_web_folder%webservice\conf"
@@ -155,11 +163,11 @@ ECHO     tcp_nopush on;>> %_config_file%
 ECHO     tcp_nodelay on;>> %_config_file%
 ECHO     keepalive_timeout 65;>> %_config_file%
 ECHO     types_hash_max_size 2048;>> %_config_file%
-ECHO.>> %_config_file%
-ECHO     try_files $uri $uri/ /%_web_multiotp%;>> %_config_file%
-ECHO.>> %_config_file%
+REM ECHO.>> %_config_file%
+REM ECHO     try_files $uri $uri/ /%_web_multiotp%;>> %_config_file%
+REM ECHO.>> %_config_file%
 
-ECHO %_check_pattern%>> %_config_file%
+IF NOT "%_check_pattern%"=="" ECHO %_check_pattern%>> %_config_file%
 ECHO.>> %_config_file%
 
 ECHO     location ~ /(config^|log^|users^|tokens^|devices^|groups^|radius^|webservice) {>> %_config_file%
@@ -182,7 +190,7 @@ ECHO         fastcgi_pass 127.0.0.1:9000;>> %_config_file%
 ECHO         fastcgi_read_timeout 86400;>> %_config_file%
 ECHO     }>> %_config_file%
 ECHO.>> %_config_file%
-ECHO     location / {>> %_config_file%
+ECHO     location /$ {>> %_config_file%
 ECHO         try_files $uri $uri/ /%_web_multiotp%;>> %_config_file%
 ECHO     }>> %_config_file%
 ECHO }>> %_config_file%
