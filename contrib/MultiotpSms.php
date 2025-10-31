@@ -790,7 +790,7 @@ class MultiotpSms
     
     $default_values = trim($this->default_values);
     if (!empty($default_values)) {
-      foreach (explode(";",trim($this->default_values)) as $one_default_value_array) {
+      foreach (explode(";",trim($default_values)) as $one_default_value_array) {
         list($key, $value) = explode('=', $one_default_value_array);
         $property_key = trim($this->getProperty($key));
         if (empty($property_key)) {

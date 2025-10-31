@@ -16,12 +16,13 @@
 # Please check https://www.multiotp.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.1
-# @date      2025-10-28
+# @version   5.10.0.2
+# @date      2025-10-31
 # @since     2013-11-29
 # @copyright (c) 2013-2022 by SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2025-10-31 5.10.0.2 SysCo/al Additional cleaning for Debian Trixie 13.0 support
 # 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
 #                             systemd-timesyncd instead of ntp for Debian 12+
 # 2023-11-23 5.9.7.0 SysCo/al Update Raspberry Pi detection 
@@ -73,7 +74,7 @@ SSH_ROOT_LOGIN="1"
 DEFAULT_IP="192.168.1.44"
 REBOOT_AT_THE_END="1"
 
-TEMPVERSION="@version   5.10.0.1"
+TEMPVERSION="@version   5.10.0.2"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -1046,6 +1047,15 @@ fi
 # Since 5.8.1.9, fix TCP timestamps vulnerability 
 sed -i '/^net.ipv4.tcp_timestamps/d' /etc/sysctl.conf
 echo net.ipv4.tcp_timestamps = 0 >> /etc/sysctl.conf
+
+# Since 5.9.9.3, disable IPv6
+sed -i '/^net.ipv6.conf.all.disable_ipv6/d' /etc/sysctl.conf
+echo net.ipv6.conf.all.disable_ipv6 = 1 >> /etc/sysctl.conf
+sed -i '/^net.ipv6.conf.default.disable_ipv6/d' /etc/sysctl.conf
+echo net.ipv6.conf.default.disable_ipv6 = 1 >> /etc/sysctl.conf
+
+# Since 5.8.3.x, disable multicast support
+ifconfig eth0 -multicast
 
 
 # If any, clean DHCP option for NTP

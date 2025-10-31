@@ -8,12 +8,13 @@
 # https://www.multiotp.net/
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.1
-# @date      2025-10-28
+# @version   5.10.0.2
+# @date      2025-10-31
 # @since     2013-09-22
 # @copyright (c) 2013-2025 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2025-10-31 5.10.0.2 SysCo/al Additional cleaning for Debian Trixie 13.0 support
 # 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
 # 2023-11-23 5.9.7.0 SysCo/al Update Raspberry Pi detection 
 # 2023-10-11 5.9.6.8 SysCo/al Add Debian Bookworm 12.0 support
@@ -41,7 +42,7 @@
 # 2013-09-22 4.0.9.0 SysCo/al Initial release
 ##########################################################################
 
-TEMPVERSION="@version   5.10.0.1"
+TEMPVERSION="@version   5.10.0.2"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -236,7 +237,10 @@ fi
 
 # Early docker detection (2023-11-20)
 UNAME=$(uname -a)
-if [[ "${UNAME}" == *docker* ]]; then
+if [[ "${RUNDOCKER}" == "TRUE" ]]; then
+    FAMILY="VAP"
+    TYPE="DOCKER"
+elif [[ "${UNAME}" == *docker* ]]; then
     # Docker
     FAMILY="VAP"
     TYPE="DOCKER"
@@ -275,7 +279,10 @@ fi
 FAMILY=""
 UNAME=$(uname -a)
 MODEL=$(cat /proc/cpuinfo | grep "Model" | awk -F': ' '{print $2}')
-if [[ "${UNAME}" == *docker* ]]; then
+if [[ "${RUNDOCKER}" == "TRUE" ]]; then
+    FAMILY="VAP"
+    TYPE="DOCKER"
+elif [[ "${UNAME}" == *docker* ]]; then
     # Docker
     FAMILY="VAP"
     TYPE="DOCKER"
@@ -574,12 +581,10 @@ if [[ "${RUNDOCKER}" != "TRUE" ]]; then
   #  VMware CLI: vmkfstools --punchzero  multiOTP-xxx.vmdk
   #  Hyper-V GUI: "Compact" option in the settings of the virtual machine
   #  VirtualBox CLI: VBoxManage modifyhd ?compact /path/to/multiOTP-xxx.vdi?
-  if [[ "${TYPE}" != "DOCKER" ]]; then
-      if [[ ! "$1" == "nozero" ]]; then
-          echo "Zeroing disk space..."
-          dd if=/dev/zero of=/zeroes bs=4096
-          rm -f /zeroes
-      fi
+  if [[ "$1" == "zero" ]]; then
+    echo "Zeroing disk space..."
+    dd if=/dev/zero of=/zeroes bs=4096
+    rm -f /zeroes
   fi
 
   if [ -e /dev/shm/vmrelease.ini ] ; then

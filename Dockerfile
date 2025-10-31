@@ -15,8 +15,8 @@
 # Please check https://www\.multiOTP.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.1
-# @date      2025-10-28
+# @version   5.10.0.2
+# @date      2025-10-31
 # @since     2013-11-29
 # @copyright (c) 2013-2025 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
@@ -24,6 +24,8 @@
 # docker build .
 # docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d xxxxxxxxxxxx
 #
+# 2025-10-31 5.10.0.2 SysCo/al /boot/newvm.sh INIT no more called by RUN
+#                              Updated Docker format
 # 2025-10-16 5.9.9.3 SysCo/al Debian Trixie 13 support
 # 2023-10-11 5.9.6.8 SysCo/al Debian Bookworm 12 support
 # 2022-05-08 5.8.8.4 SysCo/al Better docker support (also for Synology)
@@ -38,17 +40,21 @@
 ##########################################################################
 
 FROM debian:13
-ENV DEBIAN 13
-ENV PHPINSTALLPREFIX php
-ENV PHPINSTALLPREFIXVERSION php8.4
-ENV PHPVERSION 8.4
-ENV SQLITEVERSION sqlite3
+ENV DEBIAN=13
+ENV PHPINSTALLPREFIX=php
+ENV PHPINSTALLPREFIXVERSION=php8.4
+ENV PHPVERSION=8.4
+ENV SQLITEVERSION=sqlite3
 
-MAINTAINER Andre Liechti <andre.liechti@multiotp.net>
-LABEL Description="multiOTP open source, running on Debian ${DEBIAN} with PHP${PHPVERSION}." \
+LABEL org.opencontainers.image.title="multiOTP open source"
+LABEL org.opencontainers.image.description="multiOTP open source, running on Debian ${DEBIAN} with PHP${PHPVERSION}." \
       License="LGPL-3.0" \
       Usage="docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d multiotp-open-source" \
-      Version="5.10.0.1"
+      Version="5.10.0.2"
+LABEL org.opencontainers.image.Version="5.10.0.2"
+LABEL org.opencontainers.image.authors="Andre Liechti <andre.liechti@multiotp.net>"
+LABEL org.opencontainers.image.url="https://www.multiotp.net"
+LABEL org.opencontainers.image.source="https://github.com/multiOTP/multiotp"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -121,11 +127,10 @@ COPY raspberry/boot-part/multiotp-tree /boot/multiotp-tree/
 WORKDIR /
 
 RUN chmod 777 /boot/*.sh && \
-    /boot/install.sh && \
-    /boot/newvm.sh INIT
+    /boot/install.sh
 
 EXPOSE 80/tcp 443/tcp 1812/udp 1813/udp
 
 VOLUME /etc/multiotp /etc/freeradius /var/log/multiotp /var/log/freeradius
 
-ENTRYPOINT /boot/newvm.sh RUNDOCKER
+ENTRYPOINT ["/boot/newvm.sh", "RUNDOCKER"]

@@ -6,7 +6,7 @@ multiOTP open source is OATH certified for HOTP/TOTP
 (c) 2010-2025 SysCo systemes de communication sa  
 https://www.multiotp.net/
 
-Current build: 5.10.0.1 (2025-10-28)
+Current build: 5.10.0.2 (2025-10-31)
 
 Binary download: https://download.multiotp.net/ (including virtual appliance image)
 
@@ -87,6 +87,7 @@ TABLE OF CONTENTS
  * When and how can I use this package ?
  * What is the prefix PIN option ?
  * How the lockout of an account is working ?
+ * How to self-unlock an account ?
  * How to debug ?
  * How to install the multiOTP web service under Windows ?
  * How to install the multiOTP radius server under Windows ?
@@ -154,10 +155,11 @@ WHAT'S NEW IN THIS 5.10.x RELEASE
 CHANGE LOG OF RELEASED VERSIONS
 ===============================
 ```
-2025-10-28 5.10.0.1 FIX: Warning was displayed in some cases when using GetSysLogServer() method
+2025-10-31 5.10.0.1 FIX: Warning was displayed in some cases when using GetSysLogServer() method
                     FIX: Notice was displayed in some cases when using the sms library (MultiotpSms)
                     FIX: Implementation check URI no more enabled by default in Windows source
                     FIX: Syslog server handling was sometimes generating warnings
+                    FIX: Better initialization of the config_data array for FreeBSD
                     ENH: New Proxmox, OVA and Hyper-V appliances available (version 013, based on Debian 13)
                     ENH: Initial Push support with the multiOTP token App, needs multiOTP-gateway-service
                     ENH: multiOTP Credential Provider enhanced support
@@ -961,6 +963,13 @@ The lockout parameters can be modified using these command lines:
 multiotp -config failure-delayed-time=60  
 multiotp -config max-block-failures=12  
 multiotp -config max-delayed-failures=10  
+
+
+HOW TO SELF-UNLOCK AN ACCOUNT ?
+===============================
+The user can help itself by auto-deblocking its account like this:
+Username: USERNAME
+Password: [PREFIX PASSWORD] + [OTP] + [space] + [THE NEXT OTP]
 
 
 HOW TO DEBUG ?
@@ -1935,7 +1944,7 @@ MULTIOTP COMMAND LINE TOOL
 ==========================
 
 ``` 
-multiOTP 5.10.0.1 (2025-10-28)
+multiOTP 5.10.0.2 (2025-10-31)
 (c) 2010-2025 SysCo systemes de communication sa
 http://www.multiOTP.net   (you can try the [Donate] button ;-)
 

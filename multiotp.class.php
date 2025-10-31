@@ -72,8 +72,8 @@
  * PHP 7.4 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.1
- * @date      2025-10-28
+ * @version   5.10.0.2
+ * @date      2025-10-31
  * @since     2010-06-08
  * @copyright (c) 2010-2025 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -384,8 +384,8 @@ class Multiotp
  * @brief     Main class definition of the multiOTP project.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.1
- * @date      2025-10-28
+ * @version   5.10.0.2
+ * @date      2025-10-31
  * @since     2010-07-18
  */
 {
@@ -505,8 +505,8 @@ class Multiotp
    * @retval  void
    *
    * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-   * @version   5.10.0.1
-   * @date      2025-10-28
+   * @version   5.10.0.2
+   * @date      2025-10-31
    * @since     2010-07-18
    */
   function __construct(
@@ -530,11 +530,11 @@ class Multiotp
 
       if (!isset($this->_class)) { $this->_class = base64_decode('bXVsdGlPVFA='); }
       if (!isset($this->_version)) {
-        $temp_version = '@version   5.10.0.1'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
+        $temp_version = '@version   5.10.0.2'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
         $this->_version = nullable_trim(mb_substr($temp_version, 8));
       }
       if (!isset($this->_date)) {
-        $temp_date = '@date      2025-10-28'; // You should update the date with the date of your changes
+        $temp_date = '@date      2025-10-31'; // You should update the date with the date of your changes
         $this->_date = nullable_trim(mb_substr($temp_date, 8));
       }
       if (!isset($this->_copyright)) { $this->_copyright = base64_decode('KGMpIDIwMTAtMjAyNSBTeXNDbyBzeXN0ZW1lcyBkZSBjb21tdW5pY2F0aW9uIHNh'); }
@@ -15665,6 +15665,10 @@ class Multiotp
     if ($this->SetUser($user)) {
       $result.= "   Information for user: ".$user.$crlf;
       $result.= "                 Locked: ".((1 == $this->GetUserLocked()) ? 'yes' : 'no').$crlf;
+      $result.= "                Delayed: ".((1 == $this->GetUserDelayed()) ? 'yes' : 'no').$crlf;
+      if (1 == $this->GetUserDelayed()) {
+        $result.= "           Delayed time: ".$this->GetUserDelayedTime()."seconds".$crlf;
+      }
       $result.= "              Activated: ".((1 == $this->GetUserActivated()) ? 'yes' : 'no').$crlf;
       $result.= "   AD/LDAP synchronized: ".((1 == $this->GetUserSynchronized()) ? 'yes' : 'no').$crlf;
       $result.= "      Prefix pin needed: ".(($this->IsUserPrefixPin()) ? 'yes' : 'no').$crlf;
