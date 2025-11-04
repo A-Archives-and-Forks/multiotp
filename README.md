@@ -6,7 +6,7 @@ multiOTP open source is OATH certified for HOTP/TOTP
 (c) 2010-2025 SysCo systemes de communication sa  
 https://www.multiotp.net/
 
-Current build: 5.10.0.2 (2025-10-31)
+Current build: 5.10.0.3 (2025-11-04)
 
 Binary download: https://download.multiotp.net/ (including virtual appliance image)
 
@@ -155,11 +155,15 @@ WHAT'S NEW IN THIS 5.10.x RELEASE
 CHANGE LOG OF RELEASED VERSIONS
 ===============================
 ```
+2025-11-04 5.10.0.3 FIX: MultiotpXmlParser class adapted to be 100% compatible with the legacy version
+                    ENH: Embedded Windows PHP edition updated to version 8.4.14
+                    ENH: The default radius secret is now set to myfirstpass for every device (0.0.0.0/0)
 2025-10-31 5.10.0.1 FIX: Warning was displayed in some cases when using GetSysLogServer() method
                     FIX: Notice was displayed in some cases when using the sms library (MultiotpSms)
                     FIX: Implementation check URI no more enabled by default in Windows source
                     FIX: Syslog server handling was sometimes generating warnings
                     FIX: Better initialization of the config_data array for FreeBSD
+                    ENH: New rewritten MultiotpXmlParser class
                     ENH: New Proxmox, OVA and Hyper-V appliances available (version 013, based on Debian 13)
                     ENH: Initial Push support with the multiOTP token App, needs multiOTP-gateway-service
                     ENH: multiOTP Credential Provider enhanced support
@@ -1825,7 +1829,7 @@ HOW TO BUILD A RASPBERRY PI STRONG AUTHENTICATION SERVER ?
     strong two factors authentication server!  
     Surf on http(s)://192.168.1.44 to use the basic interface (admin / 1234)
 
-17) The default radius secret is set to myfirstpass for the subnet 192.168.0.0/16.  
+17) The default radius secret is set to myfirstpass for the subnet 0.0.0.0/0.
     To adapt the freeradius configuration, edit the file /etc/freeradius/clients.conf.
 
 
@@ -1944,7 +1948,7 @@ MULTIOTP COMMAND LINE TOOL
 ==========================
 
 ``` 
-multiOTP 5.10.0.2 (2025-10-31)
+multiOTP 5.10.0.3 (2025-11-04)
 (c) 2010-2025 SysCo systemes de communication sa
 http://www.multiOTP.net   (you can try the [Donate] button ;-)
 
@@ -2479,8 +2483,8 @@ Visit https://forum.multiotp.net/ for additional support
 ``` 
  
 ``` 
-Hash verification for multiotp_5.10.0.2.zip 
-SHA256:501c92457ae7543443406d06992363062a9cc20ac9518f88f98221068c109e53 
-SHA1:2cbefa0eb62c14c93d805a29b034285d408c45e6 
-MD5:7b14ec515b529f11e86f0c957f7a3937 
+Hash verification for multiotp_5.10.0.3.zip 
+SHA256:24b559b5f5ef22f1fb269f713ff217e4b6a9416215a9c31a03d83c9d6aa0320d 
+SHA1:bff872d34f4636f34f60244406522d9ba51d9bf6 
+MD5:15d74c24b046ee677edafbdfbeb1943a 
 ``` 

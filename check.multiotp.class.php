@@ -22,8 +22,8 @@
  * PHP 5.4.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.2
- * @date      2025-10-31
+ * @version   5.10.0.3
+ * @date      2025-11-04
  * @since     2013-07-10
  * @copyright (c) 2013-2025 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -214,6 +214,8 @@ if (!isset($multiotp))
 $multiotp->SetMaxEventResyncWindow(500); // 500 is enough and quicker for the check
 $multiotp->EnableVerboseLog(); // Could be helpful at the beginning
 
+$multiotp->ClearLog(); // Clear the log before the checks
+
 if ($html_mode) {
     $multiotp->EnableDebugViaHtml();
 }
@@ -312,6 +314,7 @@ echo_full($crlf);
 
 foreach ($backend_array as $backend) {
     $multiotp->SetBackendType($backend);
+    $multiotp->ClearLog(1);
     if ('mysql' == $backend) {
         $multiotp->SetSqlServer($check_mysql_server);
         $multiotp->SetSqlUsername($check_mysql_username);
@@ -1562,6 +1565,8 @@ foreach ($backend_array as $backend) {
     echo_full($b_on."Import PSKC test tokens definition file".$b_off.$crlf);
     
     $token_import_error = FALSE;
+
+// $multiotp->EnableVerboseLog(); /* DEBUG */
     if (!$multiotp->ImportTokensFile('oath/pskc-hotp-aes.txt', 'pskc-hotp-aes.txt', '12345678901234567890123456789012', '1122334455667788990011223344556677889900')) {
       if (!file_exists('oath/pskc-hotp-aes.txt')) {
         echo_full("- file oath/pskc-hotp-aes.txt doesn't exists".$crlf);
@@ -1570,6 +1575,7 @@ foreach ($backend_array as $backend) {
       }
       $token_import_error = TRUE;
     }
+// exit; /* DEBUG */
     if (!$multiotp->ImportTokensFile('oath/pskc-hotp-pbe.txt', 'pskc-hotp-pbe.txt', 'qwerty', 'bdaab8d648e850d25a3289364f7d7eaaf53ce581')) {
       echo_full("- oath/pskc-hotp-pbe.txt not imported correctly".$crlf);
       $token_import_error = TRUE;
@@ -1585,6 +1591,8 @@ foreach ($backend_array as $backend) {
     if (!$multiotp->ImportTokensFile('oath/tokens_hotp_aes.pskc', 'tokens_hotp_aes.pskc', '12345678901234567890123456789012', '')) {
       echo_full("- oath/tokens_hotp_aes.pskc not imported correctly".$crlf);
       $token_import_error = TRUE;
+    } else {
+      echo_full("- oath/tokens_hotp_aes.pskc imported correctly".$crlf);
     }
     if (!$multiotp->ImportTokensFile('oath/tokens_totp_aes.pskc', 'tokens_totp_aes.pskc', '12345678901234567890123456789012', '')) {
       echo_full("- oath/tokens_totp_aes.pskc not imported correctly".$crlf);

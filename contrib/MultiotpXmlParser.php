@@ -33,7 +33,7 @@ class MultiotpXmlParser
     $cleanTagNames = true
   ) {
     $this->xml = $xml;
-    $this->stack = array();
+    $this->stack = [];
     $this->cleanTagNames = $cleanTagNames;
   }
 
@@ -83,19 +83,19 @@ class MultiotpXmlParser
   public function StartElement(
     $parser,
     $name,
-    $attrs = array()
+    $attrs = []
   ) {
-    $name = strtolower($name);
+    $nameLower = strtolower($name);
 
     if (count($this->stack) === 0) {
       // Root node
-      $this->document = new MultiotpXMLTag($name, $attrs);
+      $this->document = new MultiotpXMLTag($nameLower, $attrs);
       $this->stack[] = $this->document;
       return;
     }
 
     $parent = end($this->stack);
-    $child = $parent->AddChild($name, $attrs, count($this->stack), $this->cleanTagNames);
+    $child = $parent->AddChild($nameLower, $attrs, count($this->stack), $this->cleanTagNames);
     $this->stack[] = $child;
   }
 
@@ -106,15 +106,14 @@ class MultiotpXmlParser
     array_pop($this->stack);
   }
 
-  public function CharacterData(
-    $parser,
-    $data
-  ) {
+  public function CharacterData($parser, $data)
+  {
     $current = end($this->stack);
     if ($current !== false) {
-      $current->tagData .= trim($data);
+      $current->tagData .= $data;
     }
   }
+
 }
 
 /**
@@ -127,17 +126,20 @@ class MultiotpXMLTag
   public $tagData;
   public $tagChildren;
   public $tagParents;
+  
+  private array $data = [];
 
   public function __construct(
     $name,
-    $attrs = array(),
+    $attrs = [],
     $parents = 0,
     $cleanTagName = true
   ) {
-    $this->tagName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
+    // $this->tagName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
+    $this->tagName = strtolower($name);
     $this->tagAttrs = array_change_key_case($attrs, CASE_LOWER);
     $this->tagData = '';
-    $this->tagChildren = array();
+    $this->tagChildren = [];
     $this->tagParents = $parents;
   }
 
@@ -149,10 +151,22 @@ class MultiotpXMLTag
     $name
   ) {
     $name = strtolower($name);
-    if (isset($this->tagChildren[$name])) {
-      return $this->tagChildren[$name];
-    }
-    return array();
+    return $this->data[$name] ?? [];
+  }
+
+  public function __set(
+    $name,
+    $value
+  ) {
+    $name = strtolower($name);
+    $this->data[$name] = $value;
+  }
+
+  public function __isset(
+    $name
+  ) {
+    $name = strtolower($name);
+    return isset($this->data[$name]);
   }
 
   public function AddChild(
@@ -162,12 +176,14 @@ class MultiotpXMLTag
     $cleanTagName = true
   ) {
     $childName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
-    $child = new self($name, $attrs, $parents, $cleanTagName);
+    $child = new self($name, $attrs, $parents);
 
-    if (!isset($this->tagChildren[$childName])) {
-      $this->tagChildren[$childName] = array();
+    if (!isset($this->data[$childName])) {
+        $this->data[$childName] = [];
     }
-    $this->tagChildren[$childName][] = $child;
+    $this->data[$childName][] = $child;
+
+    $this->tagChildren[] = $child;
 
     return $child;
   }
@@ -177,7 +193,7 @@ class MultiotpXMLTag
     $index = 0
   ) {
     $name = strtolower($name);
-    return isset($this->tagChildren[$name][$index]) ? $this->tagChildren[$name][$index] : null;
+    return $this->data[$name][$index] ?? null;
   }
 
   public function GetXML()
@@ -195,15 +211,43 @@ class MultiotpXMLTag
       if ($this->tagData !== '') {
         $out .= $this->tagData;
       }
-      foreach ($this->tagChildren as $children) {
-        foreach ($children as $child) {
-          $out .= $child->GetXML();
-        }
+      foreach ($this->tagChildren as $child) {
+        $out .= $child->GetXML();
       }
       $out .= '</'.$this->tagName.'>';
     }
 
     return $out;
   }
+  
+
+  public function Delete($childName, $childIndex = 0)
+  {
+    if (isset($this->$childName[$childIndex])) {
+      $this->$childName[$childIndex]->DeleteChildren();
+      unset($this->$childName[$childIndex]);
+
+      foreach ($this->tagChildren as $i => $child) {
+        if ($child === $this->$childName[$childIndex] ?? null) {
+          unset($this->tagChildren[$i]);
+        }
+      }
+      $this->$childName = array_values($this->$childName);
+      $this->tagChildren = array_values($this->tagChildren);
+    }
+  }
+
+  public function DeleteChildren()
+  {
+    foreach ($this->tagChildren as $child) {
+      $child->DeleteChildren();
+    }
+    $this->tagChildren = [];
+    foreach (get_object_vars($this) as $prop => $value) {
+      if (is_array($value)) $this->$prop = [];
+    }
+    $this->tagData = '';
+  }
+
 }
 ?>

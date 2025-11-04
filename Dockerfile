@@ -15,8 +15,8 @@
 # Please check https://www\.multiOTP.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.2
-# @date      2025-10-31
+# @version   5.10.0.3
+# @date      2025-11-04
 # @since     2013-11-29
 # @copyright (c) 2013-2025 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
@@ -39,8 +39,10 @@
 # 2018-03-20 5.1.1.2 SysCo/al Initial public Dockerfile release
 ##########################################################################
 
-FROM debian:13
+FROM --platform=$BUILDPLATFORM debian:trixie-slim
 ENV DEBIAN=13
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Zurich
 ENV PHPINSTALLPREFIX=php
 ENV PHPINSTALLPREFIXVERSION=php8.4
 ENV PHPVERSION=8.4
@@ -50,8 +52,8 @@ LABEL org.opencontainers.image.title="multiOTP open source"
 LABEL org.opencontainers.image.description="multiOTP open source, running on Debian ${DEBIAN} with PHP${PHPVERSION}." \
       License="LGPL-3.0" \
       Usage="docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d multiotp-open-source" \
-      Version="5.10.0.2"
-LABEL org.opencontainers.image.Version="5.10.0.2"
+      Version="5.10.0.3"
+LABEL org.opencontainers.image.Version="5.10.0.3"
 LABEL org.opencontainers.image.authors="Andre Liechti <andre.liechti@multiotp.net>"
 LABEL org.opencontainers.image.url="https://www.multiotp.net"
 LABEL org.opencontainers.image.source="https://github.com/multiOTP/multiotp"

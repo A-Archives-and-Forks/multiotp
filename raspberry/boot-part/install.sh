@@ -16,8 +16,8 @@
 # Please check https://www.multiotp.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.2
-# @date      2025-10-31
+# @version   5.10.0.3
+# @date      2025-11-04
 # @since     2013-11-29
 # @copyright (c) 2013-2022 by SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
@@ -74,7 +74,7 @@ SSH_ROOT_LOGIN="1"
 DEFAULT_IP="192.168.1.44"
 REBOOT_AT_THE_END="1"
 
-TEMPVERSION="@version   5.10.0.2"
+TEMPVERSION="@version   5.10.0.3"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -1343,7 +1343,7 @@ if [ -e /etc/freeradius/3.0/ ] ; then
         /bin/grep "multiotp my-first-network" /etc/freeradius/3.0/clients.conf > /dev/null 2>&1
         if [ $? != 0 ]; then
             echo "# multiotp my-first-network BEGIN" >> /etc/freeradius/3.0/clients.conf
-            echo "client 192.168.0.0/16 { # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
+            echo "client 0.0.0.0/0 { # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
             echo "secret = myfirstpass # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
             echo "shortname = my-first-network # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
             echo "} # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
@@ -1372,7 +1372,7 @@ else
         /bin/grep "multiotp my-first-network" /etc/freeradius/clients.conf > /dev/null 2>&1
         if [ $? != 0 ]; then
             echo "# multiotp my-first-network BEGIN" >> /etc/freeradius/clients.conf
-            echo "client 192.168.0.0/16 { # multiotp my-first-network" >> /etc/freeradius/clients.conf
+            echo "client 0.0.0.0/0 { # multiotp my-first-network" >> /etc/freeradius/clients.conf
             echo "secret = myfirstpass # multiotp my-first-network" >> /etc/freeradius/clients.conf
             echo "shortname = my-first-network # multiotp my-first-network" >> /etc/freeradius/clients.conf
             echo "} # multiotp my-first-network" >> /etc/freeradius/clients.conf

@@ -72,8 +72,8 @@
  * PHP 7.4 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.2
- * @date      2025-10-31
+ * @version   5.10.0.3
+ * @date      2025-11-04
  * @since     2010-06-08
  * @copyright (c) 2010-2025 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -384,8 +384,8 @@ class Multiotp
  * @brief     Main class definition of the multiOTP project.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.2
- * @date      2025-10-31
+ * @version   5.10.0.3
+ * @date      2025-11-04
  * @since     2010-07-18
  */
 {
@@ -505,8 +505,8 @@ class Multiotp
    * @retval  void
    *
    * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-   * @version   5.10.0.2
-   * @date      2025-10-31
+   * @version   5.10.0.3
+   * @date      2025-11-04
    * @since     2010-07-18
    */
   function __construct(
@@ -530,11 +530,11 @@ class Multiotp
 
       if (!isset($this->_class)) { $this->_class = base64_decode('bXVsdGlPVFA='); }
       if (!isset($this->_version)) {
-        $temp_version = '@version   5.10.0.2'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
+        $temp_version = '@version   5.10.0.3'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
         $this->_version = nullable_trim(mb_substr($temp_version, 8));
       }
       if (!isset($this->_date)) {
-        $temp_date = '@date      2025-10-31'; // You should update the date with the date of your changes
+        $temp_date = '@date      2025-11-04'; // You should update the date with the date of your changes
         $this->_date = nullable_trim(mb_substr($temp_date, 8));
       }
       if (!isset($this->_copyright)) { $this->_copyright = base64_decode('KGMpIDIwMTAtMjAyNSBTeXNDbyBzeXN0ZW1lcyBkZSBjb21tdW5pY2F0aW9uIHNh'); }
@@ -19836,9 +19836,7 @@ class Multiotp
                   $search_tag = $xenc11_ns.$search_tag;
               }
               $KeyPackage_tag = $search_tag;
-
               // Extract each key
-              // foreach ($keycontainer[0][$KeyPackage_tag] as $keypackage) // this is not working well in PHP4
               foreach ($keycontainer->{$KeyPackage_tag} as $keypackage_key => $keypackage) {
                   $DeviceInfo_tag = (isset($keypackage->{$pskc_ns.'deviceinfo'})?$pskc_ns:"").'deviceinfo';
                   

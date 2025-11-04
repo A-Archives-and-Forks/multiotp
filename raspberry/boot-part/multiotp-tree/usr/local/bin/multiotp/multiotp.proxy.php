@@ -36,8 +36,8 @@
  * PHP 5.4.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.2
- * @date      2025-10-31
+ * @version   5.10.0.3
+ * @date      2025-11-04
  * @since     2010-06-08
  * @copyright (c) 2010-2025 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -203,8 +203,8 @@ if (!isset($multiotp)) {
  * PHP 7.4 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.2
- * @date      2025-10-31
+ * @version   5.10.0.3
+ * @date      2025-11-04
  * @since     2010-06-08
  * @copyright (c) 2010-2025 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -515,8 +515,8 @@ class Multiotp
  * @brief     Main class definition of the multiOTP project.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.2
- * @date      2025-10-31
+ * @version   5.10.0.3
+ * @date      2025-11-04
  * @since     2010-07-18
  */
 {
@@ -636,8 +636,8 @@ class Multiotp
    * @retval  void
    *
    * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-   * @version   5.10.0.2
-   * @date      2025-10-31
+   * @version   5.10.0.3
+   * @date      2025-11-04
    * @since     2010-07-18
    */
   function __construct(
@@ -661,11 +661,11 @@ class Multiotp
 
       if (!isset($this->_class)) { $this->_class = base64_decode('bXVsdGlPVFA='); }
       if (!isset($this->_version)) {
-        $temp_version = '@version   5.10.0.2'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
+        $temp_version = '@version   5.10.0.3'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
         $this->_version = nullable_trim(mb_substr($temp_version, 8));
       }
       if (!isset($this->_date)) {
-        $temp_date = '@date      2025-10-31'; // You should update the date with the date of your changes
+        $temp_date = '@date      2025-11-04'; // You should update the date with the date of your changes
         $this->_date = nullable_trim(mb_substr($temp_date, 8));
       }
       if (!isset($this->_copyright)) { $this->_copyright = base64_decode('KGMpIDIwMTAtMjAyNSBTeXNDbyBzeXN0ZW1lcyBkZSBjb21tdW5pY2F0aW9uIHNh'); }
@@ -19967,9 +19967,7 @@ class Multiotp
                   $search_tag = $xenc11_ns.$search_tag;
               }
               $KeyPackage_tag = $search_tag;
-
               // Extract each key
-              // foreach ($keycontainer[0][$KeyPackage_tag] as $keypackage) // this is not working well in PHP4
               foreach ($keycontainer->{$KeyPackage_tag} as $keypackage_key => $keypackage) {
                   $DeviceInfo_tag = (isset($keypackage->{$pskc_ns.'deviceinfo'})?$pskc_ns:"").'deviceinfo';
                   
@@ -31557,7 +31555,7 @@ class MultiotpXmlParser
     $cleanTagNames = true
   ) {
     $this->xml = $xml;
-    $this->stack = array();
+    $this->stack = [];
     $this->cleanTagNames = $cleanTagNames;
   }
 
@@ -31607,19 +31605,19 @@ class MultiotpXmlParser
   public function StartElement(
     $parser,
     $name,
-    $attrs = array()
+    $attrs = []
   ) {
-    $name = strtolower($name);
+    $nameLower = strtolower($name);
 
     if (count($this->stack) === 0) {
       // Root node
-      $this->document = new MultiotpXMLTag($name, $attrs);
+      $this->document = new MultiotpXMLTag($nameLower, $attrs);
       $this->stack[] = $this->document;
       return;
     }
 
     $parent = end($this->stack);
-    $child = $parent->AddChild($name, $attrs, count($this->stack), $this->cleanTagNames);
+    $child = $parent->AddChild($nameLower, $attrs, count($this->stack), $this->cleanTagNames);
     $this->stack[] = $child;
   }
 
@@ -31630,15 +31628,14 @@ class MultiotpXmlParser
     array_pop($this->stack);
   }
 
-  public function CharacterData(
-    $parser,
-    $data
-  ) {
+  public function CharacterData($parser, $data)
+  {
     $current = end($this->stack);
     if ($current !== false) {
-      $current->tagData .= trim($data);
+      $current->tagData .= $data;
     }
   }
+
 }
 
 /**
@@ -31651,17 +31648,20 @@ class MultiotpXMLTag
   public $tagData;
   public $tagChildren;
   public $tagParents;
+  
+  private array $data = [];
 
   public function __construct(
     $name,
-    $attrs = array(),
+    $attrs = [],
     $parents = 0,
     $cleanTagName = true
   ) {
-    $this->tagName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
+    // $this->tagName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
+    $this->tagName = strtolower($name);
     $this->tagAttrs = array_change_key_case($attrs, CASE_LOWER);
     $this->tagData = '';
-    $this->tagChildren = array();
+    $this->tagChildren = [];
     $this->tagParents = $parents;
   }
 
@@ -31673,10 +31673,22 @@ class MultiotpXMLTag
     $name
   ) {
     $name = strtolower($name);
-    if (isset($this->tagChildren[$name])) {
-      return $this->tagChildren[$name];
-    }
-    return array();
+    return $this->data[$name] ?? [];
+  }
+
+  public function __set(
+    $name,
+    $value
+  ) {
+    $name = strtolower($name);
+    $this->data[$name] = $value;
+  }
+
+  public function __isset(
+    $name
+  ) {
+    $name = strtolower($name);
+    return isset($this->data[$name]);
   }
 
   public function AddChild(
@@ -31686,12 +31698,14 @@ class MultiotpXMLTag
     $cleanTagName = true
   ) {
     $childName = $cleanTagName ? str_replace(array(':', '-'), '_', strtolower($name)) : strtolower($name);
-    $child = new self($name, $attrs, $parents, $cleanTagName);
+    $child = new self($name, $attrs, $parents);
 
-    if (!isset($this->tagChildren[$childName])) {
-      $this->tagChildren[$childName] = array();
+    if (!isset($this->data[$childName])) {
+        $this->data[$childName] = [];
     }
-    $this->tagChildren[$childName][] = $child;
+    $this->data[$childName][] = $child;
+
+    $this->tagChildren[] = $child;
 
     return $child;
   }
@@ -31701,7 +31715,7 @@ class MultiotpXMLTag
     $index = 0
   ) {
     $name = strtolower($name);
-    return isset($this->tagChildren[$name][$index]) ? $this->tagChildren[$name][$index] : null;
+    return $this->data[$name][$index] ?? null;
   }
 
   public function GetXML()
@@ -31719,16 +31733,44 @@ class MultiotpXMLTag
       if ($this->tagData !== '') {
         $out .= $this->tagData;
       }
-      foreach ($this->tagChildren as $children) {
-        foreach ($children as $child) {
-          $out .= $child->GetXML();
-        }
+      foreach ($this->tagChildren as $child) {
+        $out .= $child->GetXML();
       }
       $out .= '</'.$this->tagName.'>';
     }
 
     return $out;
   }
+  
+
+  public function Delete($childName, $childIndex = 0)
+  {
+    if (isset($this->$childName[$childIndex])) {
+      $this->$childName[$childIndex]->DeleteChildren();
+      unset($this->$childName[$childIndex]);
+
+      foreach ($this->tagChildren as $i => $child) {
+        if ($child === $this->$childName[$childIndex] ?? null) {
+          unset($this->tagChildren[$i]);
+        }
+      }
+      $this->$childName = array_values($this->$childName);
+      $this->tagChildren = array_values($this->tagChildren);
+    }
+  }
+
+  public function DeleteChildren()
+  {
+    foreach ($this->tagChildren as $child) {
+      $child->DeleteChildren();
+    }
+    $this->tagChildren = [];
+    foreach (get_object_vars($this) as $prop => $value) {
+      if (is_array($value)) $this->$prop = [];
+    }
+    $this->tagData = '';
+  }
+
 }
 
 /*****************************************
