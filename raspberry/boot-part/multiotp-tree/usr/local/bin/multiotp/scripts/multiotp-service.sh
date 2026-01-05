@@ -16,8 +16,8 @@
 # Please check https://www.multiotp.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.3
-# @date      2025-11-04
+# @version   5.10.1.2
+# @date      2026-01-05
 # @since     2013-11-29
 # @copyright (c) 2013-2021 by SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License

@@ -22,17 +22,17 @@
  * PHP 5.4.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.3
- * @date      2025-11-04
+ * @version   5.10.1.2
+ * @date      2026-01-05
  * @since     2013-07-10
- * @copyright (c) 2013-2025 SysCo systemes de communication sa
+ * @copyright (c) 2013-2026 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
  *
  *//*
  *
  * LICENCE
  *
- *   Copyright (c) 2013-2025 SysCo systemes de communication sa
+ *   Copyright (c) 2013-2026 SysCo systemes de communication sa
  *   SysCo (tm) is a trademark of SysCo systemes de communication sa
  *   (http://www.sysco.ch/)
  *   All rights reserved.
@@ -120,6 +120,8 @@ $GLOBALS['check_mysql_database'] = 'multiotptest';
 
 set_time_limit(3600);
 
+$last_log_lines = 5;
+
 $first_time = time();
 
 if (!isset($GLOBALS['minima'])) {
@@ -183,10 +185,8 @@ $backend_array[] = $default_backend;
 // Tests counter
 $tests = 0;
 
-
 // Successes counter
 $successes = 0;
-
 
 $browser_mode = isset($_SERVER["HTTP_USER_AGENT"]);
 $html_mode = (!$GLOBALS['minima']) && $browser_mode;
@@ -427,7 +427,7 @@ foreach ($backend_array as $backend) {
     $test_tag = '['.date("YmdHis").']';
     
     $multiotp->WriteLog("Test: test tag is $test_tag", FALSE, FALSE, 19, 'System', '');
-    $log_content = $multiotp->ShowLog(TRUE);
+    $log_content = $multiotp->ShowLog(true, 100);
     if (FALSE !== mb_strpos($log_content, $test_tag))
     {
         echo_full("- ".$ok_on.'OK!'.$ok_off." Log successfully updated".$crlf);
@@ -752,7 +752,7 @@ foreach ($backend_array as $backend) {
     // TEST: Resynchronizing the key
     $tests++;
     echo_full($b_on."Resynchronizing the key".$b_off.$crlf);
-    if ($multiotp->ResyncUserToken('test_user', '338314', '254676', (!$browser_mode)))
+    if ($multiotp->ResyncUserToken('test_user', '338314', '254676', (!$browser_mode) && (!$GLOBALS['minima'])))
     {
         echo_full("- ".$ok_on.'OK!'.$ok_off." Token of the user test_user successfully resynchronized".$crlf);
         $successes++;
@@ -770,7 +770,7 @@ foreach ($backend_array as $backend) {
     echo_full($b_on."Testing a false resynchronisation (in the past, may take some time)".$b_off.$crlf);
     $multiotp->SetUser('test_user');
     $start_time = time();
-    if (!$multiotp->ResyncToken('287082', '359152', (!$browser_mode)))
+    if (!$multiotp->ResyncToken('287082', '359152', (!$browser_mode) && (!$GLOBALS['minima'])))
     {
         echo_full("- ".$ok_on.'OK!'.$ok_off." Token of test_user successfully NOT resynchronized (in the past), in less than ".(1+time()-$start_time)." second(s) ".$crlf);
         $successes++;
@@ -1845,15 +1845,64 @@ foreach ($backend_array as $backend) {
     //====================================================================
     // TEST: Show the log
     $tests++;
-    echo_full($b_on."Show the log".$b_off.$crlf);
-    if (FALSE !== ($log = $multiotp->ShowLog(TRUE))) {
-        echo_full(str_replace("\n",$crlf, htmlentities($log)));
-        echo_full("- ".$ok_on.'OK!'.$ok_off." Log successfuly displayed".$crlf);
+    echo_full($b_on."Show the last $last_log_lines log lines".$b_off.$crlf);
+    if (FALSE !== ($log = $multiotp->ShowLog(true, $last_log_lines))) {
+        if (!$GLOBALS['minima']) {
+          echo_full(str_replace("\n",$crlf, htmlentities($log)));
+        }
+        echo_full("- ".$ok_on.'OK!'.$ok_off." Log successfully displayed".$crlf);
         $successes++;
     } else {
         echo_full("- ".$ko_on.'KO!'.$ko_off." Unable to show the log".$crlf);
     }
     echo_full($crlf);
+
+    //====================================================================
+    // TEST: Check new interface API functions
+    $_SESSION['authenticated'] = true;
+    $api_methods = [
+                    [
+                     "c" => "getSalt",
+                     "expected" => ["data" => "salt"],
+                     "unexpected" => ["message" => "KO"],
+                    ],
+                    [
+                     "c" => "getDashboard",
+                     "expected" => ["status" => "true"],
+                     "unexpected" => ["message" => "KO"],
+                    ],
+                    [
+                     "c" => "getMonitor",
+                     "param" => '"page": "2", "itemsPerPage": "10", "search": { "category": "!Debug" }',
+                     "expected" => ["message" => "OK"],
+                     "unexpected" => ["message" => "KO"],
+                    ],
+                    [
+                     "c" => "getUsers",
+                     "param" => '"page": "1", "itemsPerPage": "10", "search": { "email": "@mydom" }',
+                     "expected" => ["data" => "testmail@mydomain"],
+                     "unexpected" => ["message" => "KO"],
+                    ],
+                   ];
+    foreach($api_methods as $one_api_method) {
+      $tests++;
+      echo_full($b_on."Check API call ".$one_api_method["c"].$b_off.$crlf);
+      $data = $multiotp->ApiVueJs('{ "c": "'.$one_api_method["c"].'"'.(empty($one_api_method["param"]) ? '' : (', '.$one_api_method["param"])).' }', true);
+      echo_full('{ "c": "'.$one_api_method["c"].'"'.(empty($one_api_method["param"]) ? '' : (', '.$one_api_method["param"])).' }'.$crlf);
+      $data_array = json_decode($data, true);
+      [$key, $value] = [array_key_first($one_api_method["expected"]), current($one_api_method["expected"])]; 
+      [$unkey, $unvalue] = [array_key_first($one_api_method["unexpected"]), current($one_api_method["unexpected"])]; 
+      echo_full($data.$crlf);
+      if (!empty($data_array[$key]) && (false !== mb_strpos(json_encode($data_array[$key]), $value)) && (false === mb_strpos(json_encode($data_array[$unkey]), $unvalue)) ) {
+        echo_full("- ".$ok_on.'OK!'.$ok_off." API ".$one_api_method["c"]." successfully processed".$crlf);
+        $successes++;
+      } else {
+        echo_full("Error: ".$value." ".json_encode($data_array[$key])." ".$unvalue." ".json_encode($data_array[$unkey]).$crlf);
+        echo_full("- ".$ko_on.'KO!'.$ko_off." API ".$one_api_method["c"]." NOT successfully processed".$crlf);
+      }
+      echo_full($crlf);
+    }
+
 }
 
 

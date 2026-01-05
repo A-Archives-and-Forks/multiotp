@@ -3,12 +3,12 @@ multiOTP open source
 multiOTP open source is a GNU LGPL implementation of a strong two-factor authentication PHP class  
 multiOTP open source is OATH certified for HOTP/TOTP
 
-(c) 2010-2025 SysCo systemes de communication sa  
+(c) 2010-2026 SysCo systemes de communication sa  
 https://www.multiotp.net/
 
-Current build: 5.10.0.3 (2025-11-04)
+Current build: 5.10.1.2 (2026-01-05)
 
-Binary download: https://download.multiotp.net/ (including virtual appliance image)
+Binary download: https://download.multiotp.net/ (including virtual appliance image, docker and full release notes)
 
 Docker container available: **docker run -v path/to/multiotp/data:/etc/multiotp -v path/to/freeradius/config:/etc/freeradius -v path/to/multiotp/log:/var/log/multiotp -v path/to/freeradius/log:/var/log/freeradius -p 80:80 -p 443:443 -p 1812:1812/udp -p 1813:1813/udp -d multiotp/multiotp-open-source**
 
@@ -68,7 +68,7 @@ The multiOTP class supports currently the following algorithms and RFC's:
 - OATH/HOTP or OATH/TOTP, base32/hex/raw seed, QRcode provisioning
   (FreeOTP, Google Authenticator, ...)
 - SMS tokens (using Afilnet, aspsms, Clickatell, eCall, IntelliSMS, Nexmo, NowSMS,
-  SMSEagle, Swisscom LA REST, Telnyx, any custom provider, your own script)
+  SMSEagle, SMSGateway, Spryng, Swisscom, Telnyx, any custom provider, your own script)
 - TAN (emergency scratch passwords)
 
 This package was initially published here : http://syscoal.users.phpclasses.org/package/6373.html
@@ -155,9 +155,26 @@ WHAT'S NEW IN THIS 5.10.x RELEASE
 CHANGE LOG OF RELEASED VERSIONS
 ===============================
 ```
+2026-01-05 5.10.1.2 FIX: Locked and delayed status handled before push status
+2025-12-23 5.10.1.1 ENH: New SendEmail implementation with internal smtp stack (using smtp parameters)
+                    ENH: Better Docker integration
+2025-12-18 5.10.0.7 FIX: PostgreSQL fix for the fields in the log table
+                    FIX: Warning issue when using the docker version (old temp folder removed)
+                    ENH: New options: "don't auto disable" and "don't auto enable" LDAP accounts
+                    ENH: New SMS library integration and new SMSEagle v2 API support
+                    ENH: New API functions for the forthcoming VueJS 3.x interface (Q1 2026)
+                    ENH: New QRcode enrollment for mOTP, compatible with the free multiOTP token App
+                    ENH: Updated log functions to enhance the log information in the next releases
+                    ENH: Cleaned logs for unnecessary information
+                    ENH: New download page for the multiOTP family
+                    ENH: New multiOTP token App
+                    ENH: Additional constants in the library
+2025-11-04 5.10.0.4 ENH: Option to disable automatic activation/deactivation of user during LDAP synchronisation
 2025-11-04 5.10.0.3 FIX: MultiotpXmlParser class adapted to be 100% compatible with the legacy version
                     ENH: Embedded Windows PHP edition updated to version 8.4.14
                     ENH: The default radius secret is now set to myfirstpass for every device (0.0.0.0/0)
+2025-10-31 5.10.0.2 FIX: /boot/newvm.sh INIT no more called by RUN in the Dockerfile
+                    ENH: Updated Docker format
 2025-10-31 5.10.0.1 FIX: Warning was displayed in some cases when using GetSysLogServer() method
                     FIX: Notice was displayed in some cases when using the sms library (MultiotpSms)
                     FIX: Implementation check URI no more enabled by default in Windows source
@@ -170,6 +187,7 @@ CHANGE LOG OF RELEASED VERSIONS
                     ENH: URI only reacting on / to avoid intensive hits
                     ENH: Embedded Windows PHP edition updated to version 8.4.13
                     ENH: Embedded Windows nginx edition updated to version 1.29.2
+2025-10-16 5.9.9.3 ENH: Debian Trixie 13 support
 2025-01-20 5.9.9.1 FIX: Windows backup temp folder is now the default system temp folder
                    FIX: Adding -sync-delete-retention-days parameter doesn't return missing parameters error
                    FIX: Case sensitive issue has been fixed with MSCHAPv2 authentication (thanks Alexey)
@@ -209,6 +227,7 @@ CHANGE LOG OF RELEASED VERSIONS
                    ENH: Documentation enhanced with instructions for RDWeb on Windows
                    ENH: Upgrade of some internal tools
 2023-10-12 5.9.6.9 ENH: Better internal configuration organization
+2023-10-11 5.9.6.8 ENH: Debian Bookworm 12 support
 2023-09-22 5.9.6.7 ENH: Documentation updated for "Configuring multiOTP with FreeRADIUS 3.x under Linux"
                    ENH: Without2FA tokens cannot be used for multi_account connection
                    ENH: Added documentation for Linux SSH login with multiOTP using PAM
@@ -309,6 +328,7 @@ CHANGE LOG OF RELEASED VERSIONS
                    ENH: Base32 encoder/decoder new implementation
                    ENH: During WriteConfigData, loop on the current values, and check with the old values
                    ENH: Enhanced internal tests
+                   ENH: Debian Buster 10 support
 2019-09-02 5.5.0.3 ENH: Give an info if time based token is probably out of sync (in a window 10 time bigger)
                         (for example for hardware tokens not used for a long time)
                    ENH: Modifications for Debian 10.x (buster) binary images support (64 bits)
@@ -321,6 +341,7 @@ CHANGE LOG OF RELEASED VERSIONS
 2019-01-25 5.4.1.6 FIX: If any, clean specific NTP DHCP option at every reboot
 2019-01-18 5.4.1.4 ENH: Modifications for Debian 9.x (stretch) binary images support
 2019-01-07 5.4.1.1 ENH: Raspberry Pi 3B+ support
+                   ENH: Debian Strech 9 support
 2018-11-13 5.4.0.2 ENH: Import of PSKC definition files with binary decoding key file
                    ENH: Added Swisscom LA REST, Afilnet, Clickatell2, eCall, Nexmo, NowSMS, SMSEagle and custom SMS provider support
 2018-09-14 5.4.0.1 FIX: Values of SetUserCacheLevel(), GetUserCacheLevel(), SetUserCacheLifetime()
@@ -348,7 +369,7 @@ CHANGE LOG OF RELEASED VERSIONS
                    ENH: Enhanced AD/LDAP support for huge Microsoft Active Directory
                    ENH: "Base DN" and "Users DN" are now two different parameters ("Users DN" optional)
 2018-03-20 5.1.1.2 FIX: typo in the source code of the command line option for ldap-pwd and prefix-pin
-                   ENH: Dockerfile available
+                   ENH: Initial public Dockerfile release
 2018-03-05 5.1.0.8 FIX: Enigma Virtual Box updated to version 8.10 (to create the special all-in-one-file)
 2018-02-27 5.1.0.7 FIX: [Receive an OTP by SMS] link is now fixed for Windows 10
 2018-02-26 5.1.0.6 ENH: Credential Provider registry entries are now always used when calling multiOTP.exe
@@ -1948,8 +1969,8 @@ MULTIOTP COMMAND LINE TOOL
 ==========================
 
 ``` 
-multiOTP 5.10.0.3 (2025-11-04)
-(c) 2010-2025 SysCo systemes de communication sa
+multiOTP 5.10.1.2 (2026-01-05)
+(c) 2010-2026 SysCo systemes de communication sa
 http://www.multiOTP.net   (you can try the [Donate] button ;-)
 
 multiotp will check if the token of a user is correct, based on a specified

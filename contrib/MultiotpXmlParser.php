@@ -20,6 +20,7 @@ class MultiotpXmlParser
  *
  * Change Log
  *
+ *   2025-11-21 5.10.0.5 SysCo/al Compatibility issue with PHP <7.4
  *   2025-10-22 5.10.0.1 SysCo/al New rewritten PHP XML parser (without eval)
  */
 {
@@ -127,7 +128,7 @@ class MultiotpXMLTag
   public $tagChildren;
   public $tagParents;
   
-  private array $data = [];
+  private $data = [];
 
   public function __construct(
     $name,

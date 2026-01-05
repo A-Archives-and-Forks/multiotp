@@ -15,10 +15,10 @@
 # Please check https://www\.multiOTP.net/ and you will find the magic button ;-)
 #
 # @author    SysCo/yj, SysCo/al, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.3
-# @date      2025-11-04
+# @version   5.10.1.2
+# @date      2026-01-05
 # @since     2014-08-14
-# @copyright (c) 2014-2025 SysCo systemes de communication sa
+# @copyright (c) 2014-2026 SysCo systemes de communication sa
 # @copyright (c) 2002 by Boian Jordanov <bjordanov@orbitel.bg>
 # @copyright (c) 2002 by The FreeRADIUS server project
 # @copyright GNU Lesser General Public License
@@ -93,7 +93,7 @@ SysCo systemes de communication sa (info@multiotp.net)
 
 =head1 COPYRIGHT
 
-(c) 2014-2025 SysCo systemes de communication sa
+(c) 2014-2026 SysCo systemes de communication sa
 
 This library is free software; you can redistribute it 
 under the GPLv2.

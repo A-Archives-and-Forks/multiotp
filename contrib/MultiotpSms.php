@@ -6,8 +6,8 @@ class MultiotpSms
  * @brief     SMS message using any SMS Provider.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.9.9.3
- * @date      2025-02-18
+ * @version   5.9.10.5
+ * @date      2025-11-21
  * @since     2018-10-09
  *
  * Predefined providers:
@@ -20,6 +20,7 @@ class MultiotpSms
  *         nexmo: Nexmo (HTTPS), https://www.nexmo.com/
  *        nowsms: NowSMS.com (on-premises), https://www.nowsms.com/
  *      smseagle: SMSEagle (hardware gateway), https://www.smseagle.eu/
+ *   smseagle_v2: SMSEagle (hardware gateway, APIv2), https://www.smseagle.eu/
  *    smsgateway: SMSGateway (open source on-premises), https://github.com/multiOTP/SMSGateway
  *        spryng: Spryng (REST API), https://www.spryng.be
  *  spryngsimple: Spryng (Simple API), https://www.spryng.be
@@ -73,6 +74,8 @@ class MultiotpSms
  *
  * Change Log
  *
+ *   2025-11-21 5.10.0.5 SysCo/al customization can be done in json format in the provider string
+ *                                  like this: {"provider":"providername","url","specific_url",...}
  *   2025-02-18 5.9.9.3 SysCo/al Remove notice if default_values is empty
  *   2024-08-26 5.9.8.0 SysCo/al default_values added (for example: "ip=xxxx;port=yyy")
  *   2023-11-21 5.9.7.0 SysCo/al Cleaned code
@@ -91,6 +94,28 @@ class MultiotpSms
  */
 {
   // Standard values (for predefined providers)
+  var $providers = ["afilnet",
+                    "aspsms",
+                    "aspsms-ucs2",
+                    "clickatell",
+                    "clickatell2",
+                    "ecall",
+                    "intellisms",
+                    "nexmo",
+                    "nowsms",
+                    "smseagle",
+                    "smseagle_v2",
+                    "smsgateway",
+                    "spryng",
+                    "spryngsimple",
+                    "swisscom",
+                    "telnyx",
+                    "custom",
+                   ];
+  var $info_name;
+  var $info_web;
+  var $info_auth;
+
   var $provider;
   var $api_id;
   var $ip;
@@ -252,11 +277,37 @@ class MultiotpSms
   }
 
 
+  function getSmsProvidersArray() {
+    $result = [];
+    foreach($this->providers as $one_provider) {
+      $this->setProvider($one_provider);
+      $result[] = [
+                   "provider" => $one_provider,
+                   "name"     => $this->info_name,
+                   "web"      => $this->info_web,
+                   "auth"     => $this->info_auth,
+                  ];
+    }
+    return $result;
+  }
+
+
   function setProvider(
     $provider
   ) {
+
+    // If provider is a json, "provider": "xxx" gives the provider, other fields overload the default values
+    $decoded_provider = json_decode($provider, true);
+    
+    if (!empty($decoded_provider["provider"])) {
+      $provider = $decoded_provider["provider"];
+    }
+
     switch ($provider) {
       case 'afilnet':
+        $this->info_name = "Afilnet (HTTPS)";
+        $this->info_web  = "https://www.afilnet.com/";
+        $this->info_auth = "username,password";
         $this->url = "https://www.afilnet.com/api/http/?class=sms&method=sendsms&user=%user&password=%pass&from=%from&to=%to&sms=%msg";
         $this->send_template = "";
         $this->method = "GET";
@@ -270,13 +321,16 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'aspsms':
+        $this->info_name = "aspsms.com (XML)";
+        $this->info_web = "https://www.aspsms.com/";
+        $this->info_auth = "username,password";
         $this->url = "https://xml3.aspsms.com/xmlsvr.asp https://xml4.aspsms.com/xmlsvr.asp";
         $this->send_template = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n".
                                "<aspsms>\r\n".
                                "  <Userkey>%user</Userkey>\r\n".
                                "  <Password>%pass</Password>\r\n".
                                "  <AffiliateId>208355</AffiliateId>\r\n".
-                           "  <Recipient>\r\n".
+                               "  <Recipient>\r\n".
                                "    <PhoneNumber>%to</PhoneNumber>\r\n".
                                "  </Recipient>\r\n".
                                "  <Originator>%from</Originator>\r\n".
@@ -292,6 +346,9 @@ class MultiotpSms
         $this->content_encoding = "HTML";
         break;
       case 'aspsms-ucs2':
+        $this->info_name = "aspsms.com (UCS2, XML)";
+        $this->info_web = "https://www.aspsms.com/";
+        $this->info_auth = "username,password";
         $this->url = "https://xml3.aspsms.com/xmlsvr.asp https://xml4.aspsms.com/xmlsvr.asp";
         $this->send_template = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n".
                                "<aspsms>\r\n".
@@ -317,6 +374,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'clickatell':
+        $this->info_name = "Clickatell (legacy XML)";
+        $this->info_web = "https://archive.clickatell.com/developers/2015/10/08/xml/";
+        $this->info_auth = "api_id,username,password";
         $this->url = "https://api.clickatell.com/xml/xml http://api.clickatell.com/xml/xml";
         $this->send_template = "data=<clickAPI>".
                                  "<sendMsg>".
@@ -339,6 +399,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'clickatell2':
+        $this->info_name = "Clickatell (HTTPS)";
+        $this->info_web = "https://www.clickatell.com/";
+        $this->info_auth = "api_id";
         $this->url = "https://platform.clickatell.com/messages/http/send?apiKey=%api_id&to=%to&content=%msg";
         $this->send_template = "";
         $this->method = "GET";
@@ -352,6 +415,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'ecall':
+        $this->info_name = "eCall.ch (HTTPS)";
+        $this->info_web = "https://www.ecall.ch/";
+        $this->info_auth = "username,password";
         $this->url = "https://url.ecall.ch/api/sms?username=%user&password=%pass&address=%to&message=%msg";
         $this->send_template = "";
         $this->method = "GET";
@@ -365,6 +431,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'intellisms':
+        $this->info_name = "IntelliSMS.co.uk (HTTPS)";
+        $this->info_web = "https://www.intellisms.co.uk/";
+        $this->info_auth = "username,password";
         $this->url = "https://www.intellisoftware.co.uk/smsgateway/sendmsg.aspx https://www.intellisoftware2.co.uk/smsgateway/sendmsg.aspx";
         $this->send_template = "username=%user&password=%pass&originator=%from&to=%to&text=%msg&type=1";
         $this->method = "POST";
@@ -378,6 +447,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'nexmo':
+        $this->info_name = "Nexmo (HTTPS)";
+        $this->info_web = "https://www.nexmo.com/";
+        $this->info_auth = "api_id,password";
         $this->url = "https://rest.nexmo.com/sms/json";
         $this->send_template = "api_key=%api_id&api_secret=%pass&from=%from&to=%to&text=%msg";
         $this->method = "POST";
@@ -391,6 +463,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'nowsms':
+        $this->info_name = "NowSMS.com (on-premises gateway)";
+        $this->info_web = "https://www.nowsms.com/";
+        $this->info_auth = "ip,port,username,password";
         if (empty($this->url)) {
           $this->url = "http://%ip:%port/?PhoneNumber=%to&Text=%msg";
         }
@@ -406,6 +481,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'smseagle':
+        $this->info_name = "SMSEagle (hardware gateway)";
+        $this->info_web = "https://www.smseagle.eu/";
+        $this->info_auth = "ip,port,username,password";
         if (empty($this->url)) {
           $this->url = "https://%ip:%port/index.php/http_api/send_sms?login=%user&pass=%pass&to=%to&message=%msg";
         }
@@ -420,7 +498,31 @@ class MultiotpSms
         $this->content_encoding = "";
         $this->header = "";
         break;
+    case 'smseagle_v2':
+        $this->info_name = "SMSEagle (hardware gateway, APIv2)";
+        $this->info_web = "https://www.smseagle.eu/";
+        $this->info_auth = "ip,port,password";
+        if (empty($this->url)) {
+          $this->url = "https://%ip:%port/api/v2/messages/sms_single?access_token=%pass";
+        }
+        $this->send_template = "{\n".
+                               "\"to\": \"%to\",\n".
+                               "\"text\": \"%msg\"\n".
+                               "}";
+        $this->method = "POST";
+        $this->encoding = "UTF";
+        $this->status_success = "20";
+        $this->content_success = "OK";
+        $this->no_double_zero = FALSE;
+        $this->international_format = FALSE;
+        $this->basic_auth = FALSE;
+        $this->content_encoding = "";
+        $this->header = "Content-Type: text/plain\r\n";
+        break;
       case 'smsgateway':
+        $this->info_name = "SMSGateway (open source gateway)";
+        $this->info_web = "https://github.com/multiOTP/SMSGateway";
+        $this->info_auth = "ip,port,api_id,password";
         if (empty($this->url)) {
           $this->url = "https://%ip:%port/smsgateway/index.php?id=%api_id&h=%pass&to=%to&message=%msg";
         }
@@ -436,6 +538,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'spryng':
+        $this->info_name = "Spryng (REST API)";
+        $this->info_web = "https://www.spryng.be";
+        $this->info_auth = "api_id,ip";
         $this->url = "https://rest.spryngsms.com/v1/messages";
         $this->send_template = "{\n".
                                "  \"body\": \"%msg\",\n".
@@ -459,6 +564,9 @@ class MultiotpSms
         break;
 
       case 'spryngsimple':
+        $this->info_name = "Spryng (Simple API)";
+        $this->info_web = "https://www.spryng.be";
+        $this->info_auth = "username,password,ip";
         $this->url = "https://rest.spryngsms.com/api/simple/message?=null";
         $this->send_template = "route=%ip&username=%user&secret=%pass&sender=%from&destination=%to&body=%msg";
         $this->method = "POST";
@@ -474,6 +582,9 @@ class MultiotpSms
         break;
 
       case 'swisscom':
+        $this->info_name = "Swisscom LA (REST-JSON)";
+        $this->info_web = "https://messagingproxy.swisscom.ch:4300/rest/1.0.0/";
+        $this->info_auth = "api_id,username,password";
         $this->url = "https://messagingproxy.swisscom.ch:4300/rest/1.0.0/submit_sm/%api_id";
         $this->send_template = "{\n".
                                "\"source_addr_ton\": 5,\n".
@@ -493,6 +604,9 @@ class MultiotpSms
         $this->header = "";
         break;
       case 'telnyx':
+        $this->info_name = "Telnyx";
+        $this->info_web = "https://developers.telnyx.com/docs/api/v2/messaging";
+        $this->info_auth = "api_id";
         $this->url = "https://api.telnyx.com/v2/messages";
         $this->send_template = "{\n".
                                "\"from\": \"%from\",\n".
@@ -509,8 +623,21 @@ class MultiotpSms
         $this->content_encoding = "QUOTES";
         $this->header = "Authorization: Bearer %api_id\r\n";
         break;
+      case 'custom':
+        $this->info_name = "Custom provider";
+        $this->info_web = "";
+        $this->info_auth = "";
+        break;
       default:
         break;
+    }
+
+    if (is_array($decoded_provider)) {
+      foreach ($decoded_provider as $attribute => $value) {
+        if (property_exists($this, $attribute)) {
+          $this->$attribute = $value;
+        }
+      }
     }
   }
 

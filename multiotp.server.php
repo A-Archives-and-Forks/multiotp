@@ -27,17 +27,17 @@
  * PHP 7.4 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.0.3
- * @date      2025-11-04
+ * @version   5.10.1.2
+ * @date      2026-01-05
  * @since     2013-08-06
- * @copyright (c) 2013-2025 SysCo systemes de communication sa
+ * @copyright (c) 2013-2026 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
  *
  *//*
  *
  * LICENCE
  *
- *   Copyright (c) 2010-2025 SysCo systemes de communication sa
+ *   Copyright (c) 2010-2026 SysCo systemes de communication sa
  *   SysCo (tm) is a trademark of SysCo systemes de communication sa
  *   (http://www.sysco.ch)
  *   All rights reserved.
@@ -132,6 +132,7 @@ if (false === mb_strpos(getcwd(), '/')) {
 
 if (!isset($multiotp)) {
   $multiotp = new Multiotp('DefaultCliEncryptionKey', false, '', $config_folder);
+  $multiotp->SetHashSalt(_MULTIOTP_DEFAULT_HASH_SALT_); // Shared secret
 }
 $multiotp->ForceNoDisplayLog(); // No log on display as we are running a web server
 
@@ -148,14 +149,49 @@ if ('' != $multiotp_etc_dir) {
 }
 $multiotp->ReadConfigData();
 
+/****************************************
+ * WE REALLY DO NOT WANT TO BE CACHED !!!
+ ****************************************/
+header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+  header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+} else {
+  header("Access-Control-Allow-Origin: *");
+}
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Max-Age: 86400');
+
+// Access-Control headers are received during OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+  header('Access-Control-Allow-Headers: Content-Type,Prefer,X-Requested-With');
+  exit(0);
+}
+
 $data = isset($_POST['data'])?$_POST['data']:'';
 $method = mb_substr(isset($_GET['method'])?$_GET['method']:(isset($_POST['method'])?$_POST['method']:''),0,255);
 $options = isset($_GET['options'])?$_GET['options']:(isset($_POST['options'])?$_POST['options']:'');
 $postdata = file_get_contents("php://input");
 
-if (FALSE !== mb_strpos($data,'<multiOTP')) {
-    $multiotp->XmlServer($data);
-    exit();
+$headers = getallheaders();
+$prefer = (!empty($headers['Prefer']) ? $headers['Prefer'] : '');
+
+if ($prefer == "api=vuejs") {
+ /*****************
+  *****************
+  *** API/VUEJS ***
+  *****************
+  *****************/
+  $multiotp->ApiVueJsPreAuth();
+  $multiotp->ApiVueJs($postdata);
+exit();
+} elseif (FALSE !== mb_strpos($data,'<multiOTP')) {
+  $multiotp->XmlServer($data);
+  exit();
 } elseif ((FALSE !== mb_strpos($postdata,'<SOAP-ENV')) || (isset($_GET['soap'])) || (isset($_GET['wsdl']))) {
     /*******************
      *******************
@@ -320,7 +356,6 @@ if (FALSE !== mb_strpos($data,'<multiOTP')) {
               $cookie_secure, $cookie_httponly
              );
     session_start();
-    $multiotp->SetHashSalt('AjaxH@shS@lt'); // Shared secret
     $hash_salt = $multiotp->GetHashSalt();
 
     /****************************************

@@ -15,28 +15,19 @@
 # Please check https://www\.multiOTP.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.3
-# @date      2025-11-04
+# @version   5.10.1.2
+# @date      2026-01-05
 # @since     2013-11-29
-# @copyright (c) 2013-2025 SysCo systemes de communication sa
+# @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
 # docker build .
 # docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d xxxxxxxxxxxx
 #
-# 2025-10-31 5.10.0.2 SysCo/al /boot/newvm.sh INIT no more called by RUN
-#                              Updated Docker format
-# 2025-10-16 5.9.9.3 SysCo/al Debian Trixie 13 support
-# 2023-10-11 5.9.6.8 SysCo/al Debian Bookworm 12 support
-# 2022-05-08 5.8.8.4 SysCo/al Better docker support (also for Synology)
-# 2022-05-08 5.8.8.1 SysCo/al Raspberry Pi Bullseye 11 support
-# 2021-09-14 5.8.3.0 SysCo/al Debian Bullseye 11 support
-# 2021-05-19 5.8.2.3 SysCo/al Added php-bcmath
-# 2021-03-25 5.8.1.9 SysCo/al Remove apt-offline, which is not used
-# 2020-08-31 5.8.0.0 SysCo/al Debian Buster 10.5 support
-# 2019-10-22 5.6.1.3 SysCo/al Debian Buster 10 support
-# 2019-01-07 5.4.1.1 SysCo/al Debian Strech 9 support
-# 2018-03-20 5.1.1.2 SysCo/al Initial public Dockerfile release
+# Change Log
+#
+# Please check the readme file for the whole change log since 2010
+#
 ##########################################################################
 
 FROM --platform=$BUILDPLATFORM debian:trixie-slim
@@ -52,8 +43,8 @@ LABEL org.opencontainers.image.title="multiOTP open source"
 LABEL org.opencontainers.image.description="multiOTP open source, running on Debian ${DEBIAN} with PHP${PHPVERSION}." \
       License="LGPL-3.0" \
       Usage="docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d multiotp-open-source" \
-      Version="5.10.0.3"
-LABEL org.opencontainers.image.Version="5.10.0.3"
+      Version="5.10.1.2"
+LABEL org.opencontainers.image.Version="5.10.1.2"
 LABEL org.opencontainers.image.authors="Andre Liechti <andre.liechti@multiotp.net>"
 LABEL org.opencontainers.image.url="https://www.multiotp.net"
 LABEL org.opencontainers.image.source="https://github.com/multiOTP/multiotp"

@@ -8,12 +8,13 @@
 # https://www.multiotp.net/
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.0.3
-# @date      2025-11-04
+# @version   5.10.1.2
+# @date      2026-01-05
 # @since     2013-09-22
-# @copyright (c) 2013-2025 SysCo systemes de communication sa
+# @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2025-11-19 5.10.0.5 SysCo/al Removed old multiotp-temp folder trick
 # 2025-10-31 5.10.0.2 SysCo/al Additional cleaning for Debian Trixie 13.0 support
 # 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
 # 2023-11-23 5.9.7.0 SysCo/al Update Raspberry Pi detection 
@@ -42,7 +43,7 @@
 # 2013-09-22 4.0.9.0 SysCo/al Initial release
 ##########################################################################
 
-TEMPVERSION="@version   5.10.0.3"
+TEMPVERSION="@version   5.10.1.2"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -54,16 +55,6 @@ if [ $# -ge 1 ]; then
     RUNDOCKER="TRUE"
   else
     RUNDOCKER="FALSE"
-  fi
-fi
-
-
-if [[ "${RUNDOCKER}" == "TRUE" ]]; then
-  if [ ! -e /etc/multiotp/config/multiotp.ini ] ; then
-    cp -f -rp /var/multiotp-temp/etc/multiotp/* /etc/multiotp
-    cp -f -rp /var/multiotp-temp/etc/freeradius/* /etc/freeradius
-    cp -f -rp /var/multiotp-temp/log/multiotp/* /var/log/multiotp
-    cp -f -rp /var/multiotp-temp/log/freeradius/* /var/log/freeradius
   fi
 fi
 
@@ -407,7 +398,12 @@ if [[ "${FAMILY}" == "RPI" ]]; then
 fi
 
 
-if [[ "${RUNDOCKER}" != "TRUE" ]]; then
+if [[ "${TYPE}" == "DOCKER" ]]; then
+  touch /usr/local/bin/docker.flag
+fi
+
+
+if [[ "${TYPE}" != "DOCKER" ]]; then
 
   # Kill all processes which are running with debian user
   ps -ef | grep debian | awk '{ print $2 }' | xargs kill -9 > /dev/null 2>&1
@@ -522,7 +518,7 @@ if [[ "${RUNDOCKER}" != "TRUE" ]]; then
   history -c
 
 
-  # Docker could be mounted with existing configuration
+  # Docker must be mounted with existing configuration
   if [[ "${TYPE}" != "DOCKER" ]]; then
       rm -f /var/log/multiotp/*
       rm -f /etc/multiotp/config/*
@@ -605,22 +601,6 @@ if [[ "${RUNDOCKER}" != "TRUE" ]]; then
     if [ -e ${BASH_SOURCE} ] ; then
         rm -f ${BASH_SOURCE}
     fi
-  else
-  
-    if [ ! -e /var/multiotp-temp/log/freeradius ] ; then
-      mkdir /var/multiotp-temp
-      mkdir /var/multiotp-temp/etc
-      mkdir /var/multiotp-temp/etc/multiotp
-      mkdir /var/multiotp-temp/etc/freeradius
-      mkdir /var/multiotp-temp/log
-      mkdir /var/multiotp-temp/log/multiotp
-      mkdir /var/multiotp-temp/log/freeradius
-    fi
-  
-    cp -f -rp /etc/multiotp/* /var/multiotp-temp/etc/multiotp
-    cp -f -rp /etc/freeradius/* /var/multiotp-temp/etc/freeradius
-    cp -f -rp /var/log/multiotp/* /var/multiotp-temp/log/multiotp
-    cp -f -rp /var/log/freeradius/* /var/multiotp-temp/log/freeradius
   fi
 
   echo The device is now halted.

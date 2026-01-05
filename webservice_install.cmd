@@ -9,10 +9,10 @@ REM
 REM Windows batch file for Windows 2K/XP/2003/7/2008/8/2012/10
 REM
 REM @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-REM @version   5.10.0.3
-REM @date      2025-11-04
+REM @version   5.10.1.2
+REM @date      2026-01-05
 REM @since     2013-08-09
-REM @copyright (c) 2013-2025 SysCo systemes de communication sa
+REM @copyright (c) 2013-2026 SysCo systemes de communication sa
 REM @copyright GNU Lesser General Public License
 REM
 REM
@@ -31,7 +31,7 @@ REM
 REM
 REM Licence
 REM
-REM   Copyright (c) 2013-2025 SysCo systemes de communication sa
+REM   Copyright (c) 2013-2026 SysCo systemes de communication sa
 REM   SysCo (tm) is a trademark of SysCo systemes de communication sa
 REM   (http://www.sysco.ch/)
 REM   All rights reserved.
@@ -74,14 +74,12 @@ NET SESSION >NUL 2>&1
 IF NOT %ERRORLEVEL% == 0 (
     ECHO WARNING! Please run this script as an administrator, otherwise it will fail.
     ECHO Elevating privileges...
-    REM PING 127.0.0.1 > NUL 2>&1
-    CD /d %~dp0
-    MSHTA "javascript: var shell = new ActiveXObject('shell.application'); shell.ShellExecute('%~nx0', '', '', 'runas', 1);close();"
-    EXIT
-    REM PAUSE
-    REM EXIT /B 1
+    PowerShell -NoProfile -ExecutionPolicy Bypass -Command ^
+      "Start-Process -FilePath '%~f0' -WorkingDirectory '%CD%' -Verb RunAs"
+    EXIT /b
 )
-:NoWarning
+
+:IS_ADMIN
 
 @setlocal enableextensions enabledelayedexpansion
 
@@ -210,7 +208,11 @@ netsh advfirewall firewall delete rule name="%_service_tag%" >NUL
 netsh advfirewall firewall add rule name="%_service_tag%" dir=in action=allow program="%_web_folder%webservice\nginx.exe" enable=yes >NUL
 
 REM Start the service
+NET STOP WINNAT >NUL
+netsh int ipv4 add excludedportrange protocol=tcp startport=%_web_port% numberofports=1
+netsh int ipv4 add excludedportrange protocol=tcp startport=%_web_ssl_port% numberofports=1
 SC start %_service_tag% >NUL
+NET START WINNAT >NUL
 
 REM Call the URL of the multiOTP web service
 IF NOT "%_no_web_display%"=="1" START http://127.0.0.1:%_web_port%
