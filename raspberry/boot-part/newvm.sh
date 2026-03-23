@@ -8,12 +8,13 @@
 # https://www.multiotp.net/
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.1.2
-# @date      2026-01-05
+# @version   5.10.2.1
+# @date      2026-03-23
 # @since     2013-09-22
 # @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2026-03-06 5.10.2.0 SysCo/al Add initial AWS and Ubuntu support
 # 2025-11-19 5.10.0.5 SysCo/al Removed old multiotp-temp folder trick
 # 2025-10-31 5.10.0.2 SysCo/al Additional cleaning for Debian Trixie 13.0 support
 # 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
@@ -43,18 +44,56 @@
 # 2013-09-22 4.0.9.0 SysCo/al Initial release
 ##########################################################################
 
-TEMPVERSION="@version   5.10.1.2"
+TEMPVERSION="@version   5.10.2.1"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
 
 
+# Docker detection and installation set (2026-02-27)
 RUNDOCKER="FALSE"
 if [ $# -ge 1 ]; then
   if [[ "$1" == "RUNDOCKER" ]] || [[ "$2" == "RUNDOCKER" ]] || [[ "$3" == "RUNDOCKER" ]]; then
+    echo "Docker installation"
     RUNDOCKER="TRUE"
   else
     RUNDOCKER="FALSE"
+  fi
+fi
+UNAME=$(uname -a)
+if [[ "${RUNDOCKER}" == "TRUE" ]]; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif [[ "${UNAME}" == *docker* ]]; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif grep -q docker /proc/1/cgroup; then 
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif grep -q docker /proc/self/cgroup; then 
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif [ -f /.dockerenv ]; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+fi
+if [[ "${TYPE}" == "DOCKER" ]]; then
+  touch /usr/local/games/docker.flag
+fi
+# End of docker detection and installation set (2026-02-27)
+
+
+# Populate the multiotp and freeradius config and log if not existing
+if [[ "${RUNDOCKER}" == "TRUE" ]]; then
+  if [ ! -f /etc/multiotp/config/multiotp.ini ] && [ -d /var/multiotp-temp/etc/multiotp ] ; then
+    echo "Retrieve multiOTP config files"
+    cp -an /var/multiotp-temp/etc/multiotp/* /etc/multiotp
+    cp -an /var/multiotp-temp/log/multiotp/* /var/log/multiotp
+  fi
+  if [ ! -d /etc/freeradius/3.0/mods-available/multiotp ] && [ -f /var/multiotp-temp/etc/freeradius/3.0/mods-available/multiotp ] ; then
+    echo "Retrieve FreeRADIUS config files"
+    cp -an /var/multiotp-temp/etc/freeradius/* /etc/freeradius
+    cp -an /var/multiotp-temp/log/freeradius/* /var/log/freeradius
   fi
 fi
 
@@ -67,11 +106,12 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCEDIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# OS ID and version (2025-08-25)
+# OS ID and version (2026-01-29)
 # Architecture (for example x86_64)
 OSID=$(cat /etc/os-release | grep "^ID=" | awk -F'=' '{print $2}')
-OSVERSION=$(cat /etc/os-release | grep "VERSION_ID=" | awk -F'"' '{print $2}')
+OSVERSION=$(awk -F'"' '/VERSION_ID/ {split($2,a,"."); print a[1]}' /etc/os-release)
 ARCHITECTURE=$(lscpu |grep "^Architecture" | awk -F':' '{print $2}' | awk '{$1=$1;print}')
+IFNAME=$(ip -o link show | awk -F': ' '{print $2}' | grep -v '^lo$')
 
 BACKENDDB="mariadb"
 PHPFPM="php8.4-fpm"
@@ -212,6 +252,16 @@ elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "12" ]]; then
     PHPMAJORVERSION="8"
     SQLITEVERSION="sqlite3"
     VMRELEASENUMBER="012"
+elif [[ "${OSID}" == "ubuntu" ]] && [[ "${OSVERSION}" == "24" ]]; then
+  BACKENDDB="mariadb"
+  PHPFPM="php8.3-fpm"
+  PHPFPMSED="php\/php8.3-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php8.3"
+  PHPMODULEPREFIX="php/8.3"
+  PHPMAJORVERSION="8"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="013u"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "13" ]]; then
     BACKENDDB="mariadb"
     PHPFPM="php8.4-fpm"
@@ -223,56 +273,16 @@ elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "13" ]]; then
     SQLITEVERSION="sqlite3"
     VMRELEASENUMBER="013"
 fi
-# End of OS ID and version (2025-08-25)
+# End of OS ID and version (2026-01-29)
 
 
-# Early docker detection (2023-11-20)
-UNAME=$(uname -a)
-if [[ "${RUNDOCKER}" == "TRUE" ]]; then
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif [[ "${UNAME}" == *docker* ]]; then
-    # Docker
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif grep -q docker /proc/1/cgroup; then 
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif grep -q docker /proc/self/cgroup; then 
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif [ -f /.dockerenv ]; then
-    FAMILY="VAP"
-    TYPE="DOCKER"
-fi
-# End of early docker detection (2023-11-20)
-
-
-if [ $# -ge 1 ]; then
-    BACKEND="$1"
-    if [[ "${BACKEND}" != "mysql" ]] && [[ "$2" != "mysql" ]]; then
-        BACKEND="files"
-    else
-        BACKEND="mysql"
-    fi
-else
-    BACKEND="files"
-fi
-
-
-# Docker backend is forced to be files
-if [[ "${TYPE}" == "DOCKER" ]]; then
-    BACKEND="files"
-fi
-
-
-# Hardware detection (2023-11-20)
+# Hardware detection (2026-02-27)
 FAMILY=""
 UNAME=$(uname -a)
 MODEL=$(cat /proc/cpuinfo | grep "Model" | awk -F': ' '{print $2}')
-if [[ "${RUNDOCKER}" == "TRUE" ]]; then
-    FAMILY="VAP"
-    TYPE="DOCKER"
+if [ -e /usr/local/games/docker.flag ] ; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
 elif [[ "${UNAME}" == *docker* ]]; then
     # Docker
     FAMILY="VAP"
@@ -386,7 +396,20 @@ else
         TYPE="VB"
     fi
 fi
-# End of hardware detection (2023-11-20)
+# End of hardware detection (2026-02-27)
+
+
+# Backend detection (2026-02-27)
+if [ -e /usr/local/games/backend.mysql ] ; then
+  BACKEND="mysql"
+else
+  BACKEND="files"
+fi
+# Docker backend is forced to be files for now
+if [[ "${TYPE}" == "DOCKER" ]]; then
+  BACKEND="files"
+fi
+# End of backend detection (2026-02-27)
 
 
 if [[ "${FAMILY}" == "RPI" ]]; then
@@ -659,6 +682,23 @@ else
     fi
   fi
   
+  # In DOCKER mode, populate the temporary folders with the config at the last startup
+  # (if somebody want to mount externally the /etc/multiotp and /etc/freeradius somewhere else)
+  if [ ! -e /var/multiotp-temp/log/freeradius ] ; then
+    mkdir /var/multiotp-temp
+    mkdir /var/multiotp-temp/etc
+    mkdir /var/multiotp-temp/etc/multiotp
+    mkdir /var/multiotp-temp/etc/freeradius
+    mkdir /var/multiotp-temp/log
+    mkdir /var/multiotp-temp/log/multiotp
+    mkdir /var/multiotp-temp/log/freeradius
+  fi
+
+  cp -af /etc/multiotp/* /var/multiotp-temp/etc/multiotp
+  cp -af /etc/freeradius/* /var/multiotp-temp/etc/freeradius
+  cp -af /var/log/multiotp/* /var/multiotp-temp/log/multiotp
+  cp -af /var/log/freeradius/* /var/multiotp-temp/log/freeradius
+
   # Keep container running
   while true;
     do sleep 30;

@@ -16,12 +16,13 @@
 # Please check https://www.multiotp.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.1.2
-# @date      2026-01-05
+# @version   5.10.2.1
+# @date      2026-03-23
 # @since     2013-11-29
 # @copyright (c) 2013-2022 by SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2026-03-06 5.10.2.0 SysCo/al Add initial AWS and Ubuntu support
 # 2025-10-31 5.10.0.2 SysCo/al Additional cleaning for Debian Trixie 13.0 support
 # 2025-10-16 5.9.9.3 SysCo/al Add Debian Trixie 13.0 support
 #                             systemd-timesyncd instead of ntp for Debian 12+
@@ -59,7 +60,8 @@
 ##########################################################################
 
 # Default configuration options
-DEBIAN_PASSWORD="raspberry"
+LINUX_USER="debian"
+LINUX_PASSWORD="raspberry"
 PI_PASSWORD="raspberry"
 ROOT_PASSWORD="raspberry"
 MYSQL_PASSWORD="fJKGeztDF3456DvB"
@@ -74,10 +76,58 @@ SSH_ROOT_LOGIN="1"
 DEFAULT_IP="192.168.1.44"
 REBOOT_AT_THE_END="1"
 
-TEMPVERSION="@version   5.10.1.2"
+TEMPVERSION="@version   5.10.2.1"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
+
+
+# Docker detection and installation set (2026-02-27)
+RUNDOCKER="FALSE"
+if [ $# -ge 1 ]; then
+  if [[ "$1" == "RUNDOCKER" ]] || [[ "$2" == "RUNDOCKER" ]] || [[ "$3" == "RUNDOCKER" ]]; then
+    echo "Docker installation"
+    RUNDOCKER="TRUE"
+  else
+    RUNDOCKER="FALSE"
+  fi
+fi
+UNAME=$(uname -a)
+if [[ "${RUNDOCKER}" == "TRUE" ]]; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif [[ "${UNAME}" == *docker* ]]; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif grep -q docker /proc/1/cgroup; then 
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif grep -q docker /proc/self/cgroup; then 
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif [ -f /.dockerenv ]; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+fi
+if [[ "${TYPE}" == "DOCKER" ]]; then
+  touch /usr/local/games/docker.flag
+fi
+# End of docker detection and installation set (2026-02-27)
+
+
+# AWS installation (2026-02-27)
+AWS="FALSE"
+if [ $# -ge 1 ]; then
+  if [[ "$1" == "AWS" ]] || [[ "$2" == "AWS" ]] || [[ "$3" == "AWS" ]]; then
+    echo "AWS installation"
+    touch /usr/local/games/aws.flag
+    AWS="TRUE"
+  else
+    AWS="FALSE"
+  fi
+fi
+# End of AWS installation (2026-02-27)
+
 
 if [[ "$2" == "debug" ]] || [[ "$3" == "debug" ]]; then
   DEBUGMODE="TRUE"
@@ -97,11 +147,16 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SOURCEDIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# OS ID and version (2025-08-25)
+# OS ID and version (2026-01-29)
 # Architecture (for example x86_64)
 OSID=$(cat /etc/os-release | grep "^ID=" | awk -F'=' '{print $2}')
-OSVERSION=$(cat /etc/os-release | grep "VERSION_ID=" | awk -F'"' '{print $2}')
+OSVERSION=$(awk -F'"' '/VERSION_ID/ {split($2,a,"."); print a[1]}' /etc/os-release)
 ARCHITECTURE=$(lscpu |grep "^Architecture" | awk -F':' '{print $2}' | awk '{$1=$1;print}')
+IFNAME=$(ip -o link show | awk -F': ' '{print $2}' | grep -v '^lo$')
+
+if [[ "${OSID}" == "ubuntu" ]]; then
+  LINUX_USER="ubuntu"
+fi
 
 BACKENDDB="mariadb"
 PHPFPM="php8.4-fpm"
@@ -113,210 +168,197 @@ PHPMAJORVERSION="8"
 SQLITEVERSION="sqlite3"
 VMRELEASENUMBER="013"
 if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "7" ]]; then
-    BACKENDDB="mysql"
-    PHPFPM="php5-fpm"
-    PHPFPMSED="php5-fpm"
-    PHPINSTALLPREFIX="php5"
-    PHPINSTALLPREFIXVERSION="php5"
-    PHPMODULEPREFIX="php5"
-    PHPMAJORVERSION="5"
-    SQLITEVERSION="sqlite"
-    VMRELEASENUMBER="007"
+  BACKENDDB="mysql"
+  PHPFPM="php5-fpm"
+  PHPFPMSED="php5-fpm"
+  PHPINSTALLPREFIX="php5"
+  PHPINSTALLPREFIXVERSION="php5"
+  PHPMODULEPREFIX="php5"
+  PHPMAJORVERSION="5"
+  SQLITEVERSION="sqlite"
+  VMRELEASENUMBER="007"
 elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "8" ]]; then
-    BACKENDDB="mysql"
-    PHPFPM="php5-fpm"
-    PHPFPMSED="php5-fpm"
-    PHPINSTALLPREFIX="php5"
-    PHPINSTALLPREFIXVERSION="php5"
-    PHPMODULEPREFIX="php5"
-    PHPMAJORVERSION="5"
-    SQLITEVERSION="sqlite"
-    VMRELEASENUMBER="007"
+  BACKENDDB="mysql"
+  PHPFPM="php5-fpm"
+  PHPFPMSED="php5-fpm"
+  PHPINSTALLPREFIX="php5"
+  PHPINSTALLPREFIXVERSION="php5"
+  PHPMODULEPREFIX="php5"
+  PHPMAJORVERSION="5"
+  SQLITEVERSION="sqlite"
+  VMRELEASENUMBER="007"
 elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "9" ]]; then
-    BACKENDDB="mysql"
-    PHPFPM="php7.0-fpm"
-    PHPFPMSED="php\/php7.0-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php7.0"
-    PHPMODULEPREFIX="php/7.0"
-    PHPMAJORVERSION="7"
-    SQLITEVERSION="sqlite"
-    VMRELEASENUMBER="008"
+  BACKENDDB="mysql"
+  PHPFPM="php7.0-fpm"
+  PHPFPMSED="php\/php7.0-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php7.0"
+  PHPMODULEPREFIX="php/7.0"
+  PHPMAJORVERSION="7"
+  SQLITEVERSION="sqlite"
+  VMRELEASENUMBER="008"
 elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "10" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php7.3-fpm"
-    PHPFPMSED="php\/php7.3-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php7.3"
-    PHPMODULEPREFIX="php/7.3"
-    PHPMAJORVERSION="7"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="010"
+  BACKENDDB="mariadb"
+  PHPFPM="php7.3-fpm"
+  PHPFPMSED="php\/php7.3-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php7.3"
+  PHPMODULEPREFIX="php/7.3"
+  PHPMAJORVERSION="7"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="010"
 elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "11" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php7.4-fpm"
-    PHPFPMSED="php\/php7.4-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php7.4"
-    PHPMODULEPREFIX="php/7.4"
-    PHPMAJORVERSION="7"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="011"
+  BACKENDDB="mariadb"
+  PHPFPM="php7.4-fpm"
+  PHPFPMSED="php\/php7.4-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php7.4"
+  PHPMODULEPREFIX="php/7.4"
+  PHPMAJORVERSION="7"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="011"
 elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "12" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php8.2-fpm"
-    PHPFPMSED="php\/php8.2-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php8.2"
-    PHPMODULEPREFIX="php/8.2"
-    PHPMAJORVERSION="8"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="012"
+  BACKENDDB="mariadb"
+  PHPFPM="php8.2-fpm"
+  PHPFPMSED="php\/php8.2-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php8.2"
+  PHPMODULEPREFIX="php/8.2"
+  PHPMAJORVERSION="8"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="012"
 elif [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" == "13" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php8.4-fpm"
-    PHPFPMSED="php\/php8.4-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php8.4"
-    PHPMODULEPREFIX="php/8.4"
-    PHPMAJORVERSION="8"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="013"
+  BACKENDDB="mariadb"
+  PHPFPM="php8.4-fpm"
+  PHPFPMSED="php\/php8.4-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php8.4"
+  PHPMODULEPREFIX="php/8.4"
+  PHPMAJORVERSION="8"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="013"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "7" ]]; then
-    BACKENDDB="mysql"
-    PHPFPM="php5-fpm"
-    PHPFPMSED="php5-fpm"
-    PHPINSTALLPREFIX="php5"
-    PHPINSTALLPREFIXVERSION="php5"
-    PHPMODULEPREFIX="php5"
-    PHPMAJORVERSION="5"
-    SQLITEVERSION="sqlite"
-    VMRELEASENUMBER="007"
+  BACKENDDB="mysql"
+  PHPFPM="php5-fpm"
+  PHPFPMSED="php5-fpm"
+  PHPINSTALLPREFIX="php5"
+  PHPINSTALLPREFIXVERSION="php5"
+  PHPMODULEPREFIX="php5"
+  PHPMAJORVERSION="5"
+  SQLITEVERSION="sqlite"
+  VMRELEASENUMBER="007"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "8" ]]; then
-    BACKENDDB="mysql"
-    PHPFPM="php5-fpm"
-    PHPFPMSED="php5-fpm"
-    PHPINSTALLPREFIX="php5"
-    PHPINSTALLPREFIXVERSION="php5"
-    PHPMODULEPREFIX="php5"
-    PHPMAJORVERSION="5"
-    SQLITEVERSION="sqlite"
-    VMRELEASENUMBER="007"
+  BACKENDDB="mysql"
+  PHPFPM="php5-fpm"
+  PHPFPMSED="php5-fpm"
+  PHPINSTALLPREFIX="php5"
+  PHPINSTALLPREFIXVERSION="php5"
+  PHPMODULEPREFIX="php5"
+  PHPMAJORVERSION="5"
+  SQLITEVERSION="sqlite"
+  VMRELEASENUMBER="007"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "9" ]]; then
-    BACKENDDB="mysql"
-    PHPFPM="php7.0-fpm"
-    PHPFPMSED="php\/php7.0-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php7.0"
-    PHPMODULEPREFIX="php/7.0"
-    PHPMAJORVERSION="7"
-    SQLITEVERSION="sqlite"
-    VMRELEASENUMBER="008"
+  BACKENDDB="mysql"
+  PHPFPM="php7.0-fpm"
+  PHPFPMSED="php\/php7.0-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php7.0"
+  PHPMODULEPREFIX="php/7.0"
+  PHPMAJORVERSION="7"
+  SQLITEVERSION="sqlite"
+  VMRELEASENUMBER="008"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "10" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php7.3-fpm"
-    PHPFPMSED="php\/php7.3-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php7.3"
-    PHPMODULEPREFIX="php/7.3"
-    PHPMAJORVERSION="7"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="010"
+  BACKENDDB="mariadb"
+  PHPFPM="php7.3-fpm"
+  PHPFPMSED="php\/php7.3-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php7.3"
+  PHPMODULEPREFIX="php/7.3"
+  PHPMAJORVERSION="7"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="010"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "11" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php7.4-fpm"
-    PHPFPMSED="php\/php7.4-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php7.4"
-    PHPMODULEPREFIX="php/7.4"
-    PHPMAJORVERSION="7"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="011"
+  BACKENDDB="mariadb"
+  PHPFPM="php7.4-fpm"
+  PHPFPMSED="php\/php7.4-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php7.4"
+  PHPMODULEPREFIX="php/7.4"
+  PHPMAJORVERSION="7"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="011"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "12" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php8.2-fpm"
-    PHPFPMSED="php\/php8.2-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php8.2"
-    PHPMODULEPREFIX="php/8.2"
-    PHPMAJORVERSION="8"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="012"
+  BACKENDDB="mariadb"
+  PHPFPM="php8.2-fpm"
+  PHPFPMSED="php\/php8.2-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php8.2"
+  PHPMODULEPREFIX="php/8.2"
+  PHPMAJORVERSION="8"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="012"
+elif [[ "${OSID}" == "ubuntu" ]] && [[ "${OSVERSION}" == "24" ]]; then
+  BACKENDDB="mariadb"
+  PHPFPM="php8.3-fpm"
+  PHPFPMSED="php\/php8.3-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php8.3"
+  PHPMODULEPREFIX="php/8.3"
+  PHPMAJORVERSION="8"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="013u"
 elif [[ "${OSID}" == "raspbian" ]] && [[ "${OSVERSION}" == "13" ]]; then
-    BACKENDDB="mariadb"
-    PHPFPM="php8.4-fpm"
-    PHPFPMSED="php\/php8.4-fpm"
-    PHPINSTALLPREFIX="php"
-    PHPINSTALLPREFIXVERSION="php8.4"
-    PHPMODULEPREFIX="php/8.4"
-    PHPMAJORVERSION="8"
-    SQLITEVERSION="sqlite3"
-    VMRELEASENUMBER="013"
+  BACKENDDB="mariadb"
+  PHPFPM="php8.4-fpm"
+  PHPFPMSED="php\/php8.4-fpm"
+  PHPINSTALLPREFIX="php"
+  PHPINSTALLPREFIXVERSION="php8.4"
+  PHPMODULEPREFIX="php/8.4"
+  PHPMAJORVERSION="8"
+  SQLITEVERSION="sqlite3"
+  VMRELEASENUMBER="013"
 fi
-# End of OS ID and version (2025-08-25)
-
-
-# Early docker detection (2023-11-20)
-UNAME=$(uname -a)
-if [[ "${UNAME}" == *docker* ]]; then
-    # Docker
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif grep -q docker /proc/1/cgroup; then 
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif grep -q docker /proc/self/cgroup; then 
-    FAMILY="VAP"
-    TYPE="DOCKER"
-elif [ -f /.dockerenv ]; then
-    FAMILY="VAP"
-    TYPE="DOCKER"
-fi
-# End of early docker detection (2023-11-20)
+# End of OS ID and version ((2026-01-29))
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    # apt-get install some basic packages
-    apt-get -y install apt-utils
-    apt-get -y install dialog
-    apt-get -y install dmidecode
-    apt-get -y install initramfs-tools
-    apt-get -y install logrotate
-    apt-get -y install nano
-    apt-get -y install net-tools
-    apt-get -y install ssh
-    apt-get -y install tcpdump
-    apt-get -y install wget
-    if [[ "${TYPE}" == "HV" ]]; then
-        apt-get -y install hyperv-daemons
-        update-initramfs -u
-    fi
+  # apt-get install some basic packages
+  apt-get -y install apt-utils
+  apt-get -y install dialog
+  apt-get -y install dmidecode
+  apt-get -y install initramfs-tools
+  apt-get -y install logrotate
+  apt-get -y install nano
+  apt-get -y install net-tools
+  apt-get -y install ssh
+  apt-get -y install tcpdump
+  apt-get -y install wget
+  if [[ "${TYPE}" == "HV" ]]; then
+    apt-get -y install hyperv-daemons
+    update-initramfs -u
+  fi
+fi
+
+if [[ "${AWS}" == "TRUE" ]]; then
+  apt-get -y install cloud-init
+  #apt-get -y install ifupdown
+  #rm -f /etc/netplan/*.yaml
+  #systemctl stop systemd-networkd
+  #systemctl disable systemd-networkd
+  #systemctl mask systemd-networkd
+  #systemctl enable networking
+  #systemctl start networking
 fi
 
 
-if [ $# -ge 1 ]; then
-    BACKEND="$1"
-    if [[ "${BACKEND}" != "mysql" ]] && [[ "$2" != "mysql" ]]; then
-        BACKEND="files"
-    else
-        BACKEND="mysql"
-    fi
-else
-    BACKEND="files"
-fi
-
-
-# Docker backend is forced to be files
-if [[ "${TYPE}" == "DOCKER" ]]; then
-    BACKEND="files"
-fi
-
-
-# Hardware detection (2023-11-20)
+# Hardware detection (2026-02-27)
 FAMILY=""
 UNAME=$(uname -a)
 MODEL=$(cat /proc/cpuinfo | grep "Model" | awk -F': ' '{print $2}')
-if [[ "${UNAME}" == *docker* ]]; then
+if [ -e /usr/local/games/docker.flag ] ; then
+  FAMILY="VAP"
+  TYPE="DOCKER"
+elif [[ "${UNAME}" == *docker* ]]; then
     # Docker
     FAMILY="VAP"
     TYPE="DOCKER"
@@ -429,112 +471,135 @@ else
         TYPE="VB"
     fi
 fi
-# End of hardware detection (2023-11-20)
+# End of hardware detection (2026-02-27)
+
+
+# Backend setup (2026-02-27)
+if [ $# -ge 1 ]; then
+  BACKEND="$1"
+  if [[ "${BACKEND}" != "mysql" ]] && [[ "$2" != "mysql" ]]; then
+    BACKEND="files"
+  else
+    BACKEND="mysql"
+  fi
+else
+  BACKEND="files"
+fi
+# Docker backend is forced to be files
+if [[ "${TYPE}" == "DOCKER" ]]; then
+  BACKEND="files"
+fi
+if [[ "${BACKEND}" == "mysql" ]]; then
+  touch /usr/local/games/backend.mysql
+else
+  rm -f /usr/local/games/backend.mysql
+fi
+# End of backend setup (2026-02-27)
 
 
 # Stop some services if they are existing
 if [ -e /etc/init.d/nginx ] ; then
-    /etc/init.d/nginx stop
+  /etc/init.d/nginx stop
 else
-    service nginx stop
+  service nginx stop
 fi
 if [ -e /etc/init.d/freeradius ] ; then
-    /etc/init.d/freeradius stop
+  /etc/init.d/freeradius stop
 else
-    service freeradius stop
+  service freeradius stop
 fi
 if [ -e /etc/init.d/xrdp ] ; then
-    /etc/init.d/xrdp stop
+  /etc/init.d/xrdp stop
 else
-    service xrdp stop
+  service xrdp stop
 fi
 if [ -e /etc/init.d/xrdp ] ; then
-    /etc/init.d/lightdm stop
+  /etc/init.d/lightdm stop
 else
-    service lightdm stop
+  service lightdm stop
 fi
 
 
 # Stop some services if they are existing
 if [ -e /etc/init.d/nginx ] ; then
-    /etc/init.d/nginx stop
+  /etc/init.d/nginx stop
 else
-    service nginx stop
+  service nginx stop
 fi
 if [ -e /etc/init.d/freeradius ] ; then
-    /etc/init.d/freeradius stop
+  /etc/init.d/freeradius stop
 else
-    service freeradius stop
+  service freeradius stop
 fi
 if [ -e /etc/init.d/xrdp ] ; then
-    /etc/init.d/xrdp stop
+  /etc/init.d/xrdp stop
 else
-    service xrdp stop
+  service xrdp stop
 fi
 if [ -e /etc/init.d/xrdp ] ; then
-    /etc/init.d/lightdm stop
+  /etc/init.d/lightdm stop
 else
-    service lightdm stop
+  service lightdm stop
 fi
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    # Purge unused packages
-    apt-get -y purge *-ttf
-    apt-get -y purge alsa*
-    apt-get -y purge dbus-x11
-    apt-get -y purge desktop-base
-    apt-get -y purge desktop-file-utils
-    apt-get -y purge dillo
-    apt-get -y purge galculator
-    apt-get -y purge gnome-themes-standard
-    apt-get -y purge gpicview
-    apt-get -y purge gtk2-engines
-    apt-get -y purge hicolor-icon-theme
-    apt-get -y purge leafpad
-    apt-get -y purge midori
-    apt-get -y purge netsurf-gtk
-    apt-get -y purge omxplayer
-    apt-get -y purge openbox
-    apt-get -y purge penguinspuzzle
-    apt-get -y purge python-pygame
-    apt-get -y purge raspberrypi-artwork
-    apt-get -y purge scratch
-    apt-get -y purge ttf*
-    apt-get -y purge wpagui
-    apt-get -y purge x11-common
-    apt-get -y purge xarchiver
-    apt-get -y purge xauth
-    apt-get -y purge xdg-utils
-    apt-get -y purge xpdf
+  # Purge unused packages
+  apt-get -y purge *-ttf
+  apt-get -y purge alsa*
+  apt-get -y purge dbus-x11
+  apt-get -y purge desktop-base
+  apt-get -y purge desktop-file-utils
+  apt-get -y purge dillo
+  apt-get -y purge galculator
+  apt-get -y purge gnome-themes-standard
+  apt-get -y purge gpicview
+  apt-get -y purge gtk2-engines
+  apt-get -y purge hicolor-icon-theme
+  apt-get -y purge leafpad
+  apt-get -y purge midori
+  apt-get -y purge netsurf-gtk
+  apt-get -y purge omxplayer
+  apt-get -y purge openbox
+  apt-get -y purge penguinspuzzle
+  apt-get -y purge python-pygame
+  apt-get -y purge raspberrypi-artwork
+  apt-get -y purge scratch
+  apt-get -y purge ttf*
+  apt-get -y purge wpagui
+  apt-get -y purge x11-common
+  apt-get -y purge xarchiver
+  apt-get -y purge xauth
+  apt-get -y purge xdg-utils
+  apt-get -y purge xpdf
 
-    # Remove some unused packets
+  # Remove some unused packets
 
-    # Remove Apache, as we will work with Nginx
-    apt-get -y autoremove apache2*
+  # Remove Apache, as we will work with Nginx
+  apt-get -y autoremove apache2*
 
-    apt-get -y autoremove avahi*
-    apt-get -y autoremove exim4*
-    apt-get -y autoremove fontconfig*
-    apt-get -y autoremove libmenu-cache1
-    apt-get -y autoremove lightdm*
-    apt-get -y autoremove lx*
+  apt-get -y autoremove avahi*
+  apt-get -y autoremove exim4*
+  apt-get -y autoremove fontconfig*
+  apt-get -y autoremove libmenu-cache1
+  apt-get -y autoremove lightdm*
+  apt-get -y autoremove lx*
 
-    # Remove ntpdate as ntp will do the job
-    apt-get -y autoremove ntpdate
+  # Remove ntpdate as ntp will do the job
+  apt-get -y autoremove ntpdate
 
-    # Remove X11 related packages as we don't need any X Window System
-    apt-get -y autoremove x11-common
+  # Remove X11 related packages as we don't need any X Window System
+  apt-get -y autoremove x11-common
 
-    apt-get -y autoremove xrdp*
+  apt-get -y autoremove xrdp*
 fi
 
 
 # For Nano-computer, remove various unused packages
 if [[ "${FAMILY}" == "ARM" ]] || [[ "${FAMILY}" == "RPI" ]]; then
-    apt-get -y autoremove ${BACKENDDB}-server
-    apt-get -y autoremove ${BACKENDDB}-common
-    apt-get -y autoremove ${PHPINSTALLPREFIX}-mysql
+  apt-get -y autoremove ${BACKENDDB}-server
+  apt-get -y autoremove ${BACKENDDB}-common
+  apt-get -y autoremove ${PHPINSTALLPREFIX}-mysql
 fi
 
 
@@ -543,73 +608,73 @@ dpkg --configure -a
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    # apt-get update and upgrade
-    apt-get -y update
-    apt-get -y upgrade
+  # apt-get update and upgrade
+  apt-get -y update
+  apt-get -y upgrade
 
-    # Prepare automatic answers for IP table
-    echo iptables-persistent iptables-persistent/autosave_v4 boolean false | debconf-set-selections
-    echo iptables-persistent iptables-persistent/autosave_v6 boolean false | debconf-set-selections
+  # Prepare automatic answers for IP table
+  echo iptables-persistent iptables-persistent/autosave_v4 boolean false | debconf-set-selections
+  echo iptables-persistent iptables-persistent/autosave_v6 boolean false | debconf-set-selections
 
-    # apt-get additional packages installation
-    apt-get -y install apache2-utils
-    apt-get -y install apt-offline
-    apt-get -y install apt-zip
-    apt-get -y install build-essential
-    apt-get -y install bzip2
-    apt-get -y install dselect
-    apt-get -y install freeradius
-    apt-get -y install iptables-persistent
-    apt-get -y install insserv
-    apt-get -y install ldap-utils
-    apt-get -y install libbz2-dev
-    apt-get -y install nginx-extras
-    apt-get -y install p7zip-full
-    apt-get -y install php-pear
-    apt-get -y install ${PHPINSTALLPREFIX}-bcmath
-    apt-get -y install ${PHPINSTALLPREFIX}-cgi
-    apt-get -y install ${PHPINSTALLPREFIX}-dev
-    apt-get -y install ${PHPINSTALLPREFIX}-fpm
-    apt-get -y install ${PHPINSTALLPREFIX}-gd
-    apt-get -y install ${PHPINSTALLPREFIX}-gmp
-    apt-get -y install ${PHPINSTALLPREFIX}-ldap
-    apt-get -y install ${PHPINSTALLPREFIXVERSION}-${SQLITEVERSION}
-    
-    # mcrypt is removed in PHP 7.2 (Debian 10+ integrates PHP 7.3+)
-    if [ "${OSVERSION}" -lt "10" ]; then
-        apt-get -y install ${PHPINSTALLPREFIX}-mcrypt
-    fi
-    
-    # ntp is removed in Debian 12
-    if [ "${OSVERSION}" -lt "12" ]; then
-        apt-get -y install ntp
-    fi
+  # apt-get additional packages installation
+  apt-get -y install apache2-utils
+  apt-get -y install apt-offline
+  apt-get -y install apt-zip
+  apt-get -y install build-essential
+  apt-get -y install bzip2
+  apt-get -y install dselect
+  apt-get -y install freeradius
+  apt-get -y install iptables-persistent
+  apt-get -y install insserv
+  apt-get -y install ldap-utils
+  apt-get -y install libbz2-dev
+  apt-get -y install nginx-extras
+  apt-get -y install p7zip-full
+  apt-get -y install php-pear
+  apt-get -y install ${PHPINSTALLPREFIX}-bcmath
+  apt-get -y install ${PHPINSTALLPREFIX}-cgi
+  apt-get -y install ${PHPINSTALLPREFIX}-dev
+  apt-get -y install ${PHPINSTALLPREFIX}-fpm
+  apt-get -y install ${PHPINSTALLPREFIX}-gd
+  apt-get -y install ${PHPINSTALLPREFIX}-gmp
+  apt-get -y install ${PHPINSTALLPREFIX}-ldap
+  apt-get -y install ${PHPINSTALLPREFIXVERSION}-${SQLITEVERSION}
+  
+  # mcrypt is removed in PHP 7.2 (Debian 10+ integrates PHP 7.3+)
+  if [ "${OSVERSION}" -lt "10" ]; then
+    apt-get -y install ${PHPINSTALLPREFIX}-mcrypt
+  fi
+  
+  # ntp is removed in Debian 12
+  if [ "${OSVERSION}" -lt "12" ]; then
+    apt-get -y install ntp
+  fi
 fi
 
 # Add mbstring support for PHP 7 (no more embedded like in PHP 5) - since 5.9.9.3, check 7+
 if [ "$PHPMAJORVERSION" -ge 7 ]; then
-    apt-get -y install ${PHPINSTALLPREFIXVERSION}-mbstring
+  apt-get -y install ${PHPINSTALLPREFIXVERSION}-mbstring
 fi
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    # Since 5.0.4.4 (hardware platform 006)
-    echo slapd slapd/internal/adminpw password ${SLAP_PASSWORD} | debconf-set-selections
-    echo slapd slapd/internal/generated_adminpw password ${SLAP_PASSWORD} | debconf-set-selections
-    echo slapd slapd/password2 password ${SLAP_PASSWORD} | debconf-set-selections
-    echo slapd slapd/password1 password ${SLAP_PASSWORD} | debconf-set-selections
-    apt-get -y install slapd
+  # Since 5.0.4.4 (hardware platform 006)
+  echo slapd slapd/internal/adminpw password ${SLAP_PASSWORD} | debconf-set-selections
+  echo slapd slapd/internal/generated_adminpw password ${SLAP_PASSWORD} | debconf-set-selections
+  echo slapd slapd/password2 password ${SLAP_PASSWORD} | debconf-set-selections
+  echo slapd slapd/password1 password ${SLAP_PASSWORD} | debconf-set-selections
+  apt-get -y install slapd
 
-    # Since 5.0.4.4 (hardware platform 006)
-    apt-get -y install snmp
-    apt-get -y install snmpd
-    # https://geekpeek.net/extend-snmp-run-bash-scripts-via-snmp/
-    # http://net-snmp.sourceforge.net/wiki/index.php/Tut:Extending_snmpd_using_shell_scripts
-    # http://blog.gamb.fr/index.php?post/2012/10/23/Installation-et-configuration-de-snmpd
+  # Since 5.0.4.4 (hardware platform 006)
+  apt-get -y install snmp
+  apt-get -y install snmpd
+  # https://geekpeek.net/extend-snmp-run-bash-scripts-via-snmp/
+  # http://net-snmp.sourceforge.net/wiki/index.php/Tut:Extending_snmpd_using_shell_scripts
+  # http://blog.gamb.fr/index.php?post/2012/10/23/Installation-et-configuration-de-snmpd
 
-    apt-get -y install ${SQLITEVERSION}
-    apt-get -y install subversion
-    apt-get -y install sudo
+  apt-get -y install ${SQLITEVERSION}
+  apt-get -y install subversion
+  apt-get -y install sudo
 fi
 
 
@@ -620,15 +685,14 @@ elif [[ "${FAMILY}" == "VAP" ]] || [[ "${BACKEND}" == "mysql" ]]; then
 	# Prepare automatic answers for MariaDB / MySQL
 	echo "MySQL backend"
     
-    if [[ "${BACKENDDB}" == "mariadb" ]]; then
-        echo mariadb-server-10.3 mariadb-server/root_password password ${MYSQL_PASSWORD} | debconf-set-selections
-        echo mariadb-server-10.3 mariadb-server/root_password_again password ${MYSQL_PASSWORD} | debconf-set-selections
-    else
-	    echo mysql-server-5.1 mysql-server/root_password password ${MYSQL_PASSWORD} | debconf-set-selections
-	    echo mysql-server-5.1 mysql-server/root_password_again password ${MYSQL_PASSWORD} | debconf-set-selections
-    fi
-    
-
+  if [[ "${BACKENDDB}" == "mariadb" ]]; then
+    echo mariadb-server-10.3 mariadb-server/root_password password ${MYSQL_PASSWORD} | debconf-set-selections
+    echo mariadb-server-10.3 mariadb-server/root_password_again password ${MYSQL_PASSWORD} | debconf-set-selections
+  else
+    echo mysql-server-5.1 mysql-server/root_password password ${MYSQL_PASSWORD} | debconf-set-selections
+    echo mysql-server-5.1 mysql-server/root_password_again password ${MYSQL_PASSWORD} | debconf-set-selections
+  fi
+  
 	apt-get -y install ${BACKENDDB}-server
 	apt-get -y install ${BACKENDDB}-common
 	apt-get -y install ${PHPINSTALLPREFIX}-mysql
@@ -636,47 +700,47 @@ fi
 
 
 if [[ "${FAMILY}" == "ARM" ]] || [[ "${FAMILY}" == "RPI" ]]; then
-    apt-get -y install device-tree-compiler
-    apt-get -y install fake-hwclock
-    apt-get -y install fbi
-    apt-get -y install i2c-tools
+  apt-get -y install device-tree-compiler
+  apt-get -y install fake-hwclock
+  apt-get -y install fbi
+  apt-get -y install i2c-tools
 
-    if [ ! -e /usr/local/bin/dtc ] ; then
-        if [ ! -e /tmp/dtc ] ; then
-            mkdir /tmp/dtc
-        fi
-        cd /tmp/dtc
-        wget -c https://raw.github.com/RobertCNelson/tools/master/pkgs/dtc.sh
-        chmod +x dtc.sh
-        ./dtc.sh    
-        # Installed in /usr/local/bin/dtc
-        # /usr/local/bin/dtc -O dtb -o BB-RTC-AND-RESET-0101.dtbo -b -o -@ BB-RTC-AND-RESET-0101.dts
-        # cp BB-RTC-AND-RESET-0101.dtbo /lib/firmware
-        cd /tmp
-        rm -f -R /tmp/dtc
+  if [ ! -e /usr/local/bin/dtc ] ; then
+    if [ ! -e /tmp/dtc ] ; then
+      mkdir /tmp/dtc
     fi
+    cd /tmp/dtc
+    wget -c https://raw.github.com/RobertCNelson/tools/master/pkgs/dtc.sh
+    chmod +x dtc.sh
+    ./dtc.sh    
+    # Installed in /usr/local/bin/dtc
+    # /usr/local/bin/dtc -O dtb -o BB-RTC-AND-RESET-0101.dtbo -b -o -@ BB-RTC-AND-RESET-0101.dts
+    # cp BB-RTC-AND-RESET-0101.dtbo /lib/firmware
+    cd /tmp
+    rm -f -R /tmp/dtc
+  fi
 fi
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    # apt-get update and upgrade (final one, at the end of the whole installation process)
-    apt-get -y update
-    apt-get -y upgrade
+  # apt-get update and upgrade (final one, at the end of the whole installation process)
+  apt-get -y update
+  apt-get -y upgrade
 
-    # Clean unused packages
-    apt-get -y autoremove
+  # Clean unused packages
+  apt-get -y autoremove
 
-    # More cleaning
-    apt-get autoclean
-    # apt-get -y install localepurge
+  # More cleaning
+  apt-get autoclean
+  # apt-get -y install localepurge
 
-    # List of all installed packages
-    # dpkg -l
+  # List of all installed packages
+  # dpkg -l
 
 
-    # Clean all unnecessary files
-    # localepurge
-    apt-get clean
+  # Clean all unnecessary files
+  # localepurge
+  apt-get clean
 fi
 
 
@@ -686,8 +750,8 @@ echo "root:${ROOT_PASSWORD}"|chpasswd
 # Change the password of pi account
 echo "pi:${PI_PASSWORD}"|chpasswd
 
-# Change the password of debian account
-echo "debian:${DEBIAN_PASSWORD}"|chpasswd
+# Change the password of linux account
+echo "${LINUX_USER}:${LINUX_PASSWORD}"|chpasswd
 
 
 # Create multiOTP folders
@@ -707,7 +771,7 @@ cp -f -R ${SOURCEDIR}/multiotp-tree/* /
 
 
 if [[ "${DEBUGMODE}" != "TRUE" ]]; then
-    rm -f -R ${SOURCEDIR}/multiotp-tree
+  rm -f -R ${SOURCEDIR}/multiotp-tree
 fi
 
 
@@ -715,47 +779,53 @@ fi
 # For Strech+, reactivate traditional eth0 support (except for Raspbian)
 # https://unix.stackexchange.com/questions/396382/how-can-i-show-the-old-eth0-names-and-also-rename-network-interfaces-in-debian-9
 if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" -ge 9 ]]; then
-    IFNAME=$(ifconfig | grep -o -E '(^e[a-zA-Z0-9]*)')
-    if [[ "${IFNAME}" != "eth0" ]]; then
-        sed -i 's/.*GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
-        update-grub2
-    fi
+  if [[ "${IFNAME}" != "eth0" ]]; then
+    sed -i 's/.*GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+    update-grub2
+  fi
+fi
+# For Ubuntu, activate legacy eth0 also if needed
+if [[ "${OSID}" == "ubuntu" ]]; then
+  if [[ "${IFNAME}" != "eth0" ]]; then
+    sed -i 's/.*GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+    update-grub2
+  fi
 fi
 
 
 # 5.4.1.8 Disable the dhcpcd service if we are in the Debian Stretch+ distribution
 if [[ "${OSID}" == "debian" ]] && [[ "${OSVERSION}" -ge 9 ]]; then
-    if [ -d /run/systemd/system ]; then
-      systemctl stop dhcpcd.service
-      systemctl disable dhcpcd.service
-    fi
+  if [ -d /run/systemd/system ]; then
+    systemctl stop dhcpcd.service
+    systemctl disable dhcpcd.service
+  fi
 fi
 
 
 if [[ "${FAMILY}" == "VAP" ]]; then
-    # No config.txt file for Virtual Appliance
-    rm -f /boot/config.txt
+  # No config.txt file for Virtual Appliance
+  rm -f /boot/config.txt
 fi
 
 if [[ "${FAMILY}" == "VAP" ]] || [[ "${FAMILY}" == "RPI" ]]; then
-    # IP address definition
-    echo auto lo > /etc/network/interfaces
-    echo  >> /etc/network/interfaces
-    echo iface lo inet loopback >> /etc/network/interfaces
-    echo allow-hotplug eth0 >> /etc/network/interfaces
-    echo iface eth0 inet static >> /etc/network/interfaces
-    echo address ${DEFAULT_IP} >> /etc/network/interfaces
-    echo netmask 255.255.255.0 >> /etc/network/interfaces
-    echo network 192.168.1.0 >> /etc/network/interfaces
-    echo gateway 192.168.1.1 >> /etc/network/interfaces
+  # IP address definition
+  echo auto lo > /etc/network/interfaces
+  echo  >> /etc/network/interfaces
+  echo iface lo inet loopback >> /etc/network/interfaces
+  echo allow-hotplug eth0 >> /etc/network/interfaces
+  echo iface eth0 inet static >> /etc/network/interfaces
+  echo address ${DEFAULT_IP} >> /etc/network/interfaces
+  echo netmask 255.255.255.0 >> /etc/network/interfaces
+  echo network 192.168.1.0 >> /etc/network/interfaces
+  echo gateway 192.168.1.1 >> /etc/network/interfaces
 fi
 
 
 # If not on a device, set the VM release file
 if [[ "${FAMILY}" == "VAP" ]]; then
-    echo ${TYPE}-${VMRELEASENUMBER} > /etc/multiotp/config/vmrelease.ini
+  echo ${TYPE}-${VMRELEASENUMBER} > /etc/multiotp/config/vmrelease.ini
 else
-    echo ${FAMILY}-${VMRELEASENUMBER} > /etc/multiotp/config/hwrelease.ini
+  echo ${FAMILY}-${VMRELEASENUMBER} > /etc/multiotp/config/hwrelease.ini
 fi
 
 
@@ -770,45 +840,45 @@ touch /etc/multiotp/certificates/multiotp.generic
 
 # Set some multiOTP options if never used
 if [ ! -e /etc/multiotp/config/multiotp.ini ] ; then
-    echo Creating a new multiotp.ini file
-    touch /etc/multiotp/config/multiotp.ini
-    chmod 777 -R /etc/multiotp
-    chmod 777 -R /usr/local/bin/multiotp
-    chown -R www-data:www-data /etc/multiotp
-    chown -R www-data:www-data /usr/local/bin/multiotp
-    echo multiotp-database-format-v3 > /etc/multiotp/config/multiotp.ini
-    echo  >> /etc/multiotp/config/multiotp.ini
-    echo log=1 >> /etc/multiotp/config/multiotp.ini
+  echo Creating a new multiotp.ini file
+  touch /etc/multiotp/config/multiotp.ini
+  chmod 777 -R /etc/multiotp
+  chmod 777 -R /usr/local/bin/multiotp
+  chown -R www-data:www-data /etc/multiotp
+  chown -R www-data:www-data /usr/local/bin/multiotp
+  echo multiotp-database-format-v3 > /etc/multiotp/config/multiotp.ini
+  echo  >> /etc/multiotp/config/multiotp.ini
+  echo log=1 >> /etc/multiotp/config/multiotp.ini
 
-    #MySQL backbone configuration
-    if [[ "${BACKEND}" == "mysql" ]]; then
-        echo "Add SQL configuration to multiotp.ini file"
-        /usr/bin/mysql -u root -p${MYSQL_PASSWORD} -e "DROP DATABASE IF EXISTS multiotp; CREATE DATABASE multiotp; GRANT ALL PRIVILEGES ON multiotp.* TO multiotp@localhost IDENTIFIED BY '${MULTIOTP_SQL_PASSWORD}';"
-        sed -i '/^sql_server/d' /etc/multiotp/config/multiotp.ini
-        echo sql_server=127.0.0.1 >> /etc/multiotp/config/multiotp.ini
-        sed -i '/^sql_username/d' /etc/multiotp/config/multiotp.ini
-        echo sql_username=multiotp >> /etc/multiotp/config/multiotp.ini
-        sed -i '/^sql_password/d' /etc/multiotp/config/multiotp.ini
-        echo sql_password=${MULTIOTP_SQL_PASSWORD} >> /etc/multiotp/config/multiotp.ini
-        sed -i '/^sql_database/d' /etc/multiotp/config/multiotp.ini
-        echo sql_database=multiotp >> /etc/multiotp/config/multiotp.ini
-        sed -i '/^backend_type/d' /etc/multiotp/config/multiotp.ini
-        echo backend_type=mysql >> /etc/multiotp/config/multiotp.ini
-        /usr/local/bin/multiotp/multiotp.php -initialize-backend
-    else
-        echo "Drop MySQL database if exists"
-        if [ -e /usr/bin/mysql ] ; then
-            /usr/bin/mysql -u root -p${MYSQL_PASSWORD} -e "DROP DATABASE IF EXISTS multiotp;"
-        fi
+  #MySQL backbone configuration
+  if [[ "${BACKEND}" == "mysql" ]]; then
+    echo "Add SQL configuration to multiotp.ini file"
+    /usr/bin/mysql -u root -p${MYSQL_PASSWORD} -e "DROP DATABASE IF EXISTS multiotp; CREATE DATABASE multiotp; GRANT ALL PRIVILEGES ON multiotp.* TO multiotp@localhost IDENTIFIED BY '${MULTIOTP_SQL_PASSWORD}';"
+    sed -i '/^sql_server/d' /etc/multiotp/config/multiotp.ini
+    echo sql_server=127.0.0.1 >> /etc/multiotp/config/multiotp.ini
+    sed -i '/^sql_username/d' /etc/multiotp/config/multiotp.ini
+    echo sql_username=multiotp >> /etc/multiotp/config/multiotp.ini
+    sed -i '/^sql_password/d' /etc/multiotp/config/multiotp.ini
+    echo sql_password=${MULTIOTP_SQL_PASSWORD} >> /etc/multiotp/config/multiotp.ini
+    sed -i '/^sql_database/d' /etc/multiotp/config/multiotp.ini
+    echo sql_database=multiotp >> /etc/multiotp/config/multiotp.ini
+    sed -i '/^backend_type/d' /etc/multiotp/config/multiotp.ini
+    echo backend_type=mysql >> /etc/multiotp/config/multiotp.ini
+    /usr/local/bin/multiotp/multiotp.php -initialize-backend
+  else
+    echo "Drop MySQL database if exists"
+    if [ -e /usr/bin/mysql ] ; then
+      /usr/bin/mysql -u root -p${MYSQL_PASSWORD} -e "DROP DATABASE IF EXISTS multiotp;"
     fi
+  fi
 fi
 
 
 # Touch some files to give them the necessary rights
 if [ -e /etc/freeradius/3.0/ ] ; then
-    touch /etc/freeradius/3.0/clients.conf.bkp
+  touch /etc/freeradius/3.0/clients.conf.bkp
 else
-    touch /etc/freeradius/clients.conf.bkp
+  touch /etc/freeradius/clients.conf.bkp
 fi
 touch /var/log/multiotp/multiotp.log
 touch /etc/multiotp/config/multiotp.ini
@@ -816,13 +886,13 @@ touch /etc/multiotp/config/multiotp.ini
 
 # Change various rights
 if [ -e /etc/freeradius/3.0/ ] ; then
-    chmod g+rw   /etc/freeradius/3.0/clients.conf
-    chmod 777    /etc/freeradius/3.0/clients.conf.bkp
-    chmod g+rw   /etc/freeradius/3.0/users
+  chmod g+rw   /etc/freeradius/3.0/clients.conf
+  chmod 777    /etc/freeradius/3.0/clients.conf.bkp
+  chmod g+rw   /etc/freeradius/3.0/users
 else
-    chmod g+rw   /etc/freeradius/clients.conf
-    chmod 777    /etc/freeradius/clients.conf.bkp
-    chmod g+rw   /etc/freeradius/users
+  chmod g+rw   /etc/freeradius/clients.conf
+  chmod 777    /etc/freeradius/clients.conf.bkp
+  chmod g+rw   /etc/freeradius/users
 fi
 
 chmod 666    /etc/hostname
@@ -856,9 +926,9 @@ if [ -e /etc/ssh/sshd_config ] ; then
   echo MACs hmac-sha1,umac-64@openssh.com >> /etc/ssh/sshd_config
 
   if [ -e /etc/init.d/ssh ] ; then
-      /etc/init.d/ssh restart
+    /etc/init.d/ssh restart
   else
-      service ssh restart
+    service ssh restart
   fi
 fi
 
@@ -884,9 +954,9 @@ sed -i 's/ssl_protocols.*/ssl_protocols TLSv1.2;/' /etc/nginx/sites-available/mu
 sed -i 's/ssl_ciphers.*/ssl_ciphers TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDH-RSA-AES256-SHA384:ECDH-ECDSA-AES256-SHA384:ALL:!RC4:HIGH:!IDEA:!MD5:!aNULL:!eNULL:!EDH:!SSLv2:!ADH:!EXPORT:!EXP:!LOW:!ADH:!AECDH:!DSS:@STRENGTH:!SEED:!3DES;/' /etc/nginx/sites-available/multiotp
 
 if [[ "${HSTS_ENABLED}" == "1" ]] ; then
-    # https://www.ssllabs.com/downloads/SSL_Server_Rating_Guide.pdf
-    sed -i '/Strict-Transport-Security/d' /etc/nginx/sites-available/multiotp
-    sed -i "/server_tokens/a \    add_header Strict-Transport-Security 'max-age=31536000; includeSubDomains';" /etc/nginx/sites-available/multiotp
+  # https://www.ssllabs.com/downloads/SSL_Server_Rating_Guide.pdf
+  sed -i '/Strict-Transport-Security/d' /etc/nginx/sites-available/multiotp
+  sed -i "/server_tokens/a \    add_header Strict-Transport-Security 'max-age=31536000; includeSubDomains';" /etc/nginx/sites-available/multiotp
 fi
 
 # Update Nginx configuration if needed for PHP FPM
@@ -905,102 +975,102 @@ sed -i '/proxy_cookie_path/d' /etc/nginx/sites-available/multiotp
 
 
 if [ -e /etc/init.d/nginx ] ; then
-    /etc/init.d/nginx restart
+  /etc/init.d/nginx restart
 else
-    service nginx restart
+  service nginx restart
 fi
 
 
 # Since 5.0.3.4
 # Adapting general PHP and FPM configuration (timeout)
 if [ -e /etc/${PHPMODULEPREFIX}/cgi/php.ini ] ; then
-    sed -i 's/.*max_execution_time.*/max_execution_time = 86400/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*max_execution_time.*/max_execution_time = 86400/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/cli/php.ini ] ; then
-    sed -i 's/.*max_execution_time.*/max_execution_time = 86400/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*max_execution_time.*/max_execution_time = 86400/' /etc/${PHPMODULEPREFIX}/cli/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/fpm/php.ini ] ; then
-    sed -i 's/.*max_execution_time.*/max_execution_time = 86400/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*max_execution_time.*/max_execution_time = 86400/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/fpm/pool.d/www.conf ] ; then
-    sed -i 's/.*request_terminate_timeout.*/request_terminate_timeout = 0/' /etc/${PHPMODULEPREFIX}/fpm/pool.d/www.conf
+  sed -i 's/.*request_terminate_timeout.*/request_terminate_timeout = 0/' /etc/${PHPMODULEPREFIX}/fpm/pool.d/www.conf
 fi
 
 
 # Adapting general PHP configuration for Virtual Appliance
 if [[ "${FAMILY}" == "VAP" ]]; then
-    if [ -e /etc/${PHPMODULEPREFIX}/cgi/php.ini ] ; then
-        sed -i 's/.*memory_limit.*/memory_limit = 1024M/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    fi
-    if [ -e /etc/${PHPMODULEPREFIX}/cli/php.ini ] ; then
-        sed -i 's/.*memory_limit.*/memory_limit = 1024M/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    fi
-    if [ -e /etc/${PHPMODULEPREFIX}/fpm/php.ini ] ; then
-        sed -i 's/.*memory_limit.*/memory_limit = 1024M/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    fi
+  if [ -e /etc/${PHPMODULEPREFIX}/cgi/php.ini ] ; then
+    sed -i 's/.*memory_limit.*/memory_limit = 1024M/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  fi
+  if [ -e /etc/${PHPMODULEPREFIX}/cli/php.ini ] ; then
+    sed -i 's/.*memory_limit.*/memory_limit = 1024M/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  fi
+  if [ -e /etc/${PHPMODULEPREFIX}/fpm/php.ini ] ; then
+    sed -i 's/.*memory_limit.*/memory_limit = 1024M/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  fi
 fi
 
 
 # Adapting OPcache configuration
 # http://php.net/manual/opcache.configuration.php
 if [ -e /etc/${PHPMODULEPREFIX}/cgi/php.ini ] ; then
-    # sed -i '/^opcache.enable=/d' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    # sed -i '1i opcache.enable=1' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.enable=.*/opcache.enable=1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=8/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.max_file_size=.*/opcache.max_file_size=0/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.fast_shutdown=.*/opcache.fast_shutdown=1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  # sed -i '/^opcache.enable=/d' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  # sed -i '1i opcache.enable=1' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.enable=.*/opcache.enable=1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=8/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.max_file_size=.*/opcache.max_file_size=0/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.fast_shutdown=.*/opcache.fast_shutdown=1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/cli/php.ini ] ; then
-    sed -i 's/.*opcache.enable=.*/opcache.enable=1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=8/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.max_file_size=.*/opcache.max_file_size=0/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.fast_shutdown=.*/opcache.fast_shutdown=1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.enable=.*/opcache.enable=1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=8/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.max_file_size=.*/opcache.max_file_size=0/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.fast_shutdown=.*/opcache.fast_shutdown=1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/${PHPMODULEPREFIX}/cli/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/fpm/php.ini ] ; then
-    sed -i 's/.*opcache.enable=.*/opcache.enable=1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=8/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.max_file_size=.*/opcache.max_file_size=0/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.fast_shutdown=.*/opcache.fast_shutdown=1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.enable=.*/opcache.enable=1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=8/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.max_file_size=.*/opcache.max_file_size=0/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.fast_shutdown=.*/opcache.fast_shutdown=1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
 fi
 
 
 #Reconfigure PHP max size options
 if [ -e /etc/${PHPMODULEPREFIX}/cgi/php.ini ] ; then
-    sed -i 's/.*upload_max_filesize.*/upload_max_filesize=400M/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
-    sed -i 's/.*post_max_size.*/post_max_size=800M/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*upload_max_filesize.*/upload_max_filesize=400M/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*post_max_size.*/post_max_size=800M/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/cli/php.ini ] ; then
-    sed -i 's/.*upload_max_filesize.*/upload_max_filesize=400M/' /etc/${PHPMODULEPREFIX}/cli/php.ini
-    sed -i 's/.*post_max_size.*/post_max_size=800M/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*upload_max_filesize.*/upload_max_filesize=400M/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*post_max_size.*/post_max_size=800M/' /etc/${PHPMODULEPREFIX}/cli/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/fpm/php.ini ] ; then
-    sed -i 's/.*upload_max_filesize.*/upload_max_filesize=400M/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
-    sed -i 's/.*post_max_size.*/post_max_size=800M/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*upload_max_filesize.*/upload_max_filesize=400M/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*post_max_size.*/post_max_size=800M/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
 fi
 
 
 #Secure cookie (since 5.8.0.0)
 if [ -e /etc/${PHPMODULEPREFIX}/cgi/php.ini ] ; then
-    sed -i 's/.*session.cookie_httponly.*/session.cookie_httponly = 1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
+  sed -i 's/.*session.cookie_httponly.*/session.cookie_httponly = 1/' /etc/${PHPMODULEPREFIX}/cgi/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/cli/php.ini ] ; then
-    sed -i 's/.*session.cookie_httponly.*/session.cookie_httponly = 1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
+  sed -i 's/.*session.cookie_httponly.*/session.cookie_httponly = 1/' /etc/${PHPMODULEPREFIX}/cli/php.ini
 fi
 if [ -e /etc/${PHPMODULEPREFIX}/fpm/php.ini ] ; then
-    sed -i 's/.*session.cookie_httponly.*/session.cookie_httponly = 1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
+  sed -i 's/.*session.cookie_httponly.*/session.cookie_httponly = 1/' /etc/${PHPMODULEPREFIX}/fpm/php.ini
 fi
 
 
@@ -1014,9 +1084,9 @@ fi
 
 
 if [ -e /etc/init.d/${PHPFPM} ] ; then
-    /etc/init.d/${PHPFPM} restart
+  /etc/init.d/${PHPFPM} restart
 else
-    service ${PHPFPM} restart
+  service ${PHPFPM} restart
 fi
 
 
@@ -1033,14 +1103,14 @@ sed -i '/^vm.vfs_cache_pressure/d' /etc/sysctl.conf
 echo vm.vfs_cache_pressure = 50 >> /etc/sysctl.conf
 
 if [[ "${FAMILY}" == "RPI" ]]; then
-    # // Optimize performances for Raspberry Pi
-    # https://lonesysadmin.net/2013/12/22/better-linux-disk-caching-performance-vm-dirty_ratio/
-    # sysctl -a | grep dirty
-    # http://www.databasesql.info/article/9727204867/
-    sed -i '/^vm.dirty_background_ratio/d' /etc/sysctl.conf
-    echo vm.dirty_background_ratio = 5 >> /etc/sysctl.conf
-    sed -i '/^vm.dirty_ratio/d' /etc/sysctl.conf
-    echo vm.dirty_ratio = 70 >> /etc/sysctl.conf
+  # // Optimize performances for Raspberry Pi
+  # https://lonesysadmin.net/2013/12/22/better-linux-disk-caching-performance-vm-dirty_ratio/
+  # sysctl -a | grep dirty
+  # http://www.databasesql.info/article/9727204867/
+  sed -i '/^vm.dirty_background_ratio/d' /etc/sysctl.conf
+  echo vm.dirty_background_ratio = 5 >> /etc/sysctl.conf
+  sed -i '/^vm.dirty_ratio/d' /etc/sysctl.conf
+  echo vm.dirty_ratio = 70 >> /etc/sysctl.conf
 fi
 
 
@@ -1061,7 +1131,7 @@ ifconfig eth0 -multicast
 # If any, clean DHCP option for NTP
 # http://support.ntp.org/bin/view/Support/ConfiguringNTP#Section_6.12
 if [ -e /var/lib/ntp/ntp.conf.dhcp ] ; then
-    rm -f /var/lib/ntp/ntp.conf.dhcp
+  rm -f /var/lib/ntp/ntp.conf.dhcp
 fi
 
 
@@ -1074,11 +1144,11 @@ rm -f /etc/localtime && cp -f /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 if [[ "${TYPE}" != "DOCKER" ]]; then
   if [ "${OSVERSION}" -lt "12" ]; then
     if [ -e /etc/init.d/ntp ] ; then
-        /etc/init.d/ntp stop
-        /etc/init.d/ntp start
+      /etc/init.d/ntp stop
+      /etc/init.d/ntp start
     else
-        service ntp stop
-        service ntp start
+      service ntp stop
+      service ntp start
     fi
 
     ntpq -p
@@ -1094,85 +1164,85 @@ date -R
 
 
 if [[ "${FAMILY}" == "RPI" ]]; then
-    /bin/grep "multiOTP - beginning" /boot/config.txt > /dev/null 2>&1
-    if [ $? != 0 ]; then
-        sed -i '1i #MULTIOTP#' /boot/config.txt
-        sed -i '/#MULTIOTP#/i ################################################' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # multiOTP - beginning of specific configuration' /boot/config.txt
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        sed -i '/dtparam=i2c_arm=/d' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # Enable I2C (for RTC clock support)' /boot/config.txt
-        sed -i '/#MULTIOTP#/i dtparam=i2c_arm=on' /boot/config.txt
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        # Disable default 64-bit kernel on Pi 4 (https://github.com/raspberrypi/firmware/issues/1795)
-        sed -i '/arm_64bit=/d' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # Disable default 64-bit kernel on Pi 4' /boot/config.txt
-        sed -i '/#MULTIOTP#/i arm_64bit=0' /boot/config.txt
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        sed -i '/gpu_mem=/d' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # GPU memory in megabyte. Sets the memory split between the ARM and GPU' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # ARM gets the remaining memory. Min 16. Default 64' /boot/config.txt
-        sed -i '/#MULTIOTP#/i gpu_mem=16' /boot/config.txt
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        sed -i 's/.*dtparam=audio=.*/# dtparam=audio=on/' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # Disable audio (loads snd_bcm2835)' /boot/config.txt
-        sed -i '/#MULTIOTP#/i dtparam=audio=off' /boot/config.txt
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        sed -i '/dtparam=act_led_trigger=/d' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # Enable heartbeat' /boot/config.txt
-        sed -i '/#MULTIOTP#/i dtparam=act_led_trigger=heartbeat' /boot/config.txt
-        # RTC clock
-        # https://afterthoughtsoftware.com/products/rasclock
-        # https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=97314
-        # dtoverlay=i2c-rtc,<model> / <model> is one of: ds1307, ds3231, pcf2127, pcf8523, pcf8563
-        if [ -e /boot/overlays/i2c-rtc-overlay.dtb ] ; then
-            sed -i '/#MULTIOTP#/i #' /boot/config.txt
-            sed -i '/dtoverlay.*pcf2127/d' /boot/config.txt
-            sed -i '/#MULTIOTP#/i # Enable Afterthought Software RasClock (and other PCF212x compatible RTC clock)' /boot/config.txt
-            sed -i '/#MULTIOTP#/i dtoverlay=i2c-rtc,pcf2127' /boot/config.txt
-            sed -i '/#MULTIOTP#/i #' /boot/config.txt
-            sed -i '/dtoverlay.*ds1307/d' /boot/config.txt
-            sed -i '/#MULTIOTP#/i # Enable CJE Micro RTC clock module (and other DSxxxx compatible RTC clock)' /boot/config.txt
-            sed -i '/#MULTIOTP#/i dtoverlay=i2c-rtc,ds1307' /boot/config.txt
-            # alternate insert at the end of the file
-            # sed -i '/dtoverlay.*ds1307/d' /boot/config.txt
-            # sed -i -e '$adtoverlay=i2c-rtc,ds1307' /boot/config.txt
-        elif [ -e /boot/overlays/pcf2127-rtc-overlay.dtb ] ; then
-            sed -i '/#MULTIOTP#/i #' /boot/config.txt
-            sed -i '/dtoverlay=pcf2127-rtc/d' /boot/config.txt
-            sed -i '/#MULTIOTP#/i # Enable Afterthought Software RasClock (and other PCF212x compatible RTC clock)' /boot/config.txt
-            sed -i '/#MULTIOTP#/i dtoverlay=pcf2127-rtc' /boot/config.txt
-            sed -i '/#MULTIOTP#/i #' /boot/config.txt
-            sed -i '/dtoverlay=ds1307/d' /boot/config.txt
-            sed -i '/#MULTIOTP#/i # Enable CJE Micro RTC clock module (and other DSxxxx compatible RTC clock)' /boot/config.txt
-            sed -i '/#MULTIOTP#/i dtoverlay=i2c-rtc,ds1307' /boot/config.txt
+  /bin/grep "multiOTP - beginning" /boot/config.txt > /dev/null 2>&1
+  if [ $? != 0 ]; then
+    sed -i '1i #MULTIOTP#' /boot/config.txt
+    sed -i '/#MULTIOTP#/i ################################################' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # multiOTP - beginning of specific configuration' /boot/config.txt
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    sed -i '/dtparam=i2c_arm=/d' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # Enable I2C (for RTC clock support)' /boot/config.txt
+    sed -i '/#MULTIOTP#/i dtparam=i2c_arm=on' /boot/config.txt
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    # Disable default 64-bit kernel on Pi 4 (https://github.com/raspberrypi/firmware/issues/1795)
+    sed -i '/arm_64bit=/d' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # Disable default 64-bit kernel on Pi 4' /boot/config.txt
+    sed -i '/#MULTIOTP#/i arm_64bit=0' /boot/config.txt
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    sed -i '/gpu_mem=/d' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # GPU memory in megabyte. Sets the memory split between the ARM and GPU' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # ARM gets the remaining memory. Min 16. Default 64' /boot/config.txt
+    sed -i '/#MULTIOTP#/i gpu_mem=16' /boot/config.txt
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    sed -i 's/.*dtparam=audio=.*/# dtparam=audio=on/' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # Disable audio (loads snd_bcm2835)' /boot/config.txt
+    sed -i '/#MULTIOTP#/i dtparam=audio=off' /boot/config.txt
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    sed -i '/dtparam=act_led_trigger=/d' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # Enable heartbeat' /boot/config.txt
+    sed -i '/#MULTIOTP#/i dtparam=act_led_trigger=heartbeat' /boot/config.txt
+    # RTC clock
+    # https://afterthoughtsoftware.com/products/rasclock
+    # https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=97314
+    # dtoverlay=i2c-rtc,<model> / <model> is one of: ds1307, ds3231, pcf2127, pcf8523, pcf8563
+    if [ -e /boot/overlays/i2c-rtc-overlay.dtb ] ; then
+      sed -i '/#MULTIOTP#/i #' /boot/config.txt
+      sed -i '/dtoverlay.*pcf2127/d' /boot/config.txt
+      sed -i '/#MULTIOTP#/i # Enable Afterthought Software RasClock (and other PCF212x compatible RTC clock)' /boot/config.txt
+      sed -i '/#MULTIOTP#/i dtoverlay=i2c-rtc,pcf2127' /boot/config.txt
+      sed -i '/#MULTIOTP#/i #' /boot/config.txt
+      sed -i '/dtoverlay.*ds1307/d' /boot/config.txt
+      sed -i '/#MULTIOTP#/i # Enable CJE Micro RTC clock module (and other DSxxxx compatible RTC clock)' /boot/config.txt
+      sed -i '/#MULTIOTP#/i dtoverlay=i2c-rtc,ds1307' /boot/config.txt
+      # alternate insert at the end of the file
+      # sed -i '/dtoverlay.*ds1307/d' /boot/config.txt
+      # sed -i -e '$adtoverlay=i2c-rtc,ds1307' /boot/config.txt
+    elif [ -e /boot/overlays/pcf2127-rtc-overlay.dtb ] ; then
+      sed -i '/#MULTIOTP#/i #' /boot/config.txt
+      sed -i '/dtoverlay=pcf2127-rtc/d' /boot/config.txt
+      sed -i '/#MULTIOTP#/i # Enable Afterthought Software RasClock (and other PCF212x compatible RTC clock)' /boot/config.txt
+      sed -i '/#MULTIOTP#/i dtoverlay=pcf2127-rtc' /boot/config.txt
+      sed -i '/#MULTIOTP#/i #' /boot/config.txt
+      sed -i '/dtoverlay=ds1307/d' /boot/config.txt
+      sed -i '/#MULTIOTP#/i # Enable CJE Micro RTC clock module (and other DSxxxx compatible RTC clock)' /boot/config.txt
+      sed -i '/#MULTIOTP#/i dtoverlay=i2c-rtc,ds1307' /boot/config.txt
 
-            # Enable CJE Micro RTC clock module (and other DSxxxx compatible RTC clock)
-            /bin/grep "rtc-ds1307" /etc/modules > /dev/null 2>&1
-            if [ $? != 0 ]; then
-                echo rtc-ds1307 >> /etc/modules
-            fi
-        fi
-
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        sed -i '/#MULTIOTP#/i # multiOTP - end of specific configuration' /boot/config.txt
-        sed -i '/#MULTIOTP#/i ##########################################' /boot/config.txt
-        sed -i '/#MULTIOTP#/i #' /boot/config.txt
-        sed -i '/#MULTIOTP#/d' /boot/config.txt
-
-        #Raspbian Jessie cleaning for RTC clock
-        if [ -e /lib/udev/hwclock-set ] ; then
-            sed -i 's/systemd/system-d/g' /lib/udev/hwclock-set
-            sed -i '/--systz/d' /lib/udev/hwclock-set
-        fi
+      # Enable CJE Micro RTC clock module (and other DSxxxx compatible RTC clock)
+      /bin/grep "rtc-ds1307" /etc/modules > /dev/null 2>&1
+      if [ $? != 0 ]; then
+          echo rtc-ds1307 >> /etc/modules
+      fi
     fi
+
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    sed -i '/#MULTIOTP#/i # multiOTP - end of specific configuration' /boot/config.txt
+    sed -i '/#MULTIOTP#/i ##########################################' /boot/config.txt
+    sed -i '/#MULTIOTP#/i #' /boot/config.txt
+    sed -i '/#MULTIOTP#/d' /boot/config.txt
+
+    #Raspbian Jessie cleaning for RTC clock
+    if [ -e /lib/udev/hwclock-set ] ; then
+      sed -i 's/systemd/system-d/g' /lib/udev/hwclock-set
+      sed -i '/--systz/d' /lib/udev/hwclock-set
+    fi
+  fi
 fi
 
 
 # Since 5.4.1.5
 # Create multiotp service if needed
 if [ -d /run/systemd/system ]; then
-    cat >/etc/systemd/system/multiotp.service <<EOL
+  cat >/etc/systemd/system/multiotp.service <<EOL
 [Unit]
 Description=Initialize the multiOTP functionalities
 After=local-fs.target network.target
@@ -1189,7 +1259,7 @@ Restart=no
 WantedBy=multi-user.target
 EOL
 
-    systemctl enable multiotp.service
+  systemctl enable multiotp.service
 fi
 
 
@@ -1206,179 +1276,179 @@ ifconfig eth0 -multicast
 # Do the initial FreeRADIUS 3.x configuration job
 if [ -e /etc/freeradius/3.0/ ] ; then
 
-    # Clean old FreeRADIUS 2.x configuration
-    if [ -e /etc/freeradius/clients.conf ] ; then
-        rm -f /etc/freeradius/clients.conf
+  # Clean old FreeRADIUS 2.x configuration
+  if [ -e /etc/freeradius/clients.conf ] ; then
+    rm -f /etc/freeradius/clients.conf
+  fi
+  if [ -e /etc/freeradius/clients.conf.bkp ] ; then
+    rm -f /etc/freeradius/clients.conf.bkp
+  fi
+  if [ -e /etc/freeradius/policy.conf ] ; then
+    rm -f /etc/freeradius/policy.conf
+  fi
+  if [ -e /etc/freeradius/modules ] ; then
+    rm -R -f /etc/freeradius/modules
+  fi
+  if [ -e /etc/freeradius/sites-available ] ; then
+    rm -R -f /etc/freeradius/sites-available
+  fi
+
+  # Create /etc/freeradius/3.0/mods-available/multiotp
+  echo "Create /etc/freeradius/3.0/mods-available/multiotp"
+  echo "# Exec module instance for multiOTP" > /etc/freeradius/3.0/mods-available/multiotp
+  echo "exec multiotp {" >> /etc/freeradius/3.0/mods-available/multiotp
+  echo "    wait = yes" >> /etc/freeradius/3.0/mods-available/multiotp
+  echo "    input_pairs = request" >> /etc/freeradius/3.0/mods-available/multiotp
+  echo "    output_pairs = reply" >> /etc/freeradius/3.0/mods-available/multiotp
+  echo "    program = \"/usr/local/bin/multiotp/multiotp.php -base-dir='/usr/local/bin/multiotp/' '%{User-Name}' '%{User-Password}' -src='%{Packet-Src-IP-Address}' -tag='%{Client-Shortname}' -mac='%{Called-Station-Id}' -calling-ip='%{Framed-IP-Address}' -calling-mac='%{Calling-Station-Id}' -chap-challenge='%{CHAP-Challenge}' -chap-password='%{CHAP-Password}' -ms-chap-challenge='%{MS-CHAP-Challenge}' -ms-chap-response='%{MS-CHAP-Response}' -ms-chap2-response='%{MS-CHAP2-Response}' -state='%{State}'\"" >> /etc/freeradius/3.0/mods-available/multiotp
+  echo "    shell_escape = yes" >> /etc/freeradius/3.0/mods-available/multiotp
+  echo "}" >> /etc/freeradius/3.0/mods-available/multiotp
+
+  # Enable multiotp module
+  echo "Enable multiotp module"
+  if [ ! -e /etc/freeradius/3.0/mods-enabled/multiotp ] ; then
+    ln -s ../mods-available/multiotp /etc/freeradius/3.0/mods-enabled/multiotp
+  fi
+
+  # Create /etc/freeradius/3.0/mods-available/multiotpmschap
+  echo "Create /etc/freeradius/3.0/mods-available/multiotpmschap"
+  cp -f /etc/freeradius/3.0/mods-available/mschap /etc/freeradius/3.0/mods-available/multiotpmschap
+  sed -i "s/mschap {/mschap multiotpmschap {/" /etc/freeradius/3.0/mods-available/multiotpmschap
+  sed -i "s/.*ntlm_auth = .*/        ntlm_auth = \"\/usr\/local\/bin\/multiotp\/multiotp.php -base-dir='\/usr\/local\/bin\/multiotp\/' '%{User-Name}' '%{User-Password}' -nt-key-only -src='%{Packet-Src-IP-Address}' -tag='%{Client-Shortname}' -mac='%{Called-Station-Id}' -calling-ip='%{Framed-IP-Address}' -calling-mac='%{Calling-Station-Id}' -chap-challenge='%{CHAP-Challenge}' -chap-password='%{CHAP-Password}' -ms-chap-challenge='%{MS-CHAP-Challenge}' -ms-chap-response='%{MS-CHAP-Response}' -ms-chap2-response='%{MS-CHAP2-Response}' -state='%{State}'\"/" /etc/freeradius/3.0/mods-available/multiotpmschap
+
+  # Enable multiotpmschap module
+  echo "Enable multiotpmschap module"
+  if [ ! -e /etc/freeradius/3.0/mods-enabled/multiotpmschap ] ; then
+    ln -s ../mods-available/multiotpmschap /etc/freeradius/3.0/mods-enabled/multiotpmschap
+  fi
+
+  # Edit /etc/freeradius/3.0/mods-available/perl
+  echo "Edit /etc/freeradius/3.0/mods-available/perl"
+  sed -i "s/.*filename = .*/        filename = \/usr\/local\/bin\/multiotp\/scripts\/multiotp.pl/" /etc/freeradius/3.0/mods-available/perl
+  # Since 5.8.3.0 and FreeRADIUS 3.0.18, set the perl flags
+  sed -i "s/.*perl_flags = .*/        perl_flags = \"-U\"/" /etc/freeradius/3.0/mods-available/perl
+
+  # Enable perl module
+  echo "Enable perl module"
+  if [ ! -e /etc/freeradius/3.0/mods-enabled/perl ] ; then
+    ln -s ../mods-available/perl /etc/freeradius/3.0/mods-enabled/perl
+  fi
+
+  # Create /etc/freeradius/3.0/policy.d/multiotp
+  echo "Create /etc/freeradius/3.0/policy.d/multiotp"
+  echo "# Change to a specific prefix if you want to deal with normal PAP authentication as well as OTP" > /etc/freeradius/3.0/policy.d/multiotp
+  echo "# e.g. \"multiotp_prefix = 'otp:'\"" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "multiotp_prefix = ''" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "multiotp.authorize {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "   # This test force multiOTP for any MS-CHAP(v2),CHAP and PAP attempt" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "    if (control:Auth-Type == mschap) {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "          update control {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "                  Auth-Type := multiotpmschap" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "          }" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "    }" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "    elsif (control:Auth-Type == chap) {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "          update control {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "                  Auth-Type := multiotp" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "          }" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "    }" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "    elsif (!control:Auth-Type) {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "        update control {" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "            Auth-Type := multiotp" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "        }" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "    }" >> /etc/freeradius/3.0/policy.d/multiotp
+  echo "}" >> /etc/freeradius/3.0/policy.d/multiotp
+
+  # Clean multiotp lines in /etc/freeradius/3.0/sites-available/default
+  echo "Clean multiotp lines in /etc/freeradius/3.0/sites-available/default"
+  sed -i '/multiotp/d' /etc/freeradius/3.0/sites-available/default
+
+  # Enable files and add perl just after (in the authorize section)
+  echo "Enable files and add perl just after"
+  sed -i '/raddb\/mods-config\/files\/authorize/{n;d}' /etc/freeradius/3.0/sites-available/default
+  sed -i '/raddb\/mods-config\/files/a\        files\n        perl #multiotp\n        if (ok || updated) { #multiotp\n            update control { #multiotp\n                Auth-Type := Perl #multiotp\n                Client-Shortname = "%{Client-Shortname}" #multiotp\n                Packet-Src-IP-Address = "%{Packet-Src-IP-Address}" #multiotp\n            } #multiotp\n        } #multiotp' /etc/freeradius/3.0/sites-available/default    
+  
+  # Add some lines before the pap module (after logintime) in authorize section of default
+  echo "Add some lines before the pap module in authorize section of default"
+  sed -i '/logintime/a\\n        # Handle multiotp authentication\n        multiotp' /etc/freeradius/3.0/sites-available/default
+
+  # Add some lines after post-auth { in order to force Message-Authenticator in the answer (2025-01-08)
+  echo "Add some lines before the pap module in authorize section of default"
+  sed -i '/post-auth {/a\\n  update reply { # multiOTP force Message-Authenticator (1/3)\n    Message-Authenticator := 0x00 # multiOTP force Message-Authenticator (2/3)\n  } # multiOTP force Message-Authenticator (3/3)' /etc/freeradius/3.0/sites-available/default
+
+  # Add some lines in the authenticate section of default
+  echo "Add some lines in the authenticate section of default"
+  sed -i '/authenticate {/a\        Auth-Type multiotp {\n                multiotp\n        } #multiotp\n        Auth-Type multiotpmschap {\n                multiotpmschap\n        } #multiotpmschap\n        Auth-Type Perl { #multiotp\n                perl #multiotp\n        } #multiotp\n' /etc/freeradius/3.0/sites-available/default
+
+  # Add some lines in the accounting section of default
+  echo "Add some lines in the accounting section of default"
+  sed -i '/accounting {/a\        perl #multiotp\n' /etc/freeradius/3.0/sites-available/default
+
+  # Clean multiotp lines in /etc/freeradius/3.0/sites-available/inner-tunnel
+  echo "Clean multiotp lines in /etc/freeradius/3.0/sites-available/inner-tunnel"
+  sed -i '/multiotp/d' /etc/freeradius/3.0/sites-available/inner-tunnel
+
+  # Enable files and add perl just after (in the authorize section)
+  echo "Enable files and add perl just after"
+  sed -i '/raddb\/mods-config\/files\/authorize/{n;d}' /etc/freeradius/3.0/sites-available/inner-tunnel
+  sed -i '/raddb\/mods-config\/files/a\        files\n        perl #multiotp\n        if (ok || updated) { #multiotp\n            update control { #multiotp\n                Auth-Type := Perl #multiotp\n                Client-Shortname = "%{Client-Shortname}" #multiotp\n                Packet-Src-IP-Address = "%{Packet-Src-IP-Address}" #multiotp\n            } #multiotp\n        } #multiotp' /etc/freeradius/3.0/sites-available/inner-tunnel    
+
+  # Add some lines before the pap module (after logintime) in authorize section of inner-tunnel
+  echo "Add some lines before the pap module in authorize section of inner-tunnel"
+  sed -i '/logintime/a\\n        # Handle multiotp authentication\n        multiotp' /etc/freeradius/3.0/sites-available/inner-tunnel
+
+  # Add some lines after post-auth { in order to force Message-Authenticator in the answer (2025-01-08)
+  echo "Add some lines before the pap module in authorize section of inner-tunnel"
+  sed -i '/post-auth {/a\\n  update reply { # multiOTP force Message-Authenticator (1/3)\n    Message-Authenticator := 0x00 # multiOTP force Message-Authenticator (2/3)\n  } # multiOTP force Message-Authenticator (3/3)' /etc/freeradius/3.0/sites-available/inner-tunnel
+
+  # Add some lines in the authenticate section of inner-tunnel
+  echo "Add some lines in the authenticate section of inner-tunnel"
+  sed -i '/authenticate {/a\        Auth-Type multiotp {\n                multiotp\n        } #multiotp\n        Auth-Type multiotpmschap {\n                multiotpmschap\n        } #multiotpmschap\n        Auth-Type Perl { #multiotp\n                perl #multiotp\n        } #multiotp\n' /etc/freeradius/3.0/sites-available/inner-tunnel
+
+  # Add some lines in the accounting section of inner-tunnel
+  echo "Add some lines in the accounting section of inner-tunnel"
+  sed -i '/accounting {/a\        perl #multiotp\n' /etc/freeradius/3.0/sites-available/inner-tunnel
+
+  if [[ "${RADIUS_SAMPLE_ENABLED}" == "1" ]] ; then
+    # Check and add freeradius config if needed (only for previous community edition)
+    /bin/grep "multiotp my-first-network" /etc/freeradius/3.0/clients.conf > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      echo "# multiotp my-first-network BEGIN" >> /etc/freeradius/3.0/clients.conf
+      echo "client 0.0.0.0/0 { # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
+      echo "secret = myfirstpass # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
+      echo "shortname = my-first-network # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
+      echo "} # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
+      echo "# multiotp my-first-network END" >> /etc/freeradius/3.0/clients.conf
     fi
-    if [ -e /etc/freeradius/clients.conf.bkp ] ; then
-        rm -f /etc/freeradius/clients.conf.bkp
-    fi
-    if [ -e /etc/freeradius/policy.conf ] ; then
-        rm -f /etc/freeradius/policy.conf
-    fi
-    if [ -e /etc/freeradius/modules ] ; then
-        rm -R -f /etc/freeradius/modules
-    fi
-    if [ -e /etc/freeradius/sites-available ] ; then
-        rm -R -f /etc/freeradius/sites-available
-    fi
-
-    # Create /etc/freeradius/3.0/mods-available/multiotp
-    echo "Create /etc/freeradius/3.0/mods-available/multiotp"
-    echo "# Exec module instance for multiOTP" > /etc/freeradius/3.0/mods-available/multiotp
-    echo "exec multiotp {" >> /etc/freeradius/3.0/mods-available/multiotp
-    echo "    wait = yes" >> /etc/freeradius/3.0/mods-available/multiotp
-    echo "    input_pairs = request" >> /etc/freeradius/3.0/mods-available/multiotp
-    echo "    output_pairs = reply" >> /etc/freeradius/3.0/mods-available/multiotp
-    echo "    program = \"/usr/local/bin/multiotp/multiotp.php -base-dir='/usr/local/bin/multiotp/' '%{User-Name}' '%{User-Password}' -src='%{Packet-Src-IP-Address}' -tag='%{Client-Shortname}' -mac='%{Called-Station-Id}' -calling-ip='%{Framed-IP-Address}' -calling-mac='%{Calling-Station-Id}' -chap-challenge='%{CHAP-Challenge}' -chap-password='%{CHAP-Password}' -ms-chap-challenge='%{MS-CHAP-Challenge}' -ms-chap-response='%{MS-CHAP-Response}' -ms-chap2-response='%{MS-CHAP2-Response}' -state='%{State}'\"" >> /etc/freeradius/3.0/mods-available/multiotp
-    echo "    shell_escape = yes" >> /etc/freeradius/3.0/mods-available/multiotp
-    echo "}" >> /etc/freeradius/3.0/mods-available/multiotp
-
-    # Enable multiotp module
-    echo "Enable multiotp module"
-    if [ ! -e /etc/freeradius/3.0/mods-enabled/multiotp ] ; then
-        ln -s ../mods-available/multiotp /etc/freeradius/3.0/mods-enabled/multiotp
-    fi
-
-    # Create /etc/freeradius/3.0/mods-available/multiotpmschap
-    echo "Create /etc/freeradius/3.0/mods-available/multiotpmschap"
-    cp -f /etc/freeradius/3.0/mods-available/mschap /etc/freeradius/3.0/mods-available/multiotpmschap
-    sed -i "s/mschap {/mschap multiotpmschap {/" /etc/freeradius/3.0/mods-available/multiotpmschap
-    sed -i "s/.*ntlm_auth = .*/        ntlm_auth = \"\/usr\/local\/bin\/multiotp\/multiotp.php -base-dir='\/usr\/local\/bin\/multiotp\/' '%{User-Name}' '%{User-Password}' -nt-key-only -src='%{Packet-Src-IP-Address}' -tag='%{Client-Shortname}' -mac='%{Called-Station-Id}' -calling-ip='%{Framed-IP-Address}' -calling-mac='%{Calling-Station-Id}' -chap-challenge='%{CHAP-Challenge}' -chap-password='%{CHAP-Password}' -ms-chap-challenge='%{MS-CHAP-Challenge}' -ms-chap-response='%{MS-CHAP-Response}' -ms-chap2-response='%{MS-CHAP2-Response}' -state='%{State}'\"/" /etc/freeradius/3.0/mods-available/multiotpmschap
-
-    # Enable multiotpmschap module
-    echo "Enable multiotpmschap module"
-    if [ ! -e /etc/freeradius/3.0/mods-enabled/multiotpmschap ] ; then
-        ln -s ../mods-available/multiotpmschap /etc/freeradius/3.0/mods-enabled/multiotpmschap
-    fi
-
-    # Edit /etc/freeradius/3.0/mods-available/perl
-    echo "Edit /etc/freeradius/3.0/mods-available/perl"
-    sed -i "s/.*filename = .*/        filename = \/usr\/local\/bin\/multiotp\/scripts\/multiotp.pl/" /etc/freeradius/3.0/mods-available/perl
-    # Since 5.8.3.0 and FreeRADIUS 3.0.18, set the perl flags
-    sed -i "s/.*perl_flags = .*/        perl_flags = \"-U\"/" /etc/freeradius/3.0/mods-available/perl
-
-    # Enable perl module
-    echo "Enable perl module"
-    if [ ! -e /etc/freeradius/3.0/mods-enabled/perl ] ; then
-        ln -s ../mods-available/perl /etc/freeradius/3.0/mods-enabled/perl
-    fi
-
-    # Create /etc/freeradius/3.0/policy.d/multiotp
-    echo "Create /etc/freeradius/3.0/policy.d/multiotp"
-    echo "# Change to a specific prefix if you want to deal with normal PAP authentication as well as OTP" > /etc/freeradius/3.0/policy.d/multiotp
-    echo "# e.g. \"multiotp_prefix = 'otp:'\"" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "multiotp_prefix = ''" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "multiotp.authorize {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "   # This test force multiOTP for any MS-CHAP(v2),CHAP and PAP attempt" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "    if (control:Auth-Type == mschap) {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "          update control {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "                  Auth-Type := multiotpmschap" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "          }" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "    }" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "    elsif (control:Auth-Type == chap) {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "          update control {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "                  Auth-Type := multiotp" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "          }" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "    }" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "    elsif (!control:Auth-Type) {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "        update control {" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "            Auth-Type := multiotp" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "        }" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "    }" >> /etc/freeradius/3.0/policy.d/multiotp
-    echo "}" >> /etc/freeradius/3.0/policy.d/multiotp
-
-    # Clean multiotp lines in /etc/freeradius/3.0/sites-available/default
-    echo "Clean multiotp lines in /etc/freeradius/3.0/sites-available/default"
-    sed -i '/multiotp/d' /etc/freeradius/3.0/sites-available/default
-
-    # Enable files and add perl just after (in the authorize section)
-    echo "Enable files and add perl just after"
-    sed -i '/raddb\/mods-config\/files\/authorize/{n;d}' /etc/freeradius/3.0/sites-available/default
-    sed -i '/raddb\/mods-config\/files/a\        files\n        perl #multiotp\n        if (ok || updated) { #multiotp\n            update control { #multiotp\n                Auth-Type := Perl #multiotp\n                Client-Shortname = "%{Client-Shortname}" #multiotp\n                Packet-Src-IP-Address = "%{Packet-Src-IP-Address}" #multiotp\n            } #multiotp\n        } #multiotp' /etc/freeradius/3.0/sites-available/default    
-    
-    # Add some lines before the pap module (after logintime) in authorize section of default
-    echo "Add some lines before the pap module in authorize section of default"
-    sed -i '/logintime/a\\n        # Handle multiotp authentication\n        multiotp' /etc/freeradius/3.0/sites-available/default
-
-    # Add some lines after post-auth { in order to force Message-Authenticator in the answer (2025-01-08)
-    echo "Add some lines before the pap module in authorize section of default"
-    sed -i '/post-auth {/a\\n  update reply { # multiOTP force Message-Authenticator (1/3)\n    Message-Authenticator := 0x00 # multiOTP force Message-Authenticator (2/3)\n  } # multiOTP force Message-Authenticator (3/3)' /etc/freeradius/3.0/sites-available/default
-
-    # Add some lines in the authenticate section of default
-    echo "Add some lines in the authenticate section of default"
-    sed -i '/authenticate {/a\        Auth-Type multiotp {\n                multiotp\n        } #multiotp\n        Auth-Type multiotpmschap {\n                multiotpmschap\n        } #multiotpmschap\n        Auth-Type Perl { #multiotp\n                perl #multiotp\n        } #multiotp\n' /etc/freeradius/3.0/sites-available/default
-
-    # Add some lines in the accounting section of default
-    echo "Add some lines in the accounting section of default"
-    sed -i '/accounting {/a\        perl #multiotp\n' /etc/freeradius/3.0/sites-available/default
-
-    # Clean multiotp lines in /etc/freeradius/3.0/sites-available/inner-tunnel
-    echo "Clean multiotp lines in /etc/freeradius/3.0/sites-available/inner-tunnel"
-    sed -i '/multiotp/d' /etc/freeradius/3.0/sites-available/inner-tunnel
-
-    # Enable files and add perl just after (in the authorize section)
-    echo "Enable files and add perl just after"
-    sed -i '/raddb\/mods-config\/files\/authorize/{n;d}' /etc/freeradius/3.0/sites-available/inner-tunnel
-    sed -i '/raddb\/mods-config\/files/a\        files\n        perl #multiotp\n        if (ok || updated) { #multiotp\n            update control { #multiotp\n                Auth-Type := Perl #multiotp\n                Client-Shortname = "%{Client-Shortname}" #multiotp\n                Packet-Src-IP-Address = "%{Packet-Src-IP-Address}" #multiotp\n            } #multiotp\n        } #multiotp' /etc/freeradius/3.0/sites-available/inner-tunnel    
-
-    # Add some lines before the pap module (after logintime) in authorize section of inner-tunnel
-    echo "Add some lines before the pap module in authorize section of inner-tunnel"
-    sed -i '/logintime/a\\n        # Handle multiotp authentication\n        multiotp' /etc/freeradius/3.0/sites-available/inner-tunnel
-
-    # Add some lines after post-auth { in order to force Message-Authenticator in the answer (2025-01-08)
-    echo "Add some lines before the pap module in authorize section of inner-tunnel"
-    sed -i '/post-auth {/a\\n  update reply { # multiOTP force Message-Authenticator (1/3)\n    Message-Authenticator := 0x00 # multiOTP force Message-Authenticator (2/3)\n  } # multiOTP force Message-Authenticator (3/3)' /etc/freeradius/3.0/sites-available/inner-tunnel
-
-    # Add some lines in the authenticate section of inner-tunnel
-    echo "Add some lines in the authenticate section of inner-tunnel"
-    sed -i '/authenticate {/a\        Auth-Type multiotp {\n                multiotp\n        } #multiotp\n        Auth-Type multiotpmschap {\n                multiotpmschap\n        } #multiotpmschap\n        Auth-Type Perl { #multiotp\n                perl #multiotp\n        } #multiotp\n' /etc/freeradius/3.0/sites-available/inner-tunnel
-
-    # Add some lines in the accounting section of inner-tunnel
-    echo "Add some lines in the accounting section of inner-tunnel"
-    sed -i '/accounting {/a\        perl #multiotp\n' /etc/freeradius/3.0/sites-available/inner-tunnel
-
-    if [[ "${RADIUS_SAMPLE_ENABLED}" == "1" ]] ; then
-        # Check and add freeradius config if needed (only for previous community edition)
-        /bin/grep "multiotp my-first-network" /etc/freeradius/3.0/clients.conf > /dev/null 2>&1
-        if [ $? != 0 ]; then
-            echo "# multiotp my-first-network BEGIN" >> /etc/freeradius/3.0/clients.conf
-            echo "client 0.0.0.0/0 { # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
-            echo "secret = myfirstpass # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
-            echo "shortname = my-first-network # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
-            echo "} # multiotp my-first-network" >> /etc/freeradius/3.0/clients.conf
-            echo "# multiotp my-first-network END" >> /etc/freeradius/3.0/clients.conf
-        fi
-    fi
-    
+  fi
+  
 # End of the initial FreeRADIUS 3.x configuration job
 else
 
-    echo "FreeRADIUS legacy configuration"
+  echo "FreeRADIUS legacy configuration"
 
-    # Edit /etc/freeradius/modules/perl
-    echo "Edit /etc/freeradius/modules/perl"
-    sed -i "s/.*module = .*/        module = \/usr\/local\/bin\/multiotp\/scripts\/multiotp.pl/" /etc/freeradius/modules/perl
-    # Since 5.8.3.0 and FreeRADIUS 3.0.18, set the perl flags
-    sed -i "s/.*perl_flags = .*/        perl_flags = \"-U\"/" /etc/freeradius/3.0/mods-available/perl
+  # Edit /etc/freeradius/modules/perl
+  echo "Edit /etc/freeradius/modules/perl"
+  sed -i "s/.*module = .*/        module = \/usr\/local\/bin\/multiotp\/scripts\/multiotp.pl/" /etc/freeradius/modules/perl
+  # Since 5.8.3.0 and FreeRADIUS 3.0.18, set the perl flags
+  sed -i "s/.*perl_flags = .*/        perl_flags = \"-U\"/" /etc/freeradius/3.0/mods-available/perl
 
-    # Since 5.8.3.0 and FreeRADIUS 3.0.18, comment disable_tlsv1_2, disable_tlsv1_1 and disable_tlsv1
-    sed -i "s/.*disable_tlsv1_2 = /\t\t#disable_tlsv1_2 = /" /etc/freeradius/3.0/mods-available/eap
-    sed -i "s/.*disable_tlsv1_1 = /\t\t#disable_tlsv1_2 = /" /etc/freeradius/3.0/mods-available/eap
-    sed -i "s/.*disable_tlsv1 = /\t\t#disable_tlsv1 = /" /etc/freeradius/3.0/mods-available/eap
+  # Since 5.8.3.0 and FreeRADIUS 3.0.18, comment disable_tlsv1_2, disable_tlsv1_1 and disable_tlsv1
+  sed -i "s/.*disable_tlsv1_2 = /\t\t#disable_tlsv1_2 = /" /etc/freeradius/3.0/mods-available/eap
+  sed -i "s/.*disable_tlsv1_1 = /\t\t#disable_tlsv1_2 = /" /etc/freeradius/3.0/mods-available/eap
+  sed -i "s/.*disable_tlsv1 = /\t\t#disable_tlsv1 = /" /etc/freeradius/3.0/mods-available/eap
 
-    if [[ "${RADIUS_SAMPLE_ENABLED}" == "1" ]] ; then
-        # Check and add freeradius config if needed (only for previous community edition)
-        /bin/grep "multiotp my-first-network" /etc/freeradius/clients.conf > /dev/null 2>&1
-        if [ $? != 0 ]; then
-            echo "# multiotp my-first-network BEGIN" >> /etc/freeradius/clients.conf
-            echo "client 0.0.0.0/0 { # multiotp my-first-network" >> /etc/freeradius/clients.conf
-            echo "secret = myfirstpass # multiotp my-first-network" >> /etc/freeradius/clients.conf
-            echo "shortname = my-first-network # multiotp my-first-network" >> /etc/freeradius/clients.conf
-            echo "} # multiotp my-first-network" >> /etc/freeradius/clients.conf
-            echo "# multiotp my-first-network END" >> /etc/freeradius/clients.conf
-        fi
+  if [[ "${RADIUS_SAMPLE_ENABLED}" == "1" ]] ; then
+    # Check and add freeradius config if needed (only for previous community edition)
+    /bin/grep "multiotp my-first-network" /etc/freeradius/clients.conf > /dev/null 2>&1
+    if [ $? != 0 ]; then
+      echo "# multiotp my-first-network BEGIN" >> /etc/freeradius/clients.conf
+      echo "client 0.0.0.0/0 { # multiotp my-first-network" >> /etc/freeradius/clients.conf
+      echo "secret = myfirstpass # multiotp my-first-network" >> /etc/freeradius/clients.conf
+      echo "shortname = my-first-network # multiotp my-first-network" >> /etc/freeradius/clients.conf
+      echo "} # multiotp my-first-network" >> /etc/freeradius/clients.conf
+      echo "# multiotp my-first-network END" >> /etc/freeradius/clients.conf
     fi
+  fi
 
 fi
 # End of the initial FreeRADIUS configuration job
@@ -1394,9 +1464,9 @@ chown -R freerad:freerad /etc/freeradius
 
 # Restart freeradius service
 if [ -e /etc/init.d/freeradius ] ; then
-    /etc/init.d/freeradius restart
+  /etc/init.d/freeradius restart
 else
-    service freeradius restart
+  service freeradius restart
 fi
 
 # 5.4.1.5 Enable Freeradius service
@@ -1406,63 +1476,63 @@ fi
 
 # Don't touch SSH if we test only the installation
 if [[ "$1" != "test" ]] && [[ "$2" != "test" ]] && [[ "${TYPE}" != "DOCKER" ]] ; then
-    chmod 0700 /root/.ssh
-    chmod 0600 /root/.ssh/authorized_keys
-    if [[ "${SSH_ROOT_LOGIN}" == "1" ]] ; then
-        sed -i 's/.*PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
-    fi
-    if [ -d /run/systemd/system ]; then
-      systemctl enable ssh
-      systemctl start ssh
-    fi
-    if [ -e /etc/init.d/ssh ] ; then
-        /etc/init.d/ssh restart
-    else
-        service ssh restart
-    fi
-    # Remove ssh flag file (to start SSH the first time)
-    if [ -e /boot/ssh ] ; then
-        rm -f /boot/ssh
-    fi
+  chmod 0700 /root/.ssh
+  chmod 0600 /root/.ssh/authorized_keys
+  if [[ "${SSH_ROOT_LOGIN}" == "1" ]] ; then
+    sed -i 's/.*PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  fi
+  if [ -d /run/systemd/system ]; then
+    systemctl enable ssh
+    systemctl start ssh
+  fi
+  if [ -e /etc/init.d/ssh ] ; then
+    /etc/init.d/ssh restart
+  else
+    service ssh restart
+  fi
+  # Remove ssh flag file (to start SSH the first time)
+  if [ -e /boot/ssh ] ; then
+    rm -f /boot/ssh
+  fi
 fi
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    #iptable
+  #iptable
 
-    # Since 5.4.1.0
-    # Authorize PING
-    iptables -A INPUT -p icmp -j ACCEPT
+  # Since 5.4.1.0
+  # Authorize PING
+  iptables -A INPUT -p icmp -j ACCEPT
 
-    # authorized ports
-    iptables -A INPUT -p tcp --dport ${SSH_PORT} -j ACCEPT
-    iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-    iptables -A INPUT -p udp --dport 161 -j ACCEPT
-    iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-    iptables -A INPUT -p udp --dport 1812 -j ACCEPT
-    iptables -A INPUT -p udp --dport 1813 -j ACCEPT
+  # authorized ports
+  iptables -A INPUT -p tcp --dport ${SSH_PORT} -j ACCEPT
+  iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+  iptables -A INPUT -p udp --dport 161 -j ACCEPT
+  iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+  iptables -A INPUT -p udp --dport 1812 -j ACCEPT
+  iptables -A INPUT -p udp --dport 1813 -j ACCEPT
 
-    # no firewall on the local loop (127.x.x.x)
-    iptables -A INPUT -i lo -j ACCEPT
-    iptables -A OUTPUT -o lo -j ACCEPT
+  # no firewall on the local loop (127.x.x.x)
+  iptables -A INPUT -i lo -j ACCEPT
+  iptables -A OUTPUT -o lo -j ACCEPT
 
-    # existing connections receive their traffic
-    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  # existing connections receive their traffic
+  iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-    # refused by default
-    iptables -P INPUT DROP
+  # refused by default
+  iptables -P INPUT DROP
 
-    iptables-save > /etc/iptables/rules.v4
+  iptables-save > /etc/iptables/rules.v4
 
-    # ip6 can be swapped if not used
-    ip6tables-save > /etc/iptables/rules.v6
+  # ip6 can be swapped if not used
+  ip6tables-save > /etc/iptables/rules.v6
 fi
 
 
 # Enable UDP support for syslog
 if [ -e /etc/rsyslog.conf ] ; then
-    sed -i 's/#.*$ModLoad.*imudp/$ModLoad imudp/' /etc/rsyslog.conf
-    sed -i 's/#.*$UDPServerRun.*514/$UDPServerRun 514/' /etc/rsyslog.conf
+  sed -i 's/#.*$ModLoad.*imudp/$ModLoad imudp/' /etc/rsyslog.conf
+  sed -i 's/#.*$UDPServerRun.*514/$UDPServerRun 514/' /etc/rsyslog.conf
 fi
 
 
@@ -1478,7 +1548,7 @@ echo alias multiotp='/usr/local/bin/multiotp/multiotp.php' >> /root/.bashrc
 
 # Reset the admin password (if config file exists)
 if [ -e /etc/multiotp/config/multiotp.ini ] ; then
-    sed -i 's/^admin_password_hash.*/admin_password_hash=/' /etc/multiotp/config/multiotp.ini
+  sed -i 's/^admin_password_hash.*/admin_password_hash=/' /etc/multiotp/config/multiotp.ini
 fi
 
 
@@ -1500,7 +1570,7 @@ fi
 /bin/rm -f /var/log/user*
 /bin/rm -f /var/log/wtmp*
 if [[ "${DEBUGMODE}" != "TRUE" ]]; then
-    /bin/rm -rf /tmp/*
+  /bin/rm -rf /tmp/*
 fi
 /bin/rm -rf /var/tmp/*
 /bin/rm -f ~root/.bash_history
@@ -1511,8 +1581,8 @@ history -c
 
 
 if [[ "${TYPE}" != "DOCKER" ]]; then
-    # localepurge
-    apt-get clean
+  # localepurge
+  apt-get clean
 fi
 
 
@@ -1540,65 +1610,84 @@ touch /etc/ssh/ssh.generic
 
 
 if [ -e /usr/local/bin/multiotp/multiotp.cli.php ] ; then
-    rm -f /usr/local/bin/multiotp/multiotp.cli.php
+  rm -f /usr/local/bin/multiotp/multiotp.cli.php
 fi
 
 # Blacklist speaker support to avoid error during boot
 /bin/grep "pcspkr" /etc/modprobe.d/blacklist.conf > /dev/null 2>&1
 if [ $? != 0 ]; then
-    echo 'blacklist pcspkr' >> /etc/modprobe.d/blacklist.conf
-    echo 'blacklist snd_pcsp' >> /etc/modprobe.d/blacklist.conf
+  echo 'blacklist pcspkr' >> /etc/modprobe.d/blacklist.conf
+  echo 'blacklist snd_pcsp' >> /etc/modprobe.d/blacklist.conf
 fi
 
 # Blacklist i2c_piix4 support to avoid error during boot
 /bin/grep "i2c_piix4" /etc/modprobe.d/blacklist.conf > /dev/null 2>&1
 if [ $? != 0 ]; then
-    echo 'blacklist i2c_piix4' >> /etc/modprobe.d/blacklist.conf
+  echo 'blacklist i2c_piix4' >> /etc/modprobe.d/blacklist.conf
 fi
 
 # Blacklist nsc_ircc support to avoid error during boot
 /bin/grep "nsc_ircc" /etc/modprobe.d/blacklist.conf > /dev/null 2>&1
 if [ $? != 0 ]; then
-    echo 'blacklist nsc_ircc' >> /etc/modprobe.d/blacklist.conf
+  echo 'blacklist nsc_ircc' >> /etc/modprobe.d/blacklist.conf
 fi
 
 # Blacklist intel_rapl support to avoid error during boot (5.0.3.2)
 /bin/grep "intel_rapl" /etc/modprobe.d/blacklist.conf > /dev/null 2>&1
 if [ $? != 0 ]; then
-    echo 'blacklist intel_rapl' >> /etc/modprobe.d/blacklist.conf
+  echo 'blacklist intel_rapl' >> /etc/modprobe.d/blacklist.conf
 fi
 
 if [[ "${FAMILY}" == "VAP" ]]; then
-    update-initramfs -u -k all
+  update-initramfs -u -k all
 fi
 
 
 # Stop all services if we are a Docker container
 if [[ "${TYPE}" == "DOCKER" ]]; then
-    if [ -e /etc/init.d/freeradius ] ; then
-        /etc/init.d/freeradius stop
-    else
-        service freeradius stop
-    fi
-    if [ -e /etc/init.d/nginx ] ; then
-        /etc/init.d/nginx stop
-    else
-        service nginx stop
-    fi
+  if [ -e /etc/init.d/freeradius ] ; then
+    /etc/init.d/freeradius stop
+  else
+    service freeradius stop
+  fi
+  if [ -e /etc/init.d/nginx ] ; then
+    /etc/init.d/nginx stop
+  else
+    service nginx stop
+  fi
 
-    # NTP is removed in Debian 12 and further
-    if [ "${OSVERSION}" -lt "12" ]; then
-      if [ -e /etc/init.d/ntp ] ; then
-          /etc/init.d/ntp stop
-      else
-          service ntp stop
-      fi
-    fi
-    if [ -e /etc/init.d/${PHPFPM} ] ; then
-        /etc/init.d/${PHPFPM} stop
+  # NTP is removed in Debian 12 and further
+  if [ "${OSVERSION}" -lt "12" ]; then
+    if [ -e /etc/init.d/ntp ] ; then
+      /etc/init.d/ntp stop
     else
-        service ${PHPFPM} stop
+      service ntp stop
     fi
+  fi
+  if [ -e /etc/init.d/${PHPFPM} ] ; then
+    /etc/init.d/${PHPFPM} stop
+  else
+    service ${PHPFPM} stop
+  fi
+
+  # In DOCKER mode, populate the temporary folders with the config files
+  if [ ! -e /var/multiotp-temp/log/freeradius ] ; then
+    echo "Create temporary folders for config files"
+    mkdir /var/multiotp-temp
+    mkdir /var/multiotp-temp/etc
+    mkdir /var/multiotp-temp/etc/multiotp
+    mkdir /var/multiotp-temp/etc/freeradius
+    mkdir /var/multiotp-temp/log
+    mkdir /var/multiotp-temp/log/multiotp
+    mkdir /var/multiotp-temp/log/freeradius
+  fi
+
+  echo "Copy config files in temporary folders"
+  cp -af /etc/multiotp/* /var/multiotp-temp/etc/multiotp
+  cp -af /etc/freeradius/* /var/multiotp-temp/etc/freeradius
+  cp -af /var/log/multiotp/* /var/multiotp-temp/log/multiotp
+  cp -af /var/log/freeradius/* /var/multiotp-temp/log/freeradius
+
 fi
 
 

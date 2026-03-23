@@ -9,8 +9,8 @@ REM
 REM Windows batch file for Windows 2K/XP/2003/7/2008/8/2012/10
 REM
 REM @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-REM @version   5.10.1.2
-REM @date      2026-01-05
+REM @version   5.10.2.1
+REM @date      2026-03-23
 REM @since     2013-08-09
 REM @copyright (c) 2013-2026 SysCo systemes de communication sa
 REM @copyright GNU Lesser General Public License
@@ -41,6 +41,7 @@ REM
 REM
 REM Change Log
 REM
+REM   2026-03-23 5.10.2.1 SysCo/al nginx 1.29.6, PHP 8.4.16
 REM   2025-10-16 5.9.9.3 SysCo/al Implementation check URI no more enabled by default (thanks robvh1 for proposal)
 REM                               URI only reacting on / to avoid intensive hits (thanks robvh1 for proposal)
 REM   2025-01-31 5.9.9.2 SysCo/al nginx 1.27.3, PHP 8.3.16
@@ -209,8 +210,10 @@ netsh advfirewall firewall add rule name="%_service_tag%" dir=in action=allow pr
 
 REM Start the service
 NET STOP WINNAT >NUL
-netsh int ipv4 add excludedportrange protocol=tcp startport=%_web_port% numberofports=1
-netsh int ipv4 add excludedportrange protocol=tcp startport=%_web_ssl_port% numberofports=1
+netsh int ipv4 show excludedportrange protocol=tcp | FIND "%_web_port%" >NUL
+IF ERRORLEVEL 1 netsh int ipv4 add excludedportrange protocol=tcp startport=%_web_port% numberofports=1 >NUL
+netsh int ipv4 show excludedportrange protocol=tcp | FIND "%_web_ssl_port%" >NUL
+IF ERRORLEVEL 1 netsh int ipv4 add excludedportrange protocol=tcp startport=%_web_ssl_port% numberofports=1 >NUL
 SC start %_service_tag% >NUL
 NET START WINNAT >NUL
 

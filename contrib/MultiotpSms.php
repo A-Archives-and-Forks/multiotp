@@ -513,8 +513,8 @@ class MultiotpSms
         $this->encoding = "UTF";
         $this->status_success = "20";
         $this->content_success = "OK";
-        $this->no_double_zero = FALSE;
-        $this->international_format = FALSE;
+        $this->no_double_zero = TRUE;
+        $this->international_format = TRUE;
         $this->basic_auth = FALSE;
         $this->content_encoding = "";
         $this->header = "Content-Type: text/plain\r\n";
@@ -1028,6 +1028,11 @@ class MultiotpSms
       } else {
         $fp = @fsockopen($protocol.$host, $server_port, $errno, $errdesc, $this->timeout);
       }
+
+// DEBUG
+file_put_contents('sms_debug.log', "$url\n", FILE_APPEND);
+file_put_contents('sms_debug.log', "$payload\n", FILE_APPEND);
+
 
       if (FALSE !== $fp) {
         $info['timed_out'] = FALSE;

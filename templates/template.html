@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-  <!-- Scratch template (multilingual en/fr) 5.9.6.1 and above -->
+  <!-- Scratch template (multilingual en/fr) 5.10.1.3 and above -->
   <!-- Please save this file in UTF-8 format (without BOM) -->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-       <!-- motp-qrcode-format=token2 --><!-- (xml, token2, other -->
+    <!-- pdf-preferred-font=Verdana --><!-- Verdana|DejaVu Sans|FreeSans|FreeSerif (FreeSerif for cyrillic support) -->
+    <!-- pdf-preferred-size=9 --><!-- Any size, 9 is the default value -->
+    <!-- motp-qrcode-format=otpauth --><!-- QRcode format: xml|token2|motp|otpauth - empty or anything else = otpauth -->
     <title>
       <!-- {IfMultiotpLanguage="en"} -->
         multiOTP personal information for {MultiotpUserDescription}
@@ -175,7 +177,7 @@
               <td>{MultiotpQrCodeUrl url=http://go.6co.ch/otpauth width=200 height=200}</td>
             </tr>
             <tr>
-              <td>FreeOTP Authenticator / Authenticator / 2 Steps Authenticator</td>
+              <td>multiOTP token App / FreeOTP Authenticator / Authenticator / 2 Steps Authenticator</td>
             </tr>
           </table>
         <!-- {/IfMultiotpUserAlgorithm="TOTP,HOTP"} -->
@@ -183,10 +185,10 @@
         <!-- {IfMultiotpUserAlgorithm="MOTP"} -->
           <table class="application">
             <tr>
-              <td>{MultiotpQrCodeUrl url=http://go.6co.ch/motp-xml width=200 height=200}</td>
+              <td>{MultiotpQrCodeUrl url=http://go.6co.ch/motp width=200 height=200}</td>
             </tr>
             <tr>
-              <td>OTP Authenticator / Yamotp / OTP Authenticator for Java ME</td>
+              <td>multiOTP token App / OTP Authenticator / Yamotp / OTP Authenticator for Java ME</td>
             </tr>
           </table>
         <!-- {/IfMultiotpUserAlgorithm="MOTP"} -->

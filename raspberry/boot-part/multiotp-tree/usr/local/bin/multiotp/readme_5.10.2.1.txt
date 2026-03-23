@@ -2523,10 +2523,3 @@ Visit https://forum.multiotp.net/ for additional support
 
 
 ``` 
- 
-``` 
-Hash verification for multiotp_5.10.2.1.zip 
-SHA256:61f69686dd814dcca83fbe03629f7db2979be89136ef4d26a714051fa24a99df 
-SHA1:755072a5aa8a909564a32ec184fbfd51427f5696 
-MD5:c1a63cd5d8ec69771c0854acf4301dd3 
-``` 

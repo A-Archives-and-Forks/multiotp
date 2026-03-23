@@ -15,8 +15,8 @@
 # Please check https://www\.multiOTP.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.1.2
-# @date      2026-01-05
+# @version   5.10.2.1
+# @date      2026-03-23
 # @since     2013-11-29
 # @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
@@ -43,8 +43,8 @@ LABEL org.opencontainers.image.title="multiOTP open source"
 LABEL org.opencontainers.image.description="multiOTP open source, running on Debian ${DEBIAN} with PHP${PHPVERSION}." \
       License="LGPL-3.0" \
       Usage="docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d multiotp-open-source" \
-      Version="5.10.1.2"
-LABEL org.opencontainers.image.Version="5.10.1.2"
+      Version="5.10.2.1"
+LABEL org.opencontainers.image.Version="5.10.2.1"
 LABEL org.opencontainers.image.authors="Andre Liechti <andre.liechti@multiotp.net>"
 LABEL org.opencontainers.image.url="https://www.multiotp.net"
 LABEL org.opencontainers.image.source="https://github.com/multiOTP/multiotp"
@@ -120,7 +120,7 @@ COPY raspberry/boot-part/multiotp-tree /boot/multiotp-tree/
 WORKDIR /
 
 RUN chmod 777 /boot/*.sh && \
-    /boot/install.sh
+    /boot/install.sh RUNDOCKER
 
 EXPOSE 80/tcp 443/tcp 1812/udp 1813/udp
 

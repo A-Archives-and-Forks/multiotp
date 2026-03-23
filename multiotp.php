@@ -37,8 +37,8 @@
  * PHP 5.4.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.1.2
- * @date      2026-01-05
+ * @version   5.10.2.1
+ * @date      2026-03-23
  * @since     2010-06-08
  * @copyright (c) 2010-2026 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -204,8 +204,8 @@ if (!isset($multiotp)) {
  * PHP 7.4 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.1.2
- * @date      2026-01-05
+ * @version   5.10.2.1
+ * @date      2026-03-23
  * @since     2010-06-08
  * @copyright (c) 2010-2026 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -410,7 +410,7 @@ define("_MULTIOTP_PUSH_TIMEOUT_CODE_", "PUSH_TIMEOUT");
 define("_MULTIOTP_PUSH_DENIED_CODE_", "PUSH_DENIED");
 define("_MULTIOTP_CREDENTIAL_PROVIDER_", "Credential Provider");
 define("_MULTIOTP_DEFAULT_PASSWORD_", "1234");
-define("_MULTIOTP_DEFAULT_SYSLOG_FACILITY_", 18); // 18 = local2
+define("_MULTIOTP_DEFAULT_SYSLOG_FACILITY_", 18);// 18 = local2
 define("_MULTIOTP_DEFAULT_SYSLOG_SEVERITY_LEVEL_", 5); // 5 = notice
 define("_MULTIOTP_DEFAULT_SYSLOG_TIMEOUT_", 3);
 define("_MULTIOTP_DEFAULT_HASH_SALT_", "AjaxH@shS@lt");
@@ -525,8 +525,8 @@ class Multiotp
  * @brief     Main class definition of the multiOTP project.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.1.2
- * @date      2026-01-05
+ * @version   5.10.2.1
+ * @date      2026-03-23
  * @since     2010-07-18
  */
 {
@@ -648,8 +648,8 @@ class Multiotp
    * @retval  void
    *
    * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-   * @version   5.10.1.2
-   * @date      2026-01-05
+   * @version   5.10.2.1
+   * @date      2026-03-23
    * @since     2010-07-18
    */
   function __construct(
@@ -673,11 +673,11 @@ class Multiotp
 
       if (!isset($this->_class)) { $this->_class = base64_decode('bXVsdGlPVFA='); }
       if (!isset($this->_version)) {
-        $temp_version = '@version   5.10.1.2'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
+        $temp_version = '@version   5.10.2.1'; // You should add a suffix for your changes (for example 5.0.3.2-andy-2016-10-XX)
         $this->_version = nullable_trim(mb_substr($temp_version, 8));
       }
       if (!isset($this->_date)) {
-        $temp_date = '@date      2026-01-05'; // You should update the date with the date of your changes
+        $temp_date = '@date      2026-03-23'; // You should update the date with the date of your changes
         $this->_date = nullable_trim(mb_substr($temp_date, 8));
       }
       if (!isset($this->_copyright)) { $this->_copyright = base64_decode('KGMpIDIwMTAtMjAyNiBTeXNDbyBzeXN0ZW1lcyBkZSBjb21tdW5pY2F0aW9uIHNh'); }
@@ -1524,10 +1524,6 @@ class Multiotp
       $push_id = $this->ReadBootCacheValue("push_id");
       if (is_null($push_id)) {
         $output = [];
-        exec("wmic csproduct get UUID", $output);
-        if ("UUID" == $output[0]) {
-          $push_id = nullable_trim($output[1]);
-        }
         if (empty($push_id)) {
           $cmd = 'powershell -Command "(Get-CimInstance Win32_ComputerSystemProduct).UUID"';
           exec($cmd, $output);
@@ -4911,334 +4907,252 @@ class Multiotp
    * @since   2014-07-25
    */
   function GetCacheFolder(
-      $create_if_not_exist = false
+    $create_if_not_exist = false
   ) {
-      $cache_folder = $this->ConvertToWindowsPathIfNeeded($this->_cache_folder);
-      if ("" == $cache_folder) {
-          $this->SetCacheFolder($this->GetScriptFolder()."cache/", $create_if_not_exist);
-      } elseif (!file_exists($cache_folder)) {
-          if ($create_if_not_exist) {
-              if (!@mkdir(
-                      $cache_folder,
-                      ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
-                      true //recursive
-              )) {
-                  $this->WriteLog("Error: Unable to create the missing cache folder ".$cache_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
-              }
-          }
+    $cache_folder = $this->ConvertToWindowsPathIfNeeded($this->_cache_folder);
+    if ("" == $cache_folder) {
+      $this->SetCacheFolder($this->GetScriptFolder()."cache/", $create_if_not_exist);
+    } elseif (!file_exists($cache_folder)) {
+      if ($create_if_not_exist) {
+        if (!@mkdir(
+            $cache_folder,
+            ("" != $this->GetLinuxFolderMode()) ? octdec($this->GetLinuxFolderMode()) : 0777,
+            true //recursive
+        )) {
+          $this->WriteLog("Error: Unable to create the missing cache folder ".$cache_folder, FALSE, FALSE, _MULTIOTP_DATA_UPDATE_ERROR_, 'System', "", 3);
+        }
       }
-      return $this->ConvertToWindowsPathIfNeeded($this->_cache_folder);
+    }
+    return $this->ConvertToWindowsPathIfNeeded($this->_cache_folder);
   }
 
 
   function GetLocalIpAddress()
   {
-      $ip = "";
-      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') { // Windows
-          $output = [];
-          exec("ipconfig /all", $output);
-          foreach ($output as $line) {
-              $line.= "  ";
-              if (preg_match("/.*IPv4.*[^\.]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
-                  preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
-                  if (isset($result_array[0][1])) {
-                      $temp = nullable_trim($result_array[0][1]);
-                      if ('0.0.0.0' != $temp) {
-                          $ip = $temp;
-                          break;
-                      }
-                  }
-              }
+    $ip = "";
+    if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') { // Windows
+      $output = [];
+      exec("ipconfig /all", $output);
+      foreach ($output as $line) {
+        $line.= "  ";
+        if (preg_match("/.*IPv4.*[^\.]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
+          preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
+          if (isset($result_array[0][1])) {
+            $temp = nullable_trim($result_array[0][1]);
+            if ('0.0.0.0' != $temp) {
+              $ip = $temp;
+              break;
+            }
           }
-      } else { // Linux
-          $output = [];
-          // inet -> works for old (inet addr) and new (inet)
-          exec("hostname -I | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-          $ip = (isset($output[0])?$output[0]:"");
+        }
       }
-      return $ip;
+    } else { // Linux
+      $output = [];
+      // inet -> works for old (inet addr) and new (inet)
+      exec("hostname -I | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
+      $ip = (isset($output[0])?$output[0]:"");
+    }
+    return $ip;
   }
 
 
-  function GetNetworkInfo()
-  {
-      // These are demo values for the development
-      $mode    = "";
-      $ip      = "";
-      $mask    = "";
-      $gateway = "";
-      $dns     = [];
-      $dns[0]  = "";
-      $dns[1]  = "";
-      $interface_name = "";
-      $fixed_gateway = false;
-      
-      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
-          // Windows
-          // The last route (without an interface address) is the default one
-          $output = [];
-          exec("route print | find \"0.0.0.0\"", $output);
-          foreach ($output as $line) {
-              $line.= "  ";
-              if (preg_match("/.*0.0.0.0.*[^\.]+0.0.0.0.*[^\.]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
-                  $result_array = [];
-                  preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
-                  if ((!$fixed_gateway) && (isset($result_array[2][1]))) {
-                      $temp = nullable_trim($result_array[2][1]);
-                      if ('0.0.0.0' != $temp) {
-                          $gateway = $temp;
-                          if (!isset($result_array[3][1])) {
-                              $fixed_gateway = true;
-                          }
-                      }
-                  }
-              }
-          }
-          $output = [];
-          exec("ipconfig /all", $output);
-          $next_is_mask = false;
-          foreach ($output as $line) {
-              $line.= "  ";
-              if ($next_is_mask || preg_match("/.*IPv4.*[^\.]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
-                  $result_array = [];
-                  preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
-                  if (isset($result_array[0][1])) {
-                      $temp = nullable_trim($result_array[0][1]);
-                      if ($next_is_mask) {
-                          $mask = $temp;
-                          $cidr_mask = mask2cidr($mask);
-                          $gw_long_subnet = (ip2long($gateway) >> (32-$cidr_mask));
-                          $ip_long_subnet = (ip2long($ip) >> (32-$cidr_mask));
-                          if ($ip_long_subnet != $gw_long_subnet) {
-                              $next_is_mask = false;
-                          } else {
-                              break;
-                          }
-                      } elseif ('0.0.0.0' != $temp) {
-                          $ip = $temp;
-                          $next_is_mask = true;
-                      }
-                  }
-              }
-          }
+  function GetNetworkInfo(
+    $custom_script = ""
+  ) {
+    
+    $cmd = "/usr/local/bin/multiotp/scripts/" . (empty(trim($custom_script)) ? "multiotp-service.sh" : trim($custom_script));
 
-          $output = [];
-          exec("netsh interface dump | find \"".$ip."\"", $output);
-          foreach ($output as $line) {
-              $line.= "  ";
-              $result_array = [];
-              preg_match_all("/[^\"]+\"([^\"]*)\".*/", $line, $result_array, PREG_SET_ORDER);
-              if (isset($result_array[0][1])) {
-                  // We receive something back which is probably coded in CP850
-                  $interface_name = mb_convert_encoding (nullable_trim($result_array[0][1]),"UTF-8","CP850");
-                  $mode = "static";
-                  break;
+    // These are demo values for the development
+    $mode    = "";
+    $ip      = "";
+    $mask    = "";
+    $gateway = "";
+    $dns     = [];
+    $dns[0]  = "";
+    $dns[1]  = "";
+    $interface_name = "";
+    $fixed_gateway = false;
+    
+    if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
+      // Windows
+      // The last route (without an interface address) is the default one
+      $output = [];
+      exec("route print | find \"0.0.0.0\"", $output);
+      foreach ($output as $line) {
+        $line.= "  ";
+        if (preg_match("/.*0.0.0.0.*[^\.]+0.0.0.0.*[^\.]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
+          $result_array = [];
+          preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
+          if ((!$fixed_gateway) && (isset($result_array[2][1]))) {
+            $temp = nullable_trim($result_array[2][1]);
+            if ('0.0.0.0' != $temp) {
+              $gateway = $temp;
+              if (!isset($result_array[3][1])) {
+                $fixed_gateway = true;
               }
+            }
           }
-          if ("" == $interface_name) {
-              $mode = "dhcp";
-              $output = [];
-              exec("netsh interface dump", $output);
-              $ip4config = false;
-              foreach ($output as $line) {
-                  $line.= "  ";
-                  if (0 === mb_strpos(nullable_trim($line),"pushd interface ipv4")) {
-                      $ip4config = true;
-                  } elseif ($ip4config && (0 === mb_strpos(nullable_trim($line),"popd"))) {
-                      $ip4config = false;
-                  }
-                  if ($ip4config) {
-                      $result_array = [];
-                      preg_match_all("/^set interface[^\"]+\"([^\"]*)\".*metric=1.*/", $line, $result_array, PREG_SET_ORDER);
-                      if (isset($result_array[0][1])) {
-                          // We receive something back which is probably coded in CP850
-                          $interface_name = mb_convert_encoding (nullable_trim($result_array[0][1]),"UTF-8","CP850");
-                          break;
-                      }
-                  }
-              }
-          }
-
-          $dns_count = 0;
-          $output = [];
-          exec("netsh interface ip show dnsservers \"".mb_convert_encoding ($interface_name,"ISO-8859-15","UTF-8")."\"", $output);
-          foreach ($output as $line) {
-              $line.= "  ";
-              if (preg_match("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
-                  $result_array = [];
-                  preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
-                  if (($dns_count < 2) && isset($result_array[0][1])) {
-                      $dns[$dns_count] = nullable_trim($result_array[0][1]);
-                      $dns_count++;
-                  }
-              }
-          }
-      } else {
-          // Linux
-          // eth -> works for old (eth0) and new (ether)
-          $output = [];
-          exec("grep -e \"^iface\seth0.*inet\s.*dhcp\" /etc/network/interfaces", $output);
-          $mode = (false !== mb_strpos(mb_strtolower(isset($output[0])?$output[0]:"",'UTF-8'), "dhcp"))?"dhcp":"static";
-          
-          $output = [];
-          exec("ifconfig eth0 | grep \"eth\" | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}'", $output);
-          $mac = mb_strtoupper(isset($output[0])?$output[0]:"",'UTF-8');
-          
-          $output = [];
-          exec("ifconfig eth0 | grep \"inet addr\" | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-          $ip = (isset($output[0])?$output[0]:"");
-          $mask = (isset($output[2])?$output[2]:"");
-          if ("" == $ip) {
-              exec("ifconfig eth0 | grep \"inet \" | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-              $ip = (isset($output[0])?$output[0]:"");
-              $mask = (isset($output[1])?$output[1]:"");
-          }
-
-          $output = [];
-          exec("ip route show default | awk '/default/ {print $3}'", $output);
-          $gateway = mb_strtoupper(isset($output[0])?$output[0]:"",'UTF-8');
-
-          $output = [];
-          exec("cat /etc/resolv.conf | grep -o -E '([[:xdigit:]]{1,3}\.){3}[[:xdigit:]]{1,3}'", $output);
-          $dns[0] = (isset($output[0])?$output[0]:"");
-          $dns[1] = (isset($output[1])?$output[1]:"");
+        }
       }
-      $network_info = $mode."\t".$ip."\t".$mask."\t".$gateway."\t".$dns[0]."\t".$dns[1]."\t";
-      $network_array = explode("\t",$network_info);
-      
-      for ($i=count($network_array); $i <= 5; $i++) {
-          $network_array[$i] = "";
+      $output = [];
+      exec("ipconfig /all", $output);
+      $next_is_mask = false;
+      foreach ($output as $line) {
+        $line.= "  ";
+        if ($next_is_mask || preg_match("/.*IPv4.*[^\.]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
+          $result_array = [];
+          preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
+          if (isset($result_array[0][1])) {
+            $temp = nullable_trim($result_array[0][1]);
+            if ($next_is_mask) {
+              $mask = $temp;
+              $cidr_mask = mask2cidr($mask);
+              $gw_long_subnet = (ip2long($gateway) >> (32-$cidr_mask));
+              $ip_long_subnet = (ip2long($ip) >> (32-$cidr_mask));
+              if ($ip_long_subnet != $gw_long_subnet) {
+                $next_is_mask = false;
+              } else {
+                break;
+              }
+            } elseif ('0.0.0.0' != $temp) {
+              $ip = $temp;
+              $next_is_mask = true;
+            }
+          }
+        }
       }
-      return $network_array;
+
+      $output = [];
+      exec("netsh interface dump | find \"".$ip."\"", $output);
+      foreach ($output as $line) {
+        $line.= "  ";
+        $result_array = [];
+        preg_match_all("/[^\"]+\"([^\"]*)\".*/", $line, $result_array, PREG_SET_ORDER);
+        if (isset($result_array[0][1])) {
+          // We receive something back which is probably coded in CP850
+          $interface_name = mb_convert_encoding (nullable_trim($result_array[0][1]),"UTF-8","CP850");
+          $mode = "static";
+          break;
+        }
+      }
+      if ("" == $interface_name) {
+        $mode = "dhcp";
+        $output = [];
+        exec("netsh interface dump", $output);
+        $ip4config = false;
+        foreach ($output as $line) {
+          $line.= "  ";
+          if (0 === mb_strpos(nullable_trim($line),"pushd interface ipv4")) {
+            $ip4config = true;
+          } elseif ($ip4config && (0 === mb_strpos(nullable_trim($line),"popd"))) {
+            $ip4config = false;
+          }
+          if ($ip4config) {
+            $result_array = [];
+            preg_match_all("/^set interface[^\"]+\"([^\"]*)\".*metric=1.*/", $line, $result_array, PREG_SET_ORDER);
+            if (isset($result_array[0][1])) {
+              // We receive something back which is probably coded in CP850
+              $interface_name = mb_convert_encoding (nullable_trim($result_array[0][1]),"UTF-8","CP850");
+              break;
+            }
+          }
+        }
+      }
+
+      $dns_count = 0;
+      $output = [];
+      exec("netsh interface ip show dnsservers \"".mb_convert_encoding ($interface_name,"ISO-8859-15","UTF-8")."\"", $output);
+      foreach ($output as $line) {
+        $line.= "  ";
+        if (preg_match("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})[^\.]+/", $line)) {
+          $result_array = [];
+          preg_match_all("/[^\.[:xdigit:]]+([[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3}[\.][[:xdigit:]]{1,3})/", $line, $result_array, PREG_SET_ORDER);
+          if (($dns_count < 2) && isset($result_array[0][1])) {
+            $dns[$dns_count] = nullable_trim($result_array[0][1]);
+            $dns_count++;
+          }
+        }
+      }
+    } else {
+      // Linux information extraction
+      if (file_exists($cmd)) {
+        exec("sudo $cmd get-iface-info", $outputArray);
+        $first_line = $outputArray[0];
+        preg_match('/^(\S+) - (\S+) : (\S+) \/ (\S+) > (\S+) \| "([^"]*)" @ (\S+)$/', $first_line, $resultArray);
+        $interface  = $resultArray[1]; // eth0
+        $mode       = $resultArray[2]; // dhcp|static
+        $ip         = $resultArray[3]; // 192.168.1.2
+        $mask       = $resultArray[4]; // 255.255.255.0
+        $gateway    = $resultArray[5]; // 192.168.1.1
+        $dns_list   = $resultArray[6]; // 1.1.1.1,8.8.8.8
+        $mac        = $resultArray[7]; // 12:34:56:78:90:ab
+        
+        $dns_parts = explode(',', $dns_list, 3);
+        $dns[0] = $dns_parts[0] ?? '';
+        $dns[1] = $dns_parts[1] ?? '';
+      }
+    }
+    $network_info = $mode."\t".$ip."\t".$mask."\t".$gateway."\t".$dns[0]."\t".$dns[1]."\t";
+    $network_array = explode("\t",$network_info);
+    
+    for ($i=count($network_array); $i <= 5; $i++) {
+      $network_array[$i] = "";
+    }
+    return $network_array;
   }
 
 
   function SetNetworkInfo(
-      $ip = "",
-      $mask = "",
-      $gateway = "",
-      $dns1 = "",
-      $dns2 = "",
-      $write_config = true,
-      $if_down_up = true
+    $ip = "",
+    $mask = "",
+    $gateway = "",
+    $dns1 = "",
+    $dns2 = "",
+    $write_config = true,
+    $if_down_up = true,
+    $custom_script = ""
   ) {
+    
+    $cmd = "/usr/local/bin/multiotp/scripts/" . (empty(trim($custom_script)) ? "multiotp-service.sh" : trim($custom_script));
 
-      if ($write_config) {
-          $this->SetNetworkIp     ($ip);
-          $this->SetNetworkMask   ($mask);
-          $this->SetNetworkGateway($gateway);
-          $this->SetNetworkDns1   ($dns1);
-          $this->SetNetworkDns2   ($dns2);
+    if ($write_config) {
+      $this->SetNetworkIp     ($ip);
+      $this->SetNetworkMask   ($mask);
+      $this->SetNetworkGateway($gateway);
+      $this->SetNetworkDns1   ($dns1);
+      $this->SetNetworkDns2   ($dns2);
 
-          $this->WriteConfigData();
-      }
+      $this->WriteConfigData();
+    }
+    
+    $domain_name = $this->GetDomainName();
+    if (empty(trim($domain_name))) {
+      $domain_name = "multiotp.local";
+    }
 
-      $result = false;
-      if ("" != $ip) {
-        $resolv_file = "/etc/resolv.conf";
-        $resolv_tmp  = sys_get_temp_dir()."/multiotp_resolv_tmp";
-        if ($write = @fopen($resolv_tmp, "ct")) { // was wt, need ftruncate after flock now
-          flock($write, LOCK_EX);
-          ftruncate($write, 0);
-          $domain_name = $this->GetDomainName();
-          if ("" != $domain_name) {
-              fwrite($write, "domain ".$domain_name."\n");
-              fwrite($write, "search ".$domain_name."\n");
-          }
-          if ("" != $dns1) {
-              fwrite($write, "nameserver ".$dns1."\n");
-          }
-          if ("" != $dns2) {
-              fwrite($write, "nameserver ".$dns2."\n");
-          }
-          fclose($write);
-          if ("" != $this->GetLinuxFileMode()) {
-              @chmod($resolv_tmp, octdec($this->GetLinuxFileMode()));
-          }
+    $dns = "$dns1,$dns2";
+    if ("," == substr($dns, 0, 1)) {
+      $dns = substr($dns, 1);
+    }
+    if ("," == substr($dns, -1, 1)) {
+      $dns = substr($dns, 0, -1);
+    }
 
-          // Do not change the DNS servers in demo mode!
-          if (!$this->IsDemoMode()) {
-              if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') !== 'win') { // Currently only for non-windows machine
-                  exec("sudo cp -f ".$resolv_tmp." ".$resolv_file, $output);
-              }
-          }
-        } else {
-          if ($this->GetVerboseFlag()) {
-              $this->WriteLog("Error: *Temporary DNS information cannot be created", FALSE, FALSE, 8888, 'System', "");
-          }
-        }
-      }
-
-      $interfaces_file = "/etc/network/interfaces";
-      $interfaces_tmp  = sys_get_temp_dir()."/multiotp_interfaces_tmp";
-      if (file_exists($interfaces_file)) {
-        if ($read = @fopen($interfaces_file, "rt")) {
-          flock($read, LOCK_SH);
-          if ($write = @fopen($interfaces_tmp, "ct")) { // was wt, need ftruncate after flock now
-            flock($write, LOCK_EX);
-            ftruncate($write, 0);
-            $direct_write = true;
-            $inet_eth0 = false;
-            while(!feof($read)) {
-              // "iface", "mapping", "auto",  "allow-" and "source" eth0 (iface eth0)
-              $one_line = fgets($read);
-              if (preg_match("/^iface\seth0(.*)/", $one_line)) {
-                $direct_write = false;
-                $inet_eth0    = true;
-                if ("" != $ip) {
-                  fwrite($write, "iface eth0 inet static\n");
-                  fwrite($write, "\taddress ".$ip."\n");
-                  fwrite($write, "\tnetmask ".$mask."\n");
-                  fwrite($write, "\tgateway ".$gateway."\n");
-                  fwrite($write, "\n");
-                } else {
-                  fwrite($write, "iface eth0 inet dhcp\n");
-                  fwrite($write, "\n");
-                }
-              } elseif ((0 === mb_strpos(nullable_trim($one_line),"allow-")) || 
-                        (0 === mb_strpos(nullable_trim($one_line),"auto")) || 
-                        (0 === mb_strpos(nullable_trim($one_line),"iface")) || 
-                        (0 === mb_strpos(nullable_trim($one_line),"mapping")) || 
-                        (0 === mb_strpos(nullable_trim($one_line),"source"))) {
-                $direct_write = true;
-              }
-              if ($direct_write) {
-                fwrite($write, $one_line); // $one_line includes \n
-              }
-            }
-            fclose($write);
-            if ("" != $this->GetLinuxFileMode()) {
-                @chmod($interfaces_tmp, octdec($this->GetLinuxFileMode()));
-            }
-
-            // Do not change the IP in demo mode!
-            if (!$this->IsDemoMode()) {
-                exec("sudo cp -f ".$interfaces_tmp." ".$interfaces_file, $output);
-                $result = true;
-                if ($if_down_up) {
-                    exec("sudo /sbin/ifdown eth0 > /dev/null 2>&1", $output);
-                    sleep(1);
-                    exec("sudo /sbin/ifup eth0 > /dev/null 2>&1", $output);
-                    exec("sudo /bin/systemctl restart networking > /dev/null 2>&1", $output);
-                }
-            }
+    $result = false;
+    if (!$this->IsDemoMode()) {
+      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') !== 'win') { // Only for non-windows machine
+        if (file_exists($cmd)) {
+          if ("" != $ip) {
+            exec("sudo nohup $cmd set-ip static $ip $mask $gateway \"$dns\" $domain_name > /dev/null 2>&1", $output);
           } else {
-              if ($this->GetVerboseFlag()) {
-                  $this->WriteLog("Error: *Temporary interface configuration cannot be created", FALSE, FALSE, 8888, 'System', "");
-              }
+            exec("sudo nohup $cmd set-ip dhcp > /dev/null 2>&1", $output);
           }
-          fclose($read);
-        } else {
-          if ($this->GetVerboseFlag()) {
-            $this->WriteLog("Error: *Interface configuration cannot be accessed", FALSE, FALSE, 8888, 'System', "");
-          }
-        }
-      } else {
-        if ($this->GetVerboseFlag()) {
-          $this->WriteLog("Error: *Interface configuration file cannot be found", FALSE, FALSE, 8888, 'System', "");
+          $result = true;
         }
       }
-      return $result;
+    }
+
+    return $result;
   }
 
 
@@ -6724,21 +6638,7 @@ class Multiotp
     } elseif (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
       $upsecs = $this->ReadBootCacheValue("upsecs", _MULTIOTP_DEFAULT_UPTIME_DELAY_);
       if (is_null($upsecs)) {
-        $output = shell_exec('wmic os get lastbootuptime /value');
-        if (preg_match('/LastBootUpTime=(\d+)/', $output, $matches)) {
-          $boot = $matches[1];
-          $year  = substr($boot, 0, 4);
-          $month = substr($boot, 4, 2);
-          $day   = substr($boot, 6, 2);
-          $hour  = substr($boot, 8, 2);
-          $min   = substr($boot, 10, 2);
-          $sec   = substr($boot, 12, 2);
-
-          $bootTimestamp = mktime($hour, $min, $sec, $month, $day, $year);
-          $upsecs = time() - $bootTimestamp;
-        } else {
-          $upsecs = intval(nullable_trim(shell_exec('powershell -Command "(New-TimeSpan -Start (Get-CimInstance Win32_OperatingSystem).LastBootUpTime).TotalSeconds"')));
-        }
+        $upsecs = intval(nullable_trim(shell_exec('powershell -Command "(New-TimeSpan -Start (Get-CimInstance Win32_OperatingSystem).LastBootUpTime).TotalSeconds"')));
         if (empty($upsecs)) {
           $pagefile = 'C:\\pagefile.sys';
           if (!file_exists($pagefile)) {
@@ -8865,7 +8765,7 @@ class Multiotp
   }
 
 
-  function SetSmtpUsername(string $value): string {
+  function SetSmtpUsername(string $value): void {
     $this->_config_data['smtp_username'] = $value;
   }
 
@@ -8916,7 +8816,7 @@ class Multiotp
   }
 
 
-  function SetSysLogPort(int $value): int {
+  function SetSysLogPort(int $value): void {
     $this->_config_data['syslog_port'] = intval($value);
   }
 
@@ -22966,50 +22866,29 @@ class Multiotp
         $family = 'WIN';
         $model = $this->ReadBootCacheValue("model");
         if (is_null($model)) {
-          $cmd = 'wmic ComputerSystem get Model /value';
-          $output = shell_exec($cmd);
-          if (preg_match('/Model=(.+)/i', $output, $matches)) {
-            $model = $matches[1];
-          }
-          if (empty($model)) {
-            $model  = 'Windows device';
-            $cmd = 'powershell -Command "(Get-CimInstance Win32_ComputerSystem).Model"';
-            $output = nullable_trim(shell_exec($cmd));
-            if (!empty($output)) {
-              $model = $output;
-            }
+          $model  = 'Windows device';
+          $cmd = 'powershell -Command "(Get-CimInstance Win32_ComputerSystem).Model"';
+          $output = nullable_trim(shell_exec($cmd));
+          if (!empty($output)) {
+            $model = $output;
           }
           $this->WriteBootCacheValue("model", $model);
         }
         $hardware = $this->ReadBootCacheValue("hardware");
         if (is_null($hardware)) {
-          $cmd = 'wmic cpu get Name /value';
-          $output = shell_exec($cmd);
-          if (preg_match('/Name=(.+)/i', $output, $matches)) {
-            $hardware = $matches[1];
-          }
-          if (empty($hardware)) {
-            $cmd = 'powershell -Command "(Get-CimInstance Win32_Processor).Name"';
-            $output = nullable_trim(shell_exec($cmd));
-            if (!empty($output)) {
-              $hardware = $output;
-            }
+          $cmd = 'powershell -Command "(Get-CimInstance Win32_Processor).Name"';
+          $output = nullable_trim(shell_exec($cmd));
+          if (!empty($output)) {
+            $hardware = $output;
           }
           $this->WriteBootCacheValue("hardware", $hardware);
         }
         $cpu_speed = $this->ReadBootCacheValue("cpu_speed");
         if (is_null($cpu_speed)) {
-          $cmd = 'wmic cpu get MaxClockSpeed /value';
-          $output = shell_exec($cmd);
-          if (preg_match('/MaxClockSpeed=(\d+)/i', $output, $matches)) {
-            $cpu_speed = $matches[1]. " MHz";
-          }
-          if (empty($cpu_speed)) {
-            $cmd = 'powershell -Command "(Get-CimInstance Win32_Processor).MaxClockSpeed"';
-            $output = nullable_trim(shell_exec($cmd));
-            if (!empty($output)) {
-              $cpu_speed  = "{$output} MHz";
-            }
+          $cmd = 'powershell -Command "(Get-CimInstance Win32_Processor).MaxClockSpeed"';
+          $output = nullable_trim(shell_exec($cmd));
+          if (!empty($output)) {
+            $cpu_speed  = intval($output); // "{$output} MHz"
           }
           $this->WriteBootCacheValue("cpu_speed", $cpu_speed);
         }
@@ -23089,7 +22968,8 @@ class Multiotp
             }
           }
         }
-        if ("" == $cpu_speed) {
+        if (0 == intval($cpu_speed)) {
+          exec("cat /proc/cpuinfo | grep --color=never -i cpu", $output);
           foreach ($output as $line) {
             $line.= "  ";
             if (preg_match("/^cpu MHz\s*:\s*(.*)/i", $line)) {
@@ -25869,8 +25749,8 @@ class MultiotpSms
         $this->encoding = "UTF";
         $this->status_success = "20";
         $this->content_success = "OK";
-        $this->no_double_zero = FALSE;
-        $this->international_format = FALSE;
+        $this->no_double_zero = TRUE;
+        $this->international_format = TRUE;
         $this->basic_auth = FALSE;
         $this->content_encoding = "";
         $this->header = "Content-Type: text/plain\r\n";
@@ -26385,6 +26265,11 @@ class MultiotpSms
         $fp = @fsockopen($protocol.$host, $server_port, $errno, $errdesc, $this->timeout);
       }
 
+// DEBUG
+file_put_contents('sms_debug.log', "$url\n", FILE_APPEND);
+file_put_contents('sms_debug.log', "$payload\n", FILE_APPEND);
+
+
       if (FALSE !== $fp) {
         $info['timed_out'] = FALSE;
         $output = "";
@@ -26506,8 +26391,8 @@ class MultiotpSms
  * Check PHP version and define version constant if needed
  *   (PHP_VERSION_ID is natively available only for PHP >= 5.2.7)
  ****************************************************************/
-if (!function_exists('constant_defined')) {
-  function constant_defined(
+if (!function_exists('defined')) {
+  function defined(
     $constant_name
   ) {
     $result = false;
@@ -26522,17 +26407,15 @@ if (!function_exists('constant_defined')) {
 }
 
 
-if (!constant_defined('PHP_VERSION_ID'))
-{
-    $version = explode('.', PHP_VERSION);
-    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+if (!defined('PHP_VERSION_ID')) {
+  $version = explode('.', PHP_VERSION);
+  define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
-if (PHP_VERSION_ID < 50207)
-{
-    define('PHP_MAJOR_VERSION',   $version[0]);
-    define('PHP_MINOR_VERSION',   $version[1]);
-    define('PHP_RELEASE_VERSION', $version[2]);
+if (PHP_VERSION_ID < 50207) {
+  define('PHP_MAJOR_VERSION',   $version[0]);
+  define('PHP_MINOR_VERSION',   $version[1]);
+  define('PHP_RELEASE_VERSION', $version[2]);
 }  
 
 
@@ -26632,26 +26515,23 @@ if (!function_exists('is64bitPHP')) {
  ***********************************************************************/
 if (!function_exists('ram_total_space')) {
     function ram_total_space() {
-        $size = 0;
-        if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
-            $lines = null;
-            $matches = null;
-            exec('wmic ComputerSystem get TotalPhysicalMemory /Value', $lines);
-            if (preg_match('/^TotalPhysicalMemory\=(\d+)$/', $lines[2], $matches)) {
-                $size = $matches[1];
-            }
-        } else {
-            $meminfo_file = fopen('/proc/meminfo', 'r');
-            while ($line = fgets($meminfo_file)) {
-                $elements = array();
-                if (preg_match('/^MemTotal:\s+(\d+)\skB$/', $line, $elements)) {
-                    $size = $elements[1] * 1024;
-                    break;
-                }
-            }
-            fclose($meminfo_file);
+      $size = 0;
+      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
+        $lines = null;
+        exec('powershell -Command "(Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory"', $lines);
+        $size = intval(trim($lines[0] ?? 0));
+      } else {
+        $meminfo_file = fopen('/proc/meminfo', 'r');
+        while ($line = fgets($meminfo_file)) {
+          $elements = array();
+          if (preg_match('/^MemTotal:\s+(\d+)\skB$/', $line, $elements)) {
+            $size = $elements[1] * 1024;
+            break;
+          }
         }
-        return (double) $size;
+        fclose($meminfo_file);
+      }
+      return (double) $size;
     }
 }
 
@@ -26664,27 +26544,24 @@ if (!function_exists('ram_total_space')) {
  ***********************************************************************/
 if (!function_exists('ram_free_space')) {
     function ram_free_space() {
-        $size = 0;
-        if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
-            $lines = null;
-            $matches = null;
-            exec('wmic OS get FreePhysicalMemory /Value', $lines);
-            if (preg_match('/^FreePhysicalMemory\=(\d+)$/', $lines[2], $matches)) {
-                $size = $matches[1] * 1024;
-            }
-        } else {
-            $meminfo_file = fopen('/proc/meminfo', 'r');
-            while ($line = fgets($meminfo_file)) {
-                $elements = array();
-                if (preg_match('/^MemFree:\s+(\d+)\skB$/', $line, $elements)) {
-                    // KB to Bytes
-                    $size = $elements[1] * 1024;
-                    break;
-                }
-            }
-            fclose($meminfo_file);
+      $size = 0;
+      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
+        $lines = null;
+        exec('powershell -Command "(Get-CimInstance -ClassName Win32_OperatingSystem).FreePhysicalMemory"', $lines);
+        $size = intval(trim($lines[0] ?? 0)) * 1024;
+      } else {
+        $meminfo_file = fopen('/proc/meminfo', 'r');
+        while ($line = fgets($meminfo_file)) {
+          $elements = array();
+          if (preg_match('/^MemFree:\s+(\d+)\skB$/', $line, $elements)) {
+            // KB to Bytes
+            $size = $elements[1] * 1024;
+            break;
+          }
         }
-        return (double) $size;
+        fclose($meminfo_file);
+      }
+      return (double) $size;
     }
 }
 
@@ -27697,6 +27574,33 @@ if (!function_exists('mask2cidr'))
             $bits = $bits + strlen($bin);
         }
         return $bits;
+    }
+}
+
+
+if (!function_exists('cidr2mask'))
+{
+    // https://gist.github.com/linickx/1309388
+    function cidr2mask($netmask) {
+      $netmask_result="";
+      for($i=1; $i <= $netmask; $i++) {
+        $netmask_result .= "1";
+      }
+
+      for($i=$netmask+1; $i <= 32; $i++) {
+        $netmask_result .= "0";
+      }
+
+      $netmask_ip_binary_array = str_split( $netmask_result, 8 );
+
+      $netmask_ip_decimal_array = array();
+      foreach( $netmask_ip_binary_array as $k => $v ){
+        $netmask_ip_decimal_array[$k] = bindec( $v ); // "100" => 4
+      }
+
+      $subnet = join( ".", $netmask_ip_decimal_array );
+
+      return $subnet;
     }
 }
 
@@ -77435,10 +77339,14 @@ class websocketCore {
     }
 
     final function decodeFromServer($frame) {
-        if (!is_string($frame)) {
-          $this->frame = '';
-          return '';
+        if ($frame === false || $frame == '' || $frame == null || !is_string($frame)) {
+            $this->opcode = 8; // force close connetion
+            $this->fin = true;
+            $this->length = 0;
+            $this->frame = '';
+            return '';
         }
+
         // Detects and processes WebSocket frames, including ping, pong, and fragmented frames.
         $this->fin = (ord($frame[0]) & 0b10000000) !== 0; // FIN bit
         $this->opcode = ord($frame[0]) & 0b00001111;       // Opcode
@@ -77463,7 +77371,6 @@ class websocketCore {
         return substr($frame, $poff, $length); // Extract payload data starting at offset
     }
 }
-
 }
 
 class multiotpwebsocket extends websocketCore {

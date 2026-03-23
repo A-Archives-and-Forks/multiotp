@@ -4,8 +4,8 @@
  * Check PHP version and define version constant if needed
  *   (PHP_VERSION_ID is natively available only for PHP >= 5.2.7)
  ****************************************************************/
-if (!function_exists('constant_defined')) {
-  function constant_defined(
+if (!function_exists('defined')) {
+  function defined(
     $constant_name
   ) {
     $result = false;
@@ -20,17 +20,15 @@ if (!function_exists('constant_defined')) {
 }
 
 
-if (!constant_defined('PHP_VERSION_ID'))
-{
-    $version = explode('.', PHP_VERSION);
-    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+if (!defined('PHP_VERSION_ID')) {
+  $version = explode('.', PHP_VERSION);
+  define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
-if (PHP_VERSION_ID < 50207)
-{
-    define('PHP_MAJOR_VERSION',   $version[0]);
-    define('PHP_MINOR_VERSION',   $version[1]);
-    define('PHP_RELEASE_VERSION', $version[2]);
+if (PHP_VERSION_ID < 50207) {
+  define('PHP_MAJOR_VERSION',   $version[0]);
+  define('PHP_MINOR_VERSION',   $version[1]);
+  define('PHP_RELEASE_VERSION', $version[2]);
 }  
 
 
@@ -130,26 +128,23 @@ if (!function_exists('is64bitPHP')) {
  ***********************************************************************/
 if (!function_exists('ram_total_space')) {
     function ram_total_space() {
-        $size = 0;
-        if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
-            $lines = null;
-            $matches = null;
-            exec('wmic ComputerSystem get TotalPhysicalMemory /Value', $lines);
-            if (preg_match('/^TotalPhysicalMemory\=(\d+)$/', $lines[2], $matches)) {
-                $size = $matches[1];
-            }
-        } else {
-            $meminfo_file = fopen('/proc/meminfo', 'r');
-            while ($line = fgets($meminfo_file)) {
-                $elements = array();
-                if (preg_match('/^MemTotal:\s+(\d+)\skB$/', $line, $elements)) {
-                    $size = $elements[1] * 1024;
-                    break;
-                }
-            }
-            fclose($meminfo_file);
+      $size = 0;
+      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
+        $lines = null;
+        exec('powershell -Command "(Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory"', $lines);
+        $size = intval(trim($lines[0] ?? 0));
+      } else {
+        $meminfo_file = fopen('/proc/meminfo', 'r');
+        while ($line = fgets($meminfo_file)) {
+          $elements = array();
+          if (preg_match('/^MemTotal:\s+(\d+)\skB$/', $line, $elements)) {
+            $size = $elements[1] * 1024;
+            break;
+          }
         }
-        return (double) $size;
+        fclose($meminfo_file);
+      }
+      return (double) $size;
     }
 }
 
@@ -162,27 +157,24 @@ if (!function_exists('ram_total_space')) {
  ***********************************************************************/
 if (!function_exists('ram_free_space')) {
     function ram_free_space() {
-        $size = 0;
-        if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
-            $lines = null;
-            $matches = null;
-            exec('wmic OS get FreePhysicalMemory /Value', $lines);
-            if (preg_match('/^FreePhysicalMemory\=(\d+)$/', $lines[2], $matches)) {
-                $size = $matches[1] * 1024;
-            }
-        } else {
-            $meminfo_file = fopen('/proc/meminfo', 'r');
-            while ($line = fgets($meminfo_file)) {
-                $elements = array();
-                if (preg_match('/^MemFree:\s+(\d+)\skB$/', $line, $elements)) {
-                    // KB to Bytes
-                    $size = $elements[1] * 1024;
-                    break;
-                }
-            }
-            fclose($meminfo_file);
+      $size = 0;
+      if (mb_strtolower(mb_substr(PHP_OS, 0, 3),'UTF-8') === 'win') {
+        $lines = null;
+        exec('powershell -Command "(Get-CimInstance -ClassName Win32_OperatingSystem).FreePhysicalMemory"', $lines);
+        $size = intval(trim($lines[0] ?? 0)) * 1024;
+      } else {
+        $meminfo_file = fopen('/proc/meminfo', 'r');
+        while ($line = fgets($meminfo_file)) {
+          $elements = array();
+          if (preg_match('/^MemFree:\s+(\d+)\skB$/', $line, $elements)) {
+            // KB to Bytes
+            $size = $elements[1] * 1024;
+            break;
+          }
         }
-        return (double) $size;
+        fclose($meminfo_file);
+      }
+      return (double) $size;
     }
 }
 
@@ -1195,6 +1187,33 @@ if (!function_exists('mask2cidr'))
             $bits = $bits + strlen($bin);
         }
         return $bits;
+    }
+}
+
+
+if (!function_exists('cidr2mask'))
+{
+    // https://gist.github.com/linickx/1309388
+    function cidr2mask($netmask) {
+      $netmask_result="";
+      for($i=1; $i <= $netmask; $i++) {
+        $netmask_result .= "1";
+      }
+
+      for($i=$netmask+1; $i <= 32; $i++) {
+        $netmask_result .= "0";
+      }
+
+      $netmask_ip_binary_array = str_split( $netmask_result, 8 );
+
+      $netmask_ip_decimal_array = array();
+      foreach( $netmask_ip_binary_array as $k => $v ){
+        $netmask_ip_decimal_array[$k] = bindec( $v ); // "100" => 4
+      }
+
+      $subnet = join( ".", $netmask_ip_decimal_array );
+
+      return $subnet;
     }
 }
 
