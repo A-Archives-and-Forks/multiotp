@@ -5,8 +5,9 @@
 barcode.php - Generate barcodes from a single PHP file. MIT license.
 
 // Change made by SysCo/al : 15 lines removed to have the class definition only
-
+                             Updated for PHP >= 8
 Copyright (c) 2016-2018 Kreative Software.
+Adapted by SysCo systemes de communinication sa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,19 +37,25 @@ class barcode_generator {
 				header('Content-Type: image/png');
 				$image = $this->render_image($symbology, $data, $options);
 				imagepng($image);
-				imagedestroy($image);
+        if (PHP_VERSION_ID < 80000) {
+          imagedestroy($image);
+        }
 				break;
 			case 'gif':
 				header('Content-Type: image/gif');
 				$image = $this->render_image($symbology, $data, $options);
 				imagegif($image);
-				imagedestroy($image);
+        if (PHP_VERSION_ID < 80000) {
+          imagedestroy($image);
+        }
 				break;
 			case 'jpg': case 'jpe': case 'jpeg':
 				header('Content-Type: image/jpeg');
 				$image = $this->render_image($symbology, $data, $options);
 				imagejpeg($image);
-				imagedestroy($image);
+        if (PHP_VERSION_ID < 80000) {
+          imagedestroy($image);
+        }
 				break;
 			case 'svg':
 				header('Content-Type: image/svg+xml');

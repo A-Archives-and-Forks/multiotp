@@ -22,8 +22,8 @@
  * PHP 5.4.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.2.1
- * @date      2026-03-23
+ * @version   5.10.2.2
+ * @date      2026-04-03
  * @since     2013-07-10
  * @copyright (c) 2013-2026 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -299,6 +299,8 @@ echo_full($b_on.$multiotp->GetClassName()." HOTP implementation check".$b_off.$c
 echo_full("(RFC 4226, http://www.ietf.org/rfc/rfc4226.txt)".$crlf);
 echo_full("-----------------------------------------------".$crlf);
 echo_full($crlf);
+echo_full(date("Y-m-d H:i:s"));
+echo_full($crlf);
 echo_full($multiotp->GetFullVersionInfo());
 echo_full(", running with PHP version ".phpversion().$crlf);
 echo_full($crlf);
@@ -484,21 +486,21 @@ foreach ($backend_array as $backend) {
     //====================================================================
     // TEST: Hexa to ModHex
     $tests++;
-    echo_full($b_on."Check Hexa to ModHex encoding".$b_off.$crlf);
+    echo_full($b_on."Check Yubikey Hexa to ModHex encoding".$b_off.$crlf);
     $source   = '0123456789abcdef';
     $expected = 'cbdefghijklnrtuv';
     if (FALSE === ($result = $yubikey_class->HexToModHex($source)))
     {
-        echo_full("- ".$ko_on.'KO!'.$ko_off." Hexa to ModHex encoding failed".$crlf);
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Yubikey Hexa to ModHex encoding failed".$crlf);
     }
     elseif ($expected == $result)
     {
-        echo_full("- ".$ok_on.'OK!'.$ok_off." Hexa to ModHex encoding successful ($result)".$crlf);
+        echo_full("- ".$ok_on.'OK!'.$ok_off." Yubikey Hexa to ModHex encoding successful ($result)".$crlf);
         $successes++;
     }
     else
     {
-        echo_full("- ".$ko_on.'KO!'.$ko_off." Hexa to ModHex encoding failed ($result instead of $expected)".$crlf);
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Yubikey Hexa to ModHex encoding failed ($result instead of $expected)".$crlf);
     }
     echo_full($crlf);
 
@@ -506,22 +508,22 @@ foreach ($backend_array as $backend) {
     //====================================================================
     // TEST: ModHex to Hexa
     $tests++;
-    echo_full($b_on."Check ModHex to Hexa decoding".$b_off.$crlf);
+    echo_full($b_on."Check Yubikey ModHex to Hexa decoding".$b_off.$crlf);
     
     $source   = 'cbdefghijklnrtuv';
     $expected = '0123456789abcdef';
     if (FALSE === ($result = $yubikey_class->ModHexToHex($source)))
     {
-        echo_full("- ".$ko_on.'KO!'.$ko_off." ModHex to Hexa encoding failed".$crlf);
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Yubikey ModHex to Hexa encoding failed".$crlf);
     }
     elseif ($expected == $result)
     {
-        echo_full("- ".$ok_on.'OK!'.$ok_off." ModHex to Hexa encoding successful ($result)".$crlf);
+        echo_full("- ".$ok_on.'OK!'.$ok_off." Yubikey ModHex to Hexa encoding successful ($result)".$crlf);
         $successes++;
     }
     else
     {
-        echo_full("- ".$ko_on.'KO!'.$ko_off." ModHex to Hexa encoding failed ($result instead of $expected)".$crlf);
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Yubikey ModHex to Hexa encoding failed ($result instead of $expected)".$crlf);
     }
     echo_full($crlf);
 
@@ -1535,7 +1537,7 @@ foreach ($backend_array as $backend) {
     $tests++;
     echo_full($b_on."Import CSV test tokens definition file".$b_off.$crlf);
 
-    if ($multiotp->ImportTokensFile('test-tokens.csv', 'test-tokens.csv')) {
+    if ($multiotp->ImportTokensFile('oath/test-tokens.csv', 'test-tokens.csv')) {
         echo_full("- ".$ok_on.'OK!'.$ok_off." File test-tokens.csv successfully imported".$crlf);
         $successes++;
     } else {
@@ -1614,6 +1616,88 @@ foreach ($backend_array as $backend) {
         $successes++;
     } else {
         echo_full("- ".$ko_on.'KO!'.$ko_off." Unable to import test files from ".getcwd()."/oath".$crlf);
+    }
+    echo_full($crlf);
+
+
+    //====================================================================
+    // TEST: Import YubiKey traditional format CSV
+    $tests++;
+    echo_full($b_on."Import YubiKey traditional format CSV test definition file".$b_off.$crlf);
+
+    if ($multiotp->ImportTokensFile('oath/yubico-traditional.csv')) {
+        echo_full("- ".$ok_on.'OK!'.$ok_off." File yubico-traditional.csv successfully imported".$crlf);
+        $successes++;
+    } else {
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Unable to import yubico-traditional.csv file".$crlf);
+    }
+    echo_full($crlf);
+
+
+    //====================================================================
+    // Check for existing Yubikey (traditional format) tokens
+    $tests++;
+    echo_full($b_on."Check for existing Yubikey (traditional format) tokens".$b_off.$crlf);
+    $list = $multiotp->GetTokensList();
+    $yubikey_array = explode("\t", $list);
+    $yubikey_found = 0;
+    foreach($yubikey_array as $yubikey_one) {
+      if ((FALSE !== mb_strpos(mb_strtolower($yubikey_one), mb_strtolower('vvccccdtvkiu'))) ||
+          (FALSE !== mb_strpos(mb_strtolower($yubikey_one), mb_strtolower('vvgdctvftcrt')))) {
+        echo_full((($yubikey_found > 0) ? ", " : "") . $yubikey_one);
+        $multiotp->DeleteToken($yubikey_one);
+        $yubikey_found++;
+      }
+    }
+    if ($yubikey_found > 0) {
+      echo_full($crlf);
+    }
+    if ($yubikey_found > 1) {
+        echo_full("- ".$ok_on.'OK!'.$ok_off." Yubikey (traditional format) tokens were present".$crlf);
+        $successes++;
+    } else {
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Yubikey (traditional format) tokens were missing".$crlf);
+    }
+    echo_full($crlf);
+
+
+    //====================================================================
+    // TEST: Import YubiKey Yubico format CSV
+    $tests++;
+    echo_full($b_on."Import YubiKey Yubico format CSV test definition file".$b_off.$crlf);
+
+    if ($multiotp->ImportTokensFile('oath/yubico-authenticator.csv')) {
+        echo_full("- ".$ok_on.'OK!'.$ok_off." File yubico-authenticator.csv successfully imported".$crlf);
+        $successes++;
+    } else {
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Unable to import yubico-authenticator.csv file".$crlf);
+    }
+    echo_full($crlf);
+
+
+    //====================================================================
+    // Check for existing Yubikey (Yubico format) tokens
+    $tests++;
+    echo_full($b_on."Check for existing Yubikey (Yubico format) tokens".$b_off.$crlf);
+    $list = $multiotp->GetTokensList();
+    $yubikey_array = explode("\t", $list);
+    $yubikey_found = 0;
+    foreach($yubikey_array as $yubikey_one) {
+      if ((FALSE !== mb_strpos(mb_strtolower($yubikey_one), mb_strtolower('2604031'))) ||
+          (FALSE !== mb_strpos(mb_strtolower($yubikey_one), mb_strtolower('2604032')))) {
+        echo_full((($yubikey_found > 0) ? ", " : "") . $yubikey_one);
+        $multiotp->DeleteToken($yubikey_one);
+        $yubikey_found++;
+      }
+    }
+    if ($yubikey_found > 0) {
+      echo_full($crlf);
+    }
+    if ($yubikey_found > 1) {
+        echo_full("- ".$ok_on.'OK!'.$ok_off." Yubikey (Yubico format) tokens were present".$crlf);
+        $successes++;
+    } else {
+        echo_full("- ".$ko_on.'KO!'.$ko_off." Yubikey (Yubico format) tokens were missing".$crlf);
     }
     echo_full($crlf);
 

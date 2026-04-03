@@ -1232,8 +1232,9 @@ class nusoap_xmlschema extends nusoap_base  {
 				$this->debug("XML payload:\n" . $xml);
 				$this->setError($errstr);
 	    	}
-            
-			xml_parser_free($this->parser);
+      if (PHP_VERSION_ID < 80000) {
+        xml_parser_free($this->parser);
+      }
 		} else{
 			$this->debug('no xml passed to parseString()!!');
 			$this->setError('no xml passed to parseString()!!');
@@ -4871,7 +4872,9 @@ class wsdl extends nusoap_base {
             return false;
         } 
 		// free the parser
-        xml_parser_free($this->parser);
+        if (PHP_VERSION_ID < 80000) {
+          xml_parser_free($this->parser);
+        }
         $this->debug('Parsing WSDL done');
 		// catch wsdl parse errors
 		if($this->getError()){
@@ -6663,7 +6666,9 @@ class nusoap_parser extends nusoap_base {
 					}
 				}
 			}
-			xml_parser_free($this->parser);
+      if (PHP_VERSION_ID < 80000) {
+        xml_parser_free($this->parser);
+      }
 		} else {
 			$this->debug('xml was empty, didn\'t parse!');
 			$this->setError('xml was empty, didn\'t parse!');
@@ -7017,13 +7022,13 @@ class nusoap_parser extends nusoap_base {
 			return (int) $value;
 		}
 		if ($type == 'float' || $type == 'double' || $type == 'decimal') {
-			return (double) $value;
+			return (float) $value;
 		}
 		if ($type == 'boolean') {
 			if (strtolower($value) == 'false' || strtolower($value) == 'f') {
 				return false;
 			}
-			return (boolean) $value;
+			return (bool) $value;
 		}
 		if ($type == 'base64' || $type == 'base64Binary') {
 			$this->debug('Decode base64 value');

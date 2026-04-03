@@ -122,7 +122,7 @@ class MultiotpYubikey
                             $private_id = "") {
         $result = 99; // ERROR: Authentication failed (and other possible unknown errors)
 
-        $encrypted_part = hex2bin($this->ModHexToHex($yubico_modhex_encrypted_part));
+        $encrypted_part = hex2bin($this->ModHexToHex(mb_substr($yubico_modhex_encrypted_part, -32)));
         $cipher_aes = new Crypt_AES(CRYPT_AES_MODE_ECB);
         $cipher_aes->setKey((hex2bin($secret)));
         $cipher_aes->disablePadding();

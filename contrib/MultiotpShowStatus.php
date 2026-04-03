@@ -66,7 +66,7 @@ function MultiotpShowStatus($done, $total, $size=30)
     if(empty($start_time)) $start_time=time();
     $now = time();
 
-    $perc=(double)($done/$total);
+    $perc=(float)($done/$total);
 
     $bar=floor($perc*$size);
 

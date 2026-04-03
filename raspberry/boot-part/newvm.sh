@@ -8,12 +8,13 @@
 # https://www.multiotp.net/
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.2.1
-# @date      2026-03-23
+# @version   5.10.2.2
+# @date      2026-04-03
 # @since     2013-09-22
 # @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
+# 2026-04-03 5.10.2.2 SysCo/al Better rights handling in the Docker version
 # 2026-03-06 5.10.2.0 SysCo/al Add initial AWS and Ubuntu support
 # 2025-11-19 5.10.0.5 SysCo/al Removed old multiotp-temp folder trick
 # 2025-10-31 5.10.0.2 SysCo/al Additional cleaning for Debian Trixie 13.0 support
@@ -44,7 +45,7 @@
 # 2013-09-22 4.0.9.0 SysCo/al Initial release
 ##########################################################################
 
-TEMPVERSION="@version   5.10.2.1"
+TEMPVERSION="@version   5.10.2.2"
 MULTIOTPVERSION="$(echo -e "${TEMPVERSION:8}" | tr -d '[[:space:]]')"
 IFS='.' read -ra MULTIOTPVERSIONARRAY <<< "$MULTIOTPVERSION"
 MULTIOTPMAJORVERSION=${MULTIOTPVERSIONARRAY[0]}
@@ -85,6 +86,18 @@ fi
 
 # Populate the multiotp and freeradius config and log if not existing
 if [[ "${RUNDOCKER}" == "TRUE" ]]; then
+  if [ -d /etc/multiotp ]; then
+    chmod 777 -R /etc/multiotp
+  fi
+  if [ -d /usr/local/bin/multiotp ]; then
+    chmod 777 -R /usr/local/bin/multiotp
+  fi
+  if [ -d /var/log/multiotp ]; then
+    chmod 777 -R /var/log/multiotp
+  fi
+  if [ -d /var/log/freeradius ]; then
+    chmod 777 -R /var/log/freeradius
+  fi
   if [ ! -f /etc/multiotp/config/multiotp.ini ] && [ -d /var/multiotp-temp/etc/multiotp ] ; then
     echo "Retrieve multiOTP config files"
     cp -an /var/multiotp-temp/etc/multiotp/* /etc/multiotp

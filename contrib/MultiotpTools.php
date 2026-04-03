@@ -97,7 +97,7 @@ if (!function_exists('pcre_fnmatch')) {
       . '$#'
       . $modifiers;
    
-    return (boolean)preg_match($pattern, $string);
+    return (bool)preg_match($pattern, $string);
   }
 } 
 
@@ -144,7 +144,7 @@ if (!function_exists('ram_total_space')) {
         }
         fclose($meminfo_file);
       }
-      return (double) $size;
+      return (float) $size;
     }
 }
 
@@ -174,7 +174,7 @@ if (!function_exists('ram_free_space')) {
         }
         fclose($meminfo_file);
       }
-      return (double) $size;
+      return (float) $size;
     }
 }
 

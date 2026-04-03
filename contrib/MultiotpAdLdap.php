@@ -309,6 +309,11 @@ class MultiotpAdLdap {
                     $port = substr($dc, $pos+1);
                     $dc = substr($dc, 0, $pos);
                 }
+                
+                if (PHP_VERSION_ID >= 70000) {
+                  ldap_set_option(NULL, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_NEVER);
+                }
+
                 if ($this->_conn = ldap_connect($protocol.$dc.":".$port)) {
                     $this->_conn_paged = ldap_connect($protocol.$dc.":".$port);
                     //set some ldap options for talking to AD
@@ -332,7 +337,7 @@ class MultiotpAdLdap {
                     // Added 2018-07-12
                     ldap_set_option($this->_conn, LDAP_OPT_RESTART, 1);
                     ldap_set_option($this->_conn_paged, LDAP_OPT_RESTART, 1);
-
+                    
                     // Added 2023-01-01
                     $this->_paging_ldap_control = false; // Will be detected further
                     if (PHP_VERSION_ID >= 70300) {
@@ -372,11 +377,11 @@ class MultiotpAdLdap {
                             //if you have problems troubleshooting, remove the @ character from the ldap_bind command above to get the actual error message
                             // Modified by SysCo/al
                             $this->_error = TRUE;
-                            $this->_error_message = 'FATAL: AD bind failed. Either the LDAPS connection failed or the login credentials are incorrect ('.@ldap_error($this->_conn).').';
+                            $this->_error_message = 'FATAL: AD/LDAP bind failed. Either the LDAPS connection failed or the login credentials are incorrect ('.@ldap_error($this->_conn).').';
                         } else {
                             // Modified by SysCo/al
                             $this->_error = TRUE;
-                            $this->_error_message = 'FATAL: AD bind failed. Check the login credentials ('.ldap_errno($this->_conn).": ".@ldap_error($this->_conn).').';
+                            $this->_error_message = 'FATAL: AD/LDAP bind failed. Check the login credentials ('.ldap_errno($this->_conn).": ".@ldap_error($this->_conn).').';
                         }
                         if (ldap_get_option($this->_conn, LDAP_OPT_ERROR_STRING, $extended_error)) {
                             if (!empty($extended_error))

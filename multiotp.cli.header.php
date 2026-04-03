@@ -35,8 +35,8 @@
  * PHP 5.4.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   5.10.2.1
- * @date      2026-03-23
+ * @version   5.10.2.2
+ * @date      2026-04-03
  * @since     2010-06-08
  * @copyright (c) 2010-2026 SysCo systemes de communication sa
  * @copyright GNU Lesser General Public License
@@ -1599,12 +1599,16 @@ for ($every_command = 0; $every_command < count($command_array); $every_command+
                                 $multiotp->SetIssuer($actual_array[1]);
                                 $write_config_data = true;
                                 break;
+                            case 'ldap-2fa-opt-in':
+                                $multiotp->SetLdap2faOptIn(intval($actual_array[1]));
+                                $write_config_data = true;
+                                break;
                             case 'ldap-account-suffix':
                                 $multiotp->SetLdapAccountSuffix($actual_array[1]);
                                 $write_config_data = true;
                                 break;
                             case 'ldap-activated':
-                                $multiotp->SetLdapActivated($actual_array[1]);
+                                $multiotp->SetLdapActivated(intval($actual_array[1]));
                                 $write_config_data = true;
                                 break;
                             case 'ldap-base-dn':
@@ -1923,6 +1927,8 @@ for ($every_command = 0; $every_command < count($command_array); $every_command+
                 $result = _MULTIOTP_TOKEN_MISSING_FILE_; // ERROR: Tokens definition file doesn't exist.
             } else {
                 if ($multiotp->ImportYubikeyTraditional($all_args[1])) {
+                    $result = _MULTIOTP_TOKEN_IMPORTED_; // INFO: Tokens definition file successfully imported
+                } elseif ($multiotp->ImportYubikeyYubico($all_args[1])) {
                     $result = _MULTIOTP_TOKEN_IMPORTED_; // INFO: Tokens definition file successfully imported
                 } else {
                     $result = _MULTIOTP_TOKEN_IMPORT_ERROR_; // ERROR: Tokens definition file not successfully imported.
@@ -2464,6 +2470,7 @@ for ($every_command = 0; $every_command < count($command_array); $every_command+
                 echo "                             (for example 'Filter-Id' for FreeRADIUS)".$crlf;
                 echo "        ignore-no-prefix-cp: [0|1] Disable 'no prefix' for Credential Provider".$crlf;
                 echo "                     issuer: default name of the issuer of the (soft) token".$crlf;
+                echo "            ldap-2fa-opt-in: [0|1] disable/enable LDAP/AD 2FA opt-in (default 0)".$crlf;
                 echo "        ldap-account-suffix: LDAP/AD account suffix".$crlf;
                 echo "             ldap-activated: [0|1] enable/disable LDAP/AD support".$crlf;
                 echo "               ldap-base-dn: LDAP/AD base".$crlf;

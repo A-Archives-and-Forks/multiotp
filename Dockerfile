@@ -15,14 +15,17 @@
 # Please check https://www\.multiOTP.net/ and you will find the magic button ;-)
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.2.1
-# @date      2026-03-23
+# @version   5.10.2.2
+# @date      2026-04-03
 # @since     2013-11-29
 # @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
 #
 # docker build .
 # docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d xxxxxxxxxxxx
+#
+# Hint: If you want to sync regularly the AD/LDAP users, you can launch the following task using a Task Scheduler:
+#       docker exec multiotp-open-source /usr/local/bin/multiotp/multiotp.php -ldap-users-sync
 #
 # Change Log
 #
@@ -43,8 +46,8 @@ LABEL org.opencontainers.image.title="multiOTP open source"
 LABEL org.opencontainers.image.description="multiOTP open source, running on Debian ${DEBIAN} with PHP${PHPVERSION}." \
       License="LGPL-3.0" \
       Usage="docker run -v [PATH/TO/MULTIOTP/DATA/VOLUME]:/etc/multiotp -v [PATH/TO/FREERADIUS/CONFIG/VOLUME]:/etc/freeradius -v [PATH/TO/MULTIOTP/LOG/VOLUME]:/var/log/multiotp -v [PATH/TO/FREERADIUS/LOG/VOLUME]:/var/log/freeradius -p [HOST WWW PORT NUMBER]:80 -p [HOST SSL PORT NUMBER]:443 -p [HOST RADIUS-AUTH PORT NUMBER]:1812/udp -p [HOST RADIUS-ACCNT PORT NUMBER]:1813/udp -d multiotp-open-source" \
-      Version="5.10.2.1"
-LABEL org.opencontainers.image.Version="5.10.2.1"
+      Version="5.10.2.2"
+LABEL org.opencontainers.image.Version="5.10.2.2"
 LABEL org.opencontainers.image.authors="Andre Liechti <andre.liechti@multiotp.net>"
 LABEL org.opencontainers.image.url="https://www.multiotp.net"
 LABEL org.opencontainers.image.source="https://github.com/multiOTP/multiotp"

@@ -25,8 +25,8 @@
 #  stop-multiotp
 #
 # @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-# @version   5.10.2.1
-# @date      2026-03-23
+# @version   5.10.2.2
+# @date      2026-04-03
 # @since     2013-11-29
 # @copyright (c) 2013-2026 SysCo systemes de communication sa
 # @copyright GNU Lesser General Public License
@@ -637,8 +637,9 @@ else
   echo " set-ip dhcp|static ip_addr subnet gateway \"dns1,dns2\" domain"
   echo " start-multiotp"
   echo " stop-multiotp"
-if [[ "${COMMAND}" == "help" ]]; then
-  exit 0
-else
-  exit 1
+  if [[ "${COMMAND}" == "help" ]]; then
+    exit 0
+  else
+    exit 1
+  fi
 fi

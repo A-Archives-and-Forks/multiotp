@@ -6,7 +6,7 @@ multiOTP open source is OATH certified for HOTP/TOTP
 (c) 2010-2026 SysCo systemes de communication sa  
 https://www.multiotp.net/
 
-Current build: 5.10.2.1 (2026-03-23)
+Current build: 5.10.2.2 (2026-04-03)
 
 Binary download: https://download.multiotp.net/ (including virtual appliance image, docker and full release notes)
 
@@ -96,6 +96,7 @@ TABLE OF CONTENTS
  * How to install the multiOTP web service under Windows ?
  * How to install the multiOTP radius server under Windows ?
  * Configuring multiOTP with TekRADIUS or TekRADIUS LT under Windows
+ * Email configuration
  * How to install the multiOTP web service under Linux ?
  * Configuring multiOTP with FreeRADIUS 2.x under Linux
  * Configuring multiOTP with FreeRADIUS 3.x under Linux
@@ -152,18 +153,29 @@ subfolders from windows to your current multiOTP folder
 
 
 WHAT'S NEW IN THIS 5.10.x RELEASE
+- New 2FA opt-in option, to migrate smoothly from Without2FA accounts to 2FA
 - New Proxmox, OVA and Hyper-V appliances available (version 013, based on Debian 13)
+- Free (and open source) multiOTP token App companion, proposed by default in the provisioning template
 - Push support with the multiOTP token App, available for free with Enterprise subscription
 
 
 CHANGE LOG OF RELEASED VERSIONS
 ===============================
 ```
+2026-04-03 5.10.2.2 FIX: Hardware token import was not always working correctly for 013 appliances
+                    FIX: PHP 8.x incompatibility issue in SMTP library (Thanks to @dexkuz)
+                    ENH: PHP 8.x deprecated code cleaned
+                    ENH: Yubikey import now also accept "Yubico CSV" format
+                    ENH: New 2FA opt-in option, to migrate smoothly from Without2FA accounts to 2FA
+                    ENH: Better rights handling in the Docker version
+                    ENH: Embedded Windows PHP edition updated to version 8.5.4 x64
+                    ENH: Embedded Windows nginx edition updated to version 1.29.7
+                    ENH: Documentation enhancement
 2026-03-23 5.10.2.1 FIX: Changing notification options (SMTP server and SysLog options) was not always possible
                     FIX: SMSEagle v2 implementation was not always able to send to international countries
                     FIX: websocketCore.php was missing in the sources
                     ENH: Template updated to propose the free "multiOTP token app" by default for Android and iOS
-                    ENH: Embedded Windows PHP edition updated to version 8.4.16 x64 (from 8.4.14 x86)
+                    ENH: Embedded Windows PHP edition updated to version 8.4.16 x64
                     ENH: Embedded Windows nginx edition updated to version 1.29.6
                     ENH: Updated environment detection, like docker detection
                     ENH: Updated Linux helper, for the future new web interface
@@ -947,12 +959,23 @@ Provisioning will be done simply by flashing a QRcode.
     - YubiKey Neo
     - YubiKey Neo-N
     
-The YubiKey CSV import is based on the .CSV created by the legacy Yubikey Personalization Tools, which is, the following lines in a file called for example **yubico_log.csv**:
+The YubiKey CSV import is based on the .CSV created by :
+- the legacy Yubikey Personalization Tools (YubiKey traditional format log file)
+  which is the following lines in a file called for example **yubico_log.csv**:
 
-```
-LOGGING START,2025-05-04T03:02:01
-Yubico OTP,2025-05-04T03:02:01,1,vvcccdjkllvd,sde2c13f6a65,c6d293cbf190e4eb13f45b3913edea7b,,,0,0,0,0,0,0,0,0,0,0
-```
+  ```
+  LOGGING START,01.01.2015 04:03
+  Yubico OTP,01.01.2015 04:03,1,vvccccdtvkiu,40e661b3ce2b,7b01896b5ef79d8092fd04556b4f4403,,,0,0,0,0,0,0,0,0,0,0
+  Yubico OTP,01.01.2015 04:03,2,vvgdctvftcrt,f23f0218e3bb,64d66d0d758090bc6ef159866e63fea6,,,0,0,0,0,0,0,0,0,0,0
+  ```
+
+- the Yubico Authenticator (YubiKey Yubico format)
+  which is the following lines in a file called for example **yubico_token.csv**:
+
+  ```
+  2604031,vvccccdtvkiu,40e661b3ce2b,7b01896b5ef79d8092fd04556b4f4403,,2026-04-03T05:10:02,
+  2604032,vvgdctvftcrt,f23f0218e3bb,64d66d0d758090bc6ef159866e63fea6,,2026-04-03T05:10:02,
+  ```
 
 If you want to use software tokens with Apps like Google Authenticator, you can
 create a QRcode provisioning in two EASY steps with the command line tool:
@@ -1069,6 +1092,18 @@ b) Set multiOTP to send back to TekRADIUS the clear (non encrypted) authenticati
 
 c) Set multiOTP to send back to TekRADIUS the group of the authenticated user:
    multiotp -config group-attribute="ietf|11"
+
+
+EMAIL CONFIGURATION
+=========================================================
+If you want to be able to send OTP by email, you will have to activate it:
+multiotp -config email-code-allowed=1
+
+Installing the multiOTP radius service is VERY easy too. Simply run the
+radius_install script. The etc/raddb/modules/multiotp file will be created,
+firewall rules will be adapted and the service will be installed and started.
+The service is called multiOTPradius and the secret is multiotpsecret for any
+client including 127.0.0.1.
 
 
 HOW TO INSTALL THE MULTIOTP WEB SERVICE UNDER LINUX ?
@@ -1434,19 +1469,31 @@ HOW TO CONFIGURE MULTIOTP TO SYNCHRONIZED THE USERS FROM AN ACTIVE DIRECTORY ?
 12) Set the password of the user used to search in the Active Directory:  
     multiotp -config ldap-server-password="password_of_my_ldap_user"
    
-13) In which groups users must be in the Active Directory in order to be added:  
+13) Set in which groups users must be in the Active Directory in order to be added:  
     multiotp -config ldap-in-group="VPNuser,dialin"
    
-14) Set the network timeout  
+14) If needed, set in which groups users must be in the Active Directory
+    in order to be whitelisted with a special without2fa token:
+    multiotp -config ldap-without2fa-in-group="Without2FA"
+   
+15) If you prefer a 2FA opt-in approach (priority to 2FA membership)
+    instead of the standard 2FA opt-out approach (priority to Without2FA membership):
+    multiotp -config ldap-2fa-opt-in=1
+   
+16) Set the network timeout  
     multiotp -config ldap-network-timeout=10
    
-15) Set the transaction time limit  
+17) Set the transaction time limit  
     multiotp -config ldap-time-limit=30
-
-16) Activate the AD/LDAP support (0|1):  
+   
+18) (EXPERT ONLY) If needed, you can change the LDAP filter.
+    By default, the LDAP filter for Active Directory is :
+      "(&(objectClass=user)(samaccounttype=805306368)(objectCategory=person)({cn_identifier}={username}))
+   
+19) Activate the AD/LDAP support (0|1):  
     multiotp -config ldap-activated=1
    
-17) Let's go for an AD/LDAP users synchronisation !
+20) Let's go for an AD/LDAP users synchronisation !
     (users removed or deactivated in the AD/LDAP are deactivated in multiOTP)
     multiotp -debug -display-log -ldap-users-sync
     
@@ -1494,25 +1541,33 @@ HOW TO CONFIGURE MULTIOTP TO SYNCHRONIZED THE USERS FROM A STANDARD LDAP ?
 12) Set the password of the user used to search in the LDAP directory:
     multiotp -config ldap-server-password="password_of_my_ldap_user"
    
-13) In which groups users must be in LDAP directory in order to be added:
+13) Set in which groups users must be in the LDAP directory in order to be added:  
     multiotp -config ldap-in-group="VPNuser,dialin"
    
-14) Set the network timeout
+14) If needed, set in which groups users must be in the LDAP directory
+    in order to be whitelisted with a special without2fa token:
+    multiotp -config ldap-without2fa-in-group="Without2FA"
+   
+15) If you prefer a 2FA opt-in approach (priority to 2FA membership)
+    instead of the standard 2FA opt-out approach (priority to Without2FA membership):
+    multiotp -config ldap-2fa-opt-in=1
+   
+16) Set the network timeout
     multiotp -config ldap-network-timeout=10
    
-15) Set the transaction time limit
+17) Set the transaction time limit
     multiotp -config ldap-time-limit=30
 
-16) (EXPERT ONLY) If needed, you can change the LDAP filter.
+18) (EXPERT ONLY) If needed, you can change the LDAP filter.
     By default, the LDAP filter for standard LDAP is :
       "(&(|(objectClass=posixAccount)(objectClass=user))({cn_identifier}={username}))"
     You can use the following placeholders: {cn_identifier}, {username}, and {groups_filtering}
     multiotp -config ldap-filter="(&(|(objectClass=posixAccount)(objectClass=user))({cn_identifier}={username}))"
 
-17) Activate the AD/LDAP support (0|1):
+19) Activate the AD/LDAP support (0|1):
     multiotp -config ldap-activated=1
    
-18) Let's go for an AD/LDAP users synchronisation !
+20) Let's go for an AD/LDAP users synchronisation !
     (users removed or deactivated in the AD/LDAP are deactivated in multiOTP)
     multiotp -debug -display-log -ldap-users-sync
 
@@ -1990,7 +2045,7 @@ MULTIOTP COMMAND LINE TOOL
 ==========================
 
 ``` 
-multiOTP 5.10.2.1 (2026-03-23)
+multiOTP 5.10.2.2 (2026-04-03)
 (c) 2010-2026 SysCo systemes de communication sa
 http://www.multiOTP.net   (you can try the [Donate] button ;-)
 
@@ -2191,6 +2246,7 @@ Usage:
                              (for example 'Filter-Id' for FreeRADIUS)
         ignore-no-prefix-cp: [0|1] Disable 'no prefix' for Credential Provider
                      issuer: default name of the issuer of the (soft) token
+            ldap-2fa-opt-in: [0|1] disable/enable LDAP/AD 2FA opt-in (default 0)
         ldap-account-suffix: LDAP/AD account suffix
              ldap-activated: [0|1] enable/disable LDAP/AD support
                ldap-base-dn: LDAP/AD base

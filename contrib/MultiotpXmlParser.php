@@ -53,7 +53,9 @@ class MultiotpXmlParser
       );
     }
 
-    xml_parser_free($parser);
+    if (PHP_VERSION_ID < 80000) {
+      xml_parser_free($parser);
+    }
   }
 
   public function HandleError(
